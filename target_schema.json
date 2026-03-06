@@ -1,0 +1,581 @@
+{
+  "PRODUTOS 1 CADASTRO": [
+    "Ítem",
+    "Código Produto",
+    "Nome",
+    "Gênero",
+    "Modelo",
+    "Tecido",
+    "Acabamento",
+    "PedidoMinimo",
+    "Origem Shein",
+    "ID",
+    "Nome Variação",
+    "Usar apelido como título da NFe",
+    "Tipo",
+    "Publicado",
+    "Em destaque?",
+    "Visibilidade no catálogo",
+    "Data de preço promocional começa em",
+    "Data de preço promocional termina em",
+    "Status do imposto",
+    "Classe de imposto",
+    "Em estoque?",
+    "Estoque",
+    "Unidade",
+    "Origem",
+    "Quantidade baixa de estoque",
+    "São permitidas encomendas?",
+    "Vendido individualmente?",
+    "Permitir avaliações de clientes?",
+    "Observação de compra",
+    "Nota de compra",
+    "Preço promocional",
+    "Preço",
+    "Preço de varejo",
+    "Custo de Compra",
+    "Código do guia",
+    "PRODUTOS Categoria 1",
+    "PRODUTOS Categoria 2",
+    "PRODUTOS Categoria 3",
+    "PRODUTOS Categoria 4",
+    "PRODUTOS Categoria 5",
+    "Tags",
+    "Classe de entrega",
+    "Imagens",
+    "Limite de downloads",
+    "Dias para expirar o download",
+    "Grupo de produtos",
+    "Upsells",
+    "Venda cruzada",
+    "URL externa",
+    "Texto do botão",
+    "Posição",
+    "Minimum Quantity",
+    "Maximum Quantity",
+    "Nome do atributo 1",
+    "Valores do atributo 1",
+    "Visibilidade do atributo 1",
+    "Atributo global 1",
+    "Nome do atributo 2",
+    "Valores do atributo 2",
+    "Visibilidade do atributo 2",
+    "Atributo global 2",
+    "Nome do atributo 3",
+    "Valores do atributo 3",
+    "Visibilidade do atributo 3",
+    "Atributo global 3",
+    "Nome do atributo 4",
+    "Valores do atributo 4",
+    "Visibilidade do atributo 4",
+    "Atributo global 4",
+    "Atributo padrão 3",
+    "Atributo padrão 4",
+    "Atributo padrão 1",
+    "Atributo padrão 2",
+    "ativo",
+    "marca",
+    "CEST",
+    "NCM do produto",
+    "Valor Venda inf",
+    "Parte 1",
+    "Acabamento Parte 1",
+    "Parte 2",
+    "Acabamento Parte 2",
+    "Etiqueta Local",
+    "Cadastro site",
+    "Cadastro ML",
+    "Cadastro Shein"
+  ],
+  "PRODUTOS 1 CADASTRO VARIAÇÕES": [
+    "Código do Produto",
+    "Código da Variação ML",
+    "Sku",
+    "Tipo",
+    "Em estoque?",
+    "Estoque novo",
+    "Estoque",
+    "Unidade",
+    "Classe de imposto",
+    "Peso (kg)",
+    "Comprimento (cm)",
+    "Largura (cm)",
+    "Altura (cm)",
+    "São permitidas encomendas?",
+    "Vendido individualmente?",
+    "Nota de compra",
+    "Categorias",
+    "Tags",
+    "Classe de entrega",
+    "Imagens",
+    "Limite de downloads",
+    "Dias para expirar o download",
+    "Grupo de produtos",
+    "Venda cruzada",
+    "URL externa",
+    "Texto do botão",
+    "Posição",
+    "Minimum Quantity",
+    "Maximum Quantity",
+    "Nome do atributo 1",
+    "Valores do atributo 1",
+    "Visibilidade do atributo 1",
+    "Atributo global 1",
+    "Nome do atributo 2",
+    "Valores do atributo 2",
+    "Visibilidade do atributo 2",
+    "Atributo global 2",
+    "Nome do atributo 3",
+    "Visibilidade do atributo 3",
+    "Atributo global 3",
+    "Nome do atributo 4",
+    "Valores do atributo 4",
+    "Visibilidade do atributo 4",
+    "Atributo global 4",
+    "Nome do atributo 5",
+    "Valores do atributo 5",
+    "Visibilidade do atributo 5",
+    "Atributo global 5",
+    "Nome do atributo 6",
+    "Valores do atributo 6",
+    "Visibilidade do atributo 6",
+    "Atributo global 6",
+    "Bordado",
+    "Bordado local",
+    "Bordado Qtde",
+    "Botão",
+    "Botão local",
+    "Botão Qtde",
+    "Caseado",
+    "Caseado local",
+    "Caseado Qtde",
+    "Corte",
+    "Costura",
+    "Elástico",
+    "Elastico local",
+    "Elástico Qtde",
+    "Embalagem",
+    "Empacotamento",
+    "Estampa",
+    "Etiqueta",
+    "Renda",
+    "Renda local",
+    "Renda Qtde",
+    "Rib",
+    "Rib local",
+    "Rib Qtde",
+    "Tecido Parte1",
+    "Tecido Parte1 Qtde",
+    "Tecido Parte2",
+    "Tecido Parte2 Qtde",
+    "Viés largura",
+    "Viés Máquina",
+    "Viés local",
+    "Viés Qtde",
+    "Zipper",
+    "Zipper local",
+    "Zipper Qtde",
+    "Cadastro site",
+    "Cadastro UP Seller",
+    "Cadastro ML",
+    "Cadastro Shein",
+    "Total custo inf",
+    "Valor venda inf",
+    "ID",
+    "Upsells",
+    "Brands"
+  ],
+  "PRODUTOS 2 Cadastro 1 nome": [
+    "ÍTEM",
+    "Nome"
+  ],
+  "PRODUTOS 2 Cadastro 2 gênero": [
+    "ÍTEM",
+    "Gênero"
+  ],
+  "PRODUTOS 2 Cadastro 3 tecido": [
+    "ÍTEM",
+    "Tecido"
+  ],
+  "PRODUTOS 2 Cadastro 4 modelo": [
+    "ÍTEM",
+    "Modelo"
+  ],
+  "PRODUTOS 2 Cadastro 5 Acabamento": [
+    "ÍTEM",
+    "Detalhe"
+  ],
+  "PRODUTOS 2 Cadastro 6 minino": [
+    "ÍTEM",
+    "PedidoMinimo"
+  ],
+  "PRODUTOS age_group": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Ativo Inativo": [
+    "Código",
+    "Letra",
+    "Nome"
+  ],
+  "PRODUTOS Categoria 1": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Categoria 2": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Categoria 3": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Categoria 4": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Categoria 5": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Categorias": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Classe": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Código do guia": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Coleção Inverno Verão": [
+    "Código",
+    "Nome",
+    "Fornec"
+  ],
+  "PRODUTOS Cor": [
+    "Código",
+    "Letra",
+    "Nome"
+  ],
+  "PRODUTOS gender": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Gênero": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS grade-genero": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS MP Bordados": [
+    "Código",
+    "Nome",
+    "Unid",
+    "Bordado valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS MP Botão": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Unid",
+    "Valor embal",
+    "Embal",
+    "Botão valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS MP Categorias": [
+    "Código",
+    "Nome",
+    "Letra"
+  ],
+  "PRODUTOS MP Compras": [
+    "Código",
+    "Data",
+    "Produto",
+    "Unid",
+    "Qtde no unid",
+    "Composição",
+    "Gramatura",
+    "Comprimento",
+    "Largura",
+    "Qtde",
+    "Valor da unidade",
+    "Total da compra",
+    "Fornec"
+  ],
+  "PRODUTOS MP Elástico": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Unid",
+    "Valor embal",
+    "embalagem",
+    "Elástico valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS MP Embalagem": [
+    "Código",
+    "Nome",
+    "Unid",
+    "Valor embal",
+    "embalagem",
+    "Embalagem valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS MP Etiquetas": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Unid",
+    "Etiq valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS MP Fornecedores": [
+    "Cód",
+    "Fornecedor",
+    "Fone",
+    "Contato",
+    "Produto",
+    "Unidade",
+    "Valor unidade",
+    "Endereço",
+    "Cidade",
+    "Est",
+    "CEP",
+    "E-MAIL",
+    "CNPJ",
+    "INSC"
+  ],
+  "PRODUTOS MP Renda": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Unid",
+    "Embal",
+    "Valor embal",
+    "Renda valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS MP Rib": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Gramatura",
+    "Unid",
+    "Rib valor unid",
+    "Largura",
+    "Comp",
+    "Valor Metro",
+    "Fornec"
+  ],
+  "PRODUTOS MP Tecidos": [
+    "Código",
+    "Nome",
+    "Unid",
+    "Composição",
+    "Gramatura",
+    "Largura",
+    "Comp",
+    "Valor Pago",
+    "Valor unid",
+    "Valor Metro Tecido",
+    "Fornec"
+  ],
+  "PRODUTOS MP Zippers": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Unid",
+    "Zipper valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS PEDIDO DE SERVIÇO detalhes": [
+    "Número",
+    "Lote",
+    "Sku",
+    "Qtde cortar",
+    "Qtde cortada",
+    "Qtde p costura",
+    "Qtde costurada",
+    "Qtde p casear",
+    "Qtde caseada",
+    "Qtde p estampar",
+    "Qtde estampada",
+    "Qtde p empacotar",
+    "Qtde empacotada"
+  ],
+  "PRODUTOS PEDIDO DE SERVIÇO Lote": [
+    "Número",
+    "Lote",
+    "Data",
+    "Cortadores",
+    "Data solic corte",
+    "Data prevista corte",
+    "Data devolução Corte",
+    "Data pagto Corte",
+    "Pagto corte",
+    "Obs corte",
+    "Costureiras",
+    "Data solic costura",
+    "Data prevista costura",
+    "Data devolução costura",
+    "Data pagto Costura",
+    "Pagto Costura",
+    "Obs costura",
+    "Caseadores",
+    "Data solic caseador",
+    "Data prevista caseador",
+    "Data devolução caseador",
+    "Data pagto caseador",
+    "Pagto Caseador",
+    "Obs caseador",
+    "Estampadores",
+    "Data solic estampa",
+    "Data prevista estampa",
+    "Data devolução estampa",
+    "Data pagto estampa",
+    "Pagto estampa",
+    "Obs estampa",
+    "Empacotador",
+    "Data solic empacotam",
+    "Data prevista empacotam",
+    "Data devolução empacotam",
+    "Data pagto Empacto",
+    "Pagto Empacto",
+    "Obs empacotam"
+  ],
+  "PRODUTOS PRESTADORES 1 Cortadores": [
+    "Código",
+    "Nome",
+    "Fone",
+    "Endereço"
+  ],
+  "PRODUTOS PRESTADORES 2 Costureira": [
+    "Código",
+    "Nome",
+    "Fone",
+    "Endereço"
+  ],
+  "PRODUTOS PRESTADORES 3 Caseadores": [
+    "Código",
+    "Nome",
+    "Fone",
+    "Endereço"
+  ],
+  "PRODUTOS PRESTADORES 4 Estamparia": [
+    "Código",
+    "Nome",
+    "Fone",
+    "Endereço"
+  ],
+  "PRODUTOS PRESTADORES 5 empacotador": [
+    "Código",
+    "Nome",
+    "Fone",
+    "Endereço"
+  ],
+  "PRODUTOS SERVIÇOS 1 Cortes": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Valor do Corte",
+    "CódigoDoFornecedor"
+  ],
+  "PRODUTOS SERVIÇOS 2 Costura": [
+    "Código",
+    "Costura",
+    "Valor costura"
+  ],
+  "PRODUTOS SERVIÇOS 3 Caseado": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Caseado valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS SERVIÇOS 4 Estampa": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Unid",
+    "Estampa valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS SERVIÇOS 5 empacotamento": [
+    "Código",
+    "Nome",
+    "Unid",
+    "Empacot valor unid",
+    "Fornec"
+  ],
+  "PRODUTOS Sim Não": [
+    "Código",
+    "Letra",
+    "Nome"
+  ],
+  "PRODUTOS TABELA DE MEDIDAS": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS Tamanhos": [
+    "Código",
+    "Letra",
+    "Nome",
+    "Fornec"
+  ],
+  "PRODUTOS VENDA Clientes": [
+    "Cód",
+    "Cliente",
+    "Data aniversário",
+    "Categoria",
+    "Fone Coml",
+    "Fone Res",
+    "Fone Cel",
+    "Endereço",
+    "Cidade",
+    "Est",
+    "CEP",
+    "E-MAIL",
+    "CNPJ",
+    "IE"
+  ],
+  "PRODUTOS VENDA Clientes Categoria": [
+    "Código",
+    "Nome"
+  ],
+  "PRODUTOS VENDAS formas de pagto": [
+    "Código",
+    "Nome",
+    "Correção"
+  ],
+  "PRODUTOS VENDAS Pedido atacado": [
+    "Número",
+    "Data",
+    "Pedido número",
+    "Código cliente"
+  ],
+  "PRODUTOS VENDAS Pedido atacado detalhes": [
+    "Número",
+    "Pedido número",
+    "Sku",
+    "Quantidade"
+  ],
+  "PRODUTOS VENDAS Pedido varejo": [
+    "Número",
+    "Data",
+    "Pedido número",
+    "Código cliente"
+  ],
+  "PRODUTOS VENDAS Pedido varejo detalhes": [
+    "Número",
+    "Pedido número",
+    "Sku",
+    "Quantidade"
+  ]
+}

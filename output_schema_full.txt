@@ -1,0 +1,2879 @@
+Connecting to: Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=c:\MARK FACE HUB\PIJAMAS novo.mdb;
+{"tables": ["Erros ao colar", "PRODUTOS 1 CADASTRO", "PRODUTOS 1 CADASTRO VARIA\u00c7\u00d5ES", "PRODUTOS 2 Cadastro 1 nome", "PRODUTOS 2 Cadastro 2 g\u00eanero", "PRODUTOS 2 Cadastro 3 tecido", "PRODUTOS 2 Cadastro 4 modelo", "PRODUTOS 2 Cadastro 5 Acabamento", "PRODUTOS 2 Cadastro 6 minino", "PRODUTOS age_group", "PRODUTOS Ativo Inativo", "PRODUTOS Categoria 1", "PRODUTOS Categoria 2", "PRODUTOS Categoria 3", "PRODUTOS Categoria 4", "PRODUTOS Categoria 5", "PRODUTOS Categorias", "PRODUTOS Classe", "PRODUTOS C\u00f3digo do guia", "PRODUTOS Cole\u00e7\u00e3o Inverno Ver\u00e3o", "PRODUTOS Cor", "PRODUTOS gender", "PRODUTOS G\u00eanero", "PRODUTOS grade-genero", "PRODUTOS MP Bordados", "PRODUTOS MP Bot\u00e3o", "PRODUTOS MP Categorias", "PRODUTOS MP Compras", "PRODUTOS MP El\u00e1stico", "PRODUTOS MP Embalagem", "PRODUTOS MP Etiquetas", "PRODUTOS MP Fornecedores", "PRODUTOS MP Renda", "PRODUTOS MP Rib", "PRODUTOS MP Tecidos", "PRODUTOS MP Zippers", "PRODUTOS PEDIDO DE SERVI\u00c7O detalhes", "PRODUTOS PEDIDO DE SERVI\u00c7O Lote", "PRODUTOS PRESTADORES 1 Cortadores", "PRODUTOS PRESTADORES 2 Costureira", "PRODUTOS PRESTADORES 3 Caseadores", "PRODUTOS PRESTADORES 4 Estamparia", "PRODUTOS PRESTADORES 5 empacotador", "PRODUTOS SERVI\u00c7OS 1 Cortes", "PRODUTOS SERVI\u00c7OS 2 Costura", "PRODUTOS SERVI\u00c7OS 3 Caseado", "PRODUTOS SERVI\u00c7OS 4 Estampa", "PRODUTOS SERVI\u00c7OS 5 empacotamento", "PRODUTOS Sim N\u00e3o", "PRODUTOS TABELA DE MEDIDAS", "PRODUTOS Tamanhos", "PRODUTOS VENDA Clientes", "PRODUTOS VENDA Clientes Categoria", "PRODUTOS VENDAS formas de pagto", "PRODUTOS VENDAS Pedido atacado", "PRODUTOS VENDAS Pedido atacado detalhes", "PRODUTOS VENDAS Pedido varejo", "PRODUTOS VENDAS Pedido varejo detalhes"]}
+
+SCHEMA:
+{
+  "Erros ao colar": [
+    {
+      "name": "ID",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "\u00cdtem",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "C\u00f3digo Produto",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Cadastro site",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "G\u00eanero",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Modelo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tecido",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Acabamento",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PedidoMinimo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Origem Shein",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome Varia\u00e7\u00e3o",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Usar apelido como t\u00edtulo da NFe",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tipo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Publicado",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Em destaque?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade no cat\u00e1logo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data de pre\u00e7o promocional come\u00e7a em",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data de pre\u00e7o promocional termina em",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Status do imposto",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Classe de imposto",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Em estoque?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Estoque",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Unidade",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Origem",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Quantidade baixa de estoque",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "S\u00e3o permitidas encomendas?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Vendido individualmente?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Permitir avalia\u00e7\u00f5es de clientes?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Observa\u00e7\u00e3o de compra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nota de compra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Pre\u00e7o promocional",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Pre\u00e7o",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Pre\u00e7o de varejo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Custo de Compra",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "C\u00f3digo do guia",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 5",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tags",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Classe de entrega",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Imagens",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Limite de downloads",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Dias para expirar o download",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Grupo de produtos",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Upsells",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Venda cruzada",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "URL externa",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Texto do bot\u00e3o",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Posi\u00e7\u00e3o",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Minimum Quantity",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Maximum Quantity",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 3",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Visibilidade do atributo 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo padr\u00e3o 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo padr\u00e3o 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo padr\u00e3o 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo padr\u00e3o 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "ativo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "marca",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "CEST",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "NCM do produto",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Valor Venda inf",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Parte 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Acabamento Parte 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Parte 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Acabamento Parte 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Etiqueta Local",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS 1 CADASTRO": [
+    {
+      "name": "\u00cdtem",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "C\u00f3digo Produto",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "G\u00eanero",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Modelo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tecido",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Acabamento",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PedidoMinimo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Origem Shein",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "ID",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome Varia\u00e7\u00e3o",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Usar apelido como t\u00edtulo da NFe",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tipo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Publicado",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Em destaque?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade no cat\u00e1logo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data de pre\u00e7o promocional come\u00e7a em",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data de pre\u00e7o promocional termina em",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Status do imposto",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Classe de imposto",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Em estoque?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Estoque",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Unidade",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Origem",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Quantidade baixa de estoque",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "S\u00e3o permitidas encomendas?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Vendido individualmente?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Permitir avalia\u00e7\u00f5es de clientes?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Observa\u00e7\u00e3o de compra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nota de compra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Pre\u00e7o promocional",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Pre\u00e7o",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Pre\u00e7o de varejo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Custo de Compra",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "C\u00f3digo do guia",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "PRODUTOS Categoria 5",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tags",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Classe de entrega",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Imagens",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Limite de downloads",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Dias para expirar o download",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Grupo de produtos",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Upsells",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Venda cruzada",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "URL externa",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Texto do bot\u00e3o",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Posi\u00e7\u00e3o",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Minimum Quantity",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Maximum Quantity",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 3",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Visibilidade do atributo 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo padr\u00e3o 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo padr\u00e3o 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo padr\u00e3o 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo padr\u00e3o 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "ativo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "marca",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "CEST",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "NCM do produto",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Valor Venda inf",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Parte 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Acabamento Parte 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Parte 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Acabamento Parte 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Etiqueta Local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Cadastro site",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Cadastro ML",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Cadastro Shein",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS 1 CADASTRO VARIA\u00c7\u00d5ES": [
+    {
+      "name": "C\u00f3digo do Produto",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "C\u00f3digo da Varia\u00e7\u00e3o ML",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Sku",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Tipo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Em estoque?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Estoque novo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Estoque",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Unidade",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Classe de imposto",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Peso (kg)",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Comprimento (cm)",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Largura (cm)",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Altura (cm)",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "S\u00e3o permitidas encomendas?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Vendido individualmente?",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nota de compra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Categorias",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tags",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Classe de entrega",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Imagens",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Limite de downloads",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Dias para expirar o download",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Grupo de produtos",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Venda cruzada",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "URL externa",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Texto do bot\u00e3o",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Posi\u00e7\u00e3o",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Minimum Quantity",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Maximum Quantity",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 3",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 4",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 5",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 5",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 5",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 5",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome do atributo 6",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valores do atributo 6",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Visibilidade do atributo 6",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Atributo global 6",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Bordado",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Bordado local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Bordado Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Bot\u00e3o",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Bot\u00e3o local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Bot\u00e3o Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Caseado",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Caseado local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Caseado Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Corte",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Costura",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "El\u00e1stico",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Elastico local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "El\u00e1stico Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Embalagem",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Empacotamento",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Estampa",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Etiqueta",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Renda",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Renda local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Renda Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Rib",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Rib local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Rib Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Tecido Parte1",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tecido Parte1 Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Tecido Parte2",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Tecido Parte2 Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Vi\u00e9s largura",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Vi\u00e9s M\u00e1quina",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Vi\u00e9s local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Vi\u00e9s Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Zipper",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Zipper local",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Zipper Qtde",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Cadastro site",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Cadastro UP Seller",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Cadastro ML",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Cadastro Shein",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Total custo inf",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Valor venda inf",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "ID",
+      "type": "DOUBLE",
+      "size": 53
+    },
+    {
+      "name": "Upsells",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Brands",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS 2 Cadastro 1 nome": [
+    {
+      "name": "\u00cdTEM",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS 2 Cadastro 2 g\u00eanero": [
+    {
+      "name": "\u00cdTEM",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "G\u00eanero",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS 2 Cadastro 3 tecido": [
+    {
+      "name": "\u00cdTEM",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Tecido",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS 2 Cadastro 4 modelo": [
+    {
+      "name": "\u00cdTEM",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Modelo",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS 2 Cadastro 5 Acabamento": [
+    {
+      "name": "\u00cdTEM",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Detalhe",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS 2 Cadastro 6 minino": [
+    {
+      "name": "\u00cdTEM",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "PedidoMinimo",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS age_group": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS Ativo Inativo": [
+    {
+      "name": "C\u00f3digo",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS Categoria 1": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS Categoria 2": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS Categoria 3": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS Categoria 4": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS Categoria 5": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS Categorias": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    }
+  ],
+  "PRODUTOS Classe": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS C\u00f3digo do guia": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS Cole\u00e7\u00e3o Inverno Ver\u00e3o": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS Cor": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS gender": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS G\u00eanero": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS grade-genero": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Bordados": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Bordado valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Bot\u00e3o": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Valor embal",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Embal",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Bot\u00e3o valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Categorias": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Compras": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Data",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Produto",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Qtde no unid",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Composi\u00e7\u00e3o",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Gramatura",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Comprimento",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Largura",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Qtde",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Valor da unidade",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Total da compra",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP El\u00e1stico": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Valor embal",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "embalagem",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "El\u00e1stico valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Embalagem": [
+    {
+      "name": "C\u00f3digo",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Valor embal",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "embalagem",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Embalagem valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Etiquetas": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Etiq valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Fornecedores": [
+    {
+      "name": "C\u00f3d",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Fornecedor",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Contato",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Produto",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unidade",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Valor unidade",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Endere\u00e7o",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Cidade",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Est",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "CEP",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "E-MAIL",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "CNPJ",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "INSC",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS MP Renda": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Embal",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Valor embal",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Renda valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Rib": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Gramatura",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Rib valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Largura",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Comp",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Valor Metro",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Tecidos": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Composi\u00e7\u00e3o",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Gramatura",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Largura",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Comp",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Valor Pago",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Valor Metro Tecido",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS MP Zippers": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Zipper valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS PEDIDO DE SERVI\u00c7O detalhes": [
+    {
+      "name": "N\u00famero",
+      "type": "COUNTER",
+      "size": 10
+    },
+    {
+      "name": "Lote",
+      "type": "SMALLINT",
+      "size": 5
+    },
+    {
+      "name": "Sku",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde cortar",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde cortada",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde p costura",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde costurada",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde p casear",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde caseada",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde p estampar",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde estampada",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde p empacotar",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Qtde empacotada",
+      "type": "INTEGER",
+      "size": 10
+    }
+  ],
+  "PRODUTOS PEDIDO DE SERVI\u00c7O Lote": [
+    {
+      "name": "N\u00famero",
+      "type": "COUNTER",
+      "size": 10
+    },
+    {
+      "name": "Lote",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Data",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Cortadores",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data solic corte",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data prevista corte",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data devolu\u00e7\u00e3o Corte",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data pagto Corte",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Pagto corte",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Obs corte",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Costureiras",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data solic costura",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data prevista costura",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data devolu\u00e7\u00e3o costura",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data pagto Costura",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Pagto Costura",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Obs costura",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Caseadores",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data solic caseador",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data prevista caseador",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data devolu\u00e7\u00e3o caseador",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data pagto caseador",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Pagto Caseador",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Obs caseador",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Estampadores",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data solic estampa",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data prevista estampa",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data devolu\u00e7\u00e3o estampa",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data pagto estampa",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Pagto estampa",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Obs estampa",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Empacotador",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Data solic empacotam",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data prevista empacotam",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data devolu\u00e7\u00e3o empacotam",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Data pagto Empacto",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Pagto Empacto",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Obs empacotam",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    }
+  ],
+  "PRODUTOS PRESTADORES 1 Cortadores": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Endere\u00e7o",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS PRESTADORES 2 Costureira": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Endere\u00e7o",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS PRESTADORES 3 Caseadores": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Endere\u00e7o",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS PRESTADORES 4 Estamparia": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Endere\u00e7o",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS PRESTADORES 5 empacotador": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Endere\u00e7o",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS SERVI\u00c7OS 1 Cortes": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Valor do Corte",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "C\u00f3digoDoFornecedor",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS SERVI\u00c7OS 2 Costura": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Costura",
+      "type": "VARCHAR",
+      "size": 90
+    },
+    {
+      "name": "Valor costura",
+      "type": "REAL",
+      "size": 24
+    }
+  ],
+  "PRODUTOS SERVI\u00c7OS 3 Caseado": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Caseado valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS SERVI\u00c7OS 4 Estampa": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Estampa valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS SERVI\u00c7OS 5 empacotamento": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Unid",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Empacot valor unid",
+      "type": "REAL",
+      "size": 24
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS Sim N\u00e3o": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS TABELA DE MEDIDAS": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    }
+  ],
+  "PRODUTOS Tamanhos": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Letra",
+      "type": "VARCHAR",
+      "size": 255
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fornec",
+      "type": "VARCHAR",
+      "size": 255
+    }
+  ],
+  "PRODUTOS VENDA Clientes": [
+    {
+      "name": "C\u00f3d",
+      "type": "COUNTER",
+      "size": 10
+    },
+    {
+      "name": "Cliente",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Data anivers\u00e1rio",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Categoria",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone Coml",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone Res",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Fone Cel",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Endere\u00e7o",
+      "type": "LONGCHAR",
+      "size": 1073741823
+    },
+    {
+      "name": "Cidade",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Est",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "CEP",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "E-MAIL",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "CNPJ",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "IE",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS VENDA Clientes Categoria": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    }
+  ],
+  "PRODUTOS VENDAS formas de pagto": [
+    {
+      "name": "C\u00f3digo",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Nome",
+      "type": "VARCHAR",
+      "size": 50
+    },
+    {
+      "name": "Corre\u00e7\u00e3o",
+      "type": "DOUBLE",
+      "size": 53
+    }
+  ],
+  "PRODUTOS VENDAS Pedido atacado": [
+    {
+      "name": "N\u00famero",
+      "type": "COUNTER",
+      "size": 10
+    },
+    {
+      "name": "Data",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Pedido n\u00famero",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "C\u00f3digo cliente",
+      "type": "INTEGER",
+      "size": 10
+    }
+  ],
+  "PRODUTOS VENDAS Pedido atacado detalhes": [
+    {
+      "name": "N\u00famero",
+      "type": "COUNTER",
+      "size": 10
+    },
+    {
+      "name": "Pedido n\u00famero",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Sku",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Quantidade",
+      "type": "REAL",
+      "size": 24
+    }
+  ],
+  "PRODUTOS VENDAS Pedido varejo": [
+    {
+      "name": "N\u00famero",
+      "type": "COUNTER",
+      "size": 10
+    },
+    {
+      "name": "Data",
+      "type": "DATETIME",
+      "size": 19
+    },
+    {
+      "name": "Pedido n\u00famero",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "C\u00f3digo cliente",
+      "type": "INTEGER",
+      "size": 10
+    }
+  ],
+  "PRODUTOS VENDAS Pedido varejo detalhes": [
+    {
+      "name": "N\u00famero",
+      "type": "COUNTER",
+      "size": 10
+    },
+    {
+      "name": "Pedido n\u00famero",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Sku",
+      "type": "INTEGER",
+      "size": 10
+    },
+    {
+      "name": "Quantidade",
+      "type": "REAL",
+      "size": 24
+    }
+  ]
+}
+
+SAMPLE DATA (top 3):
+Table: Erros ao colar
+[None, 4530, 4530, 'n', 'Camiseta Polo', 'Masculina', 'Manga curta', 'Piquet Preto', 'Com 3 botões', 1, 'Brazil', 'Camiseta Polo Masculina Manga curta Piquet Preto com Bordado e 3 botões', 'N', 'variable', '1', '0', 'visible', None, None, 'taxable', None, '1', 0, 'UN', '0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8', None, '0', '0', '0', None, None, 0, 0, 0, 0, None, 'Uniformes', 'Camisetas', None, None, None, None, None, None, None, None, None, None, None, None, None, 0, 30, None, 'Composição', 'Poliéster com algodão', '1', '1', 'Tabela medidas', None, '1', '1', 'Cor', 'Preta', '1', '1', 'Tamanho', 'P, M, G, GG', '1', '1', None, None, None, None, 'Sim', 'Mark Face', 2805800, 61083100, 0.0, 'Camiseta gola pólo com 3 botões', 'Gola com rib', 'Não tem', 'basico', 'Gola']
+Table: PRODUTOS 1 CADASTRO
+[4000, 4000, 'Calça', 'Feminina', 'Longa', 'Helanca', 'com zipper e elástico', 1, 'Brazil', None, 'Calça Feminina Longa Helanca com zipper e elástico', 'N', 'variable', '1', 'Certo', 'visible', None, None, 'taxable', None, '1', 0, 'UN', '0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8', None, '0', '0', '0', None, None, 0, 0, 0, 0, None, 'Uniformes', 'Calças', None, None, None, None, None, None, None, None, None, None, None, None, None, 0, 30, None, 'Composição', '100% poliéster', '1', '1', 'Tabela medidas', None, '1', '1', 'Cor', 'Marinho', '1', '1', 'Tamanho', 'G, GG, M, P, PP', '1', '1', None, None, None, None, 'Sim', 'Mark Face', 2805800, 61083100, 0.0, 'Calça com zipper', 'Basico', 'Não tem', 'basico', 'Cintura', 'n', None, None]
+[10400, 10400, 'Camisola', 'Infantil de Menina', 'Manga curta', 'Algodão', 'com Estampa', 1, 'Brazil', 4189, 'Camisola Infantil de Menina Manga curta Algodão com Estampa', 'N', 'variable', '1', '0', 'visible', None, None, 'taxable', None, '1', 0, 'UN', '0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8', None, '0', '0', '0', None, None, 0, 0, 0, 0, None, 'Pijama Infantil', 'Pijama Menina', 'Camisolas', 'Verão', 'Pijama Infantil', None, None, None, None, None, None, None, None, None, None, 0, 0, None, 'Composição', 'Algodão', '1', '1', 'Tabela medidas', '182', '1', '1', 'Cor', 'Azul, Lilás, Rosa, Creme', '1', '1', 'Tamanho', '1, 2', '1', '1', None, None, None, None, 'Sim', 'Mark Face', 2805800, 61083100, 0.0, 'Camisola', 'Estampa de silk, gola com viés, barra na galoneira', 'Mangas', 'Barra na galoneira', 'Gola', 's', None, 'S']
+[517, 517, 'Pijama', 'Feminino', 'Longo', 'Algodão', 'Blusa lisa e calça estampada', 1, 'Brazil', 4213, None, 'N', 'variable', '1', '0', 'visible', None, None, 'taxable', None, '1', 0, 'UN', '0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 E 8', None, '0', '0', '0', None, None, 0, 0, 0, 0, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 0, 0, 0, 'Composição', None, '1', '1', 'Tabela medidas', None, '1', '1', 'Cor', None, '1', '1', 'Tamanho', None, '1', '1', None, None, None, None, 'Sim', 'Mark Face', 2805900, 61083100, 0.0, None, None, None, None, None, 's', None, None]
+Table: PRODUTOS 1 CADASTRO VARIAÇÕES
+[4505.0, 4505.0, 4505.0, 'variation', '1', 1, 0.0, 'UN', 'Parent', 0.5, 40.0, 30.0, 10.0, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Cor', 'Preta', '1', '1', 'Tamanho', 'GG', '1', '1', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'N usa', None, 0.0, 'n usa', None, 0.0, 'N usa', None, 0.0, 'Camiseta avulsa', '4393 Camiseta basica', 'N usa', None, 0.0, 'Sac grande', 'Empacotar e Revisar', 'N usa', '1 Tam 1 emp 1 comp', 'N usa', None, 0.0, 'Rib Médio', 'Gola', 0.03, 'Malha Penteada Escura Algodão 1,20 peça', 0.65, 'N usa', 0.0, None, None, None, 0.0, 'N Usa', None, 0.0, None, None, 'ORÇAMENTO', None, None, None, None, None, None]
+[4510.0, 4510.0, 4510.0, 'variation', '1', 1, 0.0, 'UN', 'Parent', 0.5, 40.0, 30.0, 10.0, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Cor', 'Preta', '1', '1', 'Tamanho', 'GG', '1', '1', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'N usa', None, 0.0, 'n usa', None, 0.0, 'N usa', None, 0.0, 'Camiseta avulsa', '4393 Camiseta basica', 'N usa', None, 0.0, 'Sac grande', 'Empacotar e Revisar', 'N usa', '1 Tam 1 emp 1 comp', 'N usa', None, 0.0, 'Rib Médio', 'Gola', 0.03, 'Malha Penteada Escura Algodão 1,20 peça', 0.85, 'N usa', 0.0, None, None, None, 0.0, 'N Usa', None, 0.0, None, None, 'ORÇAMENTO', None, None, None, None, None, None]
+[4515.0, 4515.0, 4515.0, 'variation', '1', 1, 0.0, 'UN', 'Parent', 0.5, 40.0, 30.0, 10.0, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'Cor', 'Preta', '1', '1', 'Tamanho', 'GG', '1', '1', None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 'N usa', None, 0.0, 'n usa', None, 0.0, 'N usa', None, 0.0, 'Camiseta avulsa', '4393 Camiseta basica', 'N usa', None, 0.0, 'Sac grande', 'Empacotar e Revisar', 'N usa', '1 Tam 1 emp 1 comp', 'N usa', None, 0.0, 'N usa', None, 0.0, 'Malha Penteada Escura Algodão 1,20 peça', 0.55, 'N usa', 0.0, 3.5, 'Reta', 'Gola e manga', 3.5, 'N Usa', None, 0.0, None, None, 'ORÇAMENTO', None, None, None, None, None, None]
