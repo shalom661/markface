@@ -65,7 +65,7 @@ export default function ImportPage() {
     const [selected, setSelected] = useState<TemplateOption | null>(null);
     const [file, setFile] = useState<File | null>(null);
     const [dragOver, setDragOver] = useState(false);
-    const [downloading, setDownloading] = useState(false);
+    const [downloading] = useState(false);
 
     const downloadTemplate = () => {
         if (!selected) return;
