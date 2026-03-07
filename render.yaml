@@ -41,31 +41,4 @@ services:
       - key: APP_SECRET_KEY
         generateValue: true
 
-  # 3. Background Worker (Celery)
-  - type: worker
-    name: markface-worker
-    env: python
-    region: ohio
-    plan: free
-    buildCommand: "pip install -r backend/requirements.txt"
-    startCommand: "cd backend && celery -A app.core.celery_app worker --loglevel=info"
-    envVars:
-      - key: APP_ENV
-        value: production
-      - key: DATABASE_URL
-        sync: false # Copiar a mesma string do Supabase
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: markface-redis
-          property: connectionString
-      - key: CELERY_BROKER_URL
-        fromService:
-          type: redis
-          name: markface-redis
-          property: connectionString
-      - key: CELERY_RESULT_BACKEND
-        fromService:
-          type: redis
-          name: markface-redis
-          property: connectionString
+
