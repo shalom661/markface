@@ -28,3 +28,6 @@ db_data/
 Thumbs.db
 .vscode/
 .idea/
+
+# Database files
+*.mdb
