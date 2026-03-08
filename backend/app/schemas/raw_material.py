@@ -62,9 +62,7 @@ class RawMaterialRead(BaseModel):
     composition: str | None
     minimum_order: Decimal | None
     category_fields: dict | None
-    last_unit_price: Decimal = Decimal("0.00")
     active: bool
-    supplier: SupplierRead | None = None
     created_at: datetime
     updated_at: datetime
 

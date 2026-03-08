@@ -73,6 +73,8 @@ async def create_raw_material(
     return material
 
 
+from sqlalchemy.orm import selectinload
+
 async def list_raw_materials(
     db: AsyncSession,
     category: str | None = None,
@@ -81,26 +83,34 @@ async def list_raw_materials(
     page: int = 1,
     page_size: int = 20,
 ) -> tuple[int, Sequence[RawMaterial]]:
-    query = select(RawMaterial)
+    # Base filters
+    filters = []
     if category:
-        query = query.where(RawMaterial.category.ilike(category))
+        filters.append(RawMaterial.category.ilike(category))
     if supplier_id:
-        query = query.where(RawMaterial.supplier_id == supplier_id)
+        filters.append(RawMaterial.supplier_id == supplier_id)
     if search:
         pattern = f"%{search}%"
-        query = query.where(
+        filters.append(
             RawMaterial.description.ilike(pattern)
             | RawMaterial.internal_code.ilike(pattern)
         )
-    query = query.order_by(RawMaterial.created_at.desc())
 
-    # Count query without order_by for safety and performance
-    count_q = select(func.count()).select_from(query.order_by(None).subquery())
+    # Count query
+    count_q = select(func.count(RawMaterial.id))
+    if filters:
+        count_q = count_q.where(*filters)
     total = (await db.execute(count_q)).scalar() or 0
 
-    items = (
-        await db.execute(query.offset((page - 1) * page_size).limit(page_size))
-    ).scalars().all()
+    # Data query with eager loading
+    query = select(RawMaterial).options(selectinload(RawMaterial.supplier))
+    if filters:
+        query = query.where(*filters)
+    
+    query = query.order_by(RawMaterial.created_at.desc())
+    query = query.offset((page - 1) * page_size).limit(page_size)
+
+    items = (await db.execute(query)).scalars().all()
     return total, items
 
 
