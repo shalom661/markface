@@ -30,7 +30,6 @@ interface ProductVariant {
 interface Product {
     id: string;
     name: string;
-    brand: string | null;
     description: string | null;
     active: boolean;
     variants: ProductVariant[];
@@ -153,7 +152,6 @@ export default function Products() {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Produto</TableHead>
-                                    <TableHead>Marca</TableHead>
                                     <TableHead>Status</TableHead>
                                     <TableHead>SKUs / Variantes</TableHead>
                                     <TableHead className="w-[80px] text-right">Ações</TableHead>
@@ -166,7 +164,6 @@ export default function Products() {
                                             <div className="cursor-pointer hover:underline">{product.name}</div>
                                             <div className="text-xs text-muted-foreground line-clamp-1">{product.description}</div>
                                         </TableCell>
-                                        <TableCell>{product.brand || '-'}</TableCell>
                                         <TableCell>
                                             {product.active ? (
                                                 <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">

@@ -19,12 +19,11 @@ class Product(UUIDMixin, TimestampMixin, Base):
 
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    brand: Mapped[str | None] = mapped_column(String(120), nullable=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     # Manufacturing & Sourcing Fields
     is_manufactured: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-    internal_code: Mapped[str | None] = mapped_column(String(120), nullable=True, index=True)
+    internal_code: Mapped[str] = mapped_column(String(120), nullable=False, index=True)
     supplier_code: Mapped[str | None] = mapped_column(String(120), nullable=True)
     supplier_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True),

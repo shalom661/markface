@@ -7,7 +7,7 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 # ── Product Materials (BOM) ──────────────────────────────────────────────────
@@ -74,27 +74,31 @@ class VariantRead(BaseModel):
 class ProductCreate(BaseModel):
     name: str = Field(min_length=1, max_length=255)
     description: str | None = None
-    brand: str | None = Field(default=None, max_length=120)
     active: bool = True
     
     # Manufacturing
     is_manufactured: bool = True
-    internal_code: str | None = Field(default=None, max_length=120)
+    internal_code: str = Field(min_length=1, max_length=120)
     supplier_code: str | None = Field(default=None, max_length=120)
     supplier_id: uuid.UUID | None = None
     
     # BOM
     materials: list[ProductMaterialCreate] | None = None
 
+    @model_validator(mode="after")
+    def check_supplier_for_resale(self) -> "ProductCreate":
+        if not self.is_manufactured and not self.supplier_id:
+            raise ValueError("O fornecedor é obrigatório para produtos de revenda.")
+        return self
+
 class ProductUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=255)
     description: str | None = None
-    brand: str | None = Field(default=None, max_length=120)
     active: bool | None = None
 
     # Manufacturing
     is_manufactured: bool | None = None
-    internal_code: str | None = Field(default=None, max_length=120)
+    internal_code: str | None = Field(default=None, min_length=1, max_length=120)
     supplier_code: str | None = Field(default=None, max_length=120)
     supplier_id: uuid.UUID | None = None
     
@@ -105,12 +109,11 @@ class ProductRead(BaseModel):
     id: uuid.UUID
     name: str
     description: str | None
-    brand: str | None
     active: bool
     
     # Manufacturing
     is_manufactured: bool
-    internal_code: str | None
+    internal_code: str
     supplier_code: str | None
     supplier_id: uuid.UUID | None
     

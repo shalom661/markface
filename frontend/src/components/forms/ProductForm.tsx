@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea"
 const formSchema = z.object({
     name: z.string().min(1, "Nome é obrigatório").max(255),
     description: z.string().optional().or(z.literal("")),
-    brand: z.string().max(120).optional().or(z.literal("")),
+    internal_code: z.string().min(1, "Código interno é obrigatório").max(120),
     active: z.boolean(),
 })
 
@@ -41,7 +41,7 @@ export function ProductForm({ product, onSuccess }: ProductFormProps) {
         defaultValues: {
             name: product?.name || "",
             description: product?.description || "",
-            brand: product?.brand || "",
+            internal_code: product?.internal_code || "",
             active: product?.active ?? true,
         },
     })
@@ -51,7 +51,6 @@ export function ProductForm({ product, onSuccess }: ProductFormProps) {
             const payload = {
                 ...data,
                 description: data.description || null,
-                brand: data.brand || null,
             }
             if (product?.id) {
                 const response = await api.put(`/products/${product.id}`, payload)
@@ -103,12 +102,12 @@ export function ProductForm({ product, onSuccess }: ProductFormProps) {
 
                 <FormField
                     control={form.control}
-                    name="brand"
+                    name="internal_code"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Marca</FormLabel>
+                            <FormLabel>Código Interno *</FormLabel>
                             <FormControl>
-                                <Input placeholder="Ex: MarkFace, Private Label" {...field} />
+                                <Input placeholder="Ex: PIJ-INV-001" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

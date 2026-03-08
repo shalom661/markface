@@ -20,10 +20,10 @@ export default function ProductCreate() {
     const queryClient = useQueryClient();
 
     // Core Form State
+    // Core Form State
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [internalCode, setInternalCode] = useState('');
-    const [brand, setBrand] = useState('MarkFace');
     const [isActive, setIsActive] = useState(true);
 
     // Advanced Type State
@@ -102,15 +102,24 @@ export default function ProductCreate() {
             return;
         }
 
+        if (!internalCode.trim()) {
+            toast({ variant: "destructive", title: "Atenção", description: "O código interno é obrigatório." });
+            return;
+        }
+
         const isManufactured = type === 'manufactured';
+
+        if (!isManufactured && !supplierId) {
+            toast({ variant: "destructive", title: "Atenção", description: "O fornecedor é obrigatório para produtos de revenda." });
+            return;
+        }
 
         const payload: any = {
             name,
             description: description || null,
-            brand: brand || null,
             active: isActive,
             is_manufactured: isManufactured,
-            internal_code: internalCode || null,
+            internal_code: internalCode,
         };
 
         if (isManufactured) {
@@ -121,7 +130,7 @@ export default function ProductCreate() {
                 quantity: parseFloat(m.quantity)
             }));
         } else {
-            payload.supplier_id = supplierId || null;
+            payload.supplier_id = supplierId;
             payload.supplier_code = supplierCode || null;
         }
 
@@ -171,7 +180,7 @@ export default function ProductCreate() {
                             <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Pijama Inverno Soft" />
                         </div>
                         <div className="space-y-2">
-                            <Label>Código Interno</Label>
+                            <Label>Código Interno <span className="text-destructive">*</span></Label>
                             <Input value={internalCode} onChange={e => setInternalCode(e.target.value)} placeholder="Ex: PIJ-INV-001" />
                         </div>
                     </div>
@@ -185,22 +194,16 @@ export default function ProductCreate() {
                             rows={3}
                         />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                        <div className="space-y-2">
-                            <Label>Marca</Label>
-                            <Input value={brand} onChange={e => setBrand(e.target.value)} placeholder="Ex: MarkFace" />
-                        </div>
-                        <div className="flex items-center space-x-2 pt-6">
-                            <label className="flex items-center gap-3 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary Accent-primary"
-                                    checked={isActive}
-                                    onChange={e => setIsActive(e.target.checked)}
-                                />
-                                <span className="text-sm font-medium">Produto Ativo</span>
-                            </label>
-                        </div>
+                    <div className="flex items-center space-x-2">
+                        <label className="flex items-center gap-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary Accent-primary"
+                                checked={isActive}
+                                onChange={e => setIsActive(e.target.checked)}
+                            />
+                            <span className="text-sm font-medium">Produto Ativo</span>
+                        </label>
                     </div>
                 </CardContent>
             </Card>
@@ -277,7 +280,7 @@ export default function ProductCreate() {
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label>Fornecedor (Opcional)</Label>
+                                    <Label>Fornecedor <span className="text-destructive">*</span></Label>
                                     <select
                                         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
                                         value={supplierId}
