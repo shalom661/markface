@@ -21,7 +21,7 @@ export default function Costs() {
         },
     });
 
-    const totalFixed = fixedCosts.reduce((acc: number, curr: any) => acc + curr.value, 0);
+    const totalFixed = fixedCosts.reduce((acc: number, curr: any) => acc + Number(curr.value || 0), 0);
 
     return (
         <div className="space-y-6">
@@ -30,7 +30,7 @@ export default function Costs() {
                 <Card className="bg-primary/5 border-primary/20">
                     <CardContent className="py-3">
                         <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Gastos Fixos</p>
-                        <p className="text-2xl font-bold text-primary">R$ {totalFixed.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                        <p className="text-2xl font-bold text-primary">R$ {Number(totalFixed).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -61,8 +61,8 @@ export default function Costs() {
                                     {products.filter((p: any) => p.is_manufactured).map((product: any) => (
                                         product.variants.map((variant: any) => {
                                             const bomCost = (variant.materials || []).reduce((acc: number, m: any) => {
-                                                const unitPrice = m.raw_material?.last_unit_price || 0;
-                                                return acc + (m.quantity * unitPrice);
+                                                const unitPrice = Number(m.raw_material?.last_unit_price || 0);
+                                                return acc + (Number(m.quantity || 0) * unitPrice);
                                             }, 0);
 
                                             // Fixed cost distribution (placeholder for avg production)
@@ -77,8 +77,8 @@ export default function Costs() {
                                                     <TableCell>
                                                         {Object.entries(variant.attributes || {}).map(([key, value]) => `${key}: ${value}`).join(', ')}
                                                     </TableCell>
-                                                    <TableCell className="text-right">R$ {bomCost.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</TableCell>
-                                                    <TableCell className="text-right font-bold">R$ {totalCost.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</TableCell>
+                                                    <TableCell className="text-right">R$ {Number(bomCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</TableCell>
+                                                    <TableCell className="text-right font-bold">R$ {Number(totalCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</TableCell>
                                                 </TableRow>
                                             );
                                         })
@@ -109,7 +109,7 @@ export default function Costs() {
                                             <TableRow key={variant.id}>
                                                 <TableCell className="font-medium">{product.name}</TableCell>
                                                 <TableCell>{variant.sku}</TableCell>
-                                                <TableCell className="text-right font-bold">R$ {(variant.cost || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</TableCell>
+                                                <TableCell className="text-right font-bold">R$ {Number(variant.cost || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</TableCell>
                                             </TableRow>
                                         ))
                                     ))}

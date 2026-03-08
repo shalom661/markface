@@ -70,7 +70,7 @@ export default function FixedCosts() {
                         <CardContent className="pt-6 flex justify-between items-center">
                             <div>
                                 <p className="font-medium">{cost.description}</p>
-                                <p className="text-2xl font-bold text-primary">R$ {cost.value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                                <p className="text-2xl font-bold text-primary">R$ {Number(cost.value || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
                             </div>
                             <Button variant="ghost" size="icon" onClick={() => deleteMutation.mutate(cost.id)}>
                                 <Trash2 className="h-4 w-4 text-destructive" />
