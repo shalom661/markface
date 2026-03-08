@@ -74,9 +74,9 @@ class ProductRead(BaseModel):
     created_at: datetime
     updated_at: datetime
     
-    # We don't necessarily load all materials on every product list by default, 
-    # but we can declare it here as Optional
-    materials: list[ProductMaterialRead] | None = None
+    # Relationships
+    materials: list[ProductMaterialRead] = []
+    variants: list[VariantRead] = []
 
     model_config = {"from_attributes": True}
 

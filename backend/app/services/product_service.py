@@ -51,7 +51,10 @@ async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
     from sqlalchemy.orm import selectinload
     result = await db.execute(
         select(Product)
-        .options(selectinload(Product.materials))
+        .options(
+            selectinload(Product.materials),
+            selectinload(Product.variants)
+        )
         .where(Product.id == product.id)
     )
     return result.scalar_one()
@@ -61,7 +64,10 @@ async def list_products(
     db: AsyncSession, page: int = 1, page_size: int = 20, active_only: bool = False
 ) -> tuple[int, Sequence[Product]]:
     from sqlalchemy.orm import selectinload
-    query = select(Product).options(selectinload(Product.materials))
+    query = select(Product).options(
+        selectinload(Product.materials),
+        selectinload(Product.variants)
+    )
     if active_only:
         query = query.where(Product.active == True)  # noqa: E712
     query = query.order_by(Product.created_at.desc())
@@ -80,7 +86,10 @@ async def get_product_or_404(db: AsyncSession, product_id: uuid.UUID) -> Product
     from sqlalchemy.orm import selectinload
     result = await db.execute(
         select(Product)
-        .options(selectinload(Product.materials))
+        .options(
+            selectinload(Product.materials),
+            selectinload(Product.variants)
+        )
         .where(Product.id == product_id)
     )
     product = result.scalar_one_or_none()
@@ -120,11 +129,14 @@ async def update_product(
         {"product_id": str(product.id), "changes": data.model_dump(exclude_unset=True)},
     )
     
-    # Reload with materials for safe serialization
+    # Reload with materials and variants for safe serialization
     from sqlalchemy.orm import selectinload
     result = await db.execute(
         select(Product)
-        .options(selectinload(Product.materials))
+        .options(
+            selectinload(Product.materials),
+            selectinload(Product.variants)
+        )
         .where(Product.id == product.id)
     )
     return result.scalar_one()
