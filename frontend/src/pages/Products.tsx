@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Trash2, Edit2, Power } from 'lucide-react';
 import api from '@/lib/api';
@@ -122,20 +123,20 @@ export default function Products() {
                     </p>
                 </div>
 
+                <div className="flex gap-2">
+                    <Button onClick={() => navigate('/products/new')}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Novo Produto
+                    </Button>
+                </div>
+
+                {/* Keep dialog just for editing existing products */}
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogTrigger asChild>
-                        <Button onClick={handleAddNew}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Novo Produto
-                        </Button>
-                    </DialogTrigger>
                     <DialogContent className="sm:max-w-[500px]">
                         <DialogHeader>
-                            <DialogTitle>{editingProduct ? 'Editar Produto' : 'Novo Produto'}</DialogTitle>
+                            <DialogTitle>Editar Produto</DialogTitle>
                             <DialogDescription>
-                                {editingProduct
-                                    ? 'Atualize os dados básicos do produto selecionado.'
-                                    : 'Cadastre um novo produto. Depois você poderá adicionar variantes (tamanhos, cores).'}
+                                Atualize os dados básicos do produto selecionado.
                             </DialogDescription>
                         </DialogHeader>
                         <ProductForm
