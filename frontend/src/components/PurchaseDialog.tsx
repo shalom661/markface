@@ -21,7 +21,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     const [items, setItems] = useState<any[]>([]);
     const [notes, setNotes] = useState('');
 
-    const { data: suppliers = [] } = useQuery({
+    const { data: suppliersData } = useQuery({
         queryKey: ['suppliers'],
         queryFn: async () => {
             const res = await api.get('/suppliers');
@@ -29,7 +29,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         },
     });
 
-    const { data: rawMaterials = [] } = useQuery({
+    const { data: rawMaterialsData } = useQuery({
         queryKey: ['raw-materials'],
         queryFn: async () => {
             const res = await api.get('/raw-materials');
@@ -38,7 +38,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         enabled: type === 'raw_material',
     });
 
-    const { data: products = [] } = useQuery({
+    const { data: productsData } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
             const res = await api.get('/products');
@@ -47,9 +47,9 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         enabled: type === 'resale_product',
     });
 
-    const suppliersArr = Array.isArray(suppliers) ? suppliers : [];
-    const rawMaterialsArr = Array.isArray(rawMaterials) ? rawMaterials : [];
-    const productsArr = Array.isArray(products) ? products : [];
+    const suppliersArr = Array.isArray(suppliersData) ? suppliersData : (suppliersData?.items || []);
+    const rawMaterialsArr = Array.isArray(rawMaterialsData) ? rawMaterialsData : (rawMaterialsData?.items || []);
+    const productsArr = Array.isArray(productsData) ? productsData : (productsData?.items || []);
 
     const createMutation = useMutation({
         mutationFn: (data: any) => api.post('/purchases', data),
