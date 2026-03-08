@@ -27,10 +27,9 @@ async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
 
     product = Product(**data_dict)
     db.add(product)
-    await db.flush()
+    await db.flush() # Assigns ID
 
     if product.is_manufactured and materials_data:
-        pms = []
         for mat in materials_data:
             pm = ProductMaterial(
                 product_id=product.id,
@@ -38,21 +37,24 @@ async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
                 quantity=mat["quantity"],
             )
             db.add(pm)
-            pms.append(pm)
         await db.flush()
-        product.materials = pms
-    else:
-        product.materials = []
 
-    await db.commit() # Commit to ensure all triggers/defaults are applied
-    await db.refresh(product, ["materials"]) # Refresh with relationships
-
+    # Create event STILL WITHIN THE SAME TRANSACTION
     await create_event(
         db,
         "PRODUCT_CREATED",
         {"product_id": str(product.id), "name": product.name, "is_manufactured": product.is_manufactured},
     )
-    return product
+    
+    # FINAL STEP: Load the fully populated product with relationships 
+    # using selectinload to avoid any MissingGreenletError during serialization
+    from sqlalchemy.orm import selectinload
+    result = await db.execute(
+        select(Product)
+        .options(selectinload(Product.materials))
+        .where(Product.id == product.id)
+    )
+    return result.scalar_one()
 
 
 async def list_products(
@@ -77,7 +79,9 @@ async def list_products(
 async def get_product_or_404(db: AsyncSession, product_id: uuid.UUID) -> Product:
     from sqlalchemy.orm import selectinload
     result = await db.execute(
-        select(Product).options(selectinload(Product.materials)).where(Product.id == product_id)
+        select(Product)
+        .options(selectinload(Product.materials))
+        .where(Product.id == product_id)
     )
     product = result.scalar_one_or_none()
     if not product:
@@ -109,15 +113,21 @@ async def update_product(
                 product.materials.append(pm)
 
     await db.flush()
-    await db.commit()
-    await db.refresh(product, ["materials"])
     
     await create_event(
         db,
         "PRODUCT_UPDATED",
         {"product_id": str(product.id), "changes": data.model_dump(exclude_unset=True)},
     )
-    return product
+    
+    # Reload with materials for safe serialization
+    from sqlalchemy.orm import selectinload
+    result = await db.execute(
+        select(Product)
+        .options(selectinload(Product.materials))
+        .where(Product.id == product.id)
+    )
+    return result.scalar_one()
 
 
 async def delete_product(db: AsyncSession, product_id: uuid.UUID) -> None:
