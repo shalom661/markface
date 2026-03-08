@@ -35,7 +35,7 @@ export default function Layout() {
                 <div className="p-8 border-b flex items-center justify-center">
                     <Link to="/" className="flex items-center justify-center">
                         <img
-                            src="/logo.png"
+                            src={theme === 'dark' ? "/markface-white.png" : "/markface-blue.png"}
                             alt="MarkFace Logo"
                             className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-sm"
                         />

@@ -47,7 +47,7 @@ export default function Login() {
                     <div className="relative inline-block group">
                         <div className="absolute inset-0 bg-primary/20 blur-3xl group-hover:blur-[100px] transition-all duration-1000 opacity-60" />
                         <img
-                            src="/logo.png"
+                            src="/markface-white.png"
                             alt="MarkFace Logo"
                             className="relative h-24 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(var(--primary),0.3)] animate-float"
                         />
