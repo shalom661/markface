@@ -45,7 +45,7 @@
 
 ## ⚙️ Indústria & Produção
 - [ ] ORDEM DE PRODUÇÃO (Planejamento do que vai ser fabricado)
-  - [ ] _Adicione sub-tarefas aqui..._
+  - [ ] Coleção/grupo do pedido
 - [ ] ORDEM DE CORTE (Quantidade de metros de tecido exata por lote)
   - [ ] _Adicione sub-tarefas aqui..._
 - [ ] ORDEM DE SERVIÇOS (Saída e Entrada de Estoque de Matéria-Prima - ex: envio p/ facção/costureira)

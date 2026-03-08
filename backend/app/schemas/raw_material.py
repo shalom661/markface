@@ -27,6 +27,7 @@ class RawMaterialCreate(BaseModel):
     composition: str | None = Field(default=None, max_length=255)
     minimum_order: Decimal | None = Field(default=None, ge=0)
     category_fields: dict | None = None
+    last_unit_price: Decimal | None = None
     active: bool = True
 
 
@@ -43,6 +44,7 @@ class RawMaterialUpdate(BaseModel):
     composition: str | None = Field(default=None, max_length=255)
     minimum_order: Decimal | None = Field(default=None, ge=0)
     category_fields: dict | None = None
+    last_unit_price: Decimal | None = None
     active: bool | None = None
 
 
