@@ -90,8 +90,9 @@ async def list_raw_materials(
         )
     query = query.order_by(RawMaterial.created_at.desc())
 
-    count_q = select(func.count()).select_from(query.subquery())
-    total = (await db.execute(count_q)).scalar_one()
+    # Count query without order_by for safety and performance
+    count_q = select(func.count()).select_from(query.order_by(None).subquery())
+    total = (await db.execute(count_q)).scalar() or 0
 
     items = (
         await db.execute(query.offset((page - 1) * page_size).limit(page_size))

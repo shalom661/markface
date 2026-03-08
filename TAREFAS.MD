@@ -19,23 +19,23 @@
 
 ---
 
-## � Financeiro & Custos (Ficha Técnica)
-- [ ] GASTOS FIXOS (Aluguel, luz, funcionários, etc. para diluir no custo)
-  - [ ] Cadastrar gastos fixos mensais
-  - [ ] Tela de gerenciamento de custos fixos
-- [ ] CÁLCULO DE CUSTO (Custo exato por produto final baseado nas matérias-primas e gastos)
-  - [ ] Criar nova página de Custos
-  - [ ] Fórmula de cálculo: (Preço Médio Insumos) + % Gastos Fixos + Lucro Desejado
-  - [ ] Histórico de variação de custo
+##  Financeiro & Custos (Ficha Técnica)
+- [x] GASTOS FIXOS (Aluguel, luz, funcionários, etc. para diluir no custo)
+  - [x] Cadastrar gastos fixos mensais
+  - [x] Tela de gerenciamento de custos fixos
+- [x] CÁLCULO DE CUSTO (Custo exato por produto final baseado nas matérias-primas e gastos)
+  - [x] Criar nova página de Custos
+  - [x] Fórmula de cálculo: (Preço Médio Insumos) + % Gastos Fixos + Lucro Desejado
+  - [x] Histórico de variação de custo
 
 ---
 
 ## 📦 Estoque & Compras
-- [ ] INPUT INDIVIDUAL (Entrada manual de produtos / matérias-primas)
-- [ ] INPUT DE COMPRAS (Entrada baseada em nota fiscal ou pedido no fornecedor)
-  - [ ] Nova página de Compras com Dashboards segmentados
-  - [ ] Registro de compra de Matéria-Prima (Atualiza custo base)
-  - [ ] Registro de compra de Peças para Revenda
+- [x] INPUT INDIVIDUAL (Entrada manual de produtos / matérias-primas)
+- [x] INPUT DE COMPRAS (Entrada baseada em nota fiscal ou pedido no fornecedor)
+  - [x] Nova página de Compras com Dashboards segmentados
+  - [x] Registro de compra de Matéria-Prima (Atualiza custo base)
+  - [x] Registro de compra de Peças para Revenda
 - [ ] ANÁLISE DE ESTOQUE PARADO (Relatórios de produtos/matérias-primas sem movimentação)
   - [ ] _Adicione sub-tarefas aqui..._
 - [ ] OPÇÃO DE DEVOLUÇÃO DE PRODUTOS (Retorno ao estoque por devolução de cliente ou defeito)
