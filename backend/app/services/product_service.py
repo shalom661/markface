@@ -30,6 +30,7 @@ async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
     await db.flush()
 
     if product.is_manufactured and materials_data:
+        pms = []
         for mat in materials_data:
             pm = ProductMaterial(
                 product_id=product.id,
@@ -37,7 +38,11 @@ async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
                 quantity=mat["quantity"],
             )
             db.add(pm)
+            pms.append(pm)
         await db.flush()
+        product.materials = pms
+    else:
+        product.materials = []
 
     await create_event(
         db,
@@ -89,11 +94,8 @@ async def update_product(
 
     # Re-sync materials if provided
     if materials_data is not None:
-        # Delete existing
-        await db.execute(
-            ProductMaterial.__table__.delete().where(ProductMaterial.product_id == product.id)
-        )
-        # Add new
+        # Manipulate relationship in memory to let cascade handle deletes and keep model ready for Pydantic
+        product.materials.clear()
         if product.is_manufactured:
             for mat in materials_data:
                 pm = ProductMaterial(
@@ -101,7 +103,7 @@ async def update_product(
                     raw_material_id=mat["raw_material_id"],
                     quantity=mat["quantity"],
                 )
-                db.add(pm)
+                product.materials.append(pm)
 
     await db.flush()
     await create_event(
