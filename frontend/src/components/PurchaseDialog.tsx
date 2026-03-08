@@ -21,13 +21,9 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     const [items, setItems] = useState<any[]>([]);
     const [notes, setNotes] = useState('');
 
-    const { data: suppliers = [] } = useQuery({
-        queryKey: ['suppliers'],
-        queryFn: async () => {
-            const res = await api.get('/suppliers');
-            return res.data;
-        },
-    });
+    const suppliersArr = Array.isArray(suppliers) ? suppliers : [];
+    const rawMaterialsArr = Array.isArray(rawMaterials) ? rawMaterials : [];
+    const productsArr = Array.isArray(products) ? products : [];
 
     const { data: rawMaterials = [] } = useQuery({
         queryKey: ['raw-materials'],
@@ -102,9 +98,9 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
 
     // Get options for items (raw materials or product variants)
     const itemOptions = type === 'raw_material'
-        ? rawMaterials
-        : products.filter((p: any) => !p.is_manufactured).flatMap((p: any) =>
-            p.variants.map((v: any) => ({
+        ? rawMaterialsArr
+        : productsArr.filter((p: any) => !p.is_manufactured).flatMap((p: any) =>
+            (p.variants || []).map((v: any) => ({
                 id: v.id,
                 name: `${p.name} (${Object.entries(v.attributes || {}).map(([, v]) => v).join('/')})`
             }))
@@ -125,8 +121,8 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
                                 <SelectValue placeholder="Selecione o fornecedor" />
                             </SelectTrigger>
                             <SelectContent>
-                                {suppliers.map((s: any) => (
-                                    <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
+                                {suppliersArr.map((s: any) => (
+                                    <SelectItem key={s.id} value={s.id}>{s.name || 'Sem Nome'}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -149,8 +145,8 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
                                             <SelectValue placeholder="Selecione..." />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {itemOptions.map((opt: any) => (
-                                                <SelectItem key={opt.id} value={opt.id}>{opt.name}</SelectItem>
+                                            {(itemOptions || []).map((opt: any) => (
+                                                <SelectItem key={opt.id} value={opt.id}>{opt.name || 'Sem Identificação'}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
