@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-    ArrowLeft, Save, Plus, Trash2, Package, Scissors, Shirt, Copy, ChevronDown, ChevronUp
+    ArrowLeft, Save, Plus, Trash2, Package, Scissors, Shirt, Copy, ChevronDown, Loader2
 } from 'lucide-react';
 
 import api from '@/lib/api';
@@ -218,263 +218,357 @@ export default function ProductCreate() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-6 pb-20 mt-6">
+        <div className="max-w-5xl mx-auto space-y-8 pb-32 mt-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header Area */}
-            <div className="flex items-center gap-4 mb-8">
-                <Button variant="outline" size="icon" onClick={() => navigate('/products')}>
-                    <ArrowLeft className="h-4 w-4" />
-                </Button>
-                <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Novo Produto</h2>
-                    <p className="text-muted-foreground">Configure variaçōes e ficha técnica individual.</p>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+                <div className="flex items-center gap-5">
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => navigate('/products')}
+                        className="h-12 w-12 rounded-2xl border-primary/20 hover:bg-primary/5 transition-all"
+                    >
+                        <ArrowLeft className="h-6 w-6 text-primary" />
+                    </Button>
+                    <div>
+                        <h2 className="text-4xl font-extrabold tracking-tight">Novo Produto</h2>
+                        <p className="text-muted-foreground text-lg mt-1">Configure variaçōes e ficha técnica individual.</p>
+                    </div>
                 </div>
             </div>
 
             {/* Type Selector */}
-            <div className="flex bg-muted/50 p-1 mb-6 rounded-lg h-14">
+            <div className="grid grid-cols-2 gap-4 p-1.5 bg-muted/30 rounded-3xl glass border-white/20 h-20">
                 <button
                     onClick={() => setType('manufactured')}
-                    className={`flex-1 flex items-center justify-center gap-2 text-lg rounded-md transition-all ${type === 'manufactured' ? 'bg-primary text-primary-foreground shadow' : 'hover:bg-background/50 text-muted-foreground'}`}
+                    className={`flex items-center justify-center gap-3 text-lg font-bold rounded-2xl transition-all duration-300 ${type === 'manufactured'
+                        ? 'bg-primary text-primary-foreground shadow-xl shadow-primary/20 scale-[0.98]'
+                        : 'hover:bg-background/50 text-muted-foreground'
+                        }`}
                 >
-                    <Scissors className="h-5 w-5" /> Fabricação Própria
+                    <Scissors className={`h-6 w-6 ${type === 'manufactured' ? 'animate-bounce' : ''}`} />
+                    Fabricação Própria
                 </button>
                 <button
                     onClick={() => setType('resale')}
-                    className={`flex-1 flex items-center justify-center gap-2 text-lg rounded-md transition-all ${type === 'resale' ? 'bg-card shadow' : 'hover:bg-background/50 text-muted-foreground'}`}
+                    className={`flex items-center justify-center gap-3 text-lg font-bold rounded-2xl transition-all duration-300 ${type === 'resale'
+                        ? 'bg-card text-foreground shadow-xl scale-[0.98] border border-primary/10'
+                        : 'hover:bg-background/50 text-muted-foreground'
+                        }`}
                 >
-                    <Package className="h-5 w-5" /> Revenda
+                    <Package className={`h-6 w-6 ${type === 'resale' ? 'animate-bounce' : ''}`} />
+                    Revenda
                 </button>
             </div>
 
-            {/* BASIC INFO CARD */}
-            <Card className="border-border/40 shadow-sm backdrop-blur-sm bg-card/95">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                        <Shirt className="h-5 w-5 text-primary" /> Informações do Cabeçalho
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <Label>Nome do Produto <span className="text-destructive">*</span></Label>
-                            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Camiseta Básica Algodão" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label>Código Interno <span className="text-destructive">*</span></Label>
-                            <Input value={internalCode} onChange={e => setInternalCode(e.target.value)} placeholder="Ex: MOD-001" />
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <Label>Descrição</Label>
-                        <Textarea
-                            value={description}
-                            onChange={e => setDescription(e.target.value)}
-                            placeholder="Descrição geral do modelo..."
-                            className="resize-none"
-                            rows={2}
-                        />
-                    </div>
-
-                    {type === 'resale' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div className="grid grid-cols-1 gap-8">
+                {/* BASIC INFO CARD */}
+                <Card className="rounded-3xl border-none glass overflow-hidden shadow-2xl">
+                    <CardHeader className="border-b border-primary/10 bg-primary/5 p-8">
+                        <CardTitle className="flex items-center gap-3 text-2xl font-bold">
+                            <div className="p-2 rounded-xl bg-primary/10 text-primary">
+                                <Shirt className="h-6 w-6" />
+                            </div>
+                            Informações Principais
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-8 space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <Label>Fornecedor <span className="text-destructive">*</span></Label>
-                                <select
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                                    value={supplierId}
-                                    onChange={e => setSupplierId(e.target.value)}
-                                >
-                                    <option value="">Selecione o fornecedor...</option>
-                                    {suppliersData?.items?.map((sup: any) => (
-                                        <option key={sup.id} value={sup.id}>{sup.name}</option>
-                                    ))}
-                                </select>
+                                <Label className="text-sm font-semibold ml-1">Nome do Produto <span className="text-destructive">*</span></Label>
+                                <Input
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    placeholder="Ex: Camiseta Básica Algodão"
+                                    className="h-12 rounded-xl border-primary/10 focus:border-primary/30 transition-all font-medium"
+                                />
                             </div>
                             <div className="space-y-2">
-                                <Label>Cód. no Fornecedor</Label>
-                                <Input value={supplierCode} onChange={e => setSupplierCode(e.target.value)} placeholder="Opcional" />
+                                <Label className="text-sm font-semibold ml-1">Código Interno <span className="text-destructive">*</span></Label>
+                                <Input
+                                    value={internalCode}
+                                    onChange={e => setInternalCode(e.target.value)}
+                                    placeholder="Ex: MOD-001"
+                                    className="h-12 rounded-xl border-primary/10 focus:border-primary/30 transition-all font-mono"
+                                />
                             </div>
                         </div>
-                    )}
-                </CardContent>
-            </Card>
+                        <div className="space-y-2">
+                            <Label className="text-sm font-semibold ml-1">Descrição</Label>
+                            <Textarea
+                                value={description}
+                                onChange={e => setDescription(e.target.value)}
+                                placeholder="Descreva os diferenciais deste modelo..."
+                                className="resize-none rounded-xl border-primary/10 focus:border-primary/30 transition-all min-h-[100px]"
+                                rows={3}
+                            />
+                        </div>
 
-            {/* VARIATIONS SECTION */}
-            <div className="space-y-4">
-                <div className="flex items-center justify-between px-1">
-                    <h3 className="text-xl font-semibold flex items-center gap-2">
-                        <Package className="h-5 w-5 text-primary" /> Variações & Ficha Técnica
-                    </h3>
-                    <Button onClick={handleAddVariant} variant="outline" size="sm" className="gap-2">
-                        <Plus className="h-4 w-4" /> Adicionar Variação
-                    </Button>
-                </div>
+                        {type === 'resale' && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 animate-in fade-in slide-in-from-top-2">
+                                <div className="space-y-2">
+                                    <Label className="text-sm font-semibold ml-1">Fornecedor <span className="text-destructive">*</span></Label>
+                                    <select
+                                        className="flex h-12 w-full rounded-xl border border-primary/10 bg-background px-4 py-2 text-sm font-medium transition-all focus:ring-2 focus:ring-primary/20 outline-none"
+                                        value={supplierId}
+                                        onChange={e => setSupplierId(e.target.value)}
+                                    >
+                                        <option value="">Selecione o fornecedor...</option>
+                                        {suppliersData?.items?.map((sup: any) => (
+                                            <option key={sup.id} value={sup.id}>{sup.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label className="text-sm font-semibold ml-1">Cód. no Fornecedor</Label>
+                                    <Input
+                                        value={supplierCode}
+                                        onChange={e => setSupplierCode(e.target.value)}
+                                        placeholder="Código de referência"
+                                        className="h-12 rounded-xl border-primary/10 focus:border-primary/30"
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
 
-                {variants.map((variant, vIdx) => (
-                    <Card key={vIdx} className={`border-border/40 shadow-sm overflow-hidden transition-all duration-200 ${variant.isExpanded ? 'ring-1 ring-primary/20' : ''}`}>
-                        <div
-                            className="bg-muted/30 p-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
-                            onClick={() => handleVariantChange(vIdx, { isExpanded: !variant.isExpanded })}
+                {/* VARIATIONS SECTION */}
+                <div className="space-y-6">
+                    <div className="flex items-center justify-between px-2">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-xl bg-primary/10 text-primary">
+                                <Package className="h-6 w-6" />
+                            </div>
+                            <h3 className="text-2xl font-bold tracking-tight">Variações & Grade</h3>
+                        </div>
+                        <Button
+                            onClick={handleAddVariant}
+                            variant="outline"
+                            className="h-11 rounded-xl border-primary/20 hover:bg-primary/5 gap-2 px-5 font-bold"
                         >
-                            <div className="flex items-center gap-4">
-                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
-                                    {vIdx + 1}
-                                </div>
-                                <div>
-                                    <span className="font-medium text-sm">
-                                        {variant.sku || `Variação ${vIdx + 1}`}
-                                    </span>
-                                    {(variant.attributes.color || variant.attributes.size) && (
-                                        <span className="text-xs text-muted-foreground ml-2">
-                                            ({variant.attributes.color} / {variant.attributes.size})
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8 text-muted-foreground"
-                                    onClick={(e) => { e.stopPropagation(); handleDuplicateVariant(vIdx); }}
-                                    title="Clonar esta variação"
-                                >
-                                    <Copy className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8 text-destructive"
-                                    onClick={(e) => { e.stopPropagation(); handleRemoveVariant(vIdx); }}
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                                {variant.isExpanded ? <ChevronUp className="h-4 w-4 ml-2" /> : <ChevronDown className="h-4 w-4 ml-2" />}
-                            </div>
-                        </div>
+                            <Plus className="h-5 w-5" /> Adicionar Variação
+                        </Button>
+                    </div>
 
-                        {variant.isExpanded && (
-                            <CardContent className="p-6 space-y-6 animate-in fade-in duration-300">
-                                {/* SKU and ATTRIBUTES */}
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div className="space-y-2">
-                                        <Label className="text-xs uppercase font-bold text-muted-foreground">SKU <span className="text-destructive">*</span></Label>
-                                        <Input
-                                            value={variant.sku}
-                                            onChange={e => handleVariantChange(vIdx, { sku: e.target.value })}
-                                            placeholder="Ex: MOD001-P-PRETO"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Cor</Label>
-                                        <Input
-                                            value={variant.attributes.color}
-                                            onChange={e => handleAttributeChange(vIdx, 'color', e.target.value)}
-                                            placeholder="Ex: Preto"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Tamanho</Label>
-                                        <Input
-                                            value={variant.attributes.size}
-                                            onChange={e => handleAttributeChange(vIdx, 'size', e.target.value)}
-                                            placeholder="Ex: G"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* BOM Section per variant */}
-                                {type === 'manufactured' && (
-                                    <div className="space-y-4 pt-2">
-                                        <div className="flex items-center justify-between">
-                                            <Label className="text-sm font-semibold">Insumos desta Variação</Label>
-                                            <Button variant="ghost" size="sm" onClick={() => handleAddMaterial(vIdx)} className="h-7 text-xs gap-1 text-primary">
-                                                <Plus className="h-3 w-3" /> Adicionar Matéria Prima
-                                            </Button>
+                    <div className="space-y-4">
+                        {variants.map((variant, vIdx) => (
+                            <div key={vIdx} className="group">
+                                <Card className={`rounded-3xl border-none glass overflow-hidden transition-all duration-300 shadow-lg ${variant.isExpanded ? 'ring-2 ring-primary/30 shadow-2xl' : 'hover:shadow-xl'}`}>
+                                    <div
+                                        className={`p-6 flex items-center justify-between cursor-pointer transition-colors ${variant.isExpanded ? 'bg-primary/5' : 'hover:bg-primary/5'}`}
+                                        onClick={() => handleVariantChange(vIdx, { isExpanded: !variant.isExpanded })}
+                                    >
+                                        <div className="flex items-center gap-5">
+                                            <div className="h-12 w-12 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center font-black text-lg shadow-lg shadow-primary/20">
+                                                {vIdx + 1}
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-lg">
+                                                    {variant.sku || <span className="text-muted-foreground italic font-normal">Aguardando SKU...</span>}
+                                                </div>
+                                                <div className="flex gap-2 mt-1">
+                                                    {variant.attributes.color && (
+                                                        <span className="px-2 py-0.5 rounded-md bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+                                                            {variant.attributes.color}
+                                                        </span>
+                                                    )}
+                                                    {variant.attributes.size && (
+                                                        <span className="px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground text-[10px] font-bold uppercase tracking-wider">
+                                                            Tam: {variant.attributes.size}
+                                                        </span>
+                                                    )}
+                                                    {type === 'manufactured' && variant.materials.length > 0 && (
+                                                        <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 text-[10px] font-bold uppercase tracking-wider">
+                                                            {variant.materials.length} Insumos
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div className="flex items-center gap-3">
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-10 w-10 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                                                onClick={(e) => { e.stopPropagation(); handleDuplicateVariant(vIdx); }}
+                                                title="Duplicar Grade"
+                                            >
+                                                <Copy className="h-5 w-5" />
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-10 w-10 rounded-xl text-destructive hover:bg-destructive/10"
+                                                onClick={(e) => { e.stopPropagation(); handleRemoveVariant(vIdx); }}
+                                            >
+                                                <Trash2 className="h-5 w-5" />
+                                            </Button>
+                                            <div className={`transition-transform duration-300 ${variant.isExpanded ? 'rotate-180' : ''}`}>
+                                                <ChevronDown className="h-6 w-6 text-muted-foreground" />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                        <div className="space-y-3">
-                                            {variant.materials.map((mat, mIdx) => (
-                                                <div key={mIdx} className="grid grid-cols-12 gap-2 items-end">
-                                                    <div className="col-span-6 lg:col-span-6 space-y-1">
-                                                        <select
-                                                            className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                                                            value={mat.raw_material_id}
-                                                            onChange={e => handleMaterialChange(vIdx, mIdx, { raw_material_id: e.target.value })}
-                                                        >
-                                                            <option value="">Selecione o insumo...</option>
-                                                            {rawMaterialsData?.items?.map((rm: any) => (
-                                                                <option key={rm.id} value={rm.id}>
-                                                                    {rm.description} ({rm.unit})
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
-                                                    <div className="col-span-3 lg:col-span-2">
-                                                        <Input
-                                                            className="h-9"
-                                                            type="number"
-                                                            placeholder="Qtd"
-                                                            value={mat.quantity}
-                                                            onChange={e => handleMaterialChange(vIdx, mIdx, { quantity: e.target.value })}
-                                                        />
-                                                    </div>
-                                                    <div className="col-span-2 lg:col-span-3">
-                                                        <select
-                                                            className="flex h-9 w-full rounded-md border border-input bg-background px-2 py-1 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                                                            value={mat.unit_override || ''}
-                                                            onChange={e => handleMaterialChange(vIdx, mIdx, { unit_override: e.target.value })}
-                                                        >
-                                                            <option value="">Unidade Padrão</option>
-                                                            <option value="metrose">Metros</option>
-                                                            <option value="gramas">Gramas</option>
-                                                            <option value="unidades">Unidades</option>
-                                                            <option value="litros">Litros</option>
-                                                            <option value="kg">Kg</option>
-                                                        </select>
-                                                    </div>
-                                                    <div className="col-span-1 flex justify-end">
+                                    {variant.isExpanded && (
+                                        <CardContent className="p-8 pt-2 space-y-8 animate-in fade-in slide-in-from-top-4 duration-500">
+                                            <div className="h-px bg-primary/10 w-full mb-6" />
+
+                                            {/* SKU and ATTRIBUTES */}
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] uppercase font-black text-primary tracking-widest ml-1">SKU do Produto <span className="text-destructive">*</span></Label>
+                                                    <Input
+                                                        value={variant.sku}
+                                                        onChange={e => handleVariantChange(vIdx, { sku: e.target.value })}
+                                                        placeholder="Ex: MOD001-P-PRETO"
+                                                        className="h-11 rounded-xl border-primary/10 font-bold"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] uppercase font-black text-primary tracking-widest ml-1">Cor / Estampa</Label>
+                                                    <Input
+                                                        value={variant.attributes.color}
+                                                        onChange={e => handleAttributeChange(vIdx, 'color', e.target.value)}
+                                                        placeholder="Ex: Off-White"
+                                                        className="h-11 rounded-xl border-primary/10"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label className="text-[10px] uppercase font-black text-primary tracking-widest ml-1">Tamanho / Grade</Label>
+                                                    <Input
+                                                        value={variant.attributes.size}
+                                                        onChange={e => handleAttributeChange(vIdx, 'size', e.target.value)}
+                                                        placeholder="Ex: GG"
+                                                        className="h-11 rounded-xl border-primary/10"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            {/* BOM Section per variant */}
+                                            {type === 'manufactured' && (
+                                                <div className="space-y-6 pt-4">
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-1 h-5 bg-primary rounded-full" />
+                                                            <Label className="text-base font-bold">Ficha Técnica de Produção</Label>
+                                                        </div>
                                                         <Button
                                                             variant="ghost"
-                                                            size="icon"
-                                                            className="h-9 w-9 text-destructive"
-                                                            onClick={() => handleRemoveMaterial(vIdx, mIdx)}
+                                                            size="sm"
+                                                            onClick={() => handleAddMaterial(vIdx)}
+                                                            className="h-9 px-4 rounded-xl text-xs font-bold gap-2 text-primary hover:bg-primary/5 border border-primary/10"
                                                         >
-                                                            <Trash2 className="h-4 w-4" />
+                                                            <Plus className="h-4 w-4" /> Adicionar Matéria Prima
                                                         </Button>
                                                     </div>
-                                                </div>
-                                            ))}
 
-                                            {variant.materials.length === 0 && (
-                                                <div className="border border-dashed rounded-md p-6 text-center text-muted-foreground text-xs bg-muted/20">
-                                                    Nenhum insumo configurado para esta variação.
+                                                    <div className="space-y-4">
+                                                        {variant.materials.map((mat, mIdx) => (
+                                                            <div key={mIdx} className="grid grid-cols-12 gap-3 items-end p-4 rounded-2xl bg-muted/20 border border-primary/5 hover:border-primary/20 transition-all">
+                                                                <div className="col-span-12 lg:col-span-5 space-y-1.5">
+                                                                    <Label className="text-[10px] font-bold text-muted-foreground ml-1">Insumo / Matéria-Prima</Label>
+                                                                    <select
+                                                                        className="flex h-11 w-full rounded-xl border border-primary/10 bg-background px-4 py-2 text-sm font-medium transition-all outline-none"
+                                                                        value={mat.raw_material_id}
+                                                                        onChange={e => handleMaterialChange(vIdx, mIdx, { raw_material_id: e.target.value })}
+                                                                    >
+                                                                        <option value="">Selecione o insumo...</option>
+                                                                        {rawMaterialsData?.items?.map((rm: any) => (
+                                                                            <option key={rm.id} value={rm.id}>
+                                                                                {rm.description} ({rm.unit})
+                                                                            </option>
+                                                                        ))}
+                                                                    </select>
+                                                                </div>
+                                                                <div className="col-span-6 lg:col-span-3 space-y-1.5">
+                                                                    <Label className="text-[10px] font-bold text-muted-foreground ml-1">Qtd Necessária</Label>
+                                                                    <Input
+                                                                        className="h-11 rounded-xl border-primary/10 text-center font-bold"
+                                                                        type="number"
+                                                                        placeholder="0.00"
+                                                                        value={mat.quantity}
+                                                                        onChange={e => handleMaterialChange(vIdx, mIdx, { quantity: e.target.value })}
+                                                                    />
+                                                                </div>
+                                                                <div className="col-span-4 lg:col-span-3 space-y-1.5">
+                                                                    <Label className="text-[10px] font-bold text-muted-foreground ml-1">Converter Unid.</Label>
+                                                                    <select
+                                                                        className="flex h-11 w-full rounded-xl border border-primary/10 bg-background px-3 py-2 text-xs font-medium transition-all outline-none"
+                                                                        value={mat.unit_override || ''}
+                                                                        onChange={e => handleMaterialChange(vIdx, mIdx, { unit_override: e.target.value })}
+                                                                    >
+                                                                        <option value="">Unidade Padrão</option>
+                                                                        <option value="metrose">Metros</option>
+                                                                        <option value="gramas">Gramas</option>
+                                                                        <option value="unidades">Unidades</option>
+                                                                        <option value="litros">Litros</option>
+                                                                        <option value="kg">Kg</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div className="col-span-2 lg:col-span-1 flex justify-end">
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="h-11 w-11 rounded-xl text-destructive hover:bg-destructive/10"
+                                                                        onClick={() => handleRemoveMaterial(vIdx, mIdx)}
+                                                                    >
+                                                                        <Trash2 className="h-5 w-5" />
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+
+                                                        {variant.materials.length === 0 && (
+                                                            <div className="border-2 border-dashed border-primary/10 rounded-3xl p-10 text-center flex flex-col items-center justify-center bg-primary/5">
+                                                                <Scissors className="h-10 w-10 text-primary/20 mb-3" />
+                                                                <p className="text-muted-foreground font-medium">Nenhum insumo configurado.</p>
+                                                                <p className="text-xs text-muted-foreground/60">Adicione as matérias-primas para calcular o custo automático.</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             )}
-                                        </div>
-                                    </div>
-                                )}
-                            </CardContent>
-                        )}
-                    </Card>
-                ))}
+                                        </CardContent>
+                                    )}
+                                </Card>
+                            </div>
+                        ))}
 
-                <Button variant="ghost" className="w-full border-dashed border h-16 text-muted-foreground hover:text-primary transition-all gap-2" onClick={handleAddVariant}>
-                    <Plus className="h-4 w-4" /> Criar Outra Variação (Ex: Tamanho Diferente)
-                </Button>
+                        <Button
+                            variant="ghost"
+                            className="w-full border-2 border-dashed border-primary/20 h-24 rounded-3xl text-muted-foreground hover:text-primary hover:bg-primary/5 hover:border-primary/40 transition-all gap-3 text-lg font-bold"
+                            onClick={handleAddVariant}
+                        >
+                            <Plus className="h-6 w-6" /> Criar Variação Adicional (Grade)
+                        </Button>
+                    </div>
+                </div>
             </div>
 
             {/* Bottom Actions Fixed */}
-            <div className="fixed bottom-0 left-0 right-0 p-4 border-t bg-background/95 backdrop-blur-md lg:left-64 flex justify-end gap-3 z-10 shadow-lg">
-                <Button variant="ghost" onClick={() => navigate('/products')}>Cancelar</Button>
+            <div className="fixed bottom-0 left-0 right-0 p-6 border-t border-primary/10 bg-background/80 backdrop-blur-xl lg:left-64 flex justify-between items-center z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
                 <Button
-                    onClick={handleSave}
-                    disabled={createMutation.isPending}
-                    className="gap-2 px-10 shadow-primary/20 shadow-lg"
+                    variant="ghost"
+                    onClick={() => navigate('/products')}
+                    className="h-12 px-8 rounded-xl font-bold hover:bg-muted"
                 >
-                    <Save className="h-4 w-4" />
-                    {createMutation.isPending ? "Salvando Tudo..." : "Finalizar Cadastro"}
+                    Cancelar
                 </Button>
+                <div className="flex gap-4">
+                    <Button
+                        onClick={handleSave}
+                        disabled={createMutation.isPending}
+                        className="h-14 px-12 rounded-2xl text-lg font-black bg-primary text-primary-foreground shadow-2xl shadow-primary/30 hover:scale-105 active:scale-95 transition-all gap-3"
+                    >
+                        {createMutation.isPending ? (
+                            <Loader2 className="h-6 w-6 animate-spin" />
+                        ) : (
+                            <Save className="h-6 w-6" />
+                        )}
+                        {createMutation.isPending ? "Salvando..." : "Finalizar Cadastro"}
+                    </Button>
+                </div>
             </div>
         </div>
     );

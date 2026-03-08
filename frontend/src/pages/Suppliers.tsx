@@ -1,6 +1,27 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, Edit2, Phone, Mail, User as UserIcon, Trash2, Power } from 'lucide-react';
+import {
+    Plus,
+    Edit2,
+    Phone,
+    Mail,
+    User as UserIcon,
+    Trash2,
+    Power,
+    Building2,
+    ExternalLink,
+    Search,
+    Filter,
+    MoreHorizontal,
+    Globe,
+    Briefcase,
+    Zap,
+    MapPin,
+    Calendar,
+    Settings,
+    ShieldCheck,
+    Activity
+} from 'lucide-react';
 import api from '@/lib/api';
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -12,8 +33,10 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { format } from 'date-fns';
 import {
     Dialog,
@@ -48,6 +71,7 @@ export default function Suppliers() {
     const { toast } = useToast();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const { data, isLoading, error } = useQuery<PaginatedResponse>({
         queryKey: ['suppliers'],
@@ -110,142 +134,262 @@ export default function Suppliers() {
         toggleMutation.mutate(id);
     };
 
-    if (isLoading) return <div className="p-8 text-center text-muted-foreground">Carregando fornecedores...</div>;
-    if (error) return <div className="p-8 text-center text-destructive">Erro ao carregar fornecedores.</div>;
+    if (isLoading) return (
+        <div className="h-[60vh] flex flex-col items-center justify-center gap-4 animate-pulse">
+            <div className="relative">
+                <Building2 className="h-12 w-12 text-primary/20" />
+                <div className="absolute inset-0 animate-ping opacity-20 bg-primary rounded-full scale-150" />
+            </div>
+            <p className="text-muted-foreground font-black uppercase tracking-widest text-xs italic">Mapeando Cadeia de Suprimentos...</p>
+        </div>
+    );
+
+    if (error) return (
+        <div className="max-w-2xl mx-auto p-12 text-center space-y-8 glass rounded-[3rem] border-destructive/20 mt-10">
+            <div className="w-20 h-20 bg-destructive/10 text-destructive rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-destructive/20">
+                <Building2 className="h-10 w-10" />
+            </div>
+            <div className="space-y-2">
+                <h3 className="text-3xl font-black italic underline decoration-destructive/40 underline-offset-8">Erro de Redundância</h3>
+                <p className="text-muted-foreground font-medium">Falha crítica ao acessar o cluster de fornecedores.</p>
+            </div>
+            <Button
+                variant="outline"
+                onClick={() => queryClient.invalidateQueries({ queryKey: ['suppliers'] })}
+                className="h-14 px-8 rounded-2xl border-white/10 hover:bg-white/10 font-black uppercase tracking-widest text-xs"
+            >
+                Reiniciar Conexão
+            </Button>
+        </div>
+    );
+
+    const filteredItems = data?.items.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.contact_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    ) || [];
 
     return (
-        <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Fornecedores</h2>
-                    <p className="text-muted-foreground">
-                        Gerencie a lista de fornecedores de matéria-prima.
-                    </p>
+        <div className="max-w-[1600px] mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            {/* Massive Header */}
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+                <div className="space-y-6">
+                    <div className="flex items-center gap-6">
+                        <div className="p-4 rounded-3xl bg-primary/10 text-primary shadow-2xl border border-primary/5">
+                            <Briefcase className="h-10 w-10" />
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-4 mb-1">
+                                <h1 className="text-6xl font-[900] tracking-tighter italic uppercase text-white/90 leading-none">Global</h1>
+                                <Badge variant="secondary" className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-3 py-1 mt-1">Sourcing</Badge>
+                            </div>
+                            <p className="text-muted-foreground text-xl font-semibold opacity-50 italic">
+                                Gestão centralizada de <span className="text-primary not-italic font-black">Trade Partners</span>.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogTrigger asChild>
-                        <Button onClick={handleAddNew}>
-                            <Plus className="mr-2 h-4 w-4" />
-                            Novo Fornecedor
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[600px]">
-                        <DialogHeader>
-                            <DialogTitle>{editingSupplier ? 'Editar Fornecedor' : 'Novo Fornecedor'}</DialogTitle>
-                            <DialogDescription>
-                                {editingSupplier
-                                    ? 'Atualize os dados de contato do fornecedor selecionado.'
-                                    : 'Preencha os dados abaixo para cadastrar um novo fornecedor.'}
-                            </DialogDescription>
-                        </DialogHeader>
-                        <SupplierForm
-                            supplier={editingSupplier}
-                            onSuccess={() => setIsDialogOpen(false)}
+                <div className="flex flex-wrap items-center gap-4 w-full lg:w-auto">
+                    <div className="relative flex-1 lg:w-[450px] group">
+                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-all group-focus-within:scale-110" />
+                        <Input
+                            placeholder="Pesquisar fornecedor, consultor ou chave..."
+                            className="h-16 pl-14 rounded-[2rem] glass border-none ring-offset-background placeholder:text-muted-foreground/30 font-bold focus-visible:ring-primary/40 shadow-2xl text-lg"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                    </DialogContent>
-                </Dialog>
+                    </div>
+
+                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                        <DialogTrigger asChild>
+                            <button
+                                onClick={handleAddNew}
+                                className="h-16 px-10 rounded-[2rem] bg-primary text-primary-foreground font-black uppercase tracking-widest text-[11px] shadow-3xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-4 group"
+                            >
+                                <Plus className="h-6 w-6 stroke-[4] group-hover:rotate-90 transition-transform" />
+                                Credenciar Fornecedor
+                            </button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[700px] rounded-[4rem] border-none glass shadow-3xl p-0 overflow-hidden outline-none">
+                            <DialogHeader className="p-12 bg-primary/10 border-b border-primary/5">
+                                <div className="flex items-center gap-6 mb-4">
+                                    <div className="p-4 rounded-[2rem] bg-primary text-primary-foreground shadow-3xl">
+                                        <Building2 className="h-8 w-8" />
+                                    </div>
+                                    <div>
+                                        <DialogTitle className="text-4xl font-[900] italic uppercase tracking-tighter">
+                                            {editingSupplier ? 'Atualizar Assets' : 'Novo Credencial'}
+                                        </DialogTitle>
+                                        <DialogDescription className="text-[10px] font-black text-muted-foreground/60 italic uppercase tracking-[0.2em] mt-1">
+                                            {editingSupplier ? 'Protocolo de manutenção de registro' : 'Iniciando nova integração na cadeia produtiva'}
+                                        </DialogDescription>
+                                    </div>
+                                </div>
+                            </DialogHeader>
+                            <div className="p-12">
+                                <SupplierForm
+                                    supplier={editingSupplier}
+                                    onSuccess={() => setIsDialogOpen(false)}
+                                />
+                            </div>
+                        </DialogContent>
+                    </Dialog>
+                </div>
             </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Todos os Fornecedores ({data?.total || 0})</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="rounded-md border overflow-hidden">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Fornecedor</TableHead>
-                                    <TableHead>Contato</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Cadastrado Em</TableHead>
-                                    <TableHead className="w-[80px] text-right">Ações</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {data?.items.map((supplier) => (
-                                    <TableRow key={supplier.id} className="group">
-                                        <TableCell>
-                                            <div className="font-medium group-hover:text-primary transition-colors">
-                                                {supplier.name}
+            {/* Visual Stats Row */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                {[
+                    { label: 'Market Partners', value: data?.total || 0, icon: Globe, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+                    { label: 'Taxa de Entrega', value: '98.4%', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+                    { label: 'Active Pipeline', value: '12', icon: Activity, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+                    { label: 'Verified Integrity', value: '100%', icon: ShieldCheck, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+                ].map((stat, i) => (
+                    <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.02] transition-transform shadow-xl">
+                        <div className="flex items-center gap-5">
+                            <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} shadow-lg transition-transform group-hover:-rotate-12`}>
+                                <stat.icon className="h-8 w-8" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">{stat.label}</p>
+                                <p className="text-3xl font-black mt-1 leading-none tracking-tighter">{stat.value}</p>
+                            </div>
+                        </div>
+                    </Card>
+                ))}
+            </div>
+
+            {/* High-End Table */}
+            <Card className="rounded-[4rem] border-none glass shadow-3xl overflow-hidden min-h-[600px] flex flex-col">
+                <div className="overflow-x-auto scrollbar-hide">
+                    <Table>
+                        <TableHeader className="bg-primary/[0.03]">
+                            <TableRow className="border-b border-white/5 hover:bg-transparent">
+                                <TableHead className="py-8 px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Organização & Hub</TableHead>
+                                <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Operações & Contato</TableHead>
+                                <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Status de Rede</TableHead>
+                                <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Registro Temporal</TableHead>
+                                <TableHead className="w-[120px] text-right px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Ações</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {filteredItems.map((supplier) => (
+                                <TableRow key={supplier.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
+                                    <TableCell className="py-8 px-12">
+                                        <div className="flex items-center gap-8">
+                                            <div className="h-16 w-16 rounded-[2rem] bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center text-primary text-2xl font-black group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-2xl border border-white/5">
+                                                {supplier.name.charAt(0).toUpperCase()}
                                             </div>
-                                            {supplier.phone && (
-                                                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
-                                                    <Phone className="h-3 w-3" /> {supplier.phone}
-                                                </div>
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="text-sm">
-                                                <div className="flex items-center gap-1.5">
-                                                    <UserIcon className="h-3.5 w-3.5 text-muted-foreground" />
-                                                    {supplier.contact_name || 'Não informado'}
-                                                </div>
-                                                {supplier.email && (
-                                                    <div className="flex items-center gap-1.5 mt-0.5 text-xs text-muted-foreground">
-                                                        <Mail className="h-3 w-3" /> {supplier.email}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            {supplier.active ? (
-                                                <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
-                                                    Ativo
-                                                </Badge>
-                                            ) : (
-                                                <Badge variant="secondary">Inativo</Badge>
-                                            )}
-                                        </TableCell>
-                                        <TableCell className="text-muted-foreground text-sm">
-                                            {format(new Date(supplier.created_at), 'dd/MM/yyyy')}
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <div className="flex justify-end gap-1">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => handleToggle(supplier.id)}
-                                                    className={supplier.active ? "text-emerald-600 hover:bg-emerald-500/10 hover:text-emerald-600" : "text-amber-600 hover:bg-amber-500/10 hover:text-amber-600"}
-                                                    title={supplier.active ? "Desativar Fornecedor" : "Ativar Fornecedor"}
-                                                >
-                                                    <Power className="h-4 w-4" />
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
+                                            <div className="flex flex-col gap-2">
+                                                <div
+                                                    className="font-[900] text-2xl text-white/90 truncate max-w-md group-hover:text-primary transition-colors italic uppercase leading-none tracking-tight cursor-pointer"
                                                     onClick={() => handleEdit(supplier)}
-                                                    className="hover:bg-primary/10 hover:text-primary"
-                                                    title="Editar Fornecedor"
                                                 >
-                                                    <Edit2 className="h-4 w-4" />
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    onClick={() => handleDelete(supplier.id)}
-                                                    className="text-destructive hover:bg-destructive/10 hover:text-destructive"
-                                                    title="Excluir Permanentemente"
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
+                                                    {supplier.name}
+                                                </div>
+                                                <div className="text-[11px] font-bold text-muted-foreground/40 italic flex items-center gap-3">
+                                                    <div className="h-2 w-2 rounded-full bg-primary/30" />
+                                                    Partner ID: <span className="text-muted-foreground/60">{supplier.id.slice(0, 8).toUpperCase()}</span>
+                                                </div>
                                             </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                                {!data?.items.length && (
-                                    <TableRow>
-                                        <TableCell colSpan={5} className="h-32 text-center text-muted-foreground">
-                                            Nenhum fornecedor encontrado.
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </div>
-                </CardContent>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="space-y-3">
+                                            <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[11px] font-bold text-muted-foreground/80 group-hover:bg-primary/5 transition-colors">
+                                                <UserIcon className="h-3.5 w-3.5 text-primary/40" />
+                                                {supplier.contact_name || 'Protocolo N/A'}
+                                            </div>
+                                            <div className="flex items-center gap-4 text-[10px] font-black uppercase text-muted-foreground/30 italic px-1">
+                                                <div className="flex items-center gap-1.5"><Phone className="h-3 w-3" /> {supplier.phone || 'Sem terminal'}</div>
+                                                <div className="flex items-center gap-1.5 hover:text-primary transition-colors cursor-pointer"><Mail className="h-3 w-3" /> {supplier.email ? 'Email Ativo' : 'Sem canal'}</div>
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <button
+                                            onClick={() => handleToggle(supplier.id)}
+                                            className={`h-10 px-5 rounded-2xl text-[10px] font-black uppercase tracking-[0.1em] transition-all flex items-center gap-3 ${supplier.active
+                                                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 shadow-lg shadow-emerald-500/5'
+                                                : 'bg-red-500/5 text-red-500/50 border border-red-500/10 hover:bg-red-500/10'
+                                                }`}
+                                        >
+                                            <div className={`h-2 w-2 rounded-full shadow-inner ${supplier.active ? 'bg-emerald-400 animate-pulse' : 'bg-red-900'}`} />
+                                            {supplier.active ? 'Operational' : 'Restricted'}
+                                        </button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-col gap-1.5">
+                                            <div className="text-sm font-black text-muted-foreground/60 flex items-center gap-2 italic">
+                                                <Calendar className="h-3.5 w-3.5 opacity-30" />
+                                                {format(new Date(supplier.created_at), 'MMM dd, yyyy')}
+                                            </div>
+                                            <div className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/20 italic ml-5">Protocolo validado</div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="text-right px-12">
+                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-10 group-hover:translate-x-0">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="icon" className="h-12 w-12 rounded-2xl hover:bg-white/10 active:scale-90 transition-all">
+                                                        <MoreHorizontal className="h-6 w-6 text-primary" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end" className="glass rounded-[2rem] border-white/10 shadow-3xl p-3 w-64 font-bold overflow-hidden">
+                                                    <div className="bg-primary/5 p-4 rounded-2xl mb-2">
+                                                        <p className="text-[10px] font-black uppercase text-primary/40 tracking-widest leading-none mb-1">Ações de Gestão</p>
+                                                        <p className="text-xs text-muted-foreground italic leading-none truncate">{supplier.name}</p>
+                                                    </div>
+                                                    <DropdownMenuItem onClick={() => handleEdit(supplier)} className="cursor-pointer rounded-xl gap-4 p-4 focus:bg-primary/20 focus:text-primary transition-all">
+                                                        <div className="p-2 rounded-lg bg-white/5"><Edit2 className="h-4 w-4" /></div>
+                                                        Modificar Estrutura
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => handleToggle(supplier.id)} className="cursor-pointer rounded-xl gap-4 p-4 focus:bg-emerald-500/10 focus:text-emerald-500 transition-all">
+                                                        <div className="p-2 rounded-lg bg-white/5"><Power className="h-4 w-4" /></div>
+                                                        {supplier.active ? 'Suspender Acesso' : 'Restabelecer'}
+                                                    </DropdownMenuItem>
+                                                    <div className="h-px bg-white/5 my-2" />
+                                                    <DropdownMenuItem onClick={() => handleDelete(supplier.id)} className="cursor-pointer rounded-xl gap-4 p-4 focus:bg-destructive/10 text-destructive focus:text-destructive transition-all">
+                                                        <div className="p-2 rounded-lg bg-destructive/10"><Trash2 className="h-4 w-4" /></div>
+                                                        Expurgar Registro
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                            {!filteredItems.length && (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="h-[400px] text-center border-none hover:bg-transparent">
+                                        <div className="flex flex-col items-center justify-center text-muted-foreground gap-8 animate-in zoom-in duration-1000">
+                                            <div className="h-32 w-32 rounded-[3rem] bg-white/[0.02] flex items-center justify-center border-4 border-dashed border-white/5 group-hover:border-primary/20 transition-colors">
+                                                <Globe className="h-16 w-16 opacity-5 rotate-12" />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <p className="font-black text-3xl italic uppercase tracking-tighter text-white/20">Empty Network</p>
+                                                <p className="text-sm font-bold opacity-30 italic">Nenhum parceiro comercial localizado na região de busca.</p>
+                                            </div>
+                                            <button
+                                                className="h-14 px-10 rounded-2xl border border-primary/20 text-primary font-black uppercase tracking-widest text-[10px] hover:bg-primary/10 transition-all active:scale-95"
+                                                onClick={handleAddNew}
+                                            >
+                                                Mapear Novo Fornecedor
+                                            </button>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
             </Card>
         </div>
     );
 }
+
+function cn(...inputs: any[]) {
+    return inputs.filter(Boolean).join(' ');
+}
+

@@ -24,60 +24,84 @@ export default function Layout() {
     };
 
     return (
-        <div className="flex h-screen flex-col lg:flex-row bg-muted/20 overflow-hidden">
+        <div className="flex h-screen flex-col lg:flex-row bg-background/50 overflow-hidden">
             {/* Sidebar */}
             <aside
                 className={cn(
-                    "w-full lg:w-64 border-r bg-card shadow-sm flex-shrink-0 flex flex-col h-full",
+                    "w-full lg:w-72 glass border-r shadow-2xl flex-shrink-0 flex flex-col h-full z-20 transition-all duration-300 premium-sidebar",
                     isMobileMenuOpen ? "flex" : "hidden lg:flex"
                 )}
             >
-                <div className="p-6 border-b flex items-center justify-between">
-                    <h1 className="text-xl font-bold tracking-tight">MarkFace Hub</h1>
+                <div className="p-8 border-b flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+                            <Landmark className="h-6 w-6 text-primary-foreground" />
+                        </div>
+                        <h1 className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400">
+                            MarkFace
+                        </h1>
+                    </div>
                 </div>
 
-                <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/"><LayoutDashboard className="h-4 w-4" /> Visão Geral</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/products"><Package className="h-4 w-4" /> Produtos & Estoque</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/orders"><ShoppingCart className="h-4 w-4" /> Pedidos</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/suppliers"><Truck className="h-4 w-4" /> Fornecedores</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/raw-materials"><Scissors className="h-4 w-4" /> Matérias-Primas</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/customers"><UserIcon className="h-4 w-4" /> Clientes</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/costs"><DollarSign className="h-4 w-4" /> Custos de Produção</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/purchases"><ShoppingBag className="h-4 w-4" /> Compras</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/fixed-costs"><Landmark className="h-4 w-4" /> Gastos Fixos</Link>
-                    </Button>
+                <nav className="flex-1 p-6 space-y-1.5 overflow-y-auto">
+                    {[
+                        { to: "/", icon: LayoutDashboard, label: "Visão Geral" },
+                        { to: "/products", icon: Package, label: "Produtos & Estoque" },
+                        { to: "/orders", icon: ShoppingCart, label: "Pedidos" },
+                        { to: "/suppliers", icon: Truck, label: "Fornecedores" },
+                        { to: "/raw-materials", icon: Scissors, label: "Matérias-Primas" },
+                        { to: "/customers", icon: UserIcon, label: "Clientes" },
+                        { to: "/costs", icon: DollarSign, label: "Custos de Produção" },
+                        { to: "/purchases", icon: ShoppingBag, label: "Compras" },
+                        { to: "/fixed-costs", icon: Landmark, label: "Gastos Fixos" },
+                    ].map((item) => (
+                        <Button
+                            key={item.to}
+                            variant="ghost"
+                            className={cn(
+                                "w-full justify-start gap-3 h-12 rounded-xl transition-all duration-200 hover:bg-primary/5 group",
+                                window.location.pathname === item.to ? "nav-item-active" : "text-muted-foreground hover:text-foreground"
+                            )}
+                            asChild
+                            onClick={handleMenuClick}
+                        >
+                            <Link to={item.to}>
+                                <item.icon className={cn(
+                                    "h-5 w-5 transition-transform group-hover:scale-110",
+                                    window.location.pathname === item.to ? "text-primary" : ""
+                                )} />
+                                {item.label}
+                            </Link>
+                        </Button>
+                    ))}
 
-                    <div className="my-2 border-t" />
+                    <div className="my-6 border-t border-primary/10" />
 
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/import"><FileUp className="h-4 w-4" /> Importar Dados</Link>
-                    </Button>
-                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
-                        <Link to="/management"><Settings className="h-4 w-4" /> Gerenciamento</Link>
-                    </Button>
+                    {[
+                        { to: "/import", icon: FileUp, label: "Importar Dados" },
+                        { to: "/management", icon: Settings, label: "Gerenciamento" },
+                    ].map((item) => (
+                        <Button
+                            key={item.to}
+                            variant="ghost"
+                            className={cn(
+                                "w-full justify-start gap-3 h-12 rounded-xl transition-all duration-200 hover:bg-primary/5 group",
+                                window.location.pathname === item.to ? "nav-item-active" : "text-muted-foreground hover:text-foreground"
+                            )}
+                            asChild
+                            onClick={handleMenuClick}
+                        >
+                            <Link to={item.to}>
+                                <item.icon className="h-5 w-5" />
+                                {item.label}
+                            </Link>
+                        </Button>
+                    ))}
                 </nav>
 
-                <div className="p-4 border-t mt-auto">
-                    <Button variant="outline" className="w-full justify-start gap-2" onClick={handleLogout}>
-                        <LogOut className="h-4 w-4" /> Sair
+                <div className="p-6 border-t mt-auto">
+                    <Button variant="outline" className="w-full justify-start gap-3 h-12 rounded-xl border-dashed hover:border-destructive hover:text-destructive transition-colors" onClick={handleLogout}>
+                        <LogOut className="h-5 w-5" /> Sair
                     </Button>
                 </div>
             </aside>
@@ -85,37 +109,43 @@ export default function Layout() {
             {/* Main Content */}
             <main
                 className={cn(
-                    "flex-1 flex flex-col min-w-0 h-full overflow-hidden",
+                    "flex-1 flex flex-col min-w-0 h-full overflow-hidden relative",
                     !isMobileMenuOpen ? "flex" : "hidden lg:flex"
                 )}
             >
-                <header className="h-16 border-b bg-card flex items-center px-6 shadow-sm flex-shrink-0">
+                <header className="h-20 glass border-b flex items-center px-8 shadow-sm flex-shrink-0 z-10">
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="mr-2 lg:hidden"
+                        className="mr-4 lg:hidden rounded-xl bg-background shadow-sm border"
                         onClick={() => setIsMobileMenuOpen(true)}
                     >
-                        <Menu className="h-5 w-5" />
+                        <Menu className="h-6 w-6" />
                     </Button>
 
-                    <div className="ml-auto flex items-center gap-4">
+                    <div className="ml-auto flex items-center gap-6">
                         <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                            className="rounded-full"
+                            className="rounded-xl h-10 w-10 bg-background border shadow-sm hover:scale-110 transition-transform"
                         >
-                            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                            {theme === 'dark' ? <Sun className="h-5 w-5 text-yellow-500" /> : <Moon className="h-5 w-5 text-primary" />}
                         </Button>
-                        <span className="text-sm text-muted-foreground hidden sm:inline">Admin User</span>
-                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                            <span className="text-sm font-medium text-primary">AD</span>
+
+                        <div className="flex items-center gap-3 pl-4 border-l">
+                            <div className="text-right hidden sm:block">
+                                <p className="text-sm font-semibold leading-none">Admin Admin</p>
+                                <p className="text-xs text-muted-foreground mt-1">Gerente de Produção</p>
+                            </div>
+                            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-primary to-purple-500 flex items-center justify-center shadow-lg shadow-primary/20 text-primary-foreground font-bold">
+                                AD
+                            </div>
                         </div>
                     </div>
                 </header>
 
-                <div className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
+                <div className="flex-1 p-6 md:p-10 overflow-y-auto w-full relative">
                     <div className="max-w-7xl mx-auto">
                         <Outlet />
                     </div>
