@@ -42,11 +42,12 @@ def create_app() -> FastAPI:
     )
 
     # ── CORS ───────────────────────────────────────────────────────────────
-    # Em produção, permite as origens da Vercel
+    # Em produção, permite as origens da Vercel. 
+    # IMPORTANTE: Se allow_credentials=True, o allow_origins NÃO pode ser "*"
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"], # Permitindo tudo temporariamente para debugar o acesso do usuario
-        allow_credentials=True,
+        allow_origins=["*"], 
+        allow_credentials=False, # Removendo credentials para permitir wildcard "*"
         allow_methods=["*"],
         allow_headers=["*"],
     )
