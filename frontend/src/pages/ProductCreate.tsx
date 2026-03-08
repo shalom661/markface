@@ -11,9 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 
 export default function ProductCreate() {
@@ -130,60 +128,73 @@ export default function ProductCreate() {
                 </div>
             </div>
 
-            <Tabs value={type} onValueChange={(v: any) => setType(v)} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 h-14 bg-muted/50 p-1 mb-8">
-                    <TabsTrigger value="manufactured" className="text-lg gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all">
-                        <Scissors className="h-5 w-5" /> Fabricação Própria
-                    </TabsTrigger>
-                    <TabsTrigger value="resale" className="text-lg gap-2 data-[state=active]:bg-card transition-all">
-                        <Package className="h-5 w-5" /> Revenda
-                    </TabsTrigger>
-                </TabsList>
+            <div className="flex bg-muted/50 p-1 mb-8 rounded-lg h-14">
+                <button
+                    onClick={() => setType('manufactured')}
+                    className={`flex-1 flex items-center justify-center gap-2 text-lg rounded-md transition-all ${type === 'manufactured' ? 'bg-primary text-primary-foreground shadow' : 'hover:bg-background/50 text-muted-foreground'}`}
+                >
+                    <Scissors className="h-5 w-5" /> Fabricação Própria
+                </button>
+                <button
+                    onClick={() => setType('resale')}
+                    className={`flex-1 flex items-center justify-center gap-2 text-lg rounded-md transition-all ${type === 'resale' ? 'bg-card shadow' : 'hover:bg-background/50 text-muted-foreground'}`}
+                >
+                    <Package className="h-5 w-5" /> Revenda
+                </button>
+            </div>
 
-                {/* BASIC INFO CARD */}
-                <Card className="border-border/40 shadow-sm backdrop-blur-sm bg-card/95">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Shirt className="h-5 w-5 text-primary" /> Informações Básicas
-                        </CardTitle>
-                        <CardDescription>Nome, código e descrição do produto final.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label>Nome do Produto <span className="text-destructive">*</span></Label>
-                                <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Pijama Inverno Soft" />
-                            </div>
-                            <div className="space-y-2">
-                                <Label>Código Interno</Label>
-                                <Input value={internalCode} onChange={e => setInternalCode(e.target.value)} placeholder="Ex: PIJ-INV-001" />
-                            </div>
+            {/* BASIC INFO CARD */}
+            <Card className="border-border/40 shadow-sm backdrop-blur-sm bg-card/95">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <Shirt className="h-5 w-5 text-primary" /> Informações Básicas
+                    </CardTitle>
+                    <CardDescription>Nome, código e descrição do produto final.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <Label>Nome do Produto <span className="text-destructive">*</span></Label>
+                            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Pijama Inverno Soft" />
                         </div>
                         <div className="space-y-2">
-                            <Label>Descrição</Label>
-                            <Textarea
-                                value={description}
-                                onChange={e => setDescription(e.target.value)}
-                                placeholder="Detalhes adicionais sobre a peça..."
-                                className="resize-none"
-                                rows={3}
-                            />
+                            <Label>Código Interno</Label>
+                            <Input value={internalCode} onChange={e => setInternalCode(e.target.value)} placeholder="Ex: PIJ-INV-001" />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-                            <div className="space-y-2">
-                                <Label>Marca</Label>
-                                <Input value={brand} onChange={e => setBrand(e.target.value)} placeholder="Ex: MarkFace" />
-                            </div>
-                            <div className="flex items-center space-x-2 pt-6">
-                                <Switch checked={isActive} onCheckedChange={setIsActive} id="active-switch" />
-                                <Label htmlFor="active-switch" className="cursor-pointer">Produto Ativo</Label>
-                            </div>
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Descrição</Label>
+                        <Textarea
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
+                            placeholder="Detalhes adicionais sobre a peça..."
+                            className="resize-none"
+                            rows={3}
+                        />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                        <div className="space-y-2">
+                            <Label>Marca</Label>
+                            <Input value={brand} onChange={e => setBrand(e.target.value)} placeholder="Ex: MarkFace" />
                         </div>
-                    </CardContent>
-                </Card>
+                        <div className="flex items-center space-x-2 pt-6">
+                            <label className="flex items-center gap-3 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary Accent-primary"
+                                    checked={isActive}
+                                    onChange={e => setIsActive(e.target.checked)}
+                                />
+                                <span className="text-sm font-medium">Produto Ativo</span>
+                            </label>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
 
-                {/* FABRICAÇÃO PRÓPRIA TAB */}
-                <TabsContent value="manufactured" className="mt-6 space-y-6 animate-in slide-in-from-bottom-4 duration-300 relative">
+            {/* FABRICAÇÃO PRÓPRIA TAB */}
+            {type === 'manufactured' && (
+                <div className="mt-6 space-y-6 animate-in slide-in-from-bottom-4 duration-300 relative">
                     <Card className="border-border/40 shadow-sm">
                         <CardHeader>
                             <CardTitle>Ficha Técnica (Bill of Materials)</CardTitle>
@@ -239,10 +250,12 @@ export default function ProductCreate() {
                             </Button>
                         </CardContent>
                     </Card>
-                </TabsContent>
+                </div>
+            )}
 
-                {/* REVENDA TAB */}
-                <TabsContent value="resale" className="mt-6 space-y-6 animate-in slide-in-from-bottom-4 duration-300 relative">
+            {/* REVENDA TAB */}
+            {type === 'resale' && (
+                <div className="mt-6 space-y-6 animate-in slide-in-from-bottom-4 duration-300 relative">
                     <Card className="border-border/40 shadow-sm">
                         <CardHeader>
                             <CardTitle>Dados do Fornecedor</CardTitle>
@@ -274,9 +287,8 @@ export default function ProductCreate() {
                             </div>
                         </CardContent>
                     </Card>
-                </TabsContent>
-
-            </Tabs>
+                </div>
+            )}
 
             {/* Bottom Actions Fixed */}
             <div className="fixed bottom-0 left-0 right-0 p-4 border-t bg-background/80 backdrop-blur-md lg:left-64 flex justify-end gap-3 z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
