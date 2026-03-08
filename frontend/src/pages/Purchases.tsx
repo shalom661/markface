@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -170,6 +170,7 @@ export default function Purchases() {
                         <PurchasesTable
                             purchases={filteredPurchases('raw_material')}
                             isLoading={isLoading}
+                            openDialog={openDialog}
                         />
                     </Card>
                 </TabsContent>
@@ -179,6 +180,7 @@ export default function Purchases() {
                         <PurchasesTable
                             purchases={filteredPurchases('resale_product')}
                             isLoading={isLoading}
+                            openDialog={openDialog}
                         />
                     </Card>
                 </TabsContent>
@@ -193,7 +195,7 @@ export default function Purchases() {
     );
 }
 
-function PurchasesTable({ purchases, isLoading }: { purchases: any[], isLoading: boolean }) {
+function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[], isLoading: boolean, openDialog: (type: 'raw_material' | 'resale_product') => void }) {
     if (isLoading) return (
         <div className="p-32 text-center text-muted-foreground animate-pulse">
             <ShoppingCart className="h-12 w-12 mx-auto mb-6 opacity-10" />
