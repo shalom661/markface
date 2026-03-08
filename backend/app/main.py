@@ -42,19 +42,14 @@ def create_app() -> FastAPI:
     )
 
     # ── CORS ───────────────────────────────────────────────────────────────
-    # Configuração robusta para Vercel + Render
-    origins = [
-        "https://markface.vercel.app",
-        "http://localhost:5173",
-    ]
-    
+    # Configuração EXTREMAMENTE permissiva para debugar erro de rede/CORS
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
-        allow_origin_regex="https://markface-.*\.vercel\.app", # Suporte para deploys de preview do Vercel
-        allow_credentials=True,
+        allow_origins=["*"], # Voltando para "*" mas com allow_credentials=False para não quebrar o browser
+        allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],
+        expose_headers=["*"],
     )
 
     # ── Routers ────────────────────────────────────────────────────────────
