@@ -26,6 +26,49 @@ class ProductMaterialRead(ProductMaterialBase):
     model_config = {"from_attributes": True}
 
 
+# ── ProductVariant ─────────────────────────────────────────────────────────
+
+
+class VariantCreate(BaseModel):
+    sku: str = Field(min_length=1, max_length=120)
+    attributes: dict | None = None
+    price_default: Decimal = Field(default=Decimal("0.00"), ge=0)
+    cost: Decimal = Field(default=Decimal("0.00"), ge=0)
+    weight: Decimal | None = Field(default=None, ge=0)
+    height: Decimal | None = Field(default=None, ge=0)
+    width: Decimal | None = Field(default=None, ge=0)
+    length: Decimal | None = Field(default=None, ge=0)
+    active: bool = True
+
+
+class VariantUpdate(BaseModel):
+    sku: str | None = Field(default=None, min_length=1, max_length=120)
+    attributes: dict | None = None
+    price_default: Decimal | None = Field(default=None, ge=0)
+    cost: Decimal | None = Field(default=None, ge=0)
+    weight: Decimal | None = Field(default=None, ge=0)
+    height: Decimal | None = Field(default=None, ge=0)
+    width: Decimal | None = Field(default=None, ge=0)
+    length: Decimal | None = Field(default=None, ge=0)
+    active: bool | None = None
+
+
+class VariantRead(BaseModel):
+    id: uuid.UUID
+    product_id: uuid.UUID
+    sku: str
+    attributes: dict | None
+    price_default: Decimal
+    cost: Decimal
+    weight: Decimal | None
+    height: Decimal | None
+    width: Decimal | None
+    length: Decimal | None
+    active: bool
+
+    model_config = {"from_attributes": True}
+
+
 # ── Product ────────────────────────────────────────────────────────────────
 
 class ProductCreate(BaseModel):
@@ -77,47 +120,5 @@ class ProductRead(BaseModel):
     # Relationships
     materials: list[ProductMaterialRead] = []
     variants: list[VariantRead] = []
-
-    model_config = {"from_attributes": True}
-
-# ── ProductVariant ─────────────────────────────────────────────────────────
-
-
-class VariantCreate(BaseModel):
-    sku: str = Field(min_length=1, max_length=120)
-    attributes: dict | None = None
-    price_default: Decimal = Field(default=Decimal("0.00"), ge=0)
-    cost: Decimal = Field(default=Decimal("0.00"), ge=0)
-    weight: Decimal | None = Field(default=None, ge=0)
-    height: Decimal | None = Field(default=None, ge=0)
-    width: Decimal | None = Field(default=None, ge=0)
-    length: Decimal | None = Field(default=None, ge=0)
-    active: bool = True
-
-
-class VariantUpdate(BaseModel):
-    sku: str | None = Field(default=None, min_length=1, max_length=120)
-    attributes: dict | None = None
-    price_default: Decimal | None = Field(default=None, ge=0)
-    cost: Decimal | None = Field(default=None, ge=0)
-    weight: Decimal | None = Field(default=None, ge=0)
-    height: Decimal | None = Field(default=None, ge=0)
-    width: Decimal | None = Field(default=None, ge=0)
-    length: Decimal | None = Field(default=None, ge=0)
-    active: bool | None = None
-
-
-class VariantRead(BaseModel):
-    id: uuid.UUID
-    product_id: uuid.UUID
-    sku: str
-    attributes: dict | None
-    price_default: Decimal
-    cost: Decimal
-    weight: Decimal | None
-    height: Decimal | None
-    width: Decimal | None
-    length: Decimal | None
-    active: bool
 
     model_config = {"from_attributes": True}
