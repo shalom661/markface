@@ -21,8 +21,6 @@ interface VariantState {
         size: string;
         color: string;
     };
-    price_default: string;
-    cost: string;
     materials: Array<{
         raw_material_id: string;
         quantity: string;
@@ -79,8 +77,6 @@ export default function ProductEdit() {
                         size: v.attributes?.size || '',
                         color: v.attributes?.color || ''
                     },
-                    price_default: v.price_default.toString(),
-                    cost: v.cost ? v.cost.toString() : '0.00',
                     materials: v.materials ? v.materials.map((m: any) => ({
                         raw_material_id: m.raw_material_id,
                         quantity: m.quantity.toString(),
@@ -93,8 +89,6 @@ export default function ProductEdit() {
                 setVariants([{
                     sku: '',
                     attributes: { size: '', color: '' },
-                    price_default: '0.00',
-                    cost: '0.00',
                     materials: [],
                     isExpanded: true
                 }]);
@@ -151,8 +145,6 @@ export default function ProductEdit() {
             {
                 sku: '',
                 attributes: { size: '', color: '' },
-                price_default: '0.00',
-                cost: '0.00',
                 materials: [],
                 isExpanded: true
             }
@@ -247,8 +239,6 @@ export default function ProductEdit() {
                 id: v.id || null,
                 sku: v.sku,
                 attributes: v.attributes,
-                price_default: parseFloat(v.price_default),
-                cost: parseFloat(v.cost),
                 active: true,
                 materials: isManufactured ? v.materials
                     .filter(m => m.raw_material_id && parseFloat(m.quantity) > 0)
@@ -367,7 +357,7 @@ export default function ProductEdit() {
             <div className="space-y-4">
                 <div className="flex items-center justify-between px-1">
                     <h3 className="text-xl font-semibold flex items-center gap-2">
-                        <Package className="h-5 w-5 text-primary" /> VariaçõesAtivas
+                        <Package className="h-5 w-5 text-primary" /> Variações
                     </h3>
                     <Button onClick={handleAddVariant} variant="outline" size="sm" className="gap-2">
                         <Plus className="h-4 w-4" /> Nova Variação
@@ -439,25 +429,6 @@ export default function ProductEdit() {
                                         <Input
                                             value={variant.attributes.size}
                                             onChange={e => handleAttributeChange(vIdx, 'size', e.target.value)}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Custo (R$)</Label>
-                                        <Input
-                                            type="number"
-                                            value={variant.cost}
-                                            onChange={e => handleVariantChange(vIdx, { cost: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Preço (R$)</Label>
-                                        <Input
-                                            type="number"
-                                            value={variant.price_default}
-                                            onChange={e => handleVariantChange(vIdx, { price_default: e.target.value })}
                                         />
                                     </div>
                                 </div>

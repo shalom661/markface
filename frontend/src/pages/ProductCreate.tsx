@@ -20,8 +20,6 @@ interface VariantState {
         size: string;
         color: string;
     };
-    price_default: string;
-    cost: string;
     materials: Array<{
         raw_material_id: string;
         quantity: string;
@@ -53,8 +51,6 @@ export default function ProductCreate() {
         {
             sku: '',
             attributes: { size: '', color: '' },
-            price_default: '0.00',
-            cost: '0.00',
             materials: [],
             isExpanded: true
         }
@@ -110,8 +106,6 @@ export default function ProductCreate() {
             {
                 sku: '',
                 attributes: { size: '', color: '' },
-                price_default: '0.00',
-                cost: '0.00',
                 materials: [],
                 isExpanded: true
             }
@@ -204,8 +198,6 @@ export default function ProductCreate() {
             variants: variants.map(v => ({
                 sku: v.sku,
                 attributes: v.attributes,
-                price_default: parseFloat(v.price_default),
-                cost: parseFloat(v.cost),
                 active: true,
                 materials: isManufactured ? v.materials
                     .filter(m => m.raw_material_id && parseFloat(m.quantity) > 0)
@@ -387,25 +379,6 @@ export default function ProductCreate() {
                                             value={variant.attributes.size}
                                             onChange={e => handleAttributeChange(vIdx, 'size', e.target.value)}
                                             placeholder="Ex: G"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Custo Unitário (R$)</Label>
-                                        <Input
-                                            type="number"
-                                            value={variant.cost}
-                                            onChange={e => handleVariantChange(vIdx, { cost: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Preço de Venda (R$)</Label>
-                                        <Input
-                                            type="number"
-                                            value={variant.price_default}
-                                            onChange={e => handleVariantChange(vIdx, { price_default: e.target.value })}
                                         />
                                     </div>
                                 </div>

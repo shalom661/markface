@@ -37,6 +37,7 @@ class RawMaterial(UUIDMixin, TimestampMixin, Base):
     composition: Mapped[str | None] = mapped_column(String(255), nullable=True)
     minimum_order: Mapped[Decimal | None] = mapped_column(Numeric(12, 2), nullable=True)
     category_fields: Mapped[dict | None] = mapped_column(JSONBType, nullable=True, default=dict)
+    last_unit_price: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False, default=Decimal("0.00"))
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     # Relationships

@@ -12,6 +12,9 @@ import ProductEdit from '@/pages/ProductEdit';
 import Orders from '@/pages/Orders';
 import ImportPage from '@/pages/ImportPage';
 import Management from '@/pages/Management';
+import Costs from '@/pages/Costs';
+import Purchases from '@/pages/Purchases';
+import FixedCosts from '@/pages/FixedCosts';
 
 export default function App() {
   return (
@@ -30,6 +33,9 @@ export default function App() {
           <Route path="/customers" element={<Customers />} />
           <Route path="/import" element={<ImportPage />} />
           <Route path="/management" element={<Management />} />
+          <Route path="/costs" element={<Costs />} />
+          <Route path="/purchases" element={<Purchases />} />
+          <Route path="/fixed-costs" element={<FixedCosts />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

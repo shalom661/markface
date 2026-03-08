@@ -55,6 +55,7 @@ def create_app() -> FastAPI:
     # ── Routers ────────────────────────────────────────────────────────────
     from app.routers import auth, events, health, inventory, products, orders
     from app.routers import internal, suppliers, raw_materials, import_data, customers, categories, units
+    from app.api.endpoints import finance
     from app.routers.webhooks import woocommerce as woo_webhooks
 
     api_prefix = "/api/v1"
@@ -68,6 +69,7 @@ def create_app() -> FastAPI:
     app.include_router(customers.router, prefix=api_prefix)
     app.include_router(categories.router, prefix=api_prefix)
     app.include_router(units.router, prefix=api_prefix)
+    app.include_router(finance.router, prefix=api_prefix, tags=["finance"])
     app.include_router(import_data.router, prefix=api_prefix)
     app.include_router(woo_webhooks.router, prefix=api_prefix)
     app.include_router(internal.router)          # /internal — no api prefix

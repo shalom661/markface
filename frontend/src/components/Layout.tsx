@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, Outlet, Link } from 'react-router-dom';
-import { LogOut, Package, ShoppingCart, Truck, Scissors, LayoutDashboard, FileUp, Moon, Sun, User as UserIcon, Settings, Menu } from 'lucide-react';
+import { LogOut, Package, ShoppingCart, Truck, Scissors, LayoutDashboard, FileUp, Moon, Sun, User as UserIcon, Settings, Menu, DollarSign, ShoppingBag, Landmark } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
 import { cn } from '@/lib/utils';
@@ -26,7 +26,7 @@ export default function Layout() {
     return (
         <div className="flex h-screen flex-col lg:flex-row bg-muted/20 overflow-hidden">
             {/* Sidebar */}
-            <aside 
+            <aside
                 className={cn(
                     "w-full lg:w-64 border-r bg-card shadow-sm flex-shrink-0 flex flex-col h-full",
                     isMobileMenuOpen ? "flex" : "hidden lg:flex"
@@ -55,6 +55,15 @@ export default function Layout() {
                     <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
                         <Link to="/customers"><UserIcon className="h-4 w-4" /> Clientes</Link>
                     </Button>
+                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
+                        <Link to="/costs"><DollarSign className="h-4 w-4" /> Custos de Produção</Link>
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
+                        <Link to="/purchases"><ShoppingBag className="h-4 w-4" /> Compras</Link>
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground" asChild onClick={handleMenuClick}>
+                        <Link to="/fixed-costs"><Landmark className="h-4 w-4" /> Gastos Fixos</Link>
+                    </Button>
 
                     <div className="my-2 border-t" />
 
@@ -74,7 +83,7 @@ export default function Layout() {
             </aside>
 
             {/* Main Content */}
-            <main 
+            <main
                 className={cn(
                     "flex-1 flex flex-col min-w-0 h-full overflow-hidden",
                     !isMobileMenuOpen ? "flex" : "hidden lg:flex"

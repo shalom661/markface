@@ -21,17 +21,21 @@
 
 ## � Financeiro & Custos (Ficha Técnica)
 - [ ] GASTOS FIXOS (Aluguel, luz, funcionários, etc. para diluir no custo)
-  - [ ] _Adicione sub-tarefas aqui..._
+  - [ ] Cadastrar gastos fixos mensais
+  - [ ] Tela de gerenciamento de custos fixos
 - [ ] CÁLCULO DE CUSTO (Custo exato por produto final baseado nas matérias-primas e gastos)
-  - [ ] _Adicione sub-tarefas aqui..._
+  - [ ] Criar nova página de Custos
+  - [ ] Fórmula de cálculo: (Preço Médio Insumos) + % Gastos Fixos + Lucro Desejado
+  - [ ] Histórico de variação de custo
 
 ---
 
 ## 📦 Estoque & Compras
 - [ ] INPUT INDIVIDUAL (Entrada manual de produtos / matérias-primas)
-  - [ ] _Adicione sub-tarefas aqui..._
 - [ ] INPUT DE COMPRAS (Entrada baseada em nota fiscal ou pedido no fornecedor)
-  - [ ] _Adicione sub-tarefas aqui..._
+  - [ ] Nova página de Compras com Dashboards segmentados
+  - [ ] Registro de compra de Matéria-Prima (Atualiza custo base)
+  - [ ] Registro de compra de Peças para Revenda
 - [ ] ANÁLISE DE ESTOQUE PARADO (Relatórios de produtos/matérias-primas sem movimentação)
   - [ ] _Adicione sub-tarefas aqui..._
 - [ ] OPÇÃO DE DEVOLUÇÃO DE PRODUTOS (Retorno ao estoque por devolução de cliente ou defeito)
