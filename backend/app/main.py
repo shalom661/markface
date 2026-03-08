@@ -42,24 +42,30 @@ def create_app() -> FastAPI:
     )
 
     # ── CORS ───────────────────────────────────────────────────────────────
-    # Em produção, permite as origens da Vercel. 
-    # IMPORTANTE: Se allow_credentials=True, o allow_origins NÃO pode ser "*"
+    # Configuração robusta para Vercel + Render
+    origins = [
+        "https://markface.vercel.app",
+        "http://localhost:5173",
+    ]
+    
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"], 
-        allow_credentials=False, # Removendo credentials para permitir wildcard "*"
+        allow_origins=origins,
+        allow_origin_regex="https://markface-.*\.vercel\.app", # Suporte para deploys de preview do Vercel
+        allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
     )
 
     # ── Routers ────────────────────────────────────────────────────────────
-    from app.routers import auth, events, health, inventory, products
+    from app.routers import auth, events, health, inventory, products, orders
     from app.routers import internal, suppliers, raw_materials, import_data, customers, categories, units
     from app.routers.webhooks import woocommerce as woo_webhooks
 
     api_prefix = "/api/v1"
     app.include_router(auth.router, prefix=api_prefix)
     app.include_router(products.router, prefix=api_prefix)
+    app.include_router(orders.router, prefix=api_prefix)
     app.include_router(inventory.router, prefix=api_prefix)
     app.include_router(events.router, prefix=api_prefix)
     app.include_router(suppliers.router, prefix=api_prefix)
