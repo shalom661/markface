@@ -16,7 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ProductForm } from '@/components/forms/ProductForm';
 
 interface ProductVariant {
@@ -93,11 +93,6 @@ export default function Products() {
 
     const handleEdit = (product: Product) => {
         setEditingProduct(product);
-        setIsDialogOpen(true);
-    };
-
-    const handleAddNew = () => {
-        setEditingProduct(null);
         setIsDialogOpen(true);
     };
 
