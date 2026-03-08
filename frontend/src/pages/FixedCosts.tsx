@@ -12,13 +12,15 @@ export default function FixedCosts() {
     const [newDesc, setNewDesc] = useState('');
     const [newValue, setNewValue] = useState('');
 
-    const { data: costs = [] } = useQuery({
+    const { data: costs } = useQuery({
         queryKey: ['fixed-costs'],
         queryFn: async () => {
             const res = await api.get('/fixed-costs');
             return res.data;
         },
     });
+
+    const costsArr = Array.isArray(costs) ? costs : (costs?.items || []);
 
     const createMutation = useMutation({
         mutationFn: (newCost: any) => api.post('/fixed-costs', newCost),
@@ -65,7 +67,7 @@ export default function FixedCosts() {
             </Card>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {costs.map((cost: any) => (
+                {(costsArr || []).map((cost: any) => (
                     <Card key={cost.id}>
                         <CardContent className="pt-6 flex justify-between items-center">
                             <div>
