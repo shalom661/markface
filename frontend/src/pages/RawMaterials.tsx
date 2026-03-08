@@ -107,7 +107,24 @@ export default function RawMaterials() {
     };
 
     if (isLoading) return <div className="p-8 text-center text-muted-foreground">Carregando matérias-primas...</div>;
-    if (error) return <div className="p-8 text-center text-destructive">Erro ao carregar matérias-primas.</div>;
+    if (error) {
+        return (
+            <div className="p-8 text-center space-y-4">
+                <div className="text-destructive font-bold">Erro ao carregar matérias-primas.</div>
+                <div className="text-xs text-muted-foreground bg-muted p-4 rounded-md overflow-auto max-w-xl mx-auto">
+                    {error instanceof Error ? error.message : JSON.stringify(error)}
+                    {(error as any).response?.data?.detail && (
+                        <div className="mt-2 text-destructive-foreground font-mono">
+                            Detail: {JSON.stringify((error as any).response.data.detail)}
+                        </div>
+                    )}
+                </div>
+                <Button variant="outline" onClick={() => queryClient.invalidateQueries({ queryKey: ['raw-materials'] })}>
+                    Tentar Novamente
+                </Button>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
@@ -162,7 +179,7 @@ export default function RawMaterials() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {data?.items.map((item) => (
+                                {Array.isArray(data?.items) && data.items.map((item) => (
                                     <TableRow key={item.id}>
                                         <TableCell className="font-mono text-xs">{item.internal_code || '---'}</TableCell>
                                         <TableCell className="font-medium">{item.description}</TableCell>

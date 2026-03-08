@@ -5,6 +5,7 @@ Fires domain events automatically.
 """
 
 import uuid
+from decimal import Decimal
 from typing import Sequence
 
 from fastapi import HTTPException, status
@@ -58,7 +59,10 @@ async def create_raw_material(
                 detail=f"Código interno '{data.internal_code}' já existe.",
             )
 
-    material = RawMaterial(**data.model_dump())
+    material_data = data.model_dump()
+    if material_data.get("last_unit_price") is None:
+        material_data["last_unit_price"] = Decimal("0.00")
+    material = RawMaterial(**material_data)
     db.add(material)
     await db.flush()
     await create_event(
@@ -198,6 +202,7 @@ async def duplicate_raw_material(
         composition=source.composition,
         minimum_order=source.minimum_order,
         category_fields=dict(source.category_fields) if source.category_fields else None,
+        last_unit_price=source.last_unit_price,
         active=True,
     )
     db.add(new_material)
