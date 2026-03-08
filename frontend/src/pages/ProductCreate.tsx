@@ -61,10 +61,23 @@ export default function ProductCreate() {
             navigate('/products');
         },
         onError: (err: any) => {
+            let errorMsg = "Ocorreu um erro inesperado.";
+            const detail = err.response?.data?.detail;
+
+            if (typeof detail === 'string') {
+                errorMsg = detail;
+            } else if (Array.isArray(detail)) {
+                errorMsg = detail.map((d: any) => `${d.loc?.join('.') || 'Erro'}: ${d.msg}`).join('\n');
+            } else if (err.message) {
+                errorMsg = err.message;
+            }
+
+            console.error("DEBUG API ERROR:", err.response?.data);
+
             toast({
                 variant: "destructive",
-                title: "Erro ao criar",
-                description: err.response?.data?.detail || "Ocorreu um erro inesperado.",
+                title: "Falha na Criação",
+                description: <pre className="whitespace-pre-wrap font-sans text-xs">{errorMsg}</pre>,
             });
         }
     });
