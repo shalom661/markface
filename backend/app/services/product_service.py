@@ -23,37 +23,48 @@ from app.services.event_service import create_event
 
 async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
     data_dict = data.model_dump()
-    materials_data = data_dict.pop("materials", None)
+    variants_data = data_dict.pop("variants", [])
 
     product = Product(**data_dict)
     db.add(product)
     await db.flush() # Assigns ID
 
-    if product.is_manufactured and materials_data:
-        for mat in materials_data:
-            pm = ProductMaterial(
-                product_id=product.id,
-                raw_material_id=mat["raw_material_id"],
-                quantity=mat["quantity"],
-            )
-            db.add(pm)
+    for var_data in variants_data:
+        materials_data = var_data.pop("materials", None)
+        variant = ProductVariant(product_id=product.id, **var_data)
+        db.add(variant)
         await db.flush()
 
-    # Create event STILL WITHIN THE SAME TRANSACTION
+        if product.is_manufactured and materials_data:
+            for mat in materials_data:
+                pm = ProductMaterial(
+                    variant_id=variant.id,
+                    raw_material_id=mat["raw_material_id"],
+                    quantity=mat["quantity"],
+                    unit_override=mat.get("unit_override"),
+                )
+                db.add(pm)
+        
+        # Auto-create inventory with 0 stock
+        inventory = Inventory(variant_id=variant.id, stock_available=0, stock_reserved=0)
+        db.add(inventory)
+
+    await db.flush()
+
+    # Create event
     await create_event(
         db,
         "PRODUCT_CREATED",
         {"product_id": str(product.id), "name": product.name, "is_manufactured": product.is_manufactured},
     )
     
-    # FINAL STEP: Load the fully populated product with relationships 
-    # using selectinload to avoid any MissingGreenletError during serialization
+    # FINAL STEP: Load the fully populated product
     from sqlalchemy.orm import selectinload
     result = await db.execute(
         select(Product)
         .options(
-            selectinload(Product.materials),
-            selectinload(Product.variants)
+            selectinload(Product.variants).selectinload(ProductVariant.materials),
+            selectinload(Product.variants).selectinload(ProductVariant.inventory)
         )
         .where(Product.id == product.id)
     )
@@ -65,8 +76,8 @@ async def list_products(
 ) -> tuple[int, Sequence[Product]]:
     from sqlalchemy.orm import selectinload
     query = select(Product).options(
-        selectinload(Product.materials),
-        selectinload(Product.variants)
+        selectinload(Product.variants).selectinload(ProductVariant.materials),
+        selectinload(Product.variants).selectinload(ProductVariant.inventory)
     )
     if active_only:
         query = query.where(Product.active == True)  # noqa: E712
@@ -87,8 +98,8 @@ async def get_product_or_404(db: AsyncSession, product_id: uuid.UUID) -> Product
     result = await db.execute(
         select(Product)
         .options(
-            selectinload(Product.materials),
-            selectinload(Product.variants)
+            selectinload(Product.variants).selectinload(ProductVariant.materials),
+            selectinload(Product.variants).selectinload(ProductVariant.inventory)
         )
         .where(Product.id == product_id)
     )
@@ -103,23 +114,58 @@ async def update_product(
 ) -> Product:
     product = await get_product_or_404(db, product_id)
     data_dict = data.model_dump(exclude_unset=True)
-    materials_data = data_dict.pop("materials", None)
+    variants_data = data_dict.pop("variants", None)
 
     for field, value in data_dict.items():
         setattr(product, field, value)
 
-    # Re-sync materials if provided
-    if materials_data is not None:
-        # Manipulate relationship in memory to let cascade handle deletes and keep model ready for Pydantic
-        product.materials.clear()
-        if product.is_manufactured:
-            for mat in materials_data:
-                pm = ProductMaterial(
-                    product_id=product.id,
-                    raw_material_id=mat["raw_material_id"],
-                    quantity=mat["quantity"],
-                )
-                product.materials.append(pm)
+    # Re-sync variants if provided
+    if variants_data is not None:
+        # Simple implementation: Delete existing variants and re-create? 
+        # Actually, it's better to update by ID if present, but since we have 
+        # complex nested BOMs, a full replacement for this specific requirement
+        # might be easier if the user always sends the full state.
+        # But to be safe, let's try to match by ID.
+        
+        current_variant_ids = {v.id for v in product.variants}
+        updated_variant_ids = {uuid.UUID(str(v["id"])) for v in variants_data if v.get("id")}
+        
+        # 1. Remove variants that are not in the update
+        for variant in list(product.variants):
+            if variant.id not in updated_variant_ids:
+                await db.delete(variant)
+        
+        # 2. Update or Create variants
+        for v_data in variants_data:
+            v_id = v_data.pop("id", None)
+            materials_data = v_data.pop("materials", None)
+            
+            if v_id and v_id in current_variant_ids:
+                # Update existing
+                variant = next(v for v in product.variants if v.id == v_id)
+                for f, val in v_data.items():
+                    setattr(variant, f, val)
+            else:
+                # Create new
+                variant = ProductVariant(product_id=product.id, **v_data)
+                db.add(variant)
+                await db.flush()
+                # Inventory for new variant
+                inventory = Inventory(variant_id=variant.id, stock_available=0, stock_reserved=0)
+                db.add(inventory)
+
+            # Sync Materials (BOM) for this variant
+            if materials_data is not None:
+                variant.materials.clear()
+                if product.is_manufactured:
+                    for mat in materials_data:
+                        pm = ProductMaterial(
+                            variant_id=variant.id,
+                            raw_material_id=mat["raw_material_id"],
+                            quantity=mat["quantity"],
+                            unit_override=mat.get("unit_override"),
+                        )
+                        variant.materials.append(pm)
 
     await db.flush()
     
@@ -129,13 +175,13 @@ async def update_product(
         {"product_id": str(product.id), "changes": data.model_dump(exclude_unset=True)},
     )
     
-    # Reload with materials and variants for safe serialization
+    # Reload
     from sqlalchemy.orm import selectinload
     result = await db.execute(
         select(Product)
         .options(
-            selectinload(Product.materials),
-            selectinload(Product.variants)
+            selectinload(Product.variants).selectinload(ProductVariant.materials),
+            selectinload(Product.variants).selectinload(ProductVariant.inventory)
         )
         .where(Product.id == product.id)
     )

@@ -15,13 +15,14 @@ from pydantic import BaseModel, Field, model_validator
 class ProductMaterialBase(BaseModel):
     raw_material_id: uuid.UUID
     quantity: Decimal = Field(default=Decimal("1.0000"), ge=0)
+    unit_override: str | None = Field(default=None, max_length=50)
 
 class ProductMaterialCreate(ProductMaterialBase):
     pass
 
 class ProductMaterialRead(ProductMaterialBase):
     id: uuid.UUID
-    product_id: uuid.UUID
+    variant_id: uuid.UUID # Changed from product_id
     
     model_config = {"from_attributes": True}
 
@@ -29,9 +30,14 @@ class ProductMaterialRead(ProductMaterialBase):
 # ── ProductVariant ─────────────────────────────────────────────────────────
 
 
+# ── ProductVariant ─────────────────────────────────────────────────────────
+
 class VariantCreate(BaseModel):
     sku: str = Field(min_length=1, max_length=120)
-    attributes: dict | None = None
+    
+    # Attributes for Size/Color
+    attributes: dict = Field(default_factory=dict) # e.g. {"size": "P", "color": "Preto"}
+    
     price_default: Decimal = Field(default=Decimal("0.00"), ge=0)
     cost: Decimal = Field(default=Decimal("0.00"), ge=0)
     weight: Decimal | None = Field(default=None, ge=0)
@@ -39,9 +45,12 @@ class VariantCreate(BaseModel):
     width: Decimal | None = Field(default=None, ge=0)
     length: Decimal | None = Field(default=None, ge=0)
     active: bool = True
-
+    
+    # BOM per variant
+    materials: list[ProductMaterialCreate] | None = None
 
 class VariantUpdate(BaseModel):
+    id: uuid.UUID | None = None # Required if updating existing variant
     sku: str | None = Field(default=None, min_length=1, max_length=120)
     attributes: dict | None = None
     price_default: Decimal | None = Field(default=None, ge=0)
@@ -51,7 +60,9 @@ class VariantUpdate(BaseModel):
     width: Decimal | None = Field(default=None, ge=0)
     length: Decimal | None = Field(default=None, ge=0)
     active: bool | None = None
-
+    
+    # BOM updates
+    materials: list[ProductMaterialCreate] | None = None
 
 class VariantRead(BaseModel):
     id: uuid.UUID
@@ -65,6 +76,9 @@ class VariantRead(BaseModel):
     width: Decimal | None
     length: Decimal | None
     active: bool
+    
+    # Relationships
+    materials: list[ProductMaterialRead] = []
 
     model_config = {"from_attributes": True}
 
@@ -82,8 +96,8 @@ class ProductCreate(BaseModel):
     supplier_code: str | None = Field(default=None, max_length=120)
     supplier_id: uuid.UUID | None = None
     
-    # BOM
-    materials: list[ProductMaterialCreate] | None = None
+    # Variants (each with its own BOM)
+    variants: list[VariantCreate]
 
     @model_validator(mode="after")
     def check_supplier_for_resale(self) -> "ProductCreate":
@@ -102,8 +116,8 @@ class ProductUpdate(BaseModel):
     supplier_code: str | None = Field(default=None, max_length=120)
     supplier_id: uuid.UUID | None = None
     
-    # BOM updates (full replacement of the list if provided)
-    materials: list[ProductMaterialCreate] | None = None
+    # Variants updates
+    variants: list[VariantUpdate] | None = None
 
 class ProductRead(BaseModel):
     id: uuid.UUID
@@ -121,7 +135,6 @@ class ProductRead(BaseModel):
     updated_at: datetime
     
     # Relationships
-    materials: list[ProductMaterialRead] = []
     variants: list[VariantRead] = []
 
     model_config = {"from_attributes": True}

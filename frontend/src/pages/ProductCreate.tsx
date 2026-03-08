@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-    ArrowLeft, Save, Plus, Trash2, Package, Scissors, Shirt
+    ArrowLeft, Save, Plus, Trash2, Package, Scissors, Shirt, Copy, ChevronDown, ChevronUp
 } from 'lucide-react';
 
 import api from '@/lib/api';
@@ -12,14 +12,29 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
+interface VariantState {
+    sku: string;
+    attributes: {
+        size: string;
+        color: string;
+    };
+    price_default: string;
+    cost: string;
+    materials: Array<{
+        raw_material_id: string;
+        quantity: string;
+        unit_override?: string;
+    }>;
+    isExpanded?: boolean;
+}
 
 export default function ProductCreate() {
     const navigate = useNavigate();
     const { toast } = useToast();
     const queryClient = useQueryClient();
 
-    // Core Form State
     // Core Form State
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -33,8 +48,17 @@ export default function ProductCreate() {
     const [supplierId, setSupplierId] = useState<string>('');
     const [supplierCode, setSupplierCode] = useState('');
 
-    // Manufactured Specific (Bill of Materials)
-    const [materials, setMaterials] = useState<Array<{ raw_material_id: string, quantity: string }>>([]);
+    // Variations / BOM State
+    const [variants, setVariants] = useState<VariantState[]>([
+        {
+            sku: '',
+            attributes: { size: '', color: '' },
+            price_default: '0.00',
+            cost: '0.00',
+            materials: [],
+            isExpanded: true
+        }
+    ]);
 
     // Data Fetching for Dropdowns
     const { data: suppliersData } = useQuery({
@@ -56,7 +80,7 @@ export default function ProductCreate() {
             queryClient.invalidateQueries({ queryKey: ['products'] });
             toast({
                 title: "Produto criado!",
-                description: "O produto foi cadastrado com sucesso.",
+                description: "O produto e suas variações foram salvos com sucesso.",
             });
             navigate('/products');
         },
@@ -72,8 +96,6 @@ export default function ProductCreate() {
                 errorMsg = err.message;
             }
 
-            console.error("DEBUG API ERROR:", err.response?.data);
-
             toast({
                 variant: "destructive",
                 title: "Falha na Criação",
@@ -82,28 +104,79 @@ export default function ProductCreate() {
         }
     });
 
-    const handleAddMaterial = () => {
-        setMaterials([...materials, { raw_material_id: '', quantity: '1.0' }]);
+    const handleAddVariant = () => {
+        setVariants([
+            ...variants.map(v => ({ ...v, isExpanded: false })),
+            {
+                sku: '',
+                attributes: { size: '', color: '' },
+                price_default: '0.00',
+                cost: '0.00',
+                materials: [],
+                isExpanded: true
+            }
+        ]);
     };
 
-    const handleRemoveMaterial = (index: number) => {
-        setMaterials(materials.filter((_, i) => i !== index));
+    const handleDuplicateVariant = (index: number) => {
+        const source = variants[index];
+        const newVariant = JSON.parse(JSON.stringify(source));
+        newVariant.sku = ''; // Don't duplicate SKU
+        newVariant.isExpanded = true;
+
+        setVariants([
+            ...variants.map(v => ({ ...v, isExpanded: false })),
+            newVariant
+        ]);
+
+        toast({
+            title: "Variação duplicada",
+            description: "A nova variação foi criada com os mesmos insumos da anterior."
+        });
     };
 
-    const handleMaterialChange = (index: number, field: 'raw_material_id' | 'quantity', value: string) => {
-        const newMaterials = [...materials];
-        newMaterials[index][field] = value;
-        setMaterials(newMaterials);
+    const handleRemoveVariant = (index: number) => {
+        if (variants.length === 1) {
+            toast({ variant: "destructive", title: "Ação negada", description: "O produto deve ter pelo menos uma variação." });
+            return;
+        }
+        setVariants(variants.filter((_, i) => i !== index));
+    };
+
+    const handleVariantChange = (index: number, updates: Partial<VariantState>) => {
+        const newVariants = [...variants];
+        newVariants[index] = { ...newVariants[index], ...updates };
+        setVariants(newVariants);
+    };
+
+    const handleAttributeChange = (index: number, key: 'size' | 'color', value: string) => {
+        const newVariants = [...variants];
+        newVariants[index].attributes = { ...newVariants[index].attributes, [key]: value };
+        setVariants(newVariants);
+    };
+
+    // Material logic per variant
+    const handleAddMaterial = (variantIndex: number) => {
+        const newVariants = [...variants];
+        newVariants[variantIndex].materials.push({ raw_material_id: '', quantity: '1.0' });
+        setVariants(newVariants);
+    };
+
+    const handleRemoveMaterial = (variantIndex: number, materialIndex: number) => {
+        const newVariants = [...variants];
+        newVariants[variantIndex].materials = newVariants[variantIndex].materials.filter((_, i) => i !== materialIndex);
+        setVariants(newVariants);
+    };
+
+    const handleMaterialChange = (variantIndex: number, materialIndex: number, updates: any) => {
+        const newVariants = [...variants];
+        newVariants[variantIndex].materials[materialIndex] = { ...newVariants[variantIndex].materials[materialIndex], ...updates };
+        setVariants(newVariants);
     };
 
     const handleSave = () => {
-        if (!name.trim()) {
-            toast({ variant: "destructive", title: "Atenção", description: "O nome do produto é obrigatório." });
-            return;
-        }
-
-        if (!internalCode.trim()) {
-            toast({ variant: "destructive", title: "Atenção", description: "O código interno é obrigatório." });
+        if (!name.trim() || !internalCode.trim()) {
+            toast({ variant: "destructive", title: "Atenção", description: "Preencha o nome e o código interno do produto." });
             return;
         }
 
@@ -114,22 +187,37 @@ export default function ProductCreate() {
             return;
         }
 
+        // Validate variants
+        for (const [idx, v] of variants.entries()) {
+            if (!v.sku.trim()) {
+                toast({ variant: "destructive", title: "Atenção", description: `O SKU da variação ${idx + 1} é obrigatório.` });
+                return;
+            }
+        }
+
         const payload: any = {
             name,
             description: description || null,
             active: isActive,
             is_manufactured: isManufactured,
             internal_code: internalCode,
+            variants: variants.map(v => ({
+                sku: v.sku,
+                attributes: v.attributes,
+                price_default: parseFloat(v.price_default),
+                cost: parseFloat(v.cost),
+                active: true,
+                materials: isManufactured ? v.materials
+                    .filter(m => m.raw_material_id && parseFloat(m.quantity) > 0)
+                    .map(m => ({
+                        raw_material_id: m.raw_material_id,
+                        quantity: parseFloat(m.quantity),
+                        unit_override: m.unit_override || null
+                    })) : []
+            }))
         };
 
-        if (isManufactured) {
-            // Filter out incomplete materials
-            const validMaterials = materials.filter(m => m.raw_material_id && parseFloat(m.quantity) > 0);
-            payload.materials = validMaterials.map(m => ({
-                raw_material_id: m.raw_material_id,
-                quantity: parseFloat(m.quantity)
-            }));
-        } else {
+        if (!isManufactured) {
             payload.supplier_id = supplierId;
             payload.supplier_code = supplierCode || null;
         }
@@ -138,7 +226,7 @@ export default function ProductCreate() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-6 pb-20">
+        <div className="max-w-4xl mx-auto space-y-6 pb-20 mt-6">
             {/* Header Area */}
             <div className="flex items-center gap-4 mb-8">
                 <Button variant="outline" size="icon" onClick={() => navigate('/products')}>
@@ -146,11 +234,12 @@ export default function ProductCreate() {
                 </Button>
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">Novo Produto</h2>
-                    <p className="text-muted-foreground">Cadastre um novo item detalhando sua origem e composição.</p>
+                    <p className="text-muted-foreground">Configure variaçōes e ficha técnica individual.</p>
                 </div>
             </div>
 
-            <div className="flex bg-muted/50 p-1 mb-8 rounded-lg h-14">
+            {/* Type Selector */}
+            <div className="flex bg-muted/50 p-1 mb-6 rounded-lg h-14">
                 <button
                     onClick={() => setType('manufactured')}
                     className={`flex-1 flex items-center justify-center gap-2 text-lg rounded-md transition-all ${type === 'manufactured' ? 'bg-primary text-primary-foreground shadow' : 'hover:bg-background/50 text-muted-foreground'}`}
@@ -168,20 +257,19 @@ export default function ProductCreate() {
             {/* BASIC INFO CARD */}
             <Card className="border-border/40 shadow-sm backdrop-blur-sm bg-card/95">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <Shirt className="h-5 w-5 text-primary" /> Informações Básicas
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                        <Shirt className="h-5 w-5 text-primary" /> Informações do Cabeçalho
                     </CardTitle>
-                    <CardDescription>Nome, código e descrição do produto final.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label>Nome do Produto <span className="text-destructive">*</span></Label>
-                            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Pijama Inverno Soft" />
+                            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ex: Camiseta Básica Algodão" />
                         </div>
                         <div className="space-y-2">
                             <Label>Código Interno <span className="text-destructive">*</span></Label>
-                            <Input value={internalCode} onChange={e => setInternalCode(e.target.value)} placeholder="Ex: PIJ-INV-001" />
+                            <Input value={internalCode} onChange={e => setInternalCode(e.target.value)} placeholder="Ex: MOD-001" />
                         </div>
                     </div>
                     <div className="space-y-2">
@@ -189,133 +277,230 @@ export default function ProductCreate() {
                         <Textarea
                             value={description}
                             onChange={e => setDescription(e.target.value)}
-                            placeholder="Detalhes adicionais sobre a peça..."
+                            placeholder="Descrição geral do modelo..."
                             className="resize-none"
-                            rows={3}
+                            rows={2}
                         />
                     </div>
-                    <div className="flex items-center space-x-2">
-                        <label className="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary Accent-primary"
-                                checked={isActive}
-                                onChange={e => setIsActive(e.target.checked)}
-                            />
-                            <span className="text-sm font-medium">Produto Ativo</span>
-                        </label>
-                    </div>
+
+                    {type === 'resale' && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                            <div className="space-y-2">
+                                <Label>Fornecedor <span className="text-destructive">*</span></Label>
+                                <select
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
+                                    value={supplierId}
+                                    onChange={e => setSupplierId(e.target.value)}
+                                >
+                                    <option value="">Selecione o fornecedor...</option>
+                                    {suppliersData?.items?.map((sup: any) => (
+                                        <option key={sup.id} value={sup.id}>{sup.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Cód. no Fornecedor</Label>
+                                <Input value={supplierCode} onChange={e => setSupplierCode(e.target.value)} placeholder="Opcional" />
+                            </div>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
 
-            {/* FABRICAÇÃO PRÓPRIA TAB */}
-            {type === 'manufactured' && (
-                <div className="mt-6 space-y-6 animate-in slide-in-from-bottom-4 duration-300 relative">
-                    <Card className="border-border/40 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Ficha Técnica (Bill of Materials)</CardTitle>
-                            <CardDescription>
-                                Adicione as matérias-primas necessárias para construir 1 unidade deste produto.
-                                <br />Isto descontará automaticamente o estoque dos insumos quando o produto for fabricado.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            {materials.map((mat, idx) => (
-                                <div key={idx} className="flex items-end gap-3 p-4 border rounded-lg bg-muted/10 group hover:border-primary/30 transition-colors">
-                                    <div className="flex-1 space-y-2">
-                                        <Label className="text-xs text-muted-foreground">Insumo</Label>
-                                        <select
-                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                                            value={mat.raw_material_id}
-                                            onChange={e => handleMaterialChange(idx, 'raw_material_id', e.target.value)}
-                                        >
-                                            <option value="">Selecione a matéria prima...</option>
-                                            {rawMaterialsData?.items?.map((rm: any) => (
-                                                <option key={rm.id} value={rm.id}>
-                                                    [{rm.category}] {rm.description} ({rm.unit})
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div className="w-32 space-y-2">
-                                        <Label className="text-xs text-muted-foreground">Quantidade</Label>
-                                        <Input
-                                            type="number"
-                                            min="0.001"
-                                            step="0.001"
-                                            value={mat.quantity}
-                                            onChange={e => handleMaterialChange(idx, 'quantity', e.target.value)}
-                                        />
-                                    </div>
-                                    <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => handleRemoveMaterial(idx)}>
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </div>
-                            ))}
-
-                            {materials.length === 0 && (
-                                <div className="text-center p-8 border-2 border-dashed border-border/50 rounded-lg text-muted-foreground">
-                                    <Scissors className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                                    <p>Nenhuma matéria-prima adicionada.</p>
-                                    <p className="text-xs mt-1">Sua ficha técnica está vazia. Você pode adicionar insumos ou pular esta etapa se preferir deixar para depois.</p>
-                                </div>
-                            )}
-
-                            <Button variant="outline" className="w-full border-dashed gap-2" onClick={handleAddMaterial}>
-                                <Plus className="h-4 w-4" /> Adicionar Insumo
-                            </Button>
-                        </CardContent>
-                    </Card>
+            {/* VARIATIONS SECTION */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between px-1">
+                    <h3 className="text-xl font-semibold flex items-center gap-2">
+                        <Package className="h-5 w-5 text-primary" /> Variações & Ficha Técnica
+                    </h3>
+                    <Button onClick={handleAddVariant} variant="outline" size="sm" className="gap-2">
+                        <Plus className="h-4 w-4" /> Adicionar Variação
+                    </Button>
                 </div>
-            )}
 
-            {/* REVENDA TAB */}
-            {type === 'resale' && (
-                <div className="mt-6 space-y-6 animate-in slide-in-from-bottom-4 duration-300 relative">
-                    <Card className="border-border/40 shadow-sm">
-                        <CardHeader>
-                            <CardTitle>Dados do Fornecedor</CardTitle>
-                            <CardDescription>Para produtos que você apenas compra e revende sem modificação.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label>Fornecedor <span className="text-destructive">*</span></Label>
-                                    <select
-                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background disabled:cursor-not-allowed disabled:opacity-50"
-                                        value={supplierId}
-                                        onChange={e => setSupplierId(e.target.value)}
-                                    >
-                                        <option value="">Selecione o fornecedor...</option>
-                                        {suppliersData?.items?.map((sup: any) => (
-                                            <option key={sup.id} value={sup.id}>{sup.name}</option>
-                                        ))}
-                                    </select>
+                {variants.map((variant, vIdx) => (
+                    <Card key={vIdx} className={`border-border/40 shadow-sm overflow-hidden transition-all duration-200 ${variant.isExpanded ? 'ring-1 ring-primary/20' : ''}`}>
+                        <div
+                            className="bg-muted/30 p-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+                            onClick={() => handleVariantChange(vIdx, { isExpanded: !variant.isExpanded })}
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
+                                    {vIdx + 1}
                                 </div>
-                                <div className="space-y-2">
-                                    <Label>Código no Fornecedor (Opcional)</Label>
-                                    <Input
-                                        value={supplierCode}
-                                        onChange={e => setSupplierCode(e.target.value)}
-                                        placeholder="Ex: REF-ABC-999"
-                                    />
+                                <div>
+                                    <span className="font-medium text-sm">
+                                        {variant.sku || `Variação ${vIdx + 1}`}
+                                    </span>
+                                    {(variant.attributes.color || variant.attributes.size) && (
+                                        <span className="text-xs text-muted-foreground ml-2">
+                                            ({variant.attributes.color} / {variant.attributes.size})
+                                        </span>
+                                    )}
                                 </div>
                             </div>
-                        </CardContent>
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 text-muted-foreground"
+                                    onClick={(e) => { e.stopPropagation(); handleDuplicateVariant(vIdx); }}
+                                    title="Clonar esta variação"
+                                >
+                                    <Copy className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 text-destructive"
+                                    onClick={(e) => { e.stopPropagation(); handleRemoveVariant(vIdx); }}
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                                {variant.isExpanded ? <ChevronUp className="h-4 w-4 ml-2" /> : <ChevronDown className="h-4 w-4 ml-2" />}
+                            </div>
+                        </div>
+
+                        {variant.isExpanded && (
+                            <CardContent className="p-6 space-y-6 animate-in fade-in duration-300">
+                                {/* SKU and ATTRIBUTES */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-xs uppercase font-bold text-muted-foreground">SKU <span className="text-destructive">*</span></Label>
+                                        <Input
+                                            value={variant.sku}
+                                            onChange={e => handleVariantChange(vIdx, { sku: e.target.value })}
+                                            placeholder="Ex: MOD001-P-PRETO"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Cor</Label>
+                                        <Input
+                                            value={variant.attributes.color}
+                                            onChange={e => handleAttributeChange(vIdx, 'color', e.target.value)}
+                                            placeholder="Ex: Preto"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Tamanho</Label>
+                                        <Input
+                                            value={variant.attributes.size}
+                                            onChange={e => handleAttributeChange(vIdx, 'size', e.target.value)}
+                                            placeholder="Ex: G"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Custo Unitário (R$)</Label>
+                                        <Input
+                                            type="number"
+                                            value={variant.cost}
+                                            onChange={e => handleVariantChange(vIdx, { cost: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-xs uppercase font-bold text-muted-foreground">Preço de Venda (R$)</Label>
+                                        <Input
+                                            type="number"
+                                            value={variant.price_default}
+                                            onChange={e => handleVariantChange(vIdx, { price_default: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* BOM Section per variant */}
+                                {type === 'manufactured' && (
+                                    <div className="space-y-4 pt-2">
+                                        <div className="flex items-center justify-between">
+                                            <Label className="text-sm font-semibold">Insumos desta Variação</Label>
+                                            <Button variant="ghost" size="sm" onClick={() => handleAddMaterial(vIdx)} className="h-7 text-xs gap-1 text-primary">
+                                                <Plus className="h-3 w-3" /> Adicionar Matéria Prima
+                                            </Button>
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            {variant.materials.map((mat, mIdx) => (
+                                                <div key={mIdx} className="grid grid-cols-12 gap-2 items-end">
+                                                    <div className="col-span-6 lg:col-span-6 space-y-1">
+                                                        <select
+                                                            className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                                                            value={mat.raw_material_id}
+                                                            onChange={e => handleMaterialChange(vIdx, mIdx, { raw_material_id: e.target.value })}
+                                                        >
+                                                            <option value="">Selecione o insumo...</option>
+                                                            {rawMaterialsData?.items?.map((rm: any) => (
+                                                                <option key={rm.id} value={rm.id}>
+                                                                    {rm.description} ({rm.unit})
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-span-3 lg:col-span-2">
+                                                        <Input
+                                                            className="h-9"
+                                                            type="number"
+                                                            placeholder="Qtd"
+                                                            value={mat.quantity}
+                                                            onChange={e => handleMaterialChange(vIdx, mIdx, { quantity: e.target.value })}
+                                                        />
+                                                    </div>
+                                                    <div className="col-span-2 lg:col-span-3">
+                                                        <select
+                                                            className="flex h-9 w-full rounded-md border border-input bg-background px-2 py-1 text-xs shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                                                            value={mat.unit_override || ''}
+                                                            onChange={e => handleMaterialChange(vIdx, mIdx, { unit_override: e.target.value })}
+                                                        >
+                                                            <option value="">Unidade Padrão</option>
+                                                            <option value="metrose">Metros</option>
+                                                            <option value="gramas">Gramas</option>
+                                                            <option value="unidades">Unidades</option>
+                                                            <option value="litros">Litros</option>
+                                                            <option value="kg">Kg</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-span-1 flex justify-end">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-9 w-9 text-destructive"
+                                                            onClick={() => handleRemoveMaterial(vIdx, mIdx)}
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            ))}
+
+                                            {variant.materials.length === 0 && (
+                                                <div className="border border-dashed rounded-md p-6 text-center text-muted-foreground text-xs bg-muted/20">
+                                                    Nenhum insumo configurado para esta variação.
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </CardContent>
+                        )}
                     </Card>
-                </div>
-            )}
+                ))}
+
+                <Button variant="ghost" className="w-full border-dashed border h-16 text-muted-foreground hover:text-primary transition-all gap-2" onClick={handleAddVariant}>
+                    <Plus className="h-4 w-4" /> Criar Outra Variação (Ex: Tamanho Diferente)
+                </Button>
+            </div>
 
             {/* Bottom Actions Fixed */}
-            <div className="fixed bottom-0 left-0 right-0 p-4 border-t bg-background/80 backdrop-blur-md lg:left-64 flex justify-end gap-3 z-10 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+            <div className="fixed bottom-0 left-0 right-0 p-4 border-t bg-background/95 backdrop-blur-md lg:left-64 flex justify-end gap-3 z-10 shadow-lg">
                 <Button variant="ghost" onClick={() => navigate('/products')}>Cancelar</Button>
                 <Button
                     onClick={handleSave}
                     disabled={createMutation.isPending}
-                    className="gap-2 px-8 shadow-md hover:shadow-lg transition-all"
+                    className="gap-2 px-10 shadow-primary/20 shadow-lg"
                 >
                     <Save className="h-4 w-4" />
-                    {createMutation.isPending ? "Salvando..." : "Salvar Produto"}
+                    {createMutation.isPending ? "Salvando Tudo..." : "Finalizar Cadastro"}
                 </Button>
             </div>
         </div>

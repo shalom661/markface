@@ -36,9 +36,6 @@ class Product(UUIDMixin, TimestampMixin, Base):
         "ProductVariant", back_populates="product", lazy="selectin"
     )
     supplier: Mapped["Supplier | None"] = relationship("Supplier")
-    materials: Mapped[list["ProductMaterial"]] = relationship(
-        "ProductMaterial", back_populates="product", cascade="all, delete-orphan", lazy="selectin"
-    )
 
     def __repr__(self) -> str:
         return f"<Product id={self.id} name={self.name!r}>"
@@ -71,6 +68,9 @@ class ProductVariant(UUIDMixin, Base):
     product: Mapped["Product"] = relationship("Product", back_populates="variants")
     inventory: Mapped["Inventory"] = relationship(  # type: ignore[name-defined]
         "Inventory", back_populates="variant", uselist=False, lazy="selectin"
+    )
+    materials: Mapped[list["ProductMaterial"]] = relationship(
+        "ProductMaterial", back_populates="variant", cascade="all, delete-orphan", lazy="selectin"
     )
 
     def __repr__(self) -> str:
