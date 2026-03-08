@@ -71,7 +71,8 @@ export default function ImportPage() {
         if (!selected) return;
         const token = localStorage.getItem('token');
         const encodedToken = encodeURIComponent(token ?? '');
-        const url = `http://localhost:8000/api/v1/import/template/${selected.key}?token=${encodedToken}`;
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+        const url = `${baseUrl}/import/template/${selected.key}?token=${encodedToken}`;
         window.open(url, '_blank');
     };
 
