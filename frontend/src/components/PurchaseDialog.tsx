@@ -106,7 +106,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         : products.filter((p: any) => !p.is_manufactured).flatMap((p: any) =>
             p.variants.map((v: any) => ({
                 id: v.id,
-                name: `${p.name} (${Object.entries(v.attributes).map(([, v]) => v).join('/')})`
+                name: `${p.name} (${Object.entries(v.attributes || {}).map(([, v]) => v).join('/')})`
             }))
         );
 

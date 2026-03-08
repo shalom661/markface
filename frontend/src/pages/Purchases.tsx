@@ -65,7 +65,7 @@ export default function Purchases() {
                                         <TableRow key={purchase.id}>
                                             <TableCell>{new Date(purchase.purchase_date).toLocaleDateString('pt-BR')}</TableCell>
                                             <TableCell>{purchase.supplier?.name || 'N/A'}</TableCell>
-                                            <TableCell className="text-right font-medium">R$ {Number(purchase.total_value || 0).toFixed(2).replace('.', ',')}</TableCell>
+                                            <TableCell className="text-right font-medium">R$ {Number(purchase.total_value || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</TableCell>
                                             <TableCell className="text-right">
                                                 <Button variant="ghost" size="sm">Ver Detalhes</Button>
                                             </TableCell>
