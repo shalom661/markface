@@ -11,6 +11,7 @@ from typing import Sequence
 from fastapi import HTTPException, status
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.models.raw_material import RawMaterial
 from app.schemas.raw_material import RawMaterialCreate, RawMaterialUpdate

@@ -11,7 +11,7 @@ import sqlalchemy as sa
 from alembic import op
 
 revision: str = "005_add_last_unit_price"
-down_revision: Union[str, None] = "41b9eceb14c2_link_materials_to_variants"
+down_revision: Union[str, None] = "41b9eceb14c2"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
