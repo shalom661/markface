@@ -32,15 +32,14 @@ export default function Layout() {
                     isMobileMenuOpen ? "flex" : "hidden lg:flex"
                 )}
             >
-                <div className="p-8 border-b flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
-                            <Landmark className="h-6 w-6 text-primary-foreground" />
-                        </div>
-                        <h1 className="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400">
-                            MarkFace
-                        </h1>
-                    </div>
+                <div className="p-8 border-b flex items-center justify-center">
+                    <Link to="/" className="flex items-center justify-center">
+                        <img
+                            src="/src/assets/markface-logo.png"
+                            alt="MarkFace Logo"
+                            className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-sm"
+                        />
+                    </Link>
                 </div>
 
                 <nav className="flex-1 p-6 space-y-1.5 overflow-y-auto">

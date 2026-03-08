@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Lock, Mail, ShieldCheck, Zap, ArrowRight, Activity, Loader2 } from 'lucide-react';
+import { Lock, Mail, Zap, ArrowRight, Activity, Loader2 } from 'lucide-react';
 
 export default function Login() {
     const [email, setEmail] = useState('admin@markface.com');
@@ -43,21 +43,20 @@ export default function Login() {
             </div>
 
             <div className="relative z-10 w-full max-w-[500px] p-8 animate-in fade-in zoom-in slide-in-from-bottom-12 duration-1000">
-                <div className="mb-14 text-center space-y-6">
+                <div className="mb-14 text-center space-y-8">
                     <div className="relative inline-block group">
-                        <div className="absolute inset-0 bg-primary/30 blur-2xl group-hover:blur-3xl transition-all duration-500 opacity-50" />
-                        <div className="relative inline-block p-6 rounded-[2.5rem] bg-gradient-to-br from-white/10 to-transparent border border-white/10 mb-2 backdrop-blur-xl group-hover:scale-110 transition-transform duration-500">
-                            <ShieldCheck className="h-12 w-12 text-primary" />
-                        </div>
+                        <div className="absolute inset-0 bg-primary/20 blur-3xl group-hover:blur-[100px] transition-all duration-1000 opacity-60" />
+                        <img
+                            src="/src/assets/markface-logo.png"
+                            alt="MarkFace Logo"
+                            className="relative h-24 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(var(--primary),0.3)] animate-float"
+                        />
                     </div>
 
                     <div className="space-y-4">
-                        <h1 className="text-8xl font-[1000] tracking-[calc(-0.06em)] text-white uppercase italic leading-[0.85] flex flex-col items-center">
-                            MARK<span className="text-primary italic animate-pulse-subtle">FACE</span>
-                        </h1>
                         <div className="flex items-center justify-center gap-3">
                             <div className="h-px w-8 bg-white/10" />
-                            <p className="text-muted-foreground text-[10px] font-black tracking-[0.4em] uppercase opacity-40 italic">Premium Intelligence Hub</p>
+                            <p className="text-muted-foreground text-[10px] font-black tracking-[0.4em] uppercase opacity-40 italic">Intelligence Hub</p>
                             <div className="h-px w-8 bg-white/10" />
                         </div>
                     </div>
