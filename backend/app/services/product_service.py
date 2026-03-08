@@ -44,6 +44,9 @@ async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
     else:
         product.materials = []
 
+    await db.commit() # Commit to ensure all triggers/defaults are applied
+    await db.refresh(product, ["materials"]) # Refresh with relationships
+
     await create_event(
         db,
         "PRODUCT_CREATED",
@@ -106,6 +109,9 @@ async def update_product(
                 product.materials.append(pm)
 
     await db.flush()
+    await db.commit()
+    await db.refresh(product, ["materials"])
+    
     await create_event(
         db,
         "PRODUCT_UPDATED",
