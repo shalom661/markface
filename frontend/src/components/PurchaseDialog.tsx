@@ -107,10 +107,10 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     // Get options for items (raw materials or product variants)
     const itemOptions = type === 'raw_material'
         ? rawMaterialsArr
-        : productsArr.filter((p: any) => !p.is_manufactured).flatMap((p: any) =>
-            (p.variants || []).map((v: any) => ({
+        : productsArr.filter((p: any) => p && !p.is_manufactured).flatMap((p: any) =>
+            (p.variants || []).filter((v: any) => v).map((v: any) => ({
                 id: v.id,
-                name: `${p.name} (${Object.entries(v.attributes || {}).map(([, v]) => v).join('/')})`
+                name: `${p.name || 'Sem Nome'} (${Object.entries(v.attributes || {}).map(([, v]) => v).join('/')})`
             }))
         );
 
@@ -129,8 +129,8 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
                                 <SelectValue placeholder="Selecione o fornecedor" />
                             </SelectTrigger>
                             <SelectContent>
-                                {suppliersArr.map((s: any) => (
-                                    <SelectItem key={s.id} value={s.id}>{s.name || 'Sem Nome'}</SelectItem>
+                                {suppliersArr.filter((s: any) => s).map((s: any) => (
+                                    <SelectItem key={s.id || Math.random()} value={s.id || ''}>{s.name || 'Sem Nome'}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -153,8 +153,8 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
                                             <SelectValue placeholder="Selecione..." />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {(itemOptions || []).map((opt: any) => (
-                                                <SelectItem key={opt.id} value={opt.id}>{opt.name || 'Sem Identificação'}</SelectItem>
+                                            {(itemOptions || []).filter((opt: any) => opt).map((opt: any) => (
+                                                <SelectItem key={opt.id || Math.random()} value={opt.id || ''}>{opt.name || 'Sem Identificação'}</SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
