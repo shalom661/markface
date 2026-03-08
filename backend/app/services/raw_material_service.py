@@ -84,35 +84,46 @@ async def list_raw_materials(
     page: int = 1,
     page_size: int = 20,
 ) -> tuple[int, Sequence[RawMaterial]]:
-    # Base filters
-    filters = []
-    if category:
-        filters.append(RawMaterial.category.ilike(category))
-    if supplier_id:
-        filters.append(RawMaterial.supplier_id == supplier_id)
-    if search:
-        pattern = f"%{search}%"
-        filters.append(
-            RawMaterial.description.ilike(pattern)
-            | RawMaterial.internal_code.ilike(pattern)
+    try:
+        # Base filters
+        filters = []
+        if category:
+            filters.append(RawMaterial.category.ilike(category))
+        if supplier_id:
+            filters.append(RawMaterial.supplier_id == supplier_id)
+        if search:
+            pattern = f"%{search}%"
+            filters.append(
+                RawMaterial.description.ilike(pattern)
+                | RawMaterial.internal_code.ilike(pattern)
+            )
+
+        # Count query
+        count_q = select(func.count(RawMaterial.id))
+        if filters:
+            count_q = count_q.where(*filters)
+        total_res = await db.execute(count_q)
+        total = total_res.scalar() or 0
+
+        # Data query with eager loading
+        query = select(RawMaterial).options(selectinload(RawMaterial.supplier))
+        if filters:
+            query = query.where(*filters)
+        
+        query = query.order_by(RawMaterial.created_at.desc())
+        query = query.offset((page - 1) * page_size).limit(page_size)
+
+        items_res = await db.execute(query)
+        items = items_res.scalars().all()
+        return total, items
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        # No production use isso! Apenas para debugar o erro 500 persistente.
+        raise HTTPException(
+            status_code=500,
+            detail=f"DEBUG ERROR: {str(e)}\n\n{tb}"
         )
-
-    # Count query
-    count_q = select(func.count(RawMaterial.id))
-    if filters:
-        count_q = count_q.where(*filters)
-    total = (await db.execute(count_q)).scalar() or 0
-
-    # Data query with eager loading
-    query = select(RawMaterial).options(selectinload(RawMaterial.supplier))
-    if filters:
-        query = query.where(*filters)
-    
-    query = query.order_by(RawMaterial.created_at.desc())
-    query = query.offset((page - 1) * page_size).limit(page_size)
-
-    items = (await db.execute(query)).scalars().all()
-    return total, items
 
 
 async def get_raw_material_or_404(
