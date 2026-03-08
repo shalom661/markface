@@ -9,7 +9,6 @@ import {
     ArrowDownRight,
     ShoppingBag,
     Activity,
-    Calendar,
     MousePointer2,
     Zap,
     Crown,
@@ -161,7 +160,7 @@ export default function Dashboard() {
                                     <div
                                         key={i}
                                         className="flex-1 bg-gradient-to-t from-primary/5 to-primary/20 rounded-t-2xl hover:from-primary/20 hover:to-primary transition-all relative group cursor-pointer"
-                                        style={{ height: `${h}%` }}
+                                        style={{ height: `${h}% ` }}
                                     >
                                         <div className="absolute -top-12 left-1/2 -translate-x-1/2 glass text-white text-[10px] font-black py-1.5 px-3 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-all transform scale-50 group-hover:scale-100">
                                             {h}%

@@ -7,17 +7,14 @@ import {
     Power,
     Scissors,
     Package,
-    Truck,
     Search,
     Filter,
-    ArrowUpDown,
     Check,
     AlertCircle,
     Boxes,
     Layers,
-    History,
-    MoreHorizontal,
-    SquareStack
+    SquareStack,
+    History
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useToast } from "@/hooks/use-toast";
@@ -31,12 +28,11 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { RawMaterialForm } from '@/components/forms/RawMaterialForm';
 import { Input } from '@/components/ui/input';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 interface RawMaterial {
     id: string;
@@ -275,7 +271,7 @@ export default function RawMaterials() {
                                 <Filter className="h-4 w-4" />
                             </Button>
                             <Button variant="ghost" size="icon" className="h-10 w-10 border border-white/5 rounded-xl hover:bg-white/5">
-                                <ArrowUpDown className="h-4 w-4" />
+                                <Plus className="h-4 w-4" />
                             </Button>
                         </div>
                     </div>
@@ -342,25 +338,16 @@ export default function RawMaterials() {
                                             </button>
                                         </TableCell>
                                         <TableCell className="text-right px-10">
-                                            <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-white/10">
-                                                            <MoreHorizontal className="h-5 w-5" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end" className="glass rounded-2xl border-white/10 shadow-2xl p-2 w-48">
-                                                        <DropdownMenuItem onClick={() => handleEdit(item)} className="cursor-pointer rounded-xl font-bold gap-3 focus:bg-primary/20 focus:text-primary">
-                                                            <Edit2 className="h-4 w-4" /> Editar Insumo
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => handleToggle(item.id)} className="cursor-pointer rounded-xl font-bold gap-3 focus:bg-emerald-500/10 focus:text-emerald-500">
-                                                            <Power className="h-4 w-4" /> {item.active ? 'Desativar' : 'Ativar'}
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => handleDelete(item.id)} className="cursor-pointer rounded-xl font-bold gap-3 focus:bg-destructive/10 text-destructive focus:text-destructive">
-                                                            <Trash2 className="h-4 w-4" /> Deletar Insumo
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
+                                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                                                <Button variant="ghost" size="icon" onClick={() => handleEdit(item)} className="h-8 w-8 rounded-lg hover:bg-primary/20 hover:text-primary">
+                                                    <Edit2 className="h-4 w-4" />
+                                                </Button>
+                                                <Button variant="ghost" size="icon" onClick={() => handleToggle(item.id)} className="h-8 w-8 rounded-lg hover:bg-emerald-500/10 hover:text-emerald-500">
+                                                    <Power className="h-4 w-4" />
+                                                </Button>
+                                                <Button variant="ghost" size="icon" onClick={() => handleDelete(item.id)} className="h-8 w-8 rounded-lg hover:bg-destructive/10 hover:text-destructive">
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -398,6 +385,4 @@ export default function RawMaterials() {
     );
 }
 
-function cn(...inputs: (string | boolean | undefined | null)[]) {
-    return inputs.filter(Boolean).join(' ');
-}
+

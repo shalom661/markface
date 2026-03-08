@@ -10,12 +10,9 @@ import {
     Truck,
     Search,
     Filter,
-    ArrowUpDown,
     CheckCircle2,
     AlertCircle,
     LayoutGrid,
-    MoreHorizontal,
-    ExternalLink,
     Boxes,
     BarChart3
 } from 'lucide-react';
@@ -31,11 +28,10 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from '@/components/ui/input';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 interface ProductVariant {
     id: string;
@@ -197,8 +193,8 @@ export default function Products() {
                                 <button
                                     onClick={() => handleToggle(product.id)}
                                     className={`w-28 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${product.active
-                                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20'
-                                            : 'bg-slate-500/10 text-slate-400 border border-slate-500/20 hover:bg-slate-500/20'
+                                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20'
+                                        : 'bg-slate-500/10 text-slate-400 border border-slate-500/20 hover:bg-slate-500/20'
                                         }`}
                                 >
                                     {product.active ? 'Publicado' : 'Rascunho'}
@@ -217,25 +213,16 @@ export default function Products() {
                                 </div>
                             </TableCell>
                             <TableCell className="text-right px-10">
-                                <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-white/10">
-                                                <MoreHorizontal className="h-5 w-5" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end" className="glass rounded-2xl border-white/10 shadow-2xl p-2 w-48">
-                                            <DropdownMenuItem onClick={() => handleEdit(product.id)} className="cursor-pointer rounded-xl font-bold gap-3 focus:bg-primary/20 focus:text-primary">
-                                                <Edit2 className="h-4 w-4" /> Editar Produto
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => handleToggle(product.id)} className="cursor-pointer rounded-xl font-bold gap-3 focus:bg-emerald-500/10 focus:text-emerald-500">
-                                                <Power className="h-4 w-4" /> {product.active ? 'Desativar' : 'Ativar'}
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => handleDelete(product.id)} className="cursor-pointer rounded-xl font-bold gap-3 focus:bg-destructive/10 text-destructive focus:text-destructive">
-                                                <Trash2 className="h-4 w-4" /> Excluir Registro
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
+                                <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                                    <Button variant="ghost" size="icon" onClick={() => handleEdit(product.id)} className="h-8 w-8 rounded-lg hover:bg-primary/20 hover:text-primary">
+                                        <Edit2 className="h-4 w-4" />
+                                    </Button>
+                                    <Button variant="ghost" size="icon" onClick={() => handleToggle(product.id)} className="h-8 w-8 rounded-lg hover:bg-emerald-500/10 hover:text-emerald-500">
+                                        <Power className="h-4 w-4" />
+                                    </Button>
+                                    <Button variant="ghost" size="icon" onClick={() => handleDelete(product.id)} className="h-8 w-8 rounded-lg hover:bg-destructive/10 hover:text-destructive">
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -382,7 +369,5 @@ export default function Products() {
     );
 }
 
-function cn(...inputs: any[]) {
-    return inputs.filter(Boolean).join(' ');
-}
+
 

@@ -9,18 +9,10 @@ import {
     Trash2,
     Power,
     Building2,
-    ExternalLink,
     Search,
-    Filter,
-    MoreHorizontal,
-    Globe,
-    Briefcase,
     Zap,
-    MapPin,
     Calendar,
-    Settings,
-    ShieldCheck,
-    Activity
+    ShieldCheck
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useToast } from "@/hooks/use-toast";
@@ -33,10 +25,9 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { format } from 'date-fns';
 import {
     Dialog,
@@ -176,7 +167,7 @@ export default function Suppliers() {
                 <div className="space-y-6">
                     <div className="flex items-center gap-6">
                         <div className="p-4 rounded-3xl bg-primary/10 text-primary shadow-2xl border border-primary/5">
-                            <Briefcase className="h-10 w-10" />
+                            <Building2 className="h-10 w-10" />
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-1">
@@ -241,9 +232,9 @@ export default function Suppliers() {
             {/* Visual Stats Row */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
-                    { label: 'Market Partners', value: data?.total || 0, icon: Globe, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+                    { label: 'Market Partners', value: data?.total || 0, icon: Building2, color: 'text-blue-400', bg: 'bg-blue-500/10' },
                     { label: 'Taxa de Entrega', value: '98.4%', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-                    { label: 'Active Pipeline', value: '12', icon: Activity, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+                    { label: 'Active Pipeline', value: '12', icon: Zap, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
                     { label: 'Verified Integrity', value: '100%', icon: ShieldCheck, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat, i) => (
                     <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.02] transition-transform shadow-xl">
@@ -329,33 +320,16 @@ export default function Suppliers() {
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-right px-12">
-                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-10 group-hover:translate-x-0">
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" size="icon" className="h-12 w-12 rounded-2xl hover:bg-white/10 active:scale-90 transition-all">
-                                                        <MoreHorizontal className="h-6 w-6 text-primary" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end" className="glass rounded-[2rem] border-white/10 shadow-3xl p-3 w-64 font-bold overflow-hidden">
-                                                    <div className="bg-primary/5 p-4 rounded-2xl mb-2">
-                                                        <p className="text-[10px] font-black uppercase text-primary/40 tracking-widest leading-none mb-1">Ações de Gestão</p>
-                                                        <p className="text-xs text-muted-foreground italic leading-none truncate">{supplier.name}</p>
-                                                    </div>
-                                                    <DropdownMenuItem onClick={() => handleEdit(supplier)} className="cursor-pointer rounded-xl gap-4 p-4 focus:bg-primary/20 focus:text-primary transition-all">
-                                                        <div className="p-2 rounded-lg bg-white/5"><Edit2 className="h-4 w-4" /></div>
-                                                        Modificar Estrutura
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem onClick={() => handleToggle(supplier.id)} className="cursor-pointer rounded-xl gap-4 p-4 focus:bg-emerald-500/10 focus:text-emerald-500 transition-all">
-                                                        <div className="p-2 rounded-lg bg-white/5"><Power className="h-4 w-4" /></div>
-                                                        {supplier.active ? 'Suspender Acesso' : 'Restabelecer'}
-                                                    </DropdownMenuItem>
-                                                    <div className="h-px bg-white/5 my-2" />
-                                                    <DropdownMenuItem onClick={() => handleDelete(supplier.id)} className="cursor-pointer rounded-xl gap-4 p-4 focus:bg-destructive/10 text-destructive focus:text-destructive transition-all">
-                                                        <div className="p-2 rounded-lg bg-destructive/10"><Trash2 className="h-4 w-4" /></div>
-                                                        Expurgar Registro
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
+                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                                            <Button variant="ghost" size="icon" onClick={() => handleEdit(supplier)} className="h-8 w-8 rounded-lg hover:bg-primary/20 hover:text-primary">
+                                                <Edit2 className="h-4 w-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" onClick={() => handleToggle(supplier.id)} className="h-8 w-8 rounded-lg hover:bg-emerald-500/10 hover:text-emerald-500">
+                                                <Power className="h-4 w-4" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" onClick={() => handleDelete(supplier.id)} className="h-8 w-8 rounded-lg hover:bg-destructive/10 hover:text-destructive">
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
                                         </div>
                                     </TableCell>
                                 </TableRow>
@@ -365,7 +339,7 @@ export default function Suppliers() {
                                     <TableCell colSpan={5} className="h-[400px] text-center border-none hover:bg-transparent">
                                         <div className="flex flex-col items-center justify-center text-muted-foreground gap-8 animate-in zoom-in duration-1000">
                                             <div className="h-32 w-32 rounded-[3rem] bg-white/[0.02] flex items-center justify-center border-4 border-dashed border-white/5 group-hover:border-primary/20 transition-colors">
-                                                <Globe className="h-16 w-16 opacity-5 rotate-12" />
+                                                <Building2 className="h-16 w-16 opacity-5 rotate-12" />
                                             </div>
                                             <div className="space-y-2">
                                                 <p className="font-black text-3xl italic uppercase tracking-tighter text-white/20">Empty Network</p>
@@ -389,7 +363,5 @@ export default function Suppliers() {
     );
 }
 
-function cn(...inputs: any[]) {
-    return inputs.filter(Boolean).join(' ');
-}
+
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
+
 import {
     Table,
     TableBody,
@@ -16,7 +16,6 @@ import {
     ShoppingCart,
     Package,
     Layers,
-    History,
     Calendar,
     User,
     ExternalLink,
@@ -26,7 +25,6 @@ import {
     ArrowUpRight,
     ShoppingBag,
     Search,
-    Filter,
     ArrowRight
 } from 'lucide-react';
 import api from '@/lib/api';
@@ -42,7 +40,7 @@ export default function Purchases() {
         setPurchaseType(type);
         setDialogOpen(true);
     };
-    const { data: purchases = [], isLoading, error } = useQuery({
+    const { data: purchases = [], isLoading } = useQuery({
         queryKey: ['purchases'],
         queryFn: async () => {
             const res = await api.get('/purchases');

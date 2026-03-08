@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
     Table,
@@ -19,10 +19,10 @@ import {
     Activity,
     Zap,
     Target,
-    ArrowUpRight,
     BarChart3,
     ShieldCheck,
-    Compass
+    Compass,
+    ArrowUpRight
 } from 'lucide-react';
 import api from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
@@ -145,7 +145,7 @@ export default function Costs() {
                 ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
                     <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
                         <div className="space-y-4">
-                            <div className={`w-12 h-12 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg border border-white/5 group-hover:rotate-12 transition-transform`}>
+                            <div className={`w - 12 h - 12 rounded - 2xl ${stat.bg} ${stat.color} flex items - center justify - center shadow - lg border border - white / 5 group - hover: rotate - 12 transition - transform`}>
                                 <stat.icon className="h-6 w-6" />
                             </div>
                             <div>
@@ -159,7 +159,7 @@ export default function Costs() {
 
             <Tabs defaultValue="manufactured" className="w-full">
                 <div className="flex justify-between items-center mb-10">
-                    <TabsList className="bg-white/5 p-2 rounded-[2 link] glass border-white/5 h-auto">
+                    <TabsList className="bg-white/5 p-2 rounded-[2rem] glass border-white/5 h-auto">
                         <TabsTrigger value="manufactured" className="rounded-2xl px-12 py-5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all font-black uppercase tracking-[0.2em] text-[10px] flex gap-4">
                             <Calculator className="h-4 w-4" /> Produção Própria
                         </TabsTrigger>

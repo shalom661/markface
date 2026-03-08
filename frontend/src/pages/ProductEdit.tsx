@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-    ChevronLeft, Save, Package, Scissors, Truck, Trash2, Plus, Loader2, Copy, ChevronUp, ChevronDown, Shirt
+    ChevronLeft, Save, Package, Scissors, Truck, Trash2, Plus, Loader2, Copy, ChevronDown, Shirt
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useToast } from "@/hooks/use-toast";
@@ -301,8 +301,8 @@ export default function ProductEdit() {
                 <button
                     onClick={() => setType('manufactured')}
                     className={`flex items-center justify-center gap-3 text-lg font-bold rounded-2xl transition-all duration-300 ${type === 'manufactured'
-                            ? 'bg-primary text-primary-foreground shadow-xl shadow-primary/20 scale-[0.98]'
-                            : 'hover:bg-background/50 text-muted-foreground'
+                        ? 'bg-primary text-primary-foreground shadow-xl shadow-primary/20 scale-[0.98]'
+                        : 'hover:bg-background/50 text-muted-foreground'
                         }`}
                 >
                     <Scissors className={`h-6 w-6 ${type === 'manufactured' ? 'animate-bounce' : ''}`} />
@@ -311,8 +311,8 @@ export default function ProductEdit() {
                 <button
                     onClick={() => setType('resale')}
                     className={`flex items-center justify-center gap-3 text-lg font-bold rounded-2xl transition-all duration-300 ${type === 'resale'
-                            ? 'bg-card text-foreground shadow-xl scale-[0.98] border border-primary/10'
-                            : 'hover:bg-background/50 text-muted-foreground'
+                        ? 'bg-card text-foreground shadow-xl scale-[0.98] border border-primary/10'
+                        : 'hover:bg-background/50 text-muted-foreground'
                         }`}
                 >
                     <Truck className={`h-6 w-6 ${type === 'resale' ? 'animate-bounce' : ''}`} />
