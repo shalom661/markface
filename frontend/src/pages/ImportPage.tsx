@@ -166,8 +166,12 @@ export default function ImportPage() {
                             <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-sm font-bold">2</span>
                             Baixe o Modelo: <span className="text-primary ml-1">{selected.label}</span>
                         </CardTitle>
-                        <CardDescription>
-                            Baixe o arquivo Excel, preencha os dados e envie de volta no Passo 3.
+                        <CardDescription className="space-y-2 mt-2">
+                            <p>Baixe a planilha base ou crie uma do zero e envie de volta no Passo 3.</p>
+                            <p className="text-sm border-l-2 border-primary pl-3 py-1 bg-primary/5 rounded-r">
+                                <strong>💡 Importação Flexível:</strong> Você pode adicionar <b>qualquer coluna</b> que quiser (ex: "Cor da Linha", "Coleção"). O sistema lerá o cabeçalho e salvará automaticamente!<br />
+                                <i>Obrigatório conter colunas: Categoria, Descricao e Unidade.</i>
+                            </p>
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
