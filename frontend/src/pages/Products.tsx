@@ -46,6 +46,7 @@ interface PaginatedResponse {
 export default function Products() {
     const queryClient = useQueryClient();
     const { toast } = useToast();
+    const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
