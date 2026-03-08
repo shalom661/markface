@@ -72,18 +72,10 @@ async def list_raw_materials(
     db: AsyncSession = Depends(get_db),
     _user: User = Depends(get_current_user),
 ) -> PaginatedResponse[RawMaterialRead]:
-    try:
-        total, items = await raw_material_service.list_raw_materials(
-            db, category, supplier_id, search, page, page_size
-        )
-        return PaginatedResponse(total=total, page=page, page_size=page_size, items=list(items))
-    except Exception as e:
-        import traceback
-        tb = traceback.format_exc()
-        raise HTTPException(
-            status_code=500,
-            detail=f"ROUTER SERIALIZATION ERROR: {str(e)}\n\n{tb}"
-        )
+    total, items = await raw_material_service.list_raw_materials(
+        db, category, supplier_id, search, page, page_size
+    )
+    return PaginatedResponse(total=total, page=page, page_size=page_size, items=list(items))
 
 
 @router.get(
