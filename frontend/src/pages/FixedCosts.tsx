@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import api from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 interface FixedCost {
     id: string;
@@ -29,6 +30,7 @@ interface FixedCost {
 }
 
 export default function FixedCosts() {
+    const { toast } = useToast();
     const queryClient = useQueryClient();
     const [newDesc, setNewDesc] = useState('');
     const [newValue, setNewValue] = useState('');
@@ -49,16 +51,40 @@ export default function FixedCosts() {
             queryClient.invalidateQueries({ queryKey: ['fixed-costs'] });
             setNewDesc('');
             setNewValue('');
+            toast({
+                title: "Protocolo Autenticado",
+                description: "Custo fixo registrado com sucesso no sistema.",
+            });
         },
+        onError: () => {
+            toast({
+                title: "Falha na Autenticação",
+                description: "Erro ao tentar registrar o custo fixo. Verifique a conexão.",
+                variant: "destructive"
+            });
+        }
     });
 
     const deleteMutation = useMutation({
         mutationFn: (id: string) => api.delete(`/fixed-costs/${id}`),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ['fixed-costs'] }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['fixed-costs'] });
+            toast({
+                title: "Entrada Deletada",
+                description: "O registro foi removido do perímetro operacional.",
+            });
+        },
     });
 
     const handleCreate = () => {
-        if (!newDesc || !newValue) return;
+        if (!newDesc || !newValue) {
+            toast({
+                title: "Dados Incompletos",
+                description: "Preencha a descrição e o valor para prosseguir.",
+                variant: "destructive"
+            });
+            return;
+        }
         createMutation.mutate({ description: newDesc, value: parseFloat(newValue) });
     };
 

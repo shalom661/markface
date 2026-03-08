@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import api from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface ProductVariant {
     id: string;
@@ -48,7 +49,25 @@ interface FixedCost {
     value: number;
 }
 
+interface SalesModality {
+    id: string;
+    name: string;
+    tax_percent: number;
+    fixed_fee: number;
+    extra_cost: number;
+}
+
+const MODALITIES: SalesModality[] = [
+    { id: 'direct', name: 'Venda Direta (Local)', tax_percent: 0, fixed_fee: 0, extra_cost: 0 },
+    { id: 'ml', name: 'Mercado Livre (Normal)', tax_percent: 11, fixed_fee: 5.5, extra_cost: 0 },
+    { id: 'ml_premium', name: 'Mercado Livre (Premium)', tax_percent: 16, fixed_fee: 5.5, extra_cost: 0 },
+    { id: 'representative', name: 'Representante', tax_percent: 10, fixed_fee: 0, extra_cost: 0 },
+    { id: 'store', name: 'Entrega em Loja', tax_percent: 0, fixed_fee: 0, extra_cost: 15 }, // Gasolina/Comida
+];
+
 export default function Costs() {
+    const [selectedModality, setSelectedModality] = React.useState<string>('direct');
+
     const { data: products = [], isLoading: loadingProducts } = useQuery<Product[]>({
         queryKey: ['products'],
         queryFn: async () => {
@@ -71,6 +90,8 @@ export default function Costs() {
     const totalFixed = fixedCostsArr.reduce((acc: number, curr: FixedCost) => acc + Number(curr.value || 0), 0);
     const avgMonthlyProduction = 1000;
     const fixedShare = totalFixed / avgMonthlyProduction;
+
+    const modality = MODALITIES.find(m => m.id === selectedModality) || MODALITIES[0];
 
     if (loadingProducts || loadingFixed) return (
         <div className="h-[60vh] flex flex-col items-center justify-center gap-6 animate-pulse">
@@ -109,7 +130,23 @@ export default function Costs() {
                 </div>
 
                 {/* Overhead Monitor */}
-                <div className="w-full lg:w-auto">
+                <div className="w-full lg:w-auto flex flex-col items-end gap-6">
+                    <div className="w-full max-w-[320px] space-y-3">
+                        <Label className="text-[10px] font-black uppercase tracking-widest text-primary/60 italic ml-2">Modo de Escoamento (Venda)</Label>
+                        <Select value={selectedModality} onValueChange={setSelectedModality}>
+                            <SelectTrigger className="h-16 rounded-2xl glass border-none focus:ring-2 focus:ring-primary/20 transition-all text-sm font-black uppercase tracking-widest italic">
+                                <SelectValue placeholder="Selecione a modalidade" />
+                            </SelectTrigger>
+                            <SelectContent className="glass-dark border-white/5 rounded-2xl">
+                                {MODALITIES.map(m => (
+                                    <SelectItem key={m.id} value={m.id} className="text-xs font-bold uppercase tracking-widest py-4 focus:bg-primary/20 focus:text-primary transition-colors">
+                                        {m.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+
                     <Card className="rounded-[2.5rem] border-none glass p-8 relative overflow-hidden group hover:scale-[1.02] transition-all shadow-2xl min-w-[320px]">
                         <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.1] transition-opacity">
                             <PieChart className="h-24 w-24" />
@@ -141,11 +178,11 @@ export default function Costs() {
                     { label: 'COGS Avg', value: 'R$ 42,90', icon: Target, color: 'text-blue-400', bg: 'bg-blue-500/10' },
                     { label: 'Net Efficiency', value: '94.2%', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
                     { label: 'OEE Score', value: '88', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-                    { label: 'Rateio Batch', value: '1,000 un', icon: Compass, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+                    { label: 'Tax Load', value: `${modality.tax_percent}% + R$ ${modality.fixed_fee + modality.extra_cost}`, icon: Compass, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
                     <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
                         <div className="space-y-4">
-                            <div className={`w - 12 h - 12 rounded - 2xl ${stat.bg} ${stat.color} flex items - center justify - center shadow - lg border border - white / 5 group - hover: rotate - 12 transition - transform`}>
+                            <div className={`w-12 h-12 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg border border-white/5 group-hover:rotate-12 transition-transform`}>
                                 <stat.icon className="h-6 w-6" />
                             </div>
                             <div>
@@ -182,6 +219,7 @@ export default function Costs() {
                             data={productsArr.filter((p: Product) => p.is_manufactured)}
                             type="manufactured"
                             fixedShare={fixedShare}
+                            modality={modality}
                         />
                     </Card>
                 </TabsContent>
@@ -192,6 +230,7 @@ export default function Costs() {
                             data={productsArr.filter((p: Product) => !p.is_manufactured)}
                             type="resale"
                             fixedShare={0}
+                            modality={modality}
                         />
                     </Card>
                 </TabsContent>
@@ -200,7 +239,7 @@ export default function Costs() {
     );
 }
 
-function CostTable({ data, type, fixedShare }: { data: Product[], type: 'manufactured' | 'resale', fixedShare: number }) {
+function CostTable({ data, type, fixedShare, modality }: { data: Product[], type: 'manufactured' | 'resale', fixedShare: number, modality: SalesModality }) {
     return (
         <div className="overflow-x-auto scrollbar-hide">
             <Table>
@@ -208,8 +247,8 @@ function CostTable({ data, type, fixedShare }: { data: Product[], type: 'manufac
                     <TableRow className="border-b border-white/5 hover:bg-transparent">
                         <TableHead className="py-10 px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Product Entity</TableHead>
                         <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Configuration (SKU)</TableHead>
-                        <TableHead className="text-right font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">{type === 'manufactured' ? 'Inpnut COGS' : 'Acquisition'}</TableHead>
-                        <TableHead className="text-right px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Market Yield (Total)</TableHead>
+                        <TableHead className="text-right font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">{type === 'manufactured' ? 'Input COGS' : 'Acquisition'}</TableHead>
+                        <TableHead className="text-right px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Market Yield (Estimated Cost)</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -222,7 +261,13 @@ function CostTable({ data, type, fixedShare }: { data: Product[], type: 'manufac
                                 }, 0)
                                 : Number(variant.cost || 0);
 
-                            const totalCost = bomCost + fixedShare;
+                            // Base Cost = Production/Resale Cost + OpEx Share
+                            const baseCost = bomCost + fixedShare;
+
+                            // Formula: (Base Cost + Fixed Fee + Extra Cost) / (1 - Tax%)
+                            // This ensures that the yield represents the final "break-even" or target cost after modality fees
+                            const taxRate = modality.tax_percent / 100;
+                            const totalYieldCost = (baseCost + modality.fixed_fee + modality.extra_cost) / (1 - taxRate);
 
                             return (
                                 <TableRow key={variant.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
@@ -263,16 +308,16 @@ function CostTable({ data, type, fixedShare }: { data: Product[], type: 'manufac
                                     <TableCell className="text-right px-12">
                                         <div className="flex flex-col items-end gap-1 group-hover:translate-x-[-4px] transition-transform">
                                             <div className="flex items-center gap-4">
-                                                {fixedShare > 0 && (
-                                                    <Badge className="bg-amber-500/10 text-amber-500 border-none font-black text-[9px] uppercase italic h-5">Incl. OpEx</Badge>
+                                                {(modality.tax_percent > 0 || modality.fixed_fee > 0 || modality.extra_cost > 0) && (
+                                                    <Badge className="bg-primary/10 text-primary border-none font-black text-[9px] uppercase italic h-5">Incl. Taxas</Badge>
                                                 )}
                                                 <span className="text-4xl font-[1000] text-primary italic tracking-tighter leading-none uppercase">
-                                                    R$ {Number(totalCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                                                    R$ {Number(totalYieldCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                                 </span>
                                             </div>
                                             <div className="flex items-center gap-2 text-emerald-400/60 text-[10px] font-black uppercase tracking-widest italic">
                                                 <ArrowUpRight className="h-3 w-3" />
-                                                Calibrated Margin Target
+                                                Yield de {modality.name}
                                             </div>
                                         </div>
                                     </TableCell>
