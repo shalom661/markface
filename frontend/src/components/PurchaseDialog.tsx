@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Trash2, Search } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import api from '@/lib/api';
 import { toast } from 'sonner';
 
@@ -106,7 +106,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         : products.filter((p: any) => !p.is_manufactured).flatMap((p: any) =>
             p.variants.map((v: any) => ({
                 id: v.id,
-                name: `${p.name} (${Object.entries(v.attributes).map(([k, v]) => v).join('/')})`
+                name: `${p.name} (${Object.entries(v.attributes).map(([, v]) => v).join('/')})`
             }))
         );
 
