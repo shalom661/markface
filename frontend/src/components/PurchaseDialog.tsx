@@ -21,9 +21,13 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     const [items, setItems] = useState<any[]>([]);
     const [notes, setNotes] = useState('');
 
-    const suppliersArr = Array.isArray(suppliers) ? suppliers : [];
-    const rawMaterialsArr = Array.isArray(rawMaterials) ? rawMaterials : [];
-    const productsArr = Array.isArray(products) ? products : [];
+    const { data: suppliers = [] } = useQuery({
+        queryKey: ['suppliers'],
+        queryFn: async () => {
+            const res = await api.get('/suppliers');
+            return res.data;
+        },
+    });
 
     const { data: rawMaterials = [] } = useQuery({
         queryKey: ['raw-materials'],
@@ -42,6 +46,10 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         },
         enabled: type === 'resale_product',
     });
+
+    const suppliersArr = Array.isArray(suppliers) ? suppliers : [];
+    const rawMaterialsArr = Array.isArray(rawMaterials) ? rawMaterials : [];
+    const productsArr = Array.isArray(products) ? products : [];
 
     const createMutation = useMutation({
         mutationFn: (data: any) => api.post('/purchases', data),
