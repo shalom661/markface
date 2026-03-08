@@ -10,15 +10,38 @@ from decimal import Decimal
 from pydantic import BaseModel, Field
 
 
-# ── Product ────────────────────────────────────────────────────────────────
+# ── Product Materials (BOM) ──────────────────────────────────────────────────
 
+class ProductMaterialBase(BaseModel):
+    raw_material_id: uuid.UUID
+    quantity: Decimal = Field(default=Decimal("1.0000"), ge=0)
+
+class ProductMaterialCreate(ProductMaterialBase):
+    pass
+
+class ProductMaterialRead(ProductMaterialBase):
+    id: uuid.UUID
+    product_id: uuid.UUID
+    
+    model_config = {"from_attributes": True}
+
+
+# ── Product ────────────────────────────────────────────────────────────────
 
 class ProductCreate(BaseModel):
     name: str = Field(min_length=1, max_length=255)
     description: str | None = None
     brand: str | None = Field(default=None, max_length=120)
     active: bool = True
-
+    
+    # Manufacturing
+    is_manufactured: bool = True
+    internal_code: str | None = Field(default=None, max_length=120)
+    supplier_code: str | None = Field(default=None, max_length=120)
+    supplier_id: uuid.UUID | None = None
+    
+    # BOM
+    materials: list[ProductMaterialCreate] | None = None
 
 class ProductUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=255)
@@ -26,6 +49,14 @@ class ProductUpdate(BaseModel):
     brand: str | None = Field(default=None, max_length=120)
     active: bool | None = None
 
+    # Manufacturing
+    is_manufactured: bool | None = None
+    internal_code: str | None = Field(default=None, max_length=120)
+    supplier_code: str | None = Field(default=None, max_length=120)
+    supplier_id: uuid.UUID | None = None
+    
+    # BOM updates (full replacement of the list if provided)
+    materials: list[ProductMaterialCreate] | None = None
 
 class ProductRead(BaseModel):
     id: uuid.UUID
@@ -33,11 +64,21 @@ class ProductRead(BaseModel):
     description: str | None
     brand: str | None
     active: bool
+    
+    # Manufacturing
+    is_manufactured: bool
+    internal_code: str | None
+    supplier_code: str | None
+    supplier_id: uuid.UUID | None
+    
     created_at: datetime
     updated_at: datetime
+    
+    # We don't necessarily load all materials on every product list by default, 
+    # but we can declare it here as Optional
+    materials: list[ProductMaterialRead] | None = None
 
     model_config = {"from_attributes": True}
-
 
 # ── ProductVariant ─────────────────────────────────────────────────────────
 

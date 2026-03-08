@@ -13,6 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.inventory import Inventory
 from app.models.product import Product, ProductVariant
+from app.models.product_material import ProductMaterial
 from app.schemas.product import ProductCreate, ProductUpdate, VariantCreate, VariantUpdate
 from app.services.event_service import create_event
 
@@ -21,13 +22,27 @@ from app.services.event_service import create_event
 
 
 async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
-    product = Product(**data.model_dump())
+    data_dict = data.model_dump()
+    materials_data = data_dict.pop("materials", None)
+
+    product = Product(**data_dict)
     db.add(product)
     await db.flush()
+
+    if product.is_manufactured and materials_data:
+        for mat in materials_data:
+            pm = ProductMaterial(
+                product_id=product.id,
+                raw_material_id=mat["raw_material_id"],
+                quantity=mat["quantity"],
+            )
+            db.add(pm)
+        await db.flush()
+
     await create_event(
         db,
         "PRODUCT_CREATED",
-        {"product_id": str(product.id), "name": product.name},
+        {"product_id": str(product.id), "name": product.name, "is_manufactured": product.is_manufactured},
     )
     return product
 
@@ -35,7 +50,8 @@ async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
 async def list_products(
     db: AsyncSession, page: int = 1, page_size: int = 20, active_only: bool = False
 ) -> tuple[int, Sequence[Product]]:
-    query = select(Product)
+    from sqlalchemy.orm import selectinload
+    query = select(Product).options(selectinload(Product.materials))
     if active_only:
         query = query.where(Product.active == True)  # noqa: E712
     query = query.order_by(Product.created_at.desc())
@@ -51,7 +67,10 @@ async def list_products(
 
 
 async def get_product_or_404(db: AsyncSession, product_id: uuid.UUID) -> Product:
-    result = await db.execute(select(Product).where(Product.id == product_id))
+    from sqlalchemy.orm import selectinload
+    result = await db.execute(
+        select(Product).options(selectinload(Product.materials)).where(Product.id == product_id)
+    )
     product = result.scalar_one_or_none()
     if not product:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Produto não encontrado.")
@@ -62,13 +81,33 @@ async def update_product(
     db: AsyncSession, product_id: uuid.UUID, data: ProductUpdate
 ) -> Product:
     product = await get_product_or_404(db, product_id)
-    for field, value in data.model_dump(exclude_none=True).items():
+    data_dict = data.model_dump(exclude_unset=True)
+    materials_data = data_dict.pop("materials", None)
+
+    for field, value in data_dict.items():
         setattr(product, field, value)
+
+    # Re-sync materials if provided
+    if materials_data is not None:
+        # Delete existing
+        await db.execute(
+            ProductMaterial.__table__.delete().where(ProductMaterial.product_id == product.id)
+        )
+        # Add new
+        if product.is_manufactured:
+            for mat in materials_data:
+                pm = ProductMaterial(
+                    product_id=product.id,
+                    raw_material_id=mat["raw_material_id"],
+                    quantity=mat["quantity"],
+                )
+                db.add(pm)
+
     await db.flush()
     await create_event(
         db,
         "PRODUCT_UPDATED",
-        {"product_id": str(product.id), "changes": data.model_dump(exclude_none=True)},
+        {"product_id": str(product.id), "changes": data.model_dump(exclude_unset=True)},
     )
     return product
 

@@ -11,8 +11,11 @@ from app.models.customer import Customer
 from app.models.category import RawMaterialCategory
 from app.models.unit import MeasurementUnit
 
+from app.models.product_material import ProductMaterial
+
 __all__ = [
     "User", "Product", "ProductVariant", "Inventory", "EventLog",
     "Order", "OrderItem", "InventoryMovement", "WebhookEvent",
-    "Supplier", "RawMaterial", "Customer", "RawMaterialCategory", "MeasurementUnit"
+    "Supplier", "RawMaterial", "Customer", "RawMaterialCategory", "MeasurementUnit",
+    "ProductMaterial"
 ]

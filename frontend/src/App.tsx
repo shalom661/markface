@@ -7,6 +7,7 @@ import Suppliers from '@/pages/Suppliers';
 import RawMaterials from '@/pages/RawMaterials';
 import Customers from '@/pages/Customers';
 import Products from '@/pages/Products';
+import ProductCreate from '@/pages/ProductCreate';
 import Orders from '@/pages/Orders';
 import ImportPage from '@/pages/ImportPage';
 import Management from '@/pages/Management';
@@ -20,6 +21,7 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/new" element={<ProductCreate />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/suppliers" element={<Suppliers />} />
           <Route path="/raw-materials" element={<RawMaterials />} />

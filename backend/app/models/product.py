@@ -22,9 +22,23 @@ class Product(UUIDMixin, TimestampMixin, Base):
     brand: Mapped[str | None] = mapped_column(String(120), nullable=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
-    # Relationship
+    # Manufacturing & Sourcing Fields
+    is_manufactured: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    internal_code: Mapped[str | None] = mapped_column(String(120), nullable=True, index=True)
+    supplier_code: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    supplier_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("suppliers.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+
+    # Relationships
     variants: Mapped[list["ProductVariant"]] = relationship(
         "ProductVariant", back_populates="product", lazy="selectin"
+    )
+    supplier: Mapped["Supplier | None"] = relationship("Supplier")
+    materials: Mapped[list["ProductMaterial"]] = relationship(
+        "ProductMaterial", back_populates="product", cascade="all, delete-orphan", lazy="selectin"
     )
 
     def __repr__(self) -> str:
