@@ -21,7 +21,10 @@ export default function Costs() {
         },
     });
 
-    const totalFixed = fixedCosts.reduce((acc: number, curr: any) => acc + Number(curr.value || 0), 0);
+    const productsArr = Array.isArray(products) ? products : [];
+    const fixedCostsArr = Array.isArray(fixedCosts) ? fixedCosts : [];
+
+    const totalFixed = fixedCostsArr.reduce((acc: number, curr: any) => acc + Number(curr.value || 0), 0);
 
     return (
         <div className="space-y-6">
@@ -58,8 +61,8 @@ export default function Costs() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {products.filter((p: any) => p.is_manufactured).map((product: any) => (
-                                        product.variants.map((variant: any) => {
+                                    {productsArr.filter((p: any) => p.is_manufactured).map((product: any) => (
+                                        (product.variants || []).map((variant: any) => {
                                             const bomCost = (variant.materials || []).reduce((acc: number, m: any) => {
                                                 const unitPrice = Number(m.raw_material?.last_unit_price || 0);
                                                 return acc + (Number(m.quantity || 0) * unitPrice);
@@ -104,8 +107,8 @@ export default function Costs() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {products.filter((p: any) => !p.is_manufactured).map((product: any) => (
-                                        product.variants.map((variant: any) => (
+                                    {productsArr.filter((p: any) => !p.is_manufactured).map((product: any) => (
+                                        (product.variants || []).map((variant: any) => (
                                             <TableRow key={variant.id}>
                                                 <TableCell className="font-medium">{product.name}</TableCell>
                                                 <TableCell>{variant.sku}</TableCell>

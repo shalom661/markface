@@ -24,6 +24,8 @@ export default function Purchases() {
         },
     });
 
+    const purchasesArr = Array.isArray(purchases) ? purchases : [];
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
@@ -61,7 +63,7 @@ export default function Purchases() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {purchases.filter((p: any) => p.type === 'raw_material').map((purchase: any) => (
+                                    {purchasesArr.filter((p: any) => p.type === 'raw_material').map((purchase: any) => (
                                         <TableRow key={purchase.id}>
                                             <TableCell>{new Date(purchase.purchase_date).toLocaleDateString('pt-BR')}</TableCell>
                                             <TableCell>{purchase.supplier?.name || 'N/A'}</TableCell>
@@ -71,7 +73,7 @@ export default function Purchases() {
                                             </TableCell>
                                         </TableRow>
                                     ))}
-                                    {purchases.filter((p: any) => p.type === 'raw_material').length === 0 && (
+                                    {purchasesArr.filter((p: any) => p.type === 'raw_material').length === 0 && (
                                         <TableRow>
                                             <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">Nenhuma compra registrada</TableCell>
                                         </TableRow>
@@ -99,17 +101,17 @@ export default function Purchases() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {purchases.filter((p: any) => p.type === 'resale_product').map((purchase: any) => (
+                                    {purchasesArr.filter((p: any) => p.type === 'resale_product').map((purchase: any) => (
                                         <TableRow key={purchase.id}>
                                             <TableCell>{new Date(purchase.purchase_date).toLocaleDateString('pt-BR')}</TableCell>
                                             <TableCell>{purchase.supplier?.name || 'N/A'}</TableCell>
-                                            <TableCell className="text-right font-medium">R$ {purchase.total_value.toFixed(2)}</TableCell>
+                                            <TableCell className="text-right font-medium">R$ {Number(purchase.total_value || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</TableCell>
                                             <TableCell className="text-right">
                                                 <Button variant="ghost" size="sm">Ver Detalhes</Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
-                                    {purchases.filter((p: any) => p.type === 'resale_product').length === 0 && (
+                                    {purchasesArr.filter((p: any) => p.type === 'resale_product').length === 0 && (
                                         <TableRow>
                                             <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">Nenhuma compra registrada</TableCell>
                                         </TableRow>
