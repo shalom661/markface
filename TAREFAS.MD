@@ -10,7 +10,10 @@
 - [ ] CADASTRO DE CLIENTES
   - [ ] _Adicione sub-tarefas aqui..._
 - [ ] INTERFACE DO HUB (Ajustes e melhorias visuais no Front-end)
-  - [ ] _Adicione sub-tarefas aqui..._
+  - [x] Tela de Criação de Produto com Tabs (Fabricação vs Revenda)
+  - [x] Sistema de Variações (Tamanho/Cor) e Fichas Técnicas individuais
+  - [x] Função de Clonar Variação para agilizar cadastro
+  - [x] Correção de erros de build no Vercel (Variáveis não utilizadas)
 - [ ] IMPORTAÇÃO DE DADOS (Planilhas Excel, migração, etc)
   - [ ] _Adicione sub-tarefas aqui..._
 
@@ -42,7 +45,9 @@
 - [ ] ORDEM DE CORTE (Quantidade de metros de tecido exata por lote)
   - [ ] _Adicione sub-tarefas aqui..._
 - [ ] ORDEM DE SERVIÇOS (Saída e Entrada de Estoque de Matéria-Prima - ex: envio p/ facção/costureira)
-  - [ ] _Adicione sub-tarefas aqui..._
+- [x] FICHA TÉCNICA (BOM) Individual por Variação
+  - [x] Vínculo de materiais por SKU/Variação
+  - [x] Seletor de unidade de medida por insumo
 
 ---
 

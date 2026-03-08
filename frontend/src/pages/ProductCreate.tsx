@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -11,8 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 interface VariantState {
     sku: string;
@@ -39,7 +39,7 @@ export default function ProductCreate() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [internalCode, setInternalCode] = useState('');
-    const [isActive, setIsActive] = useState(true);
+    const [isActive] = useState(true);
 
     // Advanced Type State
     const [type, setType] = useState<'manufactured' | 'resale'>('manufactured');
