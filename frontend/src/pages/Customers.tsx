@@ -153,16 +153,16 @@ export default function Customers() {
     ) || [];
 
     return (
-        <div className="max-w-[1600px] mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="max-w-[1600px] mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header */}
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-2xl bg-primary/10 text-primary shadow-inner">
-                            <UserCheck className="h-8 w-8" />
+                        <div className="p-2 rounded-xl bg-primary/10 text-primary shadow-inner">
+                            <UserCheck className="h-6 w-6" />
                         </div>
                         <div>
-                            <h1 className="h1-brand">CRM</h1>
+                            <h1 className="h1-brand text-3xl leading-none">CRM</h1>
                             <div className="flex items-center gap-2 mt-1">
                                 <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none label-brand px-2">Hub 3.1</Badge>
                                 <span className="body-brand text-muted-foreground opacity-50 font-bold">— Gestão de Relacionamento e Clientes</span>
@@ -176,7 +176,7 @@ export default function Customers() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
                             placeholder="Buscar por nome, email ou CPF/CNPJ..."
-                            className="h-14 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/40 body-brand focus-visible:ring-primary/40 shadow-xl"
+                            className="h-11 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/40 body-brand focus-visible:ring-primary/40 shadow-xl"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -186,23 +186,23 @@ export default function Customers() {
                         <DialogTrigger asChild>
                             <button
                                 onClick={handleAddNew}
-                                className="h-14 px-8 rounded-2xl bg-primary text-primary-foreground label-brand shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3"
+                                className="h-11 px-8 rounded-2xl bg-primary text-primary-foreground label-brand shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3"
                             >
                                 <Plus className="h-5 w-5 stroke-[4]" />
                                 Novo Cliente
                             </button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[600px] rounded-[3rem] border-none smooth-glass shadow-2xl p-0 overflow-hidden outline-none">
-                            <DialogHeader className="p-10 bg-primary/10 border-b border-primary/5">
+                            <DialogHeader className="p-6 bg-primary/10 border-b border-primary/5">
                                 <div className="flex items-center gap-4 mb-2">
-                                    <div className="p-3 rounded-2xl bg-primary text-primary-foreground shadow-2xl">
-                                        <UserPlus className="h-6 w-6" />
+                                    <div className="p-2 rounded-xl bg-primary text-primary-foreground shadow-2xl">
+                                        <UserPlus className="h-5 w-5" />
                                     </div>
                                     <div>
-                                        <DialogTitle className="h2-brand">
+                                        <DialogTitle className="h2-brand text-xl">
                                             {editingCustomer ? 'Perfil do Cliente' : 'Novo Registro'}
                                         </DialogTitle>
-                                        <DialogDescription className="label-brand">
+                                        <DialogDescription className="label-brand text-[10px]">
                                             {editingCustomer ? 'Camada de edição de dados sensíveis' : 'Iniciando novo ciclo de relacionamento'}
                                         </DialogDescription>
                                     </div>
@@ -222,46 +222,46 @@ export default function Customers() {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
-                    <CardContent className="p-8 flex items-center gap-6">
-                        <div className="h-16 w-16 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center transition-transform group-hover:scale-110">
-                            <Users className="h-8 w-8" />
+                    <CardContent className="p-5 flex items-center gap-6">
+                        <div className="h-12 w-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center transition-transform group-hover:scale-110">
+                            <Users className="h-6 w-6" />
                         </div>
                         <div>
-                            <p className="label-brand text-muted-foreground">Base Total</p>
-                            <p className="stat-brand mt-1 leading-none">{data?.total || 0}</p>
+                            <p className="label-brand text-muted-foreground text-[10px]">Base Total</p>
+                            <p className="stat-brand mt-0.5 leading-none text-xl">{data?.total || 0}</p>
                         </div>
                     </CardContent>
                 </Card>
                 <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
-                    <CardContent className="p-8 flex items-center gap-6">
-                        <div className="h-16 w-16 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110">
-                            <Activity className="h-8 w-8" />
+                    <CardContent className="p-5 flex items-center gap-6">
+                        <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110">
+                            <Activity className="h-6 w-6" />
                         </div>
                         <div>
-                            <p className="label-brand text-muted-foreground">Taxa Ativa</p>
-                            <p className="stat-brand mt-1 leading-none">94%</p>
+                            <p className="label-brand text-muted-foreground text-[10px]">Taxa Ativa</p>
+                            <p className="stat-brand mt-0.5 leading-none text-xl">94%</p>
                         </div>
                     </CardContent>
                 </Card>
                 <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
-                    <CardContent className="p-8 flex items-center gap-6">
-                        <div className="h-16 w-16 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center transition-transform group-hover:scale-110">
-                            <UserPlus className="h-8 w-8" />
+                    <CardContent className="p-5 flex items-center gap-6">
+                        <div className="h-12 w-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center transition-transform group-hover:scale-110">
+                            <UserPlus className="h-6 w-6" />
                         </div>
                         <div>
-                            <p className="label-brand text-muted-foreground">Novos/Mês</p>
-                            <p className="stat-brand mt-1 leading-none">+18</p>
+                            <p className="label-brand text-muted-foreground text-[10px]">Novos/Mês</p>
+                            <p className="stat-brand mt-0.5 leading-none text-xl">+18</p>
                         </div>
                     </CardContent>
                 </Card>
                 <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
-                    <CardContent className="p-8 flex items-center gap-6">
-                        <div className="h-16 w-16 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center transition-transform group-hover:scale-110">
-                            <CreditCard className="h-8 w-8" />
+                    <CardContent className="p-5 flex items-center gap-6">
+                        <div className="h-12 w-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center transition-transform group-hover:scale-110">
+                            <CreditCard className="h-6 w-6" />
                         </div>
                         <div>
-                            <p className="label-brand text-muted-foreground">Pessoas Jurídicas</p>
-                            <p className="stat-brand mt-1 leading-none">24</p>
+                            <p className="label-brand text-muted-foreground text-[10px]">Pessoas Jurídicas</p>
+                            <p className="stat-brand mt-0.5 leading-none text-xl">24</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -273,7 +273,7 @@ export default function Customers() {
                     <Table>
                         <TableHeader className="bg-primary/[0.02]">
                             <TableRow className="border-b border-white/5 hover:bg-transparent">
-                                <TableHead className="py-6 px-10 label-brand text-primary/70">Identificação & Perfil</TableHead>
+                                <TableHead className="py-3 px-10 label-brand text-primary/70">Identificação & Perfil</TableHead>
                                 <TableHead className="label-brand text-primary/70">Canais de Contato</TableHead>
                                 <TableHead className="label-brand text-primary/70">Documentação</TableHead>
                                 <TableHead className="label-brand text-primary/70">Status</TableHead>
@@ -283,20 +283,20 @@ export default function Customers() {
                         <TableBody>
                             {filteredItems.map((item) => (
                                 <TableRow key={item.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
-                                    <TableCell className="py-7 px-10">
+                                    <TableCell className="py-3 px-10">
                                         <div className="flex items-center gap-6">
-                                            <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary stat-brand group-hover:scale-110 transition-transform shadow-inner">
+                                            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary text-xl stat-brand group-hover:scale-110 transition-transform shadow-inner">
                                                 {item.name.charAt(0).toUpperCase()}
                                             </div>
-                                            <div className="flex flex-col gap-1.5">
+                                            <div className="flex flex-col gap-0.5">
                                                 <div
-                                                    className="h3-brand text-white/90 truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer"
+                                                    className="h3-brand text-white/90 truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer text-lg"
                                                     onClick={() => handleEdit(item)}
                                                 >
                                                     {item.name}
                                                 </div>
-                                                <div className="label-brand text-[10px] text-muted-foreground/40 italic flex items-center gap-2">
-                                                    <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />
+                                                <div className="label-brand text-[9px] text-muted-foreground/40 italic flex items-center gap-2">
+                                                    <div className="h-1 w-1 rounded-full bg-primary/40" />
                                                     Cliente desde {new Date().getFullYear()}
                                                 </div>
                                             </div>

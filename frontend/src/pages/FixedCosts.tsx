@@ -106,20 +106,20 @@ export default function FixedCosts() {
     );
 
     return (
-        <div className="max-w-[1600px] mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-6 duration-1000">
+        <div className="max-w-[1600px] mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-1000">
             {/* Elite Header */}
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
-                <div className="space-y-6">
-                    <div className="flex items-center gap-8">
-                        <div className="h-20 w-20 rounded-[2.5rem] bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shadow-3xl border border-primary/10 transition-transform hover:scale-110 duration-500">
-                            <Landmark className="h-10 w-10" />
+                <div className="space-y-4">
+                    <div className="flex items-center gap-6">
+                        <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shadow-3xl border border-primary/10 transition-transform hover:scale-110 duration-500">
+                            <Landmark className="h-7 w-7" />
                         </div>
                         <div>
-                            <div className="flex items-center gap-4 mb-2">
-                                <h1 className="h1-brand text-7xl">Gastos Operacionais</h1>
-                                <Badge className="bg-primary/10 text-primary border-none label-brand px-4 py-1.5 rounded-full">Recorrente</Badge>
+                            <div className="flex items-center gap-4 mb-1">
+                                <h1 className="h1-brand text-3xl">Gastos Operacionais</h1>
+                                <Badge className="bg-primary/10 text-primary border-none label-brand px-3 py-1 rounded-full text-[10px]">Recorrente</Badge>
                             </div>
-                            <p className="h3-brand text-muted-foreground text-2xl">
+                            <p className="h3-brand text-muted-foreground text-sm">
                                 Gestão estratégica de <span className="text-primary text-white/80">Custos Fixos & Operação</span>.
                             </p>
                         </div>
@@ -128,25 +128,25 @@ export default function FixedCosts() {
 
                 {/* Overhead Monitor */}
                 <div className="w-full lg:w-auto">
-                    <Card className="rounded-[2.5rem] border-none smooth-glass p-8 relative overflow-hidden group hover:scale-[1.02] transition-all shadow-2xl min-w-[320px]">
-                        <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.1] transition-opacity">
-                            <Calculator className="h-24 w-24" />
+                    <Card className="rounded-[2rem] border-none smooth-glass p-5 relative overflow-hidden group hover:scale-[1.02] transition-all shadow-2xl min-w-[300px]">
+                        <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.1] transition-opacity">
+                            <Calculator className="h-16 w-16" />
                         </div>
-                        <div className="relative z-10 space-y-3">
+                        <div className="relative z-10 space-y-2">
                             <div className="flex items-center justify-between">
-                                <p className="label-brand text-muted-foreground/60 flex items-center gap-2">
+                                <p className="label-brand text-[10px] text-muted-foreground/60 flex items-center gap-2">
                                     <Activity className="h-3 w-3" /> Custo Mensal Total
                                 </p>
-                                <span className="label-brand text-emerald-400">Protocolo Ativo</span>
+                                <span className="label-brand text-[8px] text-emerald-400">Protocolo Ativo</span>
                             </div>
-                            <p className="stat-brand text-5xl text-primary">
+                            <p className="stat-brand text-3xl text-primary">
                                 R$ {totalFixed.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                             </p>
                             <div className="flex items-center gap-2">
                                 <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
                                     <div className="h-full bg-primary w-[65%]" />
                                 </div>
-                                <span className="label-brand text-muted-foreground/50">Carga Estrutural</span>
+                                <span className="label-brand text-[8px] text-muted-foreground/50">Carga Estrutural</span>
                             </div>
                         </div>
                     </Card>
@@ -161,14 +161,14 @@ export default function FixedCosts() {
                     { label: 'Nível de Auditoria', value: 'Alpha', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
                     { label: 'Eficiência Financeira', value: 'Alta', icon: PiggyBank, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
-                    <Card key={i} className="rounded-[3rem] border-none smooth-glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
-                        <div className="space-y-4">
-                            <div className={`w-12 h-12 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg border border-white/5 group-hover:rotate-12 transition-transform`}>
-                                <stat.icon className="h-6 w-6" />
+                    <Card key={i} className="rounded-[2.5rem] border-none smooth-glass p-6 group hover:scale-[1.05] transition-all shadow-2xl">
+                        <div className="space-y-3">
+                            <div className={`w-10 h-10 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg border border-white/5 group-hover:rotate-12 transition-transform`}>
+                                <stat.icon className="h-5 w-5" />
                             </div>
                             <div>
-                                <p className="label-brand text-muted-foreground/60">{stat.label}</p>
-                                <p className="stat-brand text-3xl mt-1">{stat.value}</p>
+                                <p className="label-brand text-[10px] text-muted-foreground/60">{stat.label}</p>
+                                <p className="stat-brand text-2xl mt-0.5">{stat.value}</p>
                             </div>
                         </div>
                     </Card>
@@ -179,52 +179,52 @@ export default function FixedCosts() {
                 {/* Form Section */}
                 <div className="lg:col-span-4 space-y-8">
                     <Card className="rounded-[3rem] border-none smooth-glass overflow-hidden shadow-2xl p-1">
-                        <div className="p-10 space-y-8">
-                            <div className="space-y-2">
-                                <h3 className="h3-brand text-2xl text-white/90">Novo Lançamento</h3>
-                                <p className="label-brand text-muted-foreground opacity-60">Adicionar registro recorrente</p>
+                        <div className="p-8 space-y-6">
+                            <div className="space-y-1">
+                                <h3 className="h3-brand text-xl text-white/90">Novo Lançamento</h3>
+                                <p className="label-brand text-[10px] text-muted-foreground opacity-60">Adicionar registro recorrente</p>
                             </div>
 
-                            <div className="space-y-6">
-                                <div className="space-y-3">
-                                    <Label className="label-brand text-primary/60 ml-1">Descrição do Lançamento</Label>
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label className="label-brand text-[10px] text-primary/60 ml-1">Descrição do Lançamento</Label>
                                     <Input
                                         value={newDesc}
                                         onChange={(e) => setNewDesc(e.target.value)}
                                         placeholder="Ex: Infra, Payroll, AWS..."
-                                        className="h-16 rounded-2xl smooth-glass border-none focus:ring-2 focus:ring-primary/20 transition-all body-brand placeholder:opacity-40"
+                                        className="h-11 rounded-xl smooth-glass border-none focus:ring-2 focus:ring-primary/20 transition-all body-brand placeholder:opacity-40 text-sm"
                                     />
                                 </div>
-                                <div className="space-y-3">
-                                    <Label className="label-brand text-primary/60 ml-1">Valor do Registro (R$)</Label>
+                                <div className="space-y-2">
+                                    <Label className="label-brand text-[10px] text-primary/60 ml-1">Valor do Registro (R$)</Label>
                                     <Input
                                         type="number"
                                         value={newValue}
                                         onChange={(e) => setNewValue(e.target.value)}
                                         placeholder="0,00"
-                                        className="h-16 rounded-2xl smooth-glass border-none focus:ring-2 focus:ring-primary/20 transition-all stat-brand text-3xl placeholder:opacity-20"
+                                        className="h-14 rounded-xl smooth-glass border-none focus:ring-2 focus:ring-primary/20 transition-all stat-brand text-2xl placeholder:opacity-20"
                                     />
                                 </div>
                                 <Button
                                     onClick={handleCreate}
                                     disabled={createMutation.isPending || !newDesc || !newValue}
-                                    className="w-full h-20 rounded-[2rem] bg-primary text-primary-foreground shadow-2xl shadow-primary/40 hover:scale-[1.03] active:scale-95 transition-all text-sm label-brand group overflow-hidden relative"
+                                    className="w-full h-14 rounded-[1.5rem] bg-primary text-primary-foreground shadow-2xl shadow-primary/40 hover:scale-[1.03] active:scale-95 transition-all text-[10px] label-brand group overflow-hidden relative"
                                 >
                                     <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                                    <Plus className="mr-3 h-6 w-6" /> Autenticar Registro
+                                    <Plus className="mr-2 h-5 w-5" /> Autenticar Registro
                                 </Button>
                             </div>
                         </div>
                     </Card>
 
-                    <Card className="rounded-[3rem] border-none smooth-glass overflow-hidden shadow-2xl p-10 bg-primary/5">
-                        <div className="flex gap-6">
-                            <div className="h-14 w-14 rounded-2xl bg-primary/20 flex items-center justify-center text-primary shrink-0">
-                                <TrendingDown className="h-7 w-7" />
+                    <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden shadow-2xl p-6 bg-primary/5">
+                        <div className="flex gap-4">
+                            <div className="h-10 w-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary shrink-0">
+                                <TrendingDown className="h-5 w-5" />
                             </div>
-                            <div className="space-y-2">
-                                <p className="label-brand text-white/80">Aviso de Calibração</p>
-                                <p className="body-brand text-xs text-muted-foreground opacity-70">
+                            <div className="space-y-1">
+                                <p className="label-brand text-white/80 text-xs">Aviso de Calibração</p>
+                                <p className="body-brand text-[10px] text-muted-foreground opacity-70">
                                     Estes custos são injetados automaticamente no cálculo de margem (Yield Analysis).
                                 </p>
                             </div>
@@ -235,47 +235,47 @@ export default function FixedCosts() {
                 {/* List Section */}
                 <div className="lg:col-span-8">
                     <Card className="rounded-[4rem] border-none smooth-glass overflow-hidden shadow-2xl min-h-[600px] p-2">
-                        <div className="p-10 space-y-10">
+                        <div className="p-8 space-y-6">
                             <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-6">
-                                    <CreditCard className="h-8 w-8 text-primary shadow-glow" />
+                                <div className="flex items-center gap-4">
+                                    <CreditCard className="h-6 w-6 text-primary shadow-glow" />
                                     <div>
-                                        <h2 className="h3-brand text-3xl text-white/90">Pilha de Registros</h2>
-                                        <p className="label-brand text-muted-foreground opacity-80 mt-1">Custos fixos em vigor</p>
+                                        <h2 className="h3-brand text-2xl text-white/90">Pilha de Registros</h2>
+                                        <p className="label-brand text-[10px] text-muted-foreground opacity-80 mt-0.5">Custos fixos em vigor</p>
                                     </div>
                                 </div>
-                                <Badge className="rounded-full bg-white/5 border-white/5 label-brand px-6 py-2">{costsArr.length} Registros</Badge>
+                                <Badge className="rounded-full bg-white/5 border-white/5 label-brand px-4 py-1 text-[10px]">{costsArr.length} Registros</Badge>
                             </div>
 
                             <div className="grid gap-6">
                                 {costsArr.map((cost: any, i: number) => (
                                     <div
                                         key={cost.id}
-                                        className="group relative rounded-[2.5rem] smooth-glass border border-white/5 p-8 flex justify-between items-center transition-all hover:translate-x-2 animate-in fade-in slide-in-from-right-4 duration-500"
+                                        className="group relative rounded-[2rem] smooth-glass border border-white/5 p-4 py-3 flex justify-between items-center transition-all hover:translate-x-2 animate-in fade-in slide-in-from-right-4 duration-500"
                                         style={{ animationDelay: `${i * 100}ms` }}
                                     >
-                                        <div className="flex items-center gap-10">
-                                            <div className="h-16 w-16 rounded-[1.5rem] bg-white/5 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:bg-primary/10 transition-all border border-white/5 group-hover:border-primary/20">
-                                                <Wallet className="h-8 w-8 opacity-40 group-hover:opacity-100" />
+                                        <div className="flex items-center gap-6">
+                                            <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:bg-primary/10 transition-all border border-white/5 group-hover:border-primary/20">
+                                                <Wallet className="h-5 w-5 opacity-40 group-hover:opacity-100" />
                                             </div>
-                                            <div className="space-y-1.5 text-left">
-                                                <p className="h3-brand text-2xl text-white/90 group-hover:translate-x-1 transition-transform">
+                                            <div className="space-y-0.5 text-left">
+                                                <p className="h3-brand text-lg text-white/90 group-hover:translate-x-1 transition-transform">
                                                     {cost.description}
                                                 </p>
-                                                <p className="label-brand text-primary/60 flex items-center gap-1.5">
+                                                <p className="label-brand text-[8px] text-primary/60 flex items-center gap-1">
                                                     <div className="h-1 w-1 rounded-full bg-primary/40" />
                                                     Registro de Operação Fixa
                                                 </p>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-12">
-                                            <div className="text-right space-y-1">
-                                                <p className="stat-brand text-4xl text-primary">
+                                        <div className="flex items-center gap-8">
+                                            <div className="text-right space-y-0.5">
+                                                <p className="stat-brand text-2xl text-primary">
                                                     R$ {Number(cost.value || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                                 </p>
-                                                <div className="flex items-center justify-end gap-2 label-brand text-emerald-400/60 text-[9px]">
-                                                    <ArrowUpRight className="h-3 w-3" /> Validade Mensal
+                                                <div className="flex items-center justify-end gap-1.5 label-brand text-emerald-400/60 text-[8px]">
+                                                    <ArrowUpRight className="h-2.5 w-2.5" /> Validade Mensal
                                                 </div>
                                             </div>
 
@@ -283,9 +283,9 @@ export default function FixedCosts() {
                                                 variant="ghost"
                                                 size="icon"
                                                 onClick={() => deleteMutation.mutate(cost.id)}
-                                                className="h-14 w-14 rounded-[1.5rem] text-destructive/20 hover:text-white hover:bg-destructive shadow-2xl transition-all group-hover:opacity-100 opacity-0"
+                                                className="h-10 w-10 rounded-xl text-destructive/20 hover:text-white hover:bg-destructive shadow-2xl transition-all group-hover:opacity-100 opacity-0"
                                             >
-                                                <Trash2 className="h-6 w-6" />
+                                                <Trash2 className="h-4 w-4" />
                                             </Button>
                                         </div>
                                     </div>

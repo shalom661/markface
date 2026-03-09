@@ -141,20 +141,20 @@ export default function Costs() {
     );
 
     return (
-        <div className="max-w-[1600px] mx-auto space-y-12">
+        <div className="max-w-[1600px] mx-auto space-y-6">
             {/* Elite Header */}
             <div className="flex flex-col lg:flex-row justify-between items-start gap-10">
-                <div className="space-y-6">
-                    <div className="flex items-center gap-8">
-                        <div className="h-20 w-20 rounded-[2.5rem] bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shadow-3xl border border-primary/10">
-                            <BarChart3 className="h-10 w-10" />
+                <div className="space-y-4">
+                    <div className="flex items-center gap-6">
+                        <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shadow-3xl border border-primary/10">
+                            <BarChart3 className="h-7 w-7" />
                         </div>
                         <div>
-                            <div className="flex items-center gap-4 mb-2">
-                                <h1 className="h1-brand text-7xl text-white">Lucro</h1>
-                                <Badge className="bg-primary/10 text-primary border-none label-brand px-4 py-1.5 rounded-full">Análise</Badge>
+                            <div className="flex items-center gap-4 mb-1">
+                                <h1 className="h1-brand text-4xl text-white">Lucro</h1>
+                                <Badge className="bg-primary/10 text-primary border-none label-brand px-3 py-1 rounded-full text-[10px]">Análise</Badge>
                             </div>
-                            <p className="h3-brand text-muted-foreground opacity-70">
+                            <p className="h3-brand text-muted-foreground opacity-70 text-sm">
                                 Auditoria técnica de <span className="text-primary not-italic font-black text-white/80">Margens & Custos Fixos</span>.
                             </p>
                         </div>
@@ -162,11 +162,11 @@ export default function Costs() {
                 </div>
 
                 {/* Overhead Monitor & Modality Selection */}
-                <div className="w-full lg:w-auto flex flex-col items-end gap-6">
-                    <div className="w-full max-w-[320px] space-y-3">
-                        <Label className="label-brand text-primary/60 ml-2">Modalidade de Venda</Label>
+                <div className="w-full lg:w-auto flex flex-col items-end gap-4">
+                    <div className="w-full max-w-[320px] space-y-2">
+                        <Label className="label-brand text-primary/60 ml-2 text-[10px]">Modalidade de Venda</Label>
                         <Select value={selectedModality} onValueChange={setSelectedModality}>
-                            <SelectTrigger className="h-16 rounded-2xl smooth-glass border-none focus:ring-2 focus:ring-primary/20 transition-all body-brand text-sm uppercase">
+                            <SelectTrigger className="h-11 rounded-2xl smooth-glass border-none focus:ring-2 focus:ring-primary/20 transition-all body-brand text-xs uppercase">
                                 <SelectValue placeholder="Selecione a modalidade" />
                             </SelectTrigger>
                             <SelectContent className="smooth-glass border-white/5 rounded-2xl">
@@ -182,8 +182,8 @@ export default function Costs() {
                     <div className="flex gap-4 w-full max-w-[320px]">
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" className="h-14 flex-1 rounded-2xl border-white/5 hover:bg-white/5 label-brand px-6 gap-2">
-                                    <Settings className="h-4 w-4" /> Gerenciar
+                                <Button variant="outline" className="h-11 flex-1 rounded-2xl border-white/5 hover:bg-white/5 label-brand px-6 gap-2 text-[10px]">
+                                    <Settings className="h-3.5 w-3.5" /> Gerenciar
                                 </Button>
                             </DialogTrigger>
                             <DialogContent className="smooth-glass border-white/5 sm:max-w-[500px] rounded-[2.5rem] overflow-hidden">
@@ -254,18 +254,18 @@ export default function Costs() {
                         </Dialog>
                     </div>
 
-                    <Card className="rounded-[2.5rem] border-none smooth-glass p-8 relative overflow-hidden group hover:scale-[1.02] transition-all shadow-2xl min-w-[320px]">
+                    <Card className="rounded-[2.5rem] border-none smooth-glass p-5 relative overflow-hidden group hover:scale-[1.02] transition-all shadow-2xl min-w-[320px]">
                         <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.1] transition-opacity">
                             <PieChart className="h-24 w-24" />
                         </div>
-                        <div className="relative z-10 space-y-3">
+                        <div className="relative z-10 space-y-2">
                             <div className="flex items-center justify-between">
-                                <p className="label-brand text-muted-foreground/60 flex items-center gap-2">
+                                <p className="label-brand text-muted-foreground/60 flex items-center gap-2 text-[10px]">
                                     <Activity className="h-3 w-3" /> Hub de Gastos Operacionais Fixos
                                 </p>
-                                <span className="label-brand text-emerald-400">Meta em Tempo Real</span>
+                                <span className="label-brand text-emerald-400 text-[9px]">Meta em Tempo Real</span>
                             </div>
-                            <p className="stat-brand text-5xl text-primary">
+                            <p className="stat-brand text-3xl text-primary">
                                 R$ {totalFixed.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                             </p>
                             <div className="flex items-center gap-2">
@@ -288,14 +288,14 @@ export default function Costs() {
                         { label: 'Score OEE', value: '88', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
                         { label: 'Carga Tributária', value: `${modality.tax_percent ?? 0}% + R$ ${(Number(modality.fixed_fee ?? 0) + Number(modality.extra_cost ?? 0)).toFixed(2)}`, icon: Compass, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                     ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
-                        <Card key={i} className="rounded-[3rem] border-none smooth-glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
-                            <div className="space-y-4">
-                                <div className={`w-12 h-12 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg border border-white/5 group-hover:rotate-12 transition-transform`}>
-                                    <stat.icon className="h-6 w-6" />
+                        <Card key={i} className="rounded-[2.5rem] border-none smooth-glass p-5 group hover:scale-[1.05] transition-all shadow-2xl">
+                            <div className="space-y-3">
+                                <div className={`w-10 h-10 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg border border-white/5 group-hover:rotate-12 transition-transform`}>
+                                    <stat.icon className="h-5 w-5" />
                                 </div>
                                 <div>
-                                    <p className="label-brand text-muted-foreground/40">{stat.label}</p>
-                                    <p className="stat-brand text-3xl mt-1">{stat.value}</p>
+                                    <p className="label-brand text-muted-foreground/40 text-[10px]">{stat.label}</p>
+                                    <p className="stat-brand text-xl mt-0.5">{stat.value}</p>
                                 </div>
                             </div>
                         </Card>
@@ -304,19 +304,19 @@ export default function Costs() {
             </div>
 
             <Tabs defaultValue="manufactured" className="w-full">
-                <div className="flex justify-between items-center mb-10">
-                    <TabsList className="bg-white/5 p-2 rounded-[2rem] smooth-glass border-white/5 h-auto">
-                        <TabsTrigger value="manufactured" className="rounded-2xl px-12 py-5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all label-brand flex gap-4">
-                            <Calculator className="h-4 w-4" /> Produção Própria
+                <div className="flex justify-between items-center mb-6">
+                    <TabsList className="bg-white/5 p-1 rounded-2xl smooth-glass border-white/5 h-auto">
+                        <TabsTrigger value="manufactured" className="rounded-xl px-8 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all label-brand flex gap-3 text-xs">
+                            <Calculator className="h-3.5 w-3.5" /> Produção Própria
                         </TabsTrigger>
-                        <TabsTrigger value="resale" className="rounded-2xl px-12 py-5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all label-brand flex gap-4">
-                            <TrendingUp className="h-4 w-4" /> Revenda Externa
+                        <TabsTrigger value="resale" className="rounded-xl px-8 py-2.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all label-brand flex gap-3 text-xs">
+                            <TrendingUp className="h-3.5 w-3.5" /> Revenda Externa
                         </TabsTrigger>
                     </TabsList>
 
-                    <div className="hidden lg:flex items-center gap-6 p-6 rounded-[2rem] smooth-glass border-none">
-                        <Info className="h-5 w-5 text-primary animate-pulse" />
-                        <p className="label-brand text-muted-foreground/40 max-w-[300px]">
+                    <div className="hidden lg:flex items-center gap-4 p-4 rounded-2xl smooth-glass border-none">
+                        <Info className="h-4 w-4 text-primary animate-pulse" />
+                        <p className="label-brand text-muted-foreground/40 max-w-[300px] text-[10px]">
                             O cálculo de Rateio (COGS + Gastos Operacionais) é calibrado para lotes otimizados de <span className="text-white font-black">1.000 unidades</span> mensais.
                         </p>
                     </div>
@@ -354,10 +354,10 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
             <Table>
                 <TableHeader className="bg-primary/[0.03]">
                     <TableRow className="border-b border-white/5 hover:bg-transparent">
-                        <TableHead className="py-10 px-12 label-brand text-primary/60">Entidade do Produto</TableHead>
+                        <TableHead className="py-4 px-10 label-brand text-primary/60">Entidade do Produto</TableHead>
                         <TableHead className="label-brand text-primary/60">Configuração (SKU)</TableHead>
                         <TableHead className="text-right label-brand text-primary/60">{type === 'manufactured' ? 'COGS de Insumos' : 'Aquisição'}</TableHead>
-                        <TableHead className="text-right px-12 label-brand text-primary/60">Yield de Mercado (Custo Estimado)</TableHead>
+                        <TableHead className="text-right px-10 label-brand text-primary/60">Yield de Mercado (Custo Estimado)</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -380,18 +380,18 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
 
                             return (
                                 <TableRow key={variant.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
-                                    <TableCell className="py-10 px-12">
-                                        <div className="flex items-center gap-8">
-                                            <div className="h-16 w-16 rounded-[1.5rem] bg-white/5 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:bg-primary/10 transition-all shadow-2xl border border-white/5 group-hover:border-primary/20">
-                                                <DollarSign className="h-8 w-8 opacity-40 group-hover:opacity-100" />
+                                    <TableCell className="py-4 px-10">
+                                        <div className="flex items-center gap-6">
+                                            <div className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:bg-primary/10 transition-all shadow-2xl border border-white/5 group-hover:border-primary/20">
+                                                <DollarSign className="h-5 w-5 opacity-40 group-hover:opacity-100" />
                                             </div>
-                                            <div className="space-y-1.5">
-                                                <div className="h3-brand text-2xl text-white/90 group-hover:translate-x-1 transition-transform">
+                                            <div className="space-y-0.5">
+                                                <div className="h3-brand text-lg text-white/90 group-hover:translate-x-1 transition-transform">
                                                     {product.name}
                                                 </div>
                                                 <div className="flex items-center gap-3">
                                                     {Object.entries(variant.attributes || {}).map(([key, value]) => (
-                                                        <span key={key} className="label-brand text-primary/40 flex items-center gap-1.5">
+                                                        <span key={key} className="label-brand text-primary/40 flex items-center gap-1.5 text-[9px]">
                                                             <div className="h-1 w-1 rounded-full bg-primary/40" />
                                                             {key}: {String(value)}
                                                         </span>
@@ -414,18 +414,18 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                             <p className="label-brand text-muted-foreground/40">Valor de Inventário Base</p>
                                         </div>
                                     </TableCell>
-                                    <TableCell className="text-right px-12">
-                                        <div className="flex flex-col items-end gap-1 group-hover:translate-x-[-4px] transition-transform">
+                                    <TableCell className="text-right px-10">
+                                        <div className="flex flex-col items-end gap-0.5 group-hover:translate-x-[-4px] transition-transform">
                                             <div className="flex items-center gap-4">
                                                 {(modality.tax_percent > 0 || modality.fixed_fee > 0 || modality.extra_cost > 0) && (
-                                                    <Badge className="bg-primary/10 text-primary border-none label-brand text-[9px] h-5">Incl. Taxas</Badge>
+                                                    <Badge className="bg-primary/10 text-primary border-none label-brand text-[8px] h-4">Incl. Taxas</Badge>
                                                 )}
-                                                <span className="stat-brand text-4xl text-primary">
+                                                <span className="stat-brand text-2xl text-primary">
                                                     R$ {Number(totalYieldCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-2 label-brand text-emerald-400/60">
-                                                <ArrowUpRight className="h-3 w-3" />
+                                            <div className="flex items-center gap-2 label-brand text-emerald-400/60 text-[9px]">
+                                                <ArrowUpRight className="h-2.5 w-2.5" />
                                                 Yield de {modality.name}
                                             </div>
                                         </div>

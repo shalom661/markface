@@ -23,11 +23,12 @@
 - [x] GASTOS FIXOS (Aluguel, luz, funcionários, etc. para diluir no custo)
   - [x] Cadastrar gastos fixos mensais
   - [x] Tela de gerenciamento de custos fixos
+
 - [x] CÁLCULO DE CUSTO (Custo exato por produto final baseado nas matérias-primas e gastos)
   - [x] Criar nova página de Custos
   - [x] Fórmula de cálculo: (Preço Médio Insumos) + % Gastos Fixos + Lucro Desejado
   - [x] Histórico de variação de custo
-
+  - [x] Tabela de custos atacado/varejo para cada método de venda (ML, grêmio, representante, etc)
 ---
 
 ## 📦 Estoque & Compras
@@ -47,7 +48,7 @@
 - [ ] ORDEM DE PRODUÇÃO (Planejamento do que vai ser fabricado)
   - [ ] Coleção/grupo do pedido
 - [ ] ORDEM DE CORTE (Quantidade de metros de tecido exata por lote)
-  - [ ] _Adicione sub-tarefas aqui..._
+  - [ ] SUGESTÃO DE POSICIONAMENTO DAS PEÇAS NO TECIDO
 - [ ] ORDEM DE SERVIÇOS (Saída e Entrada de Estoque de Matéria-Prima - ex: envio p/ facção/costureira)
 - [x] FICHA TÉCNICA (BOM) Individual por Variação
   - [x] Vínculo de materiais por SKU/Variação

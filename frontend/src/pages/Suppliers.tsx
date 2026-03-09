@@ -161,17 +161,17 @@ export default function Suppliers() {
     ) || [];
 
     return (
-        <div className="max-w-[1600px] mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="max-w-[1600px] mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Massive Header */}
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
-                <div className="space-y-6">
+                <div className="space-y-4">
                     <div className="flex items-center gap-6">
-                        <div className="p-4 rounded-3xl bg-primary/10 text-primary shadow-2xl border border-primary/5">
-                            <Building2 className="h-10 w-10" />
+                        <div className="p-2.5 rounded-2xl bg-primary/10 text-primary shadow-2xl border border-primary/5">
+                            <Building2 className="h-7 w-7" />
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-1">
-                                <h1 className="h1-brand">Global</h1>
+                                <h1 className="h1-brand text-3xl">Global</h1>
                                 <Badge variant="secondary" className="bg-primary/10 text-primary border-none label-brand px-3 py-1 mt-1">Sourcing</Badge>
                             </div>
                             <p className="body-brand text-muted-foreground opacity-50 italic">
@@ -186,7 +186,7 @@ export default function Suppliers() {
                         <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-all group-focus-within:scale-110" />
                         <Input
                             placeholder="Pesquisar fornecedor, consultor ou chave..."
-                            className="h-14 pl-14 rounded-[2rem] smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/30 body-brand focus-visible:ring-primary/40 shadow-2xl"
+                            className="h-11 pl-14 rounded-[2rem] smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/30 body-brand focus-visible:ring-primary/40 shadow-2xl"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -196,29 +196,29 @@ export default function Suppliers() {
                         <DialogTrigger asChild>
                             <button
                                 onClick={handleAddNew}
-                                className="h-14 px-10 rounded-[2rem] bg-primary text-primary-foreground label-brand shadow-3xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-4 group"
+                                className="h-11 px-8 rounded-[2rem] bg-primary text-primary-foreground label-brand shadow-3xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-4 group"
                             >
-                                <Plus className="h-6 w-6 stroke-[4] group-hover:rotate-90 transition-transform" />
+                                <Plus className="h-5 w-5 stroke-[4] group-hover:rotate-90 transition-transform" />
                                 Credenciar Fornecedor
                             </button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[700px] rounded-[4rem] border-none smooth-glass shadow-3xl p-0 overflow-hidden outline-none">
-                            <DialogHeader className="p-12 bg-primary/10 border-b border-primary/5">
-                                <div className="flex items-center gap-6 mb-4">
-                                    <div className="p-4 rounded-[2rem] bg-primary text-primary-foreground shadow-3xl">
-                                        <Building2 className="h-8 w-8" />
+                        <DialogContent className="sm:max-w-[700px] rounded-[3rem] border-none smooth-glass shadow-3xl p-0 overflow-hidden outline-none">
+                            <DialogHeader className="p-8 bg-primary/10 border-b border-primary/5">
+                                <div className="flex items-center gap-6 mb-2">
+                                    <div className="p-3 rounded-2xl bg-primary text-primary-foreground shadow-3xl">
+                                        <Building2 className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <DialogTitle className="h2-brand">
+                                        <DialogTitle className="h2-brand text-2xl">
                                             {editingSupplier ? 'Atualizar Assets' : 'Novo Credencial'}
                                         </DialogTitle>
-                                        <DialogDescription className="label-brand text-muted-foreground/60 mt-1">
+                                        <DialogDescription className="label-brand text-muted-foreground/60 mt-1 text-[10px]">
                                             {editingSupplier ? 'Protocolo de manutenção de registro' : 'Iniciando nova integração na cadeia produtiva'}
                                         </DialogDescription>
                                     </div>
                                 </div>
                             </DialogHeader>
-                            <div className="p-12">
+                            <div className="p-8">
                                 <SupplierForm
                                     supplier={editingSupplier}
                                     onSuccess={() => setIsDialogOpen(false)}
@@ -237,14 +237,14 @@ export default function Suppliers() {
                     { label: 'Pipeline Ativo', value: '12', icon: Zap, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
                     { label: 'Integridade Verificada', value: '100%', icon: ShieldCheck, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat, i) => (
-                    <Card key={i} className="rounded-[3rem] border-none smooth-glass p-8 group hover:scale-[1.02] transition-transform shadow-xl">
+                    <Card key={i} className="rounded-[2rem] border-none smooth-glass p-5 group hover:scale-[1.02] transition-transform shadow-xl">
                         <div className="flex items-center gap-5">
-                            <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} shadow-lg transition-transform group-hover:-rotate-12`}>
-                                <stat.icon className="h-8 w-8" />
+                            <div className={`p-2.5 rounded-2xl ${stat.bg} ${stat.color} shadow-lg transition-transform group-hover:-rotate-12`}>
+                                <stat.icon className="h-6 w-6" />
                             </div>
                             <div>
-                                <p className="label-brand text-muted-foreground/60">{stat.label}</p>
-                                <p className="stat-brand mt-1 leading-none">{stat.value}</p>
+                                <p className="label-brand text-muted-foreground/60 text-xs">{stat.label}</p>
+                                <p className="stat-brand mt-0.5 leading-none text-xl">{stat.value}</p>
                             </div>
                         </div>
                     </Card>
@@ -257,7 +257,7 @@ export default function Suppliers() {
                     <Table>
                         <TableHeader className="bg-primary/[0.03]">
                             <TableRow className="border-b border-white/5 hover:bg-transparent">
-                                <TableHead className="py-8 px-12 label-brand text-primary/60">Organização & Hub</TableHead>
+                                <TableHead className="py-4 px-12 label-brand text-primary/60">Organização & Hub</TableHead>
                                 <TableHead className="label-brand text-primary/60">Operações & Contato</TableHead>
                                 <TableHead className="label-brand text-primary/60">Status de Rede</TableHead>
                                 <TableHead className="label-brand text-primary/60">Registro Temporal</TableHead>
@@ -267,14 +267,14 @@ export default function Suppliers() {
                         <TableBody>
                             {filteredItems.map((supplier) => (
                                 <TableRow key={supplier.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
-                                    <TableCell className="py-8 px-12">
+                                    <TableCell className="py-4 px-12">
                                         <div className="flex items-center gap-8">
-                                            <div className="h-16 w-16 rounded-[2rem] bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center text-primary stat-brand text-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-2xl border border-white/5">
+                                            <div className="h-12 w-12 rounded-[1.5rem] bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center text-primary stat-brand text-xl group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-2xl border border-white/5">
                                                 {supplier.name.charAt(0).toUpperCase()}
                                             </div>
-                                            <div className="flex flex-col gap-2">
+                                            <div className="flex flex-col gap-1">
                                                 <div
-                                                    className="h3-brand text-white/90 truncate max-w-md group-hover:text-primary transition-colors cursor-pointer"
+                                                    className="h3-brand text-white/90 text-base truncate max-w-md group-hover:text-primary transition-colors cursor-pointer"
                                                     onClick={() => handleEdit(supplier)}
                                                 >
                                                     {supplier.name}

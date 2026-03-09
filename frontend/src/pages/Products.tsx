@@ -161,7 +161,7 @@ export default function Products() {
             <Table>
                 <TableHeader className="bg-primary/[0.02]">
                     <TableRow className="border-b border-white/5 hover:bg-transparent">
-                        <TableHead className="py-6 px-10 label-brand text-primary/70">Produto & Ficha Técnica</TableHead>
+                        <TableHead className="py-3 px-10 label-brand text-primary/70">Produto & Ficha Técnica</TableHead>
                         <TableHead className="label-brand text-primary/70">Cód. Identificação</TableHead>
                         <TableHead className="label-brand text-primary/70">Estado Atual</TableHead>
                         <TableHead className="label-brand text-primary/70">Variações Ativas</TableHead>
@@ -171,10 +171,10 @@ export default function Products() {
                 <TableBody>
                     {products.map((product) => (
                         <TableRow key={product.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
-                            <TableCell className="py-7 px-10">
-                                <div className="flex flex-col gap-1.5">
+                            <TableCell className="py-3 px-10">
+                                <div className="flex flex-col gap-0.5">
                                     <div
-                                        className="h3-brand text-xl text-white/90 truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer"
+                                        className="h3-brand text-lg text-white/90 truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer"
                                         onClick={() => handleEdit(product.id)}
                                     >
                                         {product.name}
@@ -249,16 +249,16 @@ export default function Products() {
     );
 
     return (
-        <div className="max-w-[1600px] mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="max-w-[1600px] mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header */}
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
-                <div className="space-y-4">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+                <div className="space-y-3">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-2xl bg-primary/10 text-primary shadow-inner">
-                            <Boxes className="h-8 w-8" />
+                        <div className="p-2.5 rounded-2xl bg-primary/10 text-primary shadow-inner">
+                            <Boxes className="h-6 w-6" />
                         </div>
                         <div>
-                            <h2 className="h2-brand text-5xl">Portfólio</h2>
+                            <h2 className="h2-brand text-3xl">Portfólio</h2>
                             <div className="flex items-center gap-2 mt-1">
                                 <Badge variant="secondary" className="bg-primary/5 text-primary-foreground border-none label-brand px-2">Hub 3.1</Badge>
                                 <span className="label-brand text-muted-foreground opacity-80">— Gestão do Portfólio Industrial</span>
@@ -272,7 +272,7 @@ export default function Products() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
                             placeholder="Pesquisar por nome ou código..."
-                            className="h-14 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/60 body-brand focus-visible:ring-primary/40 shadow-xl"
+                            className="h-11 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/60 body-brand focus-visible:ring-primary/40 shadow-xl"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -280,7 +280,7 @@ export default function Products() {
 
                     <button
                         onClick={() => navigate('/products/new')}
-                        className="h-14 px-8 rounded-2xl bg-primary text-primary-foreground label-brand shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3"
+                        className="h-11 px-8 rounded-2xl bg-primary text-primary-foreground label-brand shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3"
                     >
                         <Plus className="h-5 w-5 stroke-[4]" />
                         Novo Produto
@@ -291,64 +291,64 @@ export default function Products() {
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
-                    <CardContent className="p-8 flex items-center gap-6">
-                        <div className="h-16 w-16 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110">
-                            <CheckCircle2 className="h-8 w-8" />
+                    <CardContent className="p-5 flex items-center gap-6">
+                        <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110">
+                            <CheckCircle2 className="h-6 w-6" />
                         </div>
                         <div>
-                            <p className="label-brand text-muted-foreground">Portfólio Ativo</p>
-                            <p className="stat-brand text-4xl mt-1">{data?.total || 0}</p>
+                            <p className="label-brand text-muted-foreground text-xs">Portfólio Ativo</p>
+                            <p className="stat-brand text-2xl mt-0.5">{data?.total || 0}</p>
                         </div>
                     </CardContent>
                 </Card>
                 <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
-                    <CardContent className="p-8 flex items-center gap-6">
-                        <div className="h-16 w-16 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center transition-transform group-hover:scale-110">
-                            <BarChart3 className="h-8 w-8" />
+                    <CardContent className="p-5 flex items-center gap-6">
+                        <div className="h-12 w-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center transition-transform group-hover:scale-110">
+                            <BarChart3 className="h-6 w-6" />
                         </div>
                         <div>
-                            <p className="label-brand text-muted-foreground">Novos Registros</p>
-                            <p className="stat-brand text-4xl mt-1">+12%</p>
+                            <p className="label-brand text-muted-foreground text-xs">Novos Registros</p>
+                            <p className="stat-brand text-2xl mt-0.5">+12%</p>
                         </div>
                     </CardContent>
                 </Card>
                 <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
-                    <CardContent className="p-8 flex items-center gap-6">
-                        <div className="h-16 w-16 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center transition-transform group-hover:scale-110">
-                            <LayoutGrid className="h-8 w-8" />
+                    <CardContent className="p-5 flex items-center gap-6">
+                        <div className="h-12 w-12 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center transition-transform group-hover:scale-110">
+                            <LayoutGrid className="h-6 w-6" />
                         </div>
                         <div>
-                            <p className="label-brand text-muted-foreground">Volume de Categorias</p>
-                            <p className="stat-brand text-4xl mt-1">08</p>
+                            <p className="label-brand text-muted-foreground text-xs">Volume de Categorias</p>
+                            <p className="stat-brand text-2xl mt-0.5">08</p>
                         </div>
                     </CardContent>
                 </Card>
             </div>
 
             <Tabs defaultValue="manufactured" className="w-full">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                    <TabsList className="smooth-glass border border-white/5 p-1.5 rounded-2xl h-16 w-full md:w-[450px]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <TabsList className="smooth-glass border border-white/5 p-1 rounded-2xl h-11 w-full md:w-[450px]">
                         <TabsTrigger
                             value="manufactured"
-                            className="rounded-xl flex-1 h-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-2xl transition-all label-brand text-sm gap-3"
+                            className="rounded-xl flex-1 h-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-2xl transition-all label-brand text-xs gap-2"
                         >
-                            <Package className="h-4 w-4" /> Fabricação Própria
+                            <Package className="h-3 w-3" /> Fabricação Própria
                         </TabsTrigger>
                         <TabsTrigger
                             value="resale"
-                            className="rounded-xl flex-1 h-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-2xl transition-all label-brand text-sm gap-3"
+                            className="rounded-xl flex-1 h-full data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-2xl transition-all label-brand text-xs gap-2"
                         >
-                            <Truck className="h-4 w-4" /> Revenda / Outros
+                            <Truck className="h-3 w-3" /> Revenda / Outros
                         </TabsTrigger>
                     </TabsList>
 
                     <div className="flex items-center gap-3">
-                        <div className="label-brand text-muted-foreground mr-2 border-r border-white/10 pr-4">Visões Disponíveis</div>
-                        <Button variant="ghost" size="icon" className="h-12 w-12 rounded-2xl bg-white/5 hover:bg-white/10 text-primary">
-                            <LayoutGrid className="h-5 w-5" />
+                        <div className="label-brand text-muted-foreground text-xs mr-2 border-r border-white/10 pr-4">Visões Disponíveis</div>
+                        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-2xl bg-white/5 hover:bg-white/10 text-primary">
+                            <LayoutGrid className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-12 w-12 rounded-2xl bg-white/5 hover:bg-white/10">
-                            <Filter className="h-5 w-5" />
+                        <Button variant="ghost" size="icon" className="h-10 w-10 rounded-2xl bg-white/5 hover:bg-white/10">
+                            <Filter className="h-4 w-4" />
                         </Button>
                     </div>
                 </div>

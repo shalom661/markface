@@ -80,7 +80,7 @@ export default function Orders() {
     }
 
     return (
-        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <div className="flex items-center gap-3 mb-2">
@@ -93,19 +93,19 @@ export default function Orders() {
                         Monitoramento centralizado de transações externas (WooCommerce & ERPs).
                     </p>
                 </div>
-                <div className="flex items-center gap-4 bg-primary/5 p-4 rounded-3xl border border-primary/10">
-                    <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold">
+                <div className="flex items-center gap-4 bg-primary/5 p-2.5 rounded-2xl border border-primary/10">
+                    <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
                         {data?.total || 0}
                     </div>
                     <div>
-                        <p className="label-brand text-primary">Total Processados</p>
-                        <p className="label-brand text-muted-foreground text-sm">últimos 30 dias</p>
+                        <p className="label-brand text-primary text-xs">Total Processados</p>
+                        <p className="label-brand text-muted-foreground text-[10px]">últimos 30 dias</p>
                     </div>
                 </div>
             </div>
 
             <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden shadow-2xl transition-all duration-500 hover:shadow-primary/5">
-                <CardHeader className="border-b border-primary/10 bg-primary/5 p-8 flex flex-row items-center justify-between">
+                <CardHeader className="border-b border-primary/10 bg-primary/5 p-5 flex flex-row items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className="p-2 rounded-xl bg-background/50 border border-primary/20 shadow-sm">
                             <PackageOpen className="h-6 w-6 text-primary" />
@@ -125,57 +125,57 @@ export default function Orders() {
                         <Table>
                             <TableHeader>
                                 <TableRow className="hover:bg-transparent border-primary/5">
-                                    <TableHead className="py-6 px-8 label-brand text-primary/60 text-[10px] uppercase tracking-widest">Origem & Protocolo</TableHead>
-                                    <TableHead className="py-6 px-4 label-brand text-primary/60 text-[10px] uppercase tracking-widest">Status de Origem</TableHead>
-                                    <TableHead className="py-6 px-4 label-brand text-primary/60 text-[10px] uppercase tracking-widest">Status Integrado</TableHead>
-                                    <TableHead className="py-6 px-4 label-brand text-primary/60 text-[10px] uppercase tracking-widest text-center">Itens</TableHead>
-                                    <TableHead className="py-6 px-8 text-right label-brand text-primary/60 text-[10px] uppercase tracking-widest">Ações</TableHead>
+                                    <TableHead className="py-3 px-8 label-brand text-primary/60 text-[10px] uppercase tracking-widest">Origem & Protocolo</TableHead>
+                                    <TableHead className="py-3 px-4 label-brand text-primary/60 text-[10px] uppercase tracking-widest">Status de Origem</TableHead>
+                                    <TableHead className="py-3 px-4 label-brand text-primary/60 text-[10px] uppercase tracking-widest">Status Integrado</TableHead>
+                                    <TableHead className="py-3 px-4 label-brand text-primary/60 text-[10px] uppercase tracking-widest text-center">Itens</TableHead>
+                                    <TableHead className="py-3 px-8 text-right label-brand text-primary/60 text-[10px] uppercase tracking-widest">Ações</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {data?.items.map((order) => (
                                     <TableRow key={order.id} className="group hover:bg-primary/[0.02] border-primary/5 transition-all duration-300">
-                                        <TableCell className="py-6 px-8">
+                                        <TableCell className="py-3 px-8">
                                             <div className="flex items-center gap-4">
-                                                <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 group-hover:scale-110 transition-transform">
-                                                    <Globe className="h-5 w-5" />
+                                                <div className="h-9 w-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20 group-hover:scale-110 transition-transform">
+                                                    <Globe className="h-4 w-4" />
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center gap-2 mb-0.5">
-                                                        <span className="h3-brand text-primary">{order.origin}</span>
+                                                        <span className="h3-brand text-primary text-base">{order.origin}</span>
                                                         <span className="h-1 w-1 rounded-full bg-muted-foreground" />
-                                                        <span className="body-brand text-xs text-muted-foreground">ID: {order.external_id}</span>
+                                                        <span className="body-brand text-[10px] text-muted-foreground">ID: {order.external_id}</span>
                                                     </div>
                                                     <div className="flex items-center gap-1.5 text-muted-foreground">
-                                                        <Clock className="h-3 w-3" />
+                                                        <Clock className="h-2.5 w-2.5" />
                                                         <span className="label-brand text-[10px]">Detectado em {new Date().toLocaleDateString('pt-BR')}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </TableCell>
-                                        <TableCell className="py-6 px-4">
-                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-orange-500/5 text-orange-600/80 border border-orange-500/10">
-                                                <div className="h-1.5 w-1.5 rounded-full bg-orange-400 group-hover:animate-ping" />
-                                                <span className="label-brand text-[10px] uppercase tracking-wider">{order.external_status}</span>
+                                        <TableCell className="py-3 px-4">
+                                            <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-lg bg-orange-500/5 text-orange-600/80 border border-orange-500/10">
+                                                <div className="h-1 w-1 rounded-full bg-orange-400 group-hover:animate-ping" />
+                                                <span className="label-brand text-[9px] uppercase tracking-wider">{order.external_status}</span>
                                             </div>
                                         </TableCell>
-                                        <TableCell className="py-6 px-4">
-                                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-lg border label-brand text-[10px] uppercase tracking-wider ${order.internal_status === 'processed'
+                                        <TableCell className="py-3 px-4">
+                                            <div className={`inline-flex items-center gap-2 px-3 py-0.5 rounded-lg border label-brand text-[9px] uppercase tracking-wider ${order.internal_status === 'processed'
                                                 ? 'bg-emerald-500/5 text-emerald-600/80 border-emerald-500/10'
                                                 : 'bg-primary/5 text-primary/80 border-primary/10'
                                                 }`}>
-                                                <Activity className="h-3 w-3" />
+                                                <Activity className="h-2.5 w-2.5" />
                                                 {order.internal_status}
                                             </div>
                                         </TableCell>
-                                        <TableCell className="py-6 px-4 text-center">
-                                            <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-[10px] font-black border border-primary/10">
+                                        <TableCell className="py-3 px-4 text-center">
+                                            <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-[10px] font-black border border-primary/10">
                                                 {order.items?.length || 0}
                                             </div>
                                         </TableCell>
-                                        <TableCell className="py-6 px-8 text-right">
-                                            <button className="h-10 w-10 rounded-xl hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center text-muted-foreground border border-transparent hover:border-primary/20 shadow-sm hover:shadow-xl hover:shadow-primary/20">
-                                                <ChevronRight className="h-5 w-5" />
+                                        <TableCell className="py-3 px-8 text-right">
+                                            <button className="h-8 w-8 rounded-xl hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center text-muted-foreground border border-transparent hover:border-primary/20 shadow-sm hover:shadow-xl hover:shadow-primary/20">
+                                                <ChevronRight className="h-4 w-4" />
                                             </button>
                                         </TableCell>
                                     </TableRow>

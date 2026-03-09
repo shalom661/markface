@@ -169,16 +169,16 @@ export default function RawMaterials() {
     ) || [];
 
     return (
-        <div className="max-w-[1600px] mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="max-w-[1600px] mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header Section */}
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8">
                 <div className="space-y-4">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-2xl bg-primary/10 text-primary shadow-inner">
-                            <Scissors className="h-8 w-8" />
+                        <div className="p-2 rounded-xl bg-primary/10 text-primary shadow-inner">
+                            <Scissors className="h-6 w-6" />
                         </div>
                         <div>
-                            <h2 className="h1-brand text-5xl">Suprimentos</h2>
+                            <h2 className="h1-brand text-3xl">Suprimentos</h2>
                             <div className="flex items-center gap-2 mt-1">
                                 <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none label-brand px-2">v2.4.0</Badge>
                                 <span className="body-brand text-muted-foreground text-sm opacity-60 italic">— Gestão Inteligente de Matérias-Primas</span>
@@ -192,7 +192,7 @@ export default function RawMaterials() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
                             placeholder="Buscar no inventário..."
-                            className="h-14 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/40 body-brand focus-visible:ring-primary/40 shadow-xl"
+                            className="h-11 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/40 body-brand focus-visible:ring-primary/40 shadow-xl"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -202,22 +202,22 @@ export default function RawMaterials() {
                         <DialogTrigger asChild>
                             <button
                                 onClick={handleAddNew}
-                                className="h-14 px-8 rounded-2xl bg-primary text-primary-foreground label-brand shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3"
+                                className="h-11 px-8 rounded-2xl bg-primary text-primary-foreground label-brand shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3"
                             >
                                 <Plus className="h-5 w-5 stroke-[4]" />
                                 Novo Insumo
                             </button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[700px] overflow-y-auto max-h-[90vh] rounded-[3rem] glass border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.5)] p-0">
-                            <div className="p-10 space-y-8">
+                            <div className="p-8 space-y-6">
                                 <DialogHeader>
                                     <div className="flex items-center gap-4 mb-2">
-                                        <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-                                            {editingItem ? <Edit2 className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
+                                        <div className="h-10 w-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                                            {editingItem ? <Edit2 className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
                                         </div>
                                         <div>
-                                            <DialogTitle className="h2-brand text-3xl italic">{editingItem ? 'Protocolo de Edição' : 'Novo Registro'}</DialogTitle>
-                                            <DialogDescription className="body-brand text-muted-foreground/70 italic text-sm">
+                                            <DialogTitle className="h2-brand text-2xl italic">{editingItem ? 'Protocolo de Edição' : 'Novo Registro'}</DialogTitle>
+                                            <DialogDescription className="body-brand text-muted-foreground/70 italic text-[10px]">
                                                 {editingItem ? 'Configurando parâmetros de suprimento existente.' : 'Provisionando novo recurso para a cadeia produtiva.'}
                                             </DialogDescription>
                                         </div>
@@ -242,13 +242,13 @@ export default function RawMaterials() {
                     { label: 'Real-Time', value: 'LIVE', icon: History, color: 'text-pink-400', bg: 'bg-pink-400/10' },
                 ].map((stat, i) => (
                     <Card key={i} className="rounded-3xl border-none smooth-glass hover:bg-white/[0.07] transition-all group overflow-hidden">
-                        <CardContent className="p-6 flex items-center gap-5">
-                            <div className={`h-14 w-14 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg transition-transform group-hover:rotate-12`}>
-                                <stat.icon className="h-7 w-7" />
+                        <CardContent className="p-4 flex items-center gap-5">
+                            <div className={`h-11 w-11 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg transition-transform group-hover:rotate-12`}>
+                                <stat.icon className="h-5 w-5" />
                             </div>
                             <div>
                                 <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-white transition-colors">{stat.label}</p>
-                                <p className="stat-brand mt-1 leading-none">{stat.value}</p>
+                                <p className="stat-brand mt-0.5 leading-none text-xl">{stat.value}</p>
                             </div>
                         </CardContent>
                     </Card>
@@ -257,14 +257,14 @@ export default function RawMaterials() {
 
             {/* Main Content Area */}
             <Card className="rounded-[3rem] border-none smooth-glass shadow-2xl overflow-hidden min-h-[500px] flex flex-col">
-                <CardHeader className="border-b border-white/5 bg-white/[0.02] p-10">
+                <CardHeader className="border-b border-white/5 bg-white/[0.02] p-5">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div className="space-y-1">
-                            <CardTitle className="h2-brand text-2xl flex items-center gap-3 italic">
+                            <CardTitle className="h2-brand text-xl flex items-center gap-3 italic">
                                 Catálogo de Insumos
                                 <Badge variant="secondary" className="bg-primary/10 text-primary border-none rounded-lg label-brand px-2">{filteredItems.length} Registros</Badge>
                             </CardTitle>
-                            <p className="label-brand text-muted-foreground opacity-60 italic leading-relaxed">Listagem detalhada de matérias-primas e componentes de montagem.</p>
+                            <p className="label-brand text-muted-foreground opacity-60 italic leading-relaxed text-[10px]">Listagem detalhada de matérias-primas e componentes de montagem.</p>
                         </div>
                         <div className="flex items-center gap-4">
                             <Button variant="ghost" size="icon" className="h-10 w-10 border border-white/5 rounded-xl hover:bg-white/5">
@@ -281,7 +281,7 @@ export default function RawMaterials() {
                         <Table>
                             <TableHeader className="bg-primary/[0.02]">
                                 <TableRow className="border-b border-white/5 hover:bg-transparent">
-                                    <TableHead className="py-6 px-10 label-brand text-primary/70">Identificação & Código</TableHead>
+                                    <TableHead className="py-3 px-10 label-brand text-primary/70">Identificação & Código</TableHead>
                                     <TableHead className="label-brand text-primary/70">Especificações</TableHead>
                                     <TableHead className="label-brand text-primary/70">Parceiro Estratégico</TableHead>
                                     <TableHead className="label-brand text-primary/70 text-center">Unid.</TableHead>
@@ -292,12 +292,12 @@ export default function RawMaterials() {
                             <TableBody>
                                 {filteredItems.map((item) => (
                                     <TableRow key={item.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
-                                        <TableCell className="py-7 px-10">
-                                            <div className="flex flex-col gap-1.5">
-                                                <div className="h3-brand text-xl text-white/90 truncate max-w-xs group-hover:text-primary transition-colors italic uppercase leading-none">{item.description}</div>
+                                        <TableCell className="py-3 px-10">
+                                            <div className="flex flex-col gap-1">
+                                                <div className="h3-brand text-lg text-white/90 truncate max-w-xs group-hover:text-primary transition-colors italic uppercase leading-none">{item.description}</div>
                                                 <div className="flex items-center gap-2">
-                                                    <span className="label-brand text-muted-foreground bg-white/5 px-1.5 py-0.5 rounded border border-white/5 font-mono">{item.internal_code || 'N/A'}</span>
-                                                    <span className="label-brand tracking-tighter text-muted-foreground/40 italic">System ID: {item.id.slice(0, 8).toUpperCase()}</span>
+                                                    <span className="label-brand text-muted-foreground bg-white/5 px-1.5 py-0.5 rounded border border-white/5 font-mono text-[9px]">{item.internal_code || 'N/A'}</span>
+                                                    <span className="label-brand tracking-tighter text-muted-foreground/40 italic text-[9px]">System ID: {item.id.slice(0, 8).toUpperCase()}</span>
                                                 </div>
                                             </div>
                                         </TableCell>
@@ -312,12 +312,12 @@ export default function RawMaterials() {
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-3">
-                                                <div className="h-10 w-10 rounded-full bg-primary/5 border border-primary/10 flex items-center justify-center text-primary label-brand shadow-inner">
+                                                <div className="h-8 w-8 rounded-full bg-primary/5 border border-primary/10 flex items-center justify-center text-primary label-brand shadow-inner text-xs">
                                                     {(item.supplier?.name || 'S')[0]}
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <span className="h3-brand text-sm text-white/80">{item.supplier?.name || 'Venda Local'}</span>
-                                                    <span className="label-brand text-muted-foreground/40 italic">Fornecedor</span>
+                                                    <span className="h3-brand text-xs text-white/80">{item.supplier?.name || 'Venda Local'}</span>
+                                                    <span className="label-brand text-muted-foreground/40 italic text-[9px]">Fornecedor</span>
                                                 </div>
                                             </div>
                                         </TableCell>

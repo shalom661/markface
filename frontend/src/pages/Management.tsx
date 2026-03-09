@@ -407,36 +407,36 @@ export default function Management() {
     }
 
     return (
-        <div className="max-w-[1600px] mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+        <div className="max-w-[1600px] mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             {/* Elite Management Header */}
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
-                <div className="space-y-6">
-                    <div className="flex items-center gap-8">
-                        <div className="h-20 w-20 rounded-[2.5rem] bg-primary/10 flex items-center justify-center text-primary shadow-2xl transition-transform hover:scale-110 duration-500">
-                            <Settings className="h-10 w-10 animate-spin-slow" />
+                <div className="space-y-4">
+                    <div className="flex items-center gap-6">
+                        <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-2xl transition-transform hover:scale-110 duration-500">
+                            <Settings className="h-7 w-7 animate-spin-slow" />
                         </div>
                         <div>
                             <div className="flex items-center gap-3 mb-1">
-                                <h1 className="h1-brand">Gerenciamento</h1>
+                                <h1 className="h1-brand text-3xl">Gerenciamento</h1>
                                 <Badge className="bg-primary/10 text-primary border-none label-brand px-3 py-1 rounded-full text-[10px]">Sistema</Badge>
                             </div>
-                            <p className="text-muted-foreground body-brand opacity-60">
+                            <p className="text-muted-foreground body-brand text-sm opacity-60">
                                 Orquestração de <span className="text-primary font-medium">Categorias & Unidades</span>.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex gap-6">
-                    <Card className="rounded-[2.5rem] smooth-glass p-6 py-8 flex flex-col items-center justify-center min-w-[200px] shadow-2xl hover:scale-105 transition-all">
-                        <Binary className="h-6 w-6 text-primary mb-3 opacity-40" />
-                        <p className="label-brand">Categorias</p>
-                        <p className="stat-brand mt-2">{categories.length}</p>
+                <div className="flex gap-4">
+                    <Card className="rounded-[2rem] smooth-glass p-4 py-5 flex flex-col items-center justify-center min-w-[180px] shadow-2xl hover:scale-105 transition-all">
+                        <Binary className="h-4 w-4 text-primary mb-2 opacity-40" />
+                        <p className="label-brand text-[10px]">Categorias</p>
+                        <p className="stat-brand text-xl mt-1">{categories.length}</p>
                     </Card>
-                    <Card className="rounded-[2.5rem] smooth-glass p-6 py-8 flex flex-col items-center justify-center min-w-[200px] shadow-2xl hover:scale-105 transition-all">
-                        <Cpu className="h-6 w-6 text-secondary mb-3 opacity-40" />
-                        <p className="label-brand">Unidades</p>
-                        <p className="stat-brand mt-2">{units.length}</p>
+                    <Card className="rounded-[2rem] smooth-glass p-4 py-5 flex flex-col items-center justify-center min-w-[180px] shadow-2xl hover:scale-105 transition-all">
+                        <Cpu className="h-4 w-4 text-secondary mb-2 opacity-40" />
+                        <p className="label-brand text-[10px]">Unidades</p>
+                        <p className="stat-brand text-xl mt-1">{units.length}</p>
                     </Card>
                 </div>
             </div>
@@ -446,29 +446,29 @@ export default function Management() {
                     {/* Categories Section */}
                     <Card className="rounded-[4rem] smooth-glass overflow-hidden transition-all">
                         <CardHeader
-                            className="cursor-pointer hover:bg-white/[0.02] transition-all flex flex-row items-center justify-between p-12"
+                            className="cursor-pointer hover:bg-white/[0.02] transition-all flex flex-row items-center justify-between p-8"
                             onClick={() => setIsCategoriesExpanded(!isCategoriesExpanded)}
                         >
-                            <div className="flex items-center gap-8">
-                                <div className="p-4 rounded-2xl bg-amber-500/10 text-amber-500 shadow-glow-amber">
-                                    <Layers className="h-7 w-7" />
+                            <div className="flex items-center gap-6">
+                                <div className="p-3 rounded-xl bg-amber-500/10 text-amber-500 shadow-glow-amber">
+                                    <Layers className="h-5 w-5" />
                                 </div>
-                                <div className="space-y-1">
-                                    <CardTitle className="h2-brand uppercase text-white/90">Categorias</CardTitle>
-                                    <CardDescription className="label-brand opacity-40">Estruturação de modalidades operacionais.</CardDescription>
+                                <div className="space-y-0.5">
+                                    <CardTitle className="h3-brand uppercase text-white/90">Categorias</CardTitle>
+                                    <CardDescription className="label-brand text-[8px] opacity-40">Estruturação de modalidades operacionais.</CardDescription>
                                 </div>
                             </div>
-                            <div className="h-12 w-12 rounded-full bg-primary/5 flex items-center justify-center text-muted-foreground group">
-                                {isCategoriesExpanded ? <ChevronDown className="h-5 w-5 animate-bounce-subtle" /> : <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />}
+                            <div className="h-9 w-9 rounded-full bg-primary/5 flex items-center justify-center text-muted-foreground group">
+                                {isCategoriesExpanded ? <ChevronDown className="h-4 w-4 animate-bounce-subtle" /> : <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />}
                             </div>
                         </CardHeader>
                         {isCategoriesExpanded && (
-                            <CardContent className="p-12 space-y-10 animate-in fade-in slide-in-from-top-4 duration-500">
+                            <CardContent className="p-8 space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
                                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                                     <DialogTrigger asChild>
-                                        <Button className="w-full h-16 rounded-2xl bg-primary text-primary-foreground shadow-2xl shadow-primary/30 hover:scale-[1.01] active:scale-95 transition-all label-brand group relative overflow-hidden" onClick={handleAddNew}>
+                                        <Button className="w-full h-11 rounded-xl bg-primary text-primary-foreground shadow-2xl shadow-primary/30 hover:scale-[1.01] active:scale-95 transition-all text-[10px] label-brand group relative overflow-hidden" onClick={handleAddNew}>
                                             <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                                            <Plus className="h-5 w-5 mr-3" />
+                                            <Plus className="h-4 w-4 mr-2" />
                                             Nova Categoria
                                         </Button>
                                     </DialogTrigger>
@@ -573,10 +573,10 @@ export default function Management() {
                                 <div className="rounded-[2.5rem] bg-background/20 overflow-hidden shadow-inner">
                                     <ScrollArea className="h-[500px]">
                                         <Table>
-                                            <TableHeader className="bg-primary/5 sticky top-0 z-10">
+                                            <TableHeader className="bg-white/5 sticky top-0 z-10">
                                                 <TableRow className="hover:bg-transparent border-none">
-                                                    <TableHead className="label-brand text-primary py-8 px-10">Categoria</TableHead>
-                                                    <TableHead className="w-[280px] text-right px-10 label-brand text-primary">Ações</TableHead>
+                                                    <TableHead className="label-brand text-primary py-4 px-6 text-[10px]">Categoria</TableHead>
+                                                    <TableHead className="w-[280px] text-right px-6 label-brand text-primary text-[10px]">Ações</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
@@ -601,44 +601,44 @@ export default function Management() {
                                                             style={{ animationDelay: `${i * 100}ms` }}
                                                             onClick={() => setSelectedCategory(cat)}
                                                         >
-                                                            <TableCell className="py-8 px-10">
-                                                                <div className="flex items-center gap-6">
-                                                                    <div className={`h-3 w-3 rounded-full ${cat.active ? "bg-primary shadow-glow accent-primary" : "bg-muted"}`} />
+                                                            <TableCell className="py-4 px-6">
+                                                                <div className="flex items-center gap-4">
+                                                                    <div className={`h-2 w-2 rounded-full ${cat.active ? "bg-primary shadow-glow accent-primary" : "bg-muted"}`} />
                                                                     <div>
-                                                                        <p className="h3-brand text-white/90 italic tracking-tighter leading-none uppercase group-hover:translate-x-1 transition-transform">{cat.name}</p>
-                                                                        <p className="label-brand opacity-20 mt-1.5 uppercase">ID: {cat.id.substring(0, 8)}</p>
+                                                                        <p className="h3-brand text-sm text-white/90 italic tracking-tighter leading-none uppercase group-hover:translate-x-1 transition-transform">{cat.name}</p>
+                                                                        <p className="label-brand opacity-20 mt-1 uppercase text-[8px]">ID: {cat.id.substring(0, 8)}</p>
                                                                     </div>
                                                                 </div>
                                                             </TableCell>
-                                                            <TableCell className="text-right py-8 px-10">
-                                                                <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all translate-x-10 group-hover:translate-x-0 duration-500">
+                                                            <TableCell className="text-right py-4 px-6">
+                                                                <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 duration-500">
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
                                                                         onClick={(e) => { e.stopPropagation(); toggleMutation.mutate(cat.id); }}
-                                                                        className={`h-12 w-12 rounded-xl transition-all shadow-2xl ${cat.active ? "text-emerald-400 hover:bg-emerald-400/20" : "text-amber-400 hover:bg-amber-400/20"}`}
+                                                                        className={`h-9 w-9 rounded-lg transition-all shadow-2xl ${cat.active ? "text-emerald-400 hover:bg-emerald-400/20" : "text-amber-400 hover:bg-amber-400/20"}`}
                                                                     >
-                                                                        <Power className="h-6 w-6" />
+                                                                        <Power className="h-4 w-4" />
                                                                     </Button>
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
                                                                         onClick={(e) => { e.stopPropagation(); handleEdit(cat); }}
-                                                                        className="h-12 w-12 rounded-xl text-primary hover:bg-primary/20 transition-all shadow-2xl"
+                                                                        className="h-9 w-9 rounded-lg text-primary hover:bg-primary/20 transition-all shadow-2xl"
                                                                     >
-                                                                        <Edit2 className="h-5 w-5" />
+                                                                        <Edit2 className="h-4 w-4" />
                                                                     </Button>
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
                                                                         onClick={(e) => { e.stopPropagation(); handleDelete(cat.id); }}
-                                                                        className="h-12 w-12 rounded-xl text-destructive hover:bg-destructive/20 transition-all shadow-2xl"
+                                                                        className="h-9 w-9 rounded-lg text-destructive hover:bg-destructive/20 transition-all shadow-2xl"
                                                                     >
-                                                                        <Trash2 className="h-5 w-5" />
+                                                                        <Trash2 className="h-4 w-4" />
                                                                     </Button>
                                                                     <Button
                                                                         variant="secondary"
-                                                                        className="h-12 px-8 rounded-xl label-brand italic bg-white text-black hover:bg-primary transition-all shadow-2xl"
+                                                                        className="h-9 px-4 rounded-lg label-brand text-[10px] italic bg-white text-black hover:bg-primary transition-all shadow-2xl"
                                                                         onClick={(e) => { e.stopPropagation(); setSelectedCategory(cat); }}
                                                                     >
                                                                         Inspecionar
@@ -659,29 +659,29 @@ export default function Management() {
                     {/* Measurement Units Section */}
                     <Card className="rounded-[4rem] smooth-glass overflow-hidden transition-all">
                         <CardHeader
-                            className="cursor-pointer hover:bg-white/[0.02] transition-all flex flex-row items-center justify-between p-12"
+                            className="cursor-pointer hover:bg-white/[0.02] transition-all flex flex-row items-center justify-between p-8"
                             onClick={() => setIsUnitsExpanded(!isUnitsExpanded)}
                         >
-                            <div className="flex items-center gap-8">
-                                <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-500 shadow-glow-emerald">
-                                    <Calculator className="h-7 w-7" />
+                            <div className="flex items-center gap-6">
+                                <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-500 shadow-glow-emerald">
+                                    <Calculator className="h-5 w-5" />
                                 </div>
-                                <div className="space-y-1">
-                                    <CardTitle className="h2-brand uppercase text-white/90">Unidades de Medida</CardTitle>
-                                    <CardDescription className="label-brand opacity-40">Orquestração de metadados métricos.</CardDescription>
+                                <div className="space-y-0.5">
+                                    <CardTitle className="h3-brand uppercase text-white/90">Unidades de Medida</CardTitle>
+                                    <CardDescription className="label-brand text-[8px] opacity-40">Orquestração de metadados métricos.</CardDescription>
                                 </div>
                             </div>
-                            <div className="h-12 w-12 rounded-full bg-primary/5 flex items-center justify-center text-muted-foreground group">
-                                {isUnitsExpanded ? <ChevronDown className="h-5 w-5 animate-bounce-subtle" /> : <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />}
+                            <div className="h-9 w-9 rounded-full bg-primary/5 flex items-center justify-center text-muted-foreground group">
+                                {isUnitsExpanded ? <ChevronDown className="h-4 w-4 animate-bounce-subtle" /> : <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />}
                             </div>
                         </CardHeader>
                         {isUnitsExpanded && (
-                            <CardContent className="p-12 space-y-10 animate-in fade-in slide-in-from-top-4 duration-500">
+                            <CardContent className="p-8 space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
                                 <Dialog open={isUnitDialogOpen} onOpenChange={setIsUnitDialogOpen}>
                                     <DialogTrigger asChild>
-                                        <Button className="w-full h-16 rounded-2xl bg-foreground text-background shadow-2xl hover:scale-[1.01] active:scale-95 transition-all label-brand italic group relative overflow-hidden" onClick={handleAddNewUnit}>
+                                        <Button className="w-full h-11 rounded-xl bg-foreground text-background shadow-2xl hover:scale-[1.01] active:scale-95 transition-all text-[10px] label-brand italic group relative overflow-hidden" onClick={handleAddNewUnit}>
                                             <div className="absolute inset-0 bg-primary/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                                            <Plus className="h-5 w-5 mr-3" />
+                                            <Plus className="h-4 w-4 mr-2" />
                                             Nova Unidade
                                         </Button>
                                     </DialogTrigger>
@@ -727,9 +727,9 @@ export default function Management() {
                                         <Table>
                                             <TableHeader className="bg-white/5 sticky top-0 z-10">
                                                 <TableRow className="hover:bg-transparent border-none">
-                                                    <TableHead className="label-brand text-primary py-8 px-10">Identidade da Entidade</TableHead>
-                                                    <TableHead className="label-brand text-primary py-8 px-10">Cifra</TableHead>
-                                                    <TableHead className="w-[180px] text-right px-10 label-brand text-primary">Ações</TableHead>
+                                                    <TableHead className="label-brand text-primary py-4 px-6 text-[10px]">Identidade da Entidade</TableHead>
+                                                    <TableHead className="label-brand text-primary py-4 px-6 text-[10px]">Cifra</TableHead>
+                                                    <TableHead className="w-[180px] text-right px-6 label-brand text-primary text-[10px]">Ações</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
@@ -744,35 +744,35 @@ export default function Management() {
                                                             className="group border-b border-white/5 transition-all hover:bg-white/[0.02] animate-in fade-in slide-in-from-right-4 duration-500"
                                                             style={{ animationDelay: `${i * 50}ms` }}
                                                         >
-                                                            <TableCell className="h3-brand text-white/90 py-8 px-10">{u.name}</TableCell>
-                                                            <TableCell className="py-8 px-10">
-                                                                <Badge className="rounded-xl px-5 py-2 bg-primary/10 border-none text-primary text-sm font-black italic uppercase tracking-widest shadow-glow">{u.symbol}</Badge>
+                                                            <TableCell className="h3-brand text-sm text-white/90 py-4 px-6">{u.name}</TableCell>
+                                                            <TableCell className="py-4 px-6">
+                                                                <Badge className="rounded-lg px-3 py-1 bg-primary/10 border-none text-primary text-[10px] font-black italic uppercase tracking-widest shadow-glow">{u.symbol}</Badge>
                                                             </TableCell>
-                                                            <TableCell className="text-right py-8 px-10">
-                                                                <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all translate-x-10 group-hover:translate-x-0 duration-500">
+                                                            <TableCell className="text-right py-4 px-6">
+                                                                <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 duration-500">
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
                                                                         onClick={() => toggleUnitMutation.mutate(u.id)}
-                                                                        className={`h-12 w-12 rounded-xl transition-all shadow-2xl ${u.active ? "text-emerald-400 hover:bg-emerald-400/20" : "text-amber-400 hover:bg-amber-400/20"}`}
+                                                                        className={`h-9 w-9 rounded-lg transition-all shadow-2xl ${u.active ? "text-emerald-400 hover:bg-emerald-400/20" : "text-amber-400 hover:bg-amber-400/20"}`}
                                                                     >
-                                                                        <Power className="h-6 w-6" />
+                                                                        <Power className="h-4 w-4" />
                                                                     </Button>
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
                                                                         onClick={() => handleEditUnit(u)}
-                                                                        className="h-12 w-12 rounded-xl text-primary hover:bg-primary/20 transition-all shadow-2xl"
+                                                                        className="h-9 w-9 rounded-lg text-primary hover:bg-primary/20 transition-all shadow-2xl"
                                                                     >
-                                                                        <Edit2 className="h-5 w-5" />
+                                                                        <Edit2 className="h-4 w-4" />
                                                                     </Button>
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
                                                                         onClick={() => { if (window.confirm("Protocol Delete?")) deleteUnitMutation.mutate(u.id) }}
-                                                                        className="h-12 w-12 rounded-xl text-destructive hover:bg-destructive/20 transition-all shadow-2xl"
+                                                                        className="h-9 w-9 rounded-lg text-destructive hover:bg-destructive/20 transition-all shadow-2xl"
                                                                     >
-                                                                        <Trash2 className="h-5 w-5" />
+                                                                        <Trash2 className="h-4 w-4" />
                                                                     </Button>
                                                                 </div>
                                                             </TableCell>
