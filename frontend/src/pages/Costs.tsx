@@ -1,30 +1,13 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
-} from '@/components/ui/table';
 import {
     Calculator,
-    TrendingUp,
-    DollarSign,
     PieChart,
     Info,
     Activity,
-    Zap,
-    Target,
     BarChart3,
-    ShieldCheck,
-    Compass,
-    ArrowUpRight,
     Settings,
-    Plus,
     Edit2,
     Trash2
 } from 'lucide-react';
@@ -38,26 +21,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
-import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import SalesModalityForm from '@/components/forms/SalesModalityForm';
 import { useToast } from '@/hooks/use-toast';
-
-interface ProductVariant {
-    id: string;
-    sku: string;
-    cost: number;
-    attributes: Record<string, string | number>;
-    materials?: { quantity: number; raw_material?: { last_unit_price: number } }[];
-}
-
-interface Product {
-    id: string;
-    name: string;
-    is_manufactured: boolean;
-    variants: ProductVariant[];
-}
 
 interface FixedCost {
     id: string;
