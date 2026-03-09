@@ -232,7 +232,7 @@ export default function ProductCreate() {
                     </Button>
                     <div>
                         <h2 className="text-4xl font-extrabold tracking-tight">Novo Produto</h2>
-                        <p className="text-muted-foreground text-lg mt-1">Configure variaçōes e ficha técnica individual.</p>
+                        <p className="text-muted-foreground text-lg mt-1">Configure variações e ficha técnica individual.</p>
                     </div>
                 </div>
             </div>

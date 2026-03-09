@@ -134,7 +134,7 @@ export default function Layout() {
 
                         <div className="flex items-center gap-3 pl-4 border-l">
                             <div className="text-right hidden sm:block">
-                                <p className="text-sm font-semibold leading-none">Admin Admin</p>
+                                <p className="text-sm font-semibold leading-none">Administrador</p>
                                 <p className="text-xs text-muted-foreground mt-1">Gerente de Produção</p>
                             </div>
                             <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-primary to-purple-500 flex items-center justify-center shadow-lg shadow-primary/20 text-primary-foreground font-bold">

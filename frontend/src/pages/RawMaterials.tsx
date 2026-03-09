@@ -129,7 +129,7 @@ export default function RawMaterials() {
                 <Scissors className="h-12 w-12 text-primary/20" />
                 <div className="absolute inset-0 animate-ping opacity-20 bg-primary rounded-full scale-150" />
             </div>
-            <p className="text-muted-foreground font-black uppercase tracking-widest text-xs">Sincronizando Insumos...</p>
+            <p className="text-muted-foreground font-black uppercase tracking-widest text-xs italic">Sincronizando Inventário...</p>
         </div>
     );
 
@@ -140,7 +140,7 @@ export default function RawMaterials() {
                     <AlertCircle className="h-10 w-10" />
                 </div>
                 <div className="space-y-2">
-                    <h3 className="text-3xl font-black italic underline decoration-destructive/40 underline-offset-8">Falha Crítica</h3>
+                    <h3 className="text-3xl font-black italic underline decoration-destructive/40 underline-offset-8">Falha de Protocolo</h3>
                     <p className="text-muted-foreground font-medium">Não foi possível estabelecer conexão com o catálogo de suprimentos.</p>
                 </div>
                 <div className="text-xs text-muted-foreground/60 bg-black/40 p-6 rounded-2xl font-mono border border-white/5 text-left overflow-auto max-h-40 scrollbar-hide">
@@ -216,7 +216,7 @@ export default function RawMaterials() {
                                             {editingItem ? <Edit2 className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
                                         </div>
                                         <div>
-                                            <DialogTitle className="text-3xl font-black italic">{editingItem ? 'Edit Protocol' : 'Novo Registro'}</DialogTitle>
+                                            <DialogTitle className="text-3xl font-black italic">{editingItem ? 'Protocolo de Edição' : 'Novo Registro'}</DialogTitle>
                                             <DialogDescription className="font-medium text-muted-foreground/70 italic text-sm">
                                                 {editingItem ? 'Configurando parâmetros de suprimento existente.' : 'Provisionando novo recurso para a cadeia produtiva.'}
                                             </DialogDescription>
@@ -236,10 +236,10 @@ export default function RawMaterials() {
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                    { label: 'Total Itens', value: data?.total || 0, icon: Boxes, color: 'text-indigo-400', bg: 'bg-indigo-400/10' },
-                    { label: 'Categorias', value: [...new Set(data?.items.map(i => i.category))].length, icon: Layers, color: 'text-amber-400', bg: 'bg-amber-400/10' },
-                    { label: 'Ativos', value: data?.items.filter(i => i.active).length || 0, icon: Check, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-                    { label: 'Histórico', value: 'REC', icon: History, color: 'text-pink-400', bg: 'bg-pink-400/10' },
+                    { label: 'Portfólio', value: data?.total || 0, icon: Boxes, color: 'text-indigo-400', bg: 'bg-indigo-400/10' },
+                    { label: 'Fluxos', value: [...new Set(data?.items.map(i => i.category))].length, icon: Layers, color: 'text-amber-400', bg: 'bg-amber-400/10' },
+                    { label: 'Monitoramento', value: data?.items.filter(i => i.active).length || 0, icon: Check, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+                    { label: 'Real-Time', value: 'LIVE', icon: History, color: 'text-pink-400', bg: 'bg-pink-400/10' },
                 ].map((stat, i) => (
                     <Card key={i} className="rounded-3xl border-none glass hover:bg-white/[0.07] transition-all group overflow-hidden">
                         <CardContent className="p-6 flex items-center gap-5">

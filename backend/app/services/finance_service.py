@@ -1,8 +1,8 @@
 from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.models.finance import FixedCost
+from app.models.finance import FixedCost, SalesModality
 from app.models.purchase import Purchase, PurchaseItem
-from app.schemas.finance import FixedCostCreate, PurchaseCreate
+from app.schemas.finance import FixedCostCreate, PurchaseCreate, SalesModalityCreate
 
 async def list_fixed_costs(db: AsyncSession):
     result = await db.execute(select(FixedCost))
@@ -56,3 +56,18 @@ async def create_purchase(db: AsyncSession, schema: PurchaseCreate):
     await db.commit()
     await db.refresh(new_purchase)
     return new_purchase
+
+async def list_sales_modalities(db: AsyncSession):
+    result = await db.execute(select(SalesModality))
+    return result.scalars().all()
+
+async def create_sales_modality(db: AsyncSession, schema: SalesModalityCreate):
+    new_modality = SalesModality(**schema.model_dump())
+    db.add(new_modality)
+    await db.commit()
+    await db.refresh(new_modality)
+    return new_modality
+
+async def delete_sales_modality(db: AsyncSession, modality_id: str):
+    await db.execute(delete(SalesModality).where(SalesModality.id == modality_id))
+    await db.commit()

@@ -22,8 +22,21 @@ import {
     BarChart3,
     ShieldCheck,
     Compass,
-    ArrowUpRight
+    ArrowUpRight,
+    Settings,
+    Plus,
+    Edit2,
+    Trash2
 } from 'lucide-react';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
@@ -58,13 +71,6 @@ interface SalesModality {
     extra_cost: number;
 }
 
-const MODALITIES: SalesModality[] = [
-    { id: 'direct', name: 'Venda Direta (Local)', tax_percent: 0, fixed_fee: 0, extra_cost: 0 },
-    { id: 'ml', name: 'Mercado Livre (Normal)', tax_percent: 11, fixed_fee: 5.5, extra_cost: 0 },
-    { id: 'ml_premium', name: 'Mercado Livre (Premium)', tax_percent: 16, fixed_fee: 5.5, extra_cost: 0 },
-    { id: 'representative', name: 'Representante', tax_percent: 10, fixed_fee: 0, extra_cost: 0 },
-    { id: 'store', name: 'Entrega em Loja', tax_percent: 0, fixed_fee: 0, extra_cost: 15 }, // Gasolina/Comida
-];
 
 export default function Costs() {
     const [selectedModality, setSelectedModality] = React.useState<string>('direct');
@@ -80,28 +86,37 @@ export default function Costs() {
     const { data: fixedCosts = [], isLoading: loadingFixed } = useQuery<FixedCost[]>({
         queryKey: ['fixed-costs'],
         queryFn: async () => {
-            const res = await api.get('/fixed-costs');
+            const res = await api.get('/finance/fixed-costs');
+            return res.data;
+        },
+    });
+
+    const { data: modalities = [], isLoading: loadingModalities } = useQuery<SalesModality[]>({
+        queryKey: ['sales-modalities'],
+        queryFn: async () => {
+            const res = await api.get('/finance/sales-modalities');
             return res.data;
         },
     });
 
     const productsArr = Array.isArray(products) ? products : [];
     const fixedCostsArr = Array.isArray(fixedCosts) ? fixedCosts : [];
+    const modalitiesArr = Array.isArray(modalities) ? modalities : [];
 
     const totalFixed = fixedCostsArr.reduce((acc: number, curr: FixedCost) => acc + Number(curr.value || 0), 0);
     const avgMonthlyProduction = 1000;
     const fixedShare = totalFixed / avgMonthlyProduction;
 
-    const modality = MODALITIES.find(m => m.id === selectedModality) || MODALITIES[0];
+    const modality = modalitiesArr.find(m => m.id === selectedModality) || modalitiesArr[0] || { id: 'default', name: 'Nenhuma', tax_percent: 0, fixed_fee: 0, extra_cost: 0 };
 
-    if (loadingProducts || loadingFixed) return (
+    if (loadingProducts || loadingFixed || loadingModalities) return (
         <div className="h-[60vh] flex flex-col items-center justify-center gap-6 animate-pulse">
             <div className="relative">
                 <Calculator className="h-16 w-16 text-primary/20" />
                 <div className="absolute inset-0 animate-ping opacity-10 bg-primary rounded-full scale-[2]" />
             </div>
             <div className="text-center space-y-2">
-                <p className="text-muted-foreground font-black uppercase tracking-[0.3em] text-[10px] italic">Fiscalizing Margins...</p>
+                <p className="text-muted-foreground font-black uppercase tracking-[0.3em] text-[10px] italic">Sincronizando Margens...</p>
                 <div className="h-1 w-48 bg-white/5 rounded-full overflow-hidden mx-auto">
                     <div className="h-full bg-primary animate-[shimmer_2s_infinite] w-1/3" />
                 </div>
@@ -139,13 +154,50 @@ export default function Costs() {
                                 <SelectValue placeholder="Selecione a modalidade" />
                             </SelectTrigger>
                             <SelectContent className="glass-dark border-white/5 rounded-2xl">
-                                {MODALITIES.map(m => (
+                                {modalitiesArr.map(m => (
                                     <SelectItem key={m.id} value={m.id} className="text-xs font-bold uppercase tracking-widest py-4 focus:bg-primary/20 focus:text-primary transition-colors">
                                         {m.name}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
+                    </div>
+
+                    <div className="flex gap-4 w-full max-w-[320px]">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="outline" className="h-14 flex-1 rounded-2xl border-white/5 hover:bg-white/5 font-black uppercase tracking-widest text-[10px] px-6 gap-2">
+                                    <Settings className="h-4 w-4" /> Gerenciar
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="glass-dark border-white/5 sm:max-w-[500px] rounded-[2.5rem] overflow-hidden">
+                                <DialogHeader>
+                                    <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter">Modalidades de Venda</DialogTitle>
+                                    <DialogDescription className="font-bold text-muted-foreground italic">Configure taxas e custos extras por canal de venda.</DialogDescription>
+                                </DialogHeader>
+                                <div className="space-y-6 py-4">
+                                    {modalitiesArr.map(m => (
+                                        <div key={m.id} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-all">
+                                            <div>
+                                                <p className="font-black uppercase text-xs tracking-widest">{m.name}</p>
+                                                <p className="text-[10px] text-muted-foreground font-bold">Taxa: {m.tax_percent}% + R$ {(m.fixed_fee + m.extra_cost).toFixed(2)}</p>
+                                            </div>
+                                            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-primary hover:bg-primary/10">
+                                                    <Edit2 className="h-4 w-4" />
+                                                </Button>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-destructive hover:bg-destructive/10">
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <Button className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-[10px] bg-primary hover:scale-[1.02] shadow-xl shadow-primary/20">
+                                        <Plus className="h-4 w-4 mr-2" /> Nova Modalidade
+                                    </Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                     </div>
 
                     <Card className="rounded-[2.5rem] border-none glass p-8 relative overflow-hidden group hover:scale-[1.02] transition-all shadow-2xl min-w-[320px]">
@@ -236,7 +288,7 @@ export default function Costs() {
                     </Card>
                 </TabsContent>
             </Tabs>
-        </div>
+        </div >
     );
 }
 

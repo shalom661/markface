@@ -43,3 +43,16 @@ class FixedCostCreate(FixedCostBase):
 class FixedCostRead(FixedCostBase):
     id: UUID
     model_config = ConfigDict(from_attributes=True)
+
+class SalesModalityBase(BaseModel):
+    name: str
+    tax_percent: Decimal
+    fixed_fee: Decimal
+    extra_cost: Decimal = Decimal("0.00")
+
+class SalesModalityCreate(SalesModalityBase):
+    pass
+
+class SalesModalityRead(SalesModalityBase):
+    id: UUID
+    model_config = ConfigDict(from_attributes=True)

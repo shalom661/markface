@@ -135,15 +135,15 @@ export default function Products() {
                 <AlertCircle className="h-10 w-10" />
             </div>
             <div className="space-y-2">
-                <h3 className="text-3xl font-black italic underline decoration-destructive/40 underline-offset-8">Erro de Sincronização</h3>
-                <p className="text-muted-foreground font-medium">Houve um problema ao processar a requisição do catálogo.</p>
+                <h3 className="text-3xl font-black italic underline decoration-destructive/40 underline-offset-8">Falha de Sincronização</h3>
+                <p className="text-muted-foreground font-medium">Houve um problema ao processar a requisição do catálogo de produtos.</p>
             </div>
             <Button
                 variant="outline"
                 onClick={() => queryClient.invalidateQueries({ queryKey: ['products'] })}
                 className="h-14 px-8 rounded-2xl border-white/10 hover:bg-white/10 font-black uppercase tracking-widest text-xs"
             >
-                Tentar Reconectar
+                Tentar Novamente
             </Button>
         </div>
     );
@@ -161,11 +161,11 @@ export default function Products() {
             <Table>
                 <TableHeader className="bg-primary/[0.02]">
                     <TableRow className="border-b border-white/5 hover:bg-transparent">
-                        <TableHead className="py-6 px-10 font-black text-xs uppercase tracking-widest text-primary/70">Produto & Descrição</TableHead>
-                        <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Cód. Interno</TableHead>
-                        <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Status</TableHead>
-                        <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Variantes Ativas</TableHead>
-                        <TableHead className="w-[120px] text-right px-10 font-black text-xs uppercase tracking-widest text-primary/70">Ações</TableHead>
+                        <TableHead className="py-6 px-10 font-black text-xs uppercase tracking-widest text-primary/70">Produto & Ficha Técnica</TableHead>
+                        <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Cód. Identificação</TableHead>
+                        <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Estado Atual</TableHead>
+                        <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Variações Ativas</TableHead>
+                        <TableHead className="w-[120px] text-right px-10 font-black text-xs uppercase tracking-widest text-primary/70">Gestão</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -203,7 +203,7 @@ export default function Products() {
                             <TableCell>
                                 <div className="flex flex-wrap gap-1.5 max-w-[200px]">
                                     {product.variants.map(v => (
-                                        <Badge key={v.id} variant="secondary" className="bg-primary/5 text-primary border-none text-[9px] font-black px-1.5">
+                                        <Badge key={v.id} className="bg-primary/5 text-primary border-none text-[9px] font-black px-1.5">
                                             {v.sku.slice(-4)}
                                         </Badge>
                                     ))}
@@ -258,10 +258,10 @@ export default function Products() {
                             <Boxes className="h-8 w-8" />
                         </div>
                         <div>
-                            <h2 className="text-5xl font-[900] tracking-tighter italic">Catálogo</h2>
+                            <h2 className="text-5xl font-[900] tracking-tighter italic">Portfólio</h2>
                             <div className="flex items-center gap-2 mt-1">
                                 <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none font-black text-[10px] uppercase tracking-widest px-2">Hub 3.1</Badge>
-                                <span className="text-muted-foreground text-sm font-semibold opacity-60 italic">— Gerenciamento de Portfólio de Produtos</span>
+                                <span className="text-muted-foreground text-sm font-semibold opacity-60 italic">— Gestão do Portfólio Industrial</span>
                             </div>
                         </div>
                     </div>
@@ -296,7 +296,7 @@ export default function Products() {
                             <CheckCircle2 className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Total de Ativos</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Portfólio Ativo</p>
                             <p className="text-4xl font-black mt-1 leading-none">{data?.total || 0}</p>
                         </div>
                     </CardContent>
@@ -307,7 +307,7 @@ export default function Products() {
                             <BarChart3 className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Novos esse mês</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Novos Registros</p>
                             <p className="text-4xl font-black mt-1 leading-none">+12%</p>
                         </div>
                     </CardContent>
@@ -318,7 +318,7 @@ export default function Products() {
                             <LayoutGrid className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Categorias</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Volume de Categorias</p>
                             <p className="text-4xl font-black mt-1 leading-none">08</p>
                         </div>
                     </CardContent>

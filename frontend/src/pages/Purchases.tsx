@@ -84,11 +84,11 @@ export default function Purchases() {
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-2">
-                                <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">Supply</h1>
+                                <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">Suprimentos</h1>
                                 <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Chain</Badge>
                             </div>
                             <p className="text-muted-foreground text-2xl font-semibold opacity-40 italic tracking-tight">
-                                Orquestração de suprimentos e <span className="text-primary not-italic font-black">Adquisitive Intel</span>.
+                                Orquestração de compras e <span className="text-primary not-italic font-black">Inteligência de Aquisição</span>.
                             </p>
                         </div>
                     </div>
@@ -127,10 +127,10 @@ export default function Purchases() {
             {/* Insight Grid */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
-                    { label: 'Total Volume', value: `R$ ${purchasesArr.reduce((acc, p) => acc + (p.total_value || 0), 0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })}`, icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-                    { label: 'Open Deliveries', value: '08', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-                    { label: 'Top Vendor', value: purchasesArr[0]?.supplier?.name || 'N/A', icon: User, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-                    { label: 'Active Capital', value: '42%', icon: CreditCard, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+                    { label: 'Volume Total', value: `R$ ${purchasesArr.reduce((acc: any, p: any) => acc + (p.total_value || 0), 0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })}`, icon: TrendingUp, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+                    { label: 'Entregas Abertas', value: '08', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+                    { label: 'Principal Fornecedor', value: purchasesArr[0]?.supplier?.name || 'N/A', icon: User, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+                    { label: 'Capital Ativo', value: '42%', icon: CreditCard, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat, i) => (
                     <Card key={i} className="rounded-[3rem] border-none glass p-8 relative overflow-hidden group hover:scale-[1.02] transition-transform shadow-2xl">
                         <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.1] transition-opacity">
@@ -209,8 +209,8 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                 <TableHeader className="bg-primary/[0.03]">
                     <TableRow className="border-b border-white/5 hover:bg-transparent">
                         <TableHead className="py-10 px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Timeline & Protocolo</TableHead>
-                        <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Trade Partner</TableHead>
-                        <TableHead className="text-right font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Market Value</TableHead>
+                        <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Parceiro Comercial</TableHead>
+                        <TableHead className="text-right font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Valor de Mercado</TableHead>
                         <TableHead className="w-[200px] text-right px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Operações</TableHead>
                     </TableRow>
                 </TableHeader>

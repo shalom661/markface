@@ -135,9 +135,9 @@ export default function FixedCosts() {
                         <div className="relative z-10 space-y-3">
                             <div className="flex items-center justify-between">
                                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic flex items-center gap-2">
-                                    <Activity className="h-3 w-3" /> Monthly Burn Rate
+                                    <Activity className="h-3 w-3" /> Custo Mensal Total
                                 </p>
-                                <span className="text-[10px] font-black text-emerald-400 uppercase italic">Active Protocol</span>
+                                <span className="text-[10px] font-black text-emerald-400 uppercase italic">Protocolo Ativo</span>
                             </div>
                             <p className="text-5xl font-[1000] text-primary italic tracking-tighter leading-none uppercase">
                                 R$ {totalFixed.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -146,7 +146,7 @@ export default function FixedCosts() {
                                 <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
                                     <div className="h-full bg-primary w-[65%]" />
                                 </div>
-                                <span className="text-[10px] font-bold text-muted-foreground/30 italic uppercase">Structural Load</span>
+                                <span className="text-[10px] font-bold text-muted-foreground/30 italic uppercase">Carga Estrutural</span>
                             </div>
                         </div>
                     </Card>
@@ -156,10 +156,10 @@ export default function FixedCosts() {
             {/* Performance Widgets */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
-                    { label: 'Recurrent Flux', value: costsArr.length.toString(), icon: Receipt, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-                    { label: 'Avg Unit Gap', value: 'R$ ' + (totalFixed / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }), icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-                    { label: 'Audit Score', value: 'Alpha', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-                    { label: 'Efficiency', value: 'High', icon: PiggyBank, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+                    { label: 'Fluxo Recorrente', value: costsArr.length.toString(), icon: Receipt, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+                    { label: 'Impacto Médio Unitário', value: 'R$ ' + (totalFixed / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }), icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+                    { label: 'Score de Auditoria', value: 'Alpha', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+                    { label: 'Eficiência Financeira', value: 'Alta', icon: PiggyBank, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
                     <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
                         <div className="space-y-4">
@@ -181,13 +181,13 @@ export default function FixedCosts() {
                     <Card className="rounded-[3rem] border-none glass overflow-hidden shadow-3xl p-1">
                         <div className="p-10 space-y-8">
                             <div className="space-y-2">
-                                <h3 className="text-2xl font-[1000] tracking-tighter uppercase italic text-white/90">New Entry</h3>
+                                <h3 className="text-2xl font-[1000] tracking-tighter uppercase italic text-white/90">Novo Lançamento</h3>
                                 <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest italic opacity-40">Adicionar registro recorrente</p>
                             </div>
 
                             <div className="space-y-6">
                                 <div className="space-y-3">
-                                    <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Entity Description</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Descrição do Lançamento</Label>
                                     <Input
                                         value={newDesc}
                                         onChange={(e) => setNewDesc(e.target.value)}
@@ -196,7 +196,7 @@ export default function FixedCosts() {
                                     />
                                 </div>
                                 <div className="space-y-3">
-                                    <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Registry Value (R$)</Label>
+                                    <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Valor do Registro (R$)</Label>
                                     <Input
                                         type="number"
                                         value={newValue}
@@ -211,7 +211,7 @@ export default function FixedCosts() {
                                     className="w-full h-20 rounded-[2rem] bg-primary text-primary-foreground shadow-2xl shadow-primary/40 hover:scale-[1.03] active:scale-95 transition-all text-sm font-black uppercase tracking-[0.3em] italic group overflow-hidden relative"
                                 >
                                     <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                                    <Plus className="mr-3 h-6 w-6" /> Authenticate Entry
+                                    <Plus className="mr-3 h-6 w-6" /> Autenticar Registro
                                 </Button>
                             </div>
                         </div>
@@ -223,9 +223,9 @@ export default function FixedCosts() {
                                 <TrendingDown className="h-7 w-7" />
                             </div>
                             <div className="space-y-2">
-                                <p className="text-xs font-black uppercase tracking-widest italic text-white/80">Calibration Notice</p>
+                                <p className="text-xs font-black uppercase tracking-widest italic text-white/80">Aviso de Calibração</p>
                                 <p className="text-[10px] font-bold text-muted-foreground uppercase leading-relaxed italic opacity-50">
-                                    Estes custos são injetados automaticamente no cálculo de yield dos produtos (Yield Analysis) via rateio OEE.
+                                    Estes custos são injetados automaticamente no cálculo de margem (Yield Analysis).
                                 </p>
                             </div>
                         </div>
@@ -240,7 +240,7 @@ export default function FixedCosts() {
                                 <div className="flex items-center gap-6">
                                     <CreditCard className="h-8 w-8 text-primary shadow-glow" />
                                     <div>
-                                        <h2 className="text-3xl font-[1000] tracking-tighter uppercase italic text-white/90 leading-none">Registry Stack</h2>
+                                        <h2 className="text-3xl font-[1000] tracking-tighter uppercase italic text-white/90 leading-none">Pilha de Registros</h2>
                                         <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] italic opacity-40 mt-1">Custos fixos em vigor</p>
                                     </div>
                                 </div>
