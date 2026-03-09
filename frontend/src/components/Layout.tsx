@@ -105,10 +105,31 @@ export default function Layout() {
                     ))}
                 </nav>
 
-                <div className="p-8 mt-auto">
-                    <Button variant="ghost" className="w-full justify-start gap-3 h-14 rounded-2xl hover:bg-destructive/10 hover:text-destructive transition-all group" onClick={handleLogout}>
-                        <LogOut className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
-                        <span className="body-brand">Encerrar Sessão</span>
+                <div className="p-6 mt-auto space-y-4 border-t border-primary/5">
+                    {/* User Profile & Theme Toggle Group */}
+                    <div className="flex items-center justify-between p-4 rounded-2xl bg-primary/5 group/profile transition-all hover:bg-primary/10">
+                        <div className="flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-lg text-primary-foreground font-bold text-xs">
+                                AD
+                            </div>
+                            <div className="text-left">
+                                <p className="text-xs font-bold tracking-tight">Administrador</p>
+                                <p className="text-[8px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">Produção</p>
+                            </div>
+                        </div>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                            className="rounded-xl h-9 w-9 bg-background/50 backdrop-blur-md shadow-sm hover:scale-110 active:scale-95 transition-all"
+                        >
+                            {theme === 'dark' ? <Sun className="h-4 w-4 text-yellow-500" /> : <Moon className="h-4 w-4 text-primary" />}
+                        </Button>
+                    </div>
+
+                    <Button variant="ghost" className="w-full justify-start gap-3 h-12 rounded-xl hover:bg-destructive/10 hover:text-destructive transition-all group" onClick={handleLogout}>
+                        <LogOut className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+                        <span className="body-brand text-sm">Encerrar Sessão</span>
                     </Button>
                 </div>
             </aside>
@@ -120,39 +141,20 @@ export default function Layout() {
                     !isMobileMenuOpen ? "flex" : "hidden lg:flex"
                 )}
             >
-                <header className="h-24 flex items-center px-10 flex-shrink-0 z-10">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="mr-4 lg:hidden rounded-2xl bg-card/40 backdrop-blur-md shadow-xl"
-                        onClick={() => setIsMobileMenuOpen(true)}
-                    >
-                        <Menu className="h-6 w-6" />
-                    </Button>
+                {/* Floating Mobile Trigger */}
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                        "fixed top-6 left-6 z-30 lg:hidden rounded-2xl bg-card/80 backdrop-blur-xl shadow-2xl border border-white/10 transition-all active:scale-90",
+                        isMobileMenuOpen && "left-auto right-6"
+                    )}
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
+                    <Menu className="h-6 w-6 text-primary" />
+                </Button>
 
-                    <div className="ml-auto flex items-center gap-8">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                            className="rounded-2xl h-12 w-12 bg-card/40 backdrop-blur-md shadow-xl hover:scale-110 active:scale-95 transition-all"
-                        >
-                            {theme === 'dark' ? <Sun className="h-5 w-5 text-yellow-500" /> : <Moon className="h-5 w-5 text-primary" />}
-                        </Button>
-
-                        <div className="flex items-center gap-4 pl-8 border-l border-primary/5">
-                            <div className="text-right hidden sm:block">
-                                <p className="text-sm font-bold tracking-tight">Administrador</p>
-                                <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">Produção</p>
-                            </div>
-                            <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-xl shadow-primary/10 text-primary-foreground font-bold">
-                                AD
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <div className="flex-1 p-6 md:p-12 overflow-y-auto w-full relative custom-scrollbar">
+                <div className="flex-1 p-6 md:p-12 lg:p-16 overflow-y-auto w-full relative custom-scrollbar">
                     <div className="max-w-[1600px] mx-auto animate-in fade-in zoom-in-95 duration-700">
                         <Outlet />
                     </div>

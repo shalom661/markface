@@ -53,7 +53,7 @@ def create_app() -> FastAPI:
     )
 
     # ── Routers ────────────────────────────────────────────────────────────
-    from app.routers import auth, events, health, inventory, products, orders
+    from app.routers import auth, events, health, inventory, products, orders, stats
     from app.routers import internal, suppliers, raw_materials, import_data, customers, categories, units
     from app.api.endpoints import finance
     from app.routers.webhooks import woocommerce as woo_webhooks
@@ -62,6 +62,7 @@ def create_app() -> FastAPI:
     app.include_router(auth.router, prefix=api_prefix)
     app.include_router(products.router, prefix=api_prefix)
     app.include_router(orders.router, prefix=api_prefix)
+    app.include_router(stats.router, prefix=api_prefix)
     app.include_router(inventory.router, prefix=api_prefix)
     app.include_router(events.router, prefix=api_prefix)
     app.include_router(suppliers.router, prefix=api_prefix)

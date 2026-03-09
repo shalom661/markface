@@ -1,4 +1,5 @@
-
+import { useQuery } from '@tanstack/react-query';
+import api from '@/lib/api';
 import {
     Package,
     ShoppingCart,
@@ -17,14 +18,23 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
+    const { data: dashboardData, isLoading } = useQuery({
+        queryKey: ['dashboard-stats'],
+        queryFn: async () => {
+            const response = await api.get('/stats/dashboard');
+            return response.data;
+        }
+    });
+
     const stats = [
         {
             label: "Total de Produtos",
-            value: "124",
+            value: isLoading ? "..." : dashboardData?.stats.total_products.toString(),
             icon: Package,
-            change: "+12%",
+            change: dashboardData?.stats.products_change || "+0%",
             trend: "up",
             color: "text-blue-400",
             bg: "bg-blue-500/10",
@@ -32,9 +42,9 @@ export default function Dashboard() {
         },
         {
             label: "Pedidos Hoje",
-            value: "18",
+            value: isLoading ? "..." : dashboardData?.stats.orders_today.toString(),
             icon: ShoppingCart,
-            change: "+5%",
+            change: dashboardData?.stats.orders_change || "+0%",
             trend: "up",
             color: "text-emerald-400",
             bg: "bg-emerald-500/10",
@@ -42,9 +52,9 @@ export default function Dashboard() {
         },
         {
             label: "Clientes Novos",
-            value: "42",
+            value: isLoading ? "..." : dashboardData?.stats.active_customers.toString(),
             icon: Users,
-            change: "+18%",
+            change: dashboardData?.stats.customers_change || "+0%",
             trend: "up",
             color: "text-purple-400",
             bg: "bg-purple-500/10",
@@ -52,10 +62,10 @@ export default function Dashboard() {
         },
         {
             label: "Receita (Mês)",
-            value: "R$ 45.230",
+            value: isLoading ? "..." : `R$ ${parseFloat(dashboardData?.stats.monthly_revenue || "0").toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
             icon: DollarSign,
-            change: "-2%",
-            trend: "down",
+            change: dashboardData?.stats.revenue_change || "+0%",
+            trend: "up",
             color: "text-amber-400",
             bg: "bg-amber-500/10",
             description: "Faturamento bruto"
@@ -85,8 +95,8 @@ export default function Dashboard() {
 
                 <div className="flex items-center gap-4 p-4 rounded-3xl smooth-glass shadow-2xl">
                     <div className="flex flex-col items-end">
-                        <span className="label-brand text-muted-foreground">Status do Cluster</span>
-                        <span className="text-xs font-bold text-emerald-400">Operando em 100%</span>
+                        <span className="label-brand text-muted-foreground">Status do Sistema</span>
+                        <span className="text-xs font-bold text-emerald-400">Dados Sincronizados</span>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-emerald-500/20 flex items-center justify-center relative">
                         <div className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-20" />
@@ -245,9 +255,5 @@ export default function Dashboard() {
             </div>
         </div>
     );
-}
-
-function cn(...inputs: any[]) {
-    return inputs.filter(Boolean).join(' ');
 }
 
