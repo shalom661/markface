@@ -24,13 +24,13 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     const { data: suppliersData } = useQuery({
         queryKey: ['suppliers'],
         queryFn: async () => {
-            const res = await api.get('/suppliers');
+            const res = await api.get('/suppliers', { params: { page_size: 100 } });
             return res.data;
         },
     });
 
     const { data: rawMaterialsData } = useQuery({
-        queryKey: ['raw-materials'],
+        queryKey: ['raw-materials', type],
         queryFn: async () => {
             const res = await api.get('/raw-materials', { params: { page_size: 100 } });
             return res.data;
@@ -39,7 +39,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     });
 
     const { data: productsData } = useQuery({
-        queryKey: ['products'],
+        queryKey: ['products', type],
         queryFn: async () => {
             const res = await api.get('/products', { params: { page_size: 100 } });
             return res.data;
@@ -86,13 +86,14 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     const totalValue = items.reduce((acc: number, item: any) => acc + (Number(item.quantity || 0) * Number(item.unit_price || 0)), 0);
 
     const handleSubmit = () => {
-        const validItems = items.filter(item => item.id && item.quantity > 0);
+        const validItems = items.filter(item => item.id && Number(item.quantity) > 0);
 
         if (!supplierId || validItems.length === 0) {
             toast.error('Preencha o fornecedor e adicione itens válidos.');
             return;
         }
 
+        // Re-calculate exactly what is being sent
         const calculatedTotal = validItems.reduce((acc, item) => acc + (Number(item.quantity) * Number(item.unit_price)), 0);
 
         const payload = {
@@ -119,7 +120,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
             id: m.id,
             name: `${m.internal_code || 'S/C'} - ${m.description || 'Sem Descrição'}`
         }))
-        : productsArr.filter((p: any) => p && !p.is_manufactured).flatMap((p: any) =>
+        : productsArr.flatMap((p: any) =>
             (p.variants || []).filter((v: any) => v).map((v: any) => ({
                 id: v.id,
                 name: `${p.name || 'Sem Nome'} (${Object.entries(v.attributes || {}).map(([, v]) => v).join('/')})`
