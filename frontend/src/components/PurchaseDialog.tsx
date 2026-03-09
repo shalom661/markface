@@ -32,7 +32,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     const { data: rawMaterialsData } = useQuery({
         queryKey: ['raw-materials'],
         queryFn: async () => {
-            const res = await api.get('/raw-materials');
+            const res = await api.get('/raw-materials', { params: { page_size: 100 } });
             return res.data;
         },
         enabled: type === 'raw_material',
@@ -41,7 +41,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     const { data: productsData } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
-            const res = await api.get('/products');
+            const res = await api.get('/products', { params: { page_size: 100 } });
             return res.data;
         },
         enabled: type === 'resale_product',
@@ -61,7 +61,12 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
             onOpenChange(false);
             setItems([]);
             setSupplierId('');
+            setNotes('');
         },
+        onError: (error: any) => {
+            const detail = error.response?.data?.detail;
+            toast.error(`Erro ao salvar: ${typeof detail === 'string' ? detail : 'Verifique os dados.'}`);
+        }
     });
 
     const addItem = () => {
@@ -69,7 +74,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     };
 
     const removeItem = (index: number) => {
-        setItems(items.filter((_, i) => i !== index));
+        setItems(items.filter((_, i: number) => i !== index));
     };
 
     const handleItemChange = (index: number, field: string, value: any) => {
@@ -78,7 +83,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         setItems(newItems);
     };
 
-    const totalValue = items.reduce((acc, item) => acc + (item.quantity * item.unit_price), 0);
+    const totalValue = items.reduce((acc: number, item: any) => acc + (Number(item.quantity || 0) * Number(item.unit_price || 0)), 0);
 
     const handleSubmit = () => {
         const validItems = items.filter(item => item.id && item.quantity > 0);
@@ -88,18 +93,20 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
             return;
         }
 
+        const calculatedTotal = validItems.reduce((acc, item) => acc + (Number(item.quantity) * Number(item.unit_price)), 0);
+
         const payload = {
             purchase_date: new Date().toISOString(),
             type: type,
             supplier_id: supplierId,
-            total_value: totalValue,
+            total_value: calculatedTotal,
             notes,
             items: validItems.map(item => ({
                 raw_material_id: type === 'raw_material' ? item.id : null,
                 variant_id: type === 'resale_product' ? item.id : null,
-                quantity: parseFloat(item.quantity),
-                unit_price: parseFloat(item.unit_price),
-                total_price: item.quantity * item.unit_price
+                quantity: Number(item.quantity),
+                unit_price: Number(item.unit_price),
+                total_price: Number(item.quantity) * Number(item.unit_price)
             }))
         };
 
@@ -108,7 +115,10 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
 
     // Get options for items (raw materials or product variants)
     const itemOptions = type === 'raw_material'
-        ? rawMaterialsArr
+        ? rawMaterialsArr.map((m: any) => ({
+            id: m.id,
+            name: `${m.internal_code || 'S/C'} - ${m.description || 'Sem Descrição'}`
+        }))
         : productsArr.filter((p: any) => p && !p.is_manufactured).flatMap((p: any) =>
             (p.variants || []).filter((v: any) => v).map((v: any) => ({
                 id: v.id,
