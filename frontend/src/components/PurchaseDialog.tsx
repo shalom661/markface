@@ -155,7 +155,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         );
 
     return (
-        <Dialog open={open} onValueChange={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Nova Compra - {type === 'raw_material' ? 'Matéria-Prima' : 'Revenda'}</DialogTitle>
