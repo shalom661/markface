@@ -80,127 +80,128 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
 
     const totalValue = items.reduce((acc, item) => acc + (item.quantity * item.unit_price), 0);
 
-    const handleSubmit = () => {
-        if (!supplierId || items.length === 0) {
-            toast.error('Preencha o fornecedor e adicione itens.');
-            return;
-        }
+    const validItems = items.filter(item => item.id && item.quantity > 0);
 
-        const payload = {
-            purchase_date: new Date().toISOString(),
-            type: type,
-            supplier_id: supplierId,
-            total_value: totalValue,
-            notes,
-            items: items.map(item => ({
-                raw_material_id: type === 'raw_material' ? item.id : null,
-                variant_id: type === 'resale_product' ? item.id : null,
-                quantity: parseFloat(item.quantity),
-                unit_price: parseFloat(item.unit_price),
-                total_price: item.quantity * item.unit_price
-            }))
-        };
+    if (!supplierId || validItems.length === 0) {
+        toast.error('Preencha o fornecedor e adicione itens válidos.');
+        return;
+    }
 
-        createMutation.mutate(payload);
+    const payload = {
+        purchase_date: new Date().toISOString(),
+        type: type,
+        supplier_id: supplierId,
+        total_value: totalValue,
+        notes,
+        items: validItems.map(item => ({
+            raw_material_id: type === 'raw_material' ? item.id : null,
+            variant_id: type === 'resale_product' ? item.id : null,
+            quantity: parseFloat(item.quantity),
+            unit_price: parseFloat(item.unit_price),
+            total_price: item.quantity * item.unit_price
+        }))
     };
 
-    // Get options for items (raw materials or product variants)
-    const itemOptions = type === 'raw_material'
-        ? rawMaterialsArr
-        : productsArr.filter((p: any) => p && !p.is_manufactured).flatMap((p: any) =>
-            (p.variants || []).filter((v: any) => v).map((v: any) => ({
-                id: v.id,
-                name: `${p.name || 'Sem Nome'} (${Object.entries(v.attributes || {}).map(([, v]) => v).join('/')})`
-            }))
-        );
+    createMutation.mutate(payload);
+};
 
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                    <DialogTitle>Nova Compra - {type === 'raw_material' ? 'Matéria-Prima' : 'Revenda'}</DialogTitle>
-                </DialogHeader>
+// Get options for items (raw materials or product variants)
+const itemOptions = type === 'raw_material'
+    ? rawMaterialsArr
+    : productsArr.filter((p: any) => p && !p.is_manufactured).flatMap((p: any) =>
+        (p.variants || []).filter((v: any) => v).map((v: any) => ({
+            id: v.id,
+            name: `${p.name || 'Sem Nome'} (${Object.entries(v.attributes || {}).map(([, v]) => v).join('/')})`
+        }))
+    );
 
-                <div className="space-y-4 py-4">
-                    <div className="space-y-2">
-                        <Label>Fornecedor</Label>
-                        <Select value={supplierId} onValueChange={setSupplierId}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Selecione o fornecedor" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {suppliersArr.filter((s: any) => s).map((s: any) => (
-                                    <SelectItem key={s.id || Math.random()} value={s.id || ''}>{s.name || 'Sem Nome'}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+                <DialogTitle>Nova Compra - {type === 'raw_material' ? 'Matéria-Prima' : 'Revenda'}</DialogTitle>
+            </DialogHeader>
 
-                    <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                            <Label className="text-lg font-semibold">Itens</Label>
-                            <Button type="button" variant="outline" size="sm" onClick={addItem}>
-                                <Plus className="h-4 w-4 mr-2" /> Adicionar Item
-                            </Button>
-                        </div>
-
-                        {items.map((item, index) => (
-                            <div key={index} className="grid grid-cols-12 gap-3 items-end border p-3 rounded-lg bg-muted/30">
-                                <div className="col-span-6 space-y-1">
-                                    <Label className="text-xs">Item</Label>
-                                    <Select value={item.id} onValueChange={(val) => handleItemChange(index, 'id', val)}>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Selecione..." />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {(itemOptions || []).filter((opt: any) => opt).map((opt: any) => (
-                                                <SelectItem key={opt.id || Math.random()} value={opt.id || ''}>{opt.name || 'Sem Identificação'}</SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                <div className="col-span-2 space-y-1">
-                                    <Label className="text-xs">Qtd</Label>
-                                    <Input
-                                        type="number"
-                                        value={item.quantity}
-                                        onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                                    />
-                                </div>
-                                <div className="col-span-3 space-y-1">
-                                    <Label className="text-xs">Preço Unit.</Label>
-                                    <Input
-                                        type="number"
-                                        value={item.unit_price}
-                                        onChange={(e) => handleItemChange(index, 'unit_price', e.target.value)}
-                                    />
-                                </div>
-                                <div className="col-span-1">
-                                    <Button variant="ghost" size="icon" onClick={() => removeItem(index)}>
-                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="space-y-2">
-                        <Label>Notas</Label>
-                        <Input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Observações extras..." />
-                    </div>
-
-                    <div className="pt-4 border-t flex justify-between items-center">
-                        <span className="text-lg font-bold">Total: R$ {totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                    </div>
+            <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                    <Label>Fornecedor</Label>
+                    <Select value={supplierId} onValueChange={setSupplierId}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Selecione o fornecedor" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {suppliersArr.filter((s: any) => s).map((s: any) => (
+                                <SelectItem key={s.id || Math.random()} value={s.id || ''}>{s.name || 'Sem Nome'}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
-                <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
-                    <Button onClick={handleSubmit} disabled={createMutation.isPending}>
-                        {createMutation.isPending ? 'Salvando...' : 'Salvar Compra'}
-                    </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    );
+                <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                        <Label className="text-lg font-semibold">Itens</Label>
+                        <Button type="button" variant="outline" size="sm" onClick={addItem}>
+                            <Plus className="h-4 w-4 mr-2" /> Adicionar Item
+                        </Button>
+                    </div>
+
+                    {items.map((item, index) => (
+                        <div key={index} className="grid grid-cols-12 gap-3 items-end border p-3 rounded-lg bg-muted/30">
+                            <div className="col-span-6 space-y-1">
+                                <Label className="text-xs">Item</Label>
+                                <Select value={item.id} onValueChange={(val) => handleItemChange(index, 'id', val)}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecione..." />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {(itemOptions || []).filter((opt: any) => opt).map((opt: any) => (
+                                            <SelectItem key={opt.id || Math.random()} value={opt.id || ''}>{opt.name || 'Sem Identificação'}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="col-span-2 space-y-1">
+                                <Label className="text-xs">Qtd</Label>
+                                <Input
+                                    type="number"
+                                    value={item.quantity}
+                                    onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
+                                />
+                            </div>
+                            <div className="col-span-3 space-y-1">
+                                <Label className="text-xs">Preço Unit.</Label>
+                                <Input
+                                    type="number"
+                                    value={item.unit_price}
+                                    onChange={(e) => handleItemChange(index, 'unit_price', e.target.value)}
+                                />
+                            </div>
+                            <div className="col-span-1">
+                                <Button variant="ghost" size="icon" onClick={() => removeItem(index)}>
+                                    <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="space-y-2">
+                    <Label>Notas</Label>
+                    <Input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Observações extras..." />
+                </div>
+
+                <div className="pt-4 border-t flex justify-between items-center">
+                    <span className="text-lg font-bold">Total: R$ {totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                </div>
+            </div>
+
+            <DialogFooter>
+                <Button variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
+                <Button onClick={handleSubmit} disabled={createMutation.isPending}>
+                    {createMutation.isPending ? 'Salvando...' : 'Salvar Compra'}
+                </Button>
+            </DialogFooter>
+        </DialogContent>
+    </Dialog>
+);
 }

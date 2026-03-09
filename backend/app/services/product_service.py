@@ -172,7 +172,7 @@ async def update_product(
     await create_event(
         db,
         "PRODUCT_UPDATED",
-        {"product_id": str(product.id), "changes": data.model_dump(exclude_unset=True)},
+        {"product_id": str(product.id), "changes": data.model_dump(mode="json", exclude_unset=True)},
     )
     
     # Reload
