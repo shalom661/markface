@@ -1,5 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi.responses import StreamingResponse
+import io
+from openpyxl import Workbook
 from app.core.deps import get_db
 from app.schemas.finance import FixedCostCreate, FixedCostRead, PurchaseCreate, PurchaseRead, SalesModalityCreate, SalesModalityRead
 from app.services import finance_service
@@ -39,3 +42,37 @@ async def post_sales_modality(schema: SalesModalityCreate, db: AsyncSession = De
 async def remove_sales_modality(modality_id: str, db: AsyncSession = Depends(get_db)):
     await finance_service.delete_sales_modality(db, modality_id)
     return {"message": "Deleted"}
+
+@router.get("/export-costs/{modality_id}")
+async def export_costs(modality_id: str, db: AsyncSession = Depends(get_db)):
+    data = await finance_service.calculate_all_variant_costs(db, modality_id)
+    
+    # Create Excel
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Custos e Preços"
+    
+    # Headers
+    headers = ["Produto", "SKU", "Custo BOM (Médio)", "Rateio Fixo", "Preço de Venda (Yield)"]
+    ws.append(headers)
+    
+    # Rows
+    for item in data:
+        ws.append([
+            item["product_name"],
+            item["sku"],
+            float(item["bom_cost"]),
+            float(item["fixed_share"]),
+            float(item["yield_price"])
+        ])
+    
+    # Save to buffer
+    buffer = io.BytesIO()
+    wb.save(buffer)
+    buffer.seek(0)
+    
+    return StreamingResponse(
+        buffer,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f"attachment; filename=relatorio_precos_{modality_id}.xlsx"}
+    )
