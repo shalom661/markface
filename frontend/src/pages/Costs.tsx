@@ -275,12 +275,11 @@ export default function Costs() {
                                 <span className="label-brand text-muted-foreground/30">Índice de Utilização</span>
                             </div>
                         </div>
-                    </Card>
                 </div>
-            </div >
+            </div>
 
             {/* Performance Widgets */}
-            < div className="grid grid-cols-2 lg:grid-cols-4 gap-8" >
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 {
                     [
                         { label: 'Média COGS', value: 'R$ 42,90', icon: Target, color: 'text-blue-400', bg: 'bg-blue-500/10' },
@@ -301,7 +300,7 @@ export default function Costs() {
                         </Card>
                     ))
                 }
-            </div >
+            </div>
 
             <Tabs defaultValue="manufactured" className="w-full">
                 <div className="flex justify-between items-center mb-10">
@@ -344,7 +343,7 @@ export default function Costs() {
                     </Card>
                 </TabsContent>
             </Tabs>
-        </div >
+        </div>
     );
 }
 
