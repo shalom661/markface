@@ -141,8 +141,8 @@ export default function Costs() {
     );
 
     return (
-        <div className="max-w-[1600px] mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-6 duration-1000">
-            {/* Elite Header - Changed items-end to items-start to raise the title as requested */}
+        <div className="max-w-[1600px] mx-auto space-y-12">
+            {/* Elite Header */}
             <div className="flex flex-col lg:flex-row justify-between items-start gap-10">
                 <div className="space-y-6">
                     <div className="flex items-center gap-8">
@@ -286,7 +286,7 @@ export default function Costs() {
                         { label: 'Média COGS', value: 'R$ 42,90', icon: Target, color: 'text-blue-400', bg: 'bg-blue-500/10' },
                         { label: 'Eficiência Líquida', value: '94.2%', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
                         { label: 'Score OEE', value: '88', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-                        { label: 'Carga Tributária', value: `${modality.tax_percent}% + R$ ${modality.fixed_fee + modality.extra_cost}`, icon: Compass, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+                        { label: 'Carga Tributária', value: `${modality.tax_percent ?? 0}% + R$ ${(Number(modality.fixed_fee ?? 0) + Number(modality.extra_cost ?? 0)).toFixed(2)}`, icon: Compass, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                     ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
                         <Card key={i} className="rounded-[3rem] border-none smooth-glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
                             <div className="space-y-4">
