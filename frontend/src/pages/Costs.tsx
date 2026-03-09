@@ -91,7 +91,7 @@ export default function Costs() {
     const { data: fixedCosts = [], isLoading: loadingFixed } = useQuery<FixedCost[]>({
         queryKey: ['fixed-costs'],
         queryFn: async () => {
-            const res = await api.get('/finance/fixed-costs');
+            const res = await api.get('/fixed-costs');
             return res.data;
         },
     });
@@ -213,7 +213,7 @@ export default function Costs() {
                                                 <div key={m.id} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-all">
                                                     <div>
                                                         <p className="body-brand text-xs uppercase">{m.name}</p>
-                                                        <p className="label-brand text-muted-foreground opacity-80">Taxa: {m.tax_percent}% + R$ {(m.fixed_fee + m.extra_cost).toFixed(2)}</p>
+                                                        <p className="label-brand text-muted-foreground opacity-80">Taxa: {m.tax_percent}% + R$ {(Number(m.fixed_fee || 0) + Number(m.extra_cost || 0)).toFixed(2)}</p>
                                                     </div>
                                                     <div className="flex gap-2 lg:opacity-0 group-hover:opacity-100 transition-all">
                                                         <Button
