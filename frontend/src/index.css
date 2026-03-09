@@ -88,11 +88,21 @@
 
 @layer components {
   .smooth-glass {
-    @apply bg-card/40 backdrop-blur-xl border-none shadow-2xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0, 60, 113, 0.15)];
+    @apply bg-card/40 backdrop-blur-xl border-none shadow-2xl transition-all duration-500;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .smooth-glass:hover {
+    box-shadow: 0 20px 50px rgba(0, 60, 113, 0.15);
   }
 
   .dark .smooth-glass {
-    @apply bg-card/60 backdrop-blur-xl border-none shadow-2xl hover:shadow-[0_20px_50px_rgba(0, 0, 0, 0.4)];
+    @apply bg-card/60 backdrop-blur-xl border-none;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  .dark .smooth-glass:hover {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
   }
 
   .nav-item-active {
