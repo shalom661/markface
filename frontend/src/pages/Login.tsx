@@ -12,7 +12,27 @@ export default function Login() {
     const [password, setPassword] = useState('Admin@1234');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [systemInitializing, setSystemInitializing] = useState(false);
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        // Check if backend is alive
+        const checkHealth = async () => {
+            try {
+                const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1').replace('/api/v1', '');
+                const start = Date.now();
+                await fetch(`${apiBase}/health`);
+                const duration = Date.now() - start;
+                // If it took more than 2s, it was likely a cold start
+                if (duration > 2000) {
+                    console.log('Cold start detected');
+                }
+            } catch (e) {
+                setSystemInitializing(true);
+            }
+        };
+        checkHealth();
+    }, []);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -63,8 +83,11 @@ export default function Login() {
 
                     <CardHeader className="p-10 pb-4 text-center space-y-1">
                         <CardTitle className="text-3xl font-[1000] text-white tracking-tighter uppercase italic">Portal de Acesso</CardTitle>
-                        <CardDescription className="text-[10px] font-bold text-muted-foreground/40 italic uppercase tracking-widest">
-                            Inicializando protocolos de autenticação...
+                        <CardDescription className={cn(
+                            "text-[10px] font-bold italic uppercase tracking-widest transition-colors duration-500",
+                            systemInitializing ? "text-primary animate-pulse" : "text-muted-foreground/40"
+                        )}>
+                            {systemInitializing ? "Otimizando Motores (Acordando Servidor)..." : "Inicializando protocolos de autenticação..."}
                         </CardDescription>
                     </CardHeader>
 

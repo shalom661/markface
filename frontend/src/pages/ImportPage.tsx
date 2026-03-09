@@ -110,26 +110,26 @@ export default function ImportPage() {
                         <div className="p-2 rounded-xl bg-primary/10 text-primary">
                             <FileUp className="h-6 w-6" />
                         </div>
-                        <h2 className="text-4xl font-extrabold tracking-tight">Importação em Massa</h2>
+                        <h2 className="h1-brand text-4xl">Importação em Massa</h2>
                     </div>
-                    <p className="text-muted-foreground text-lg font-medium">
+                    <p className="h3-brand text-muted-foreground opacity-60">
                         Integração inteligente com planilhas Excel para cadastro massivo.
                     </p>
                 </div>
                 <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600">
                     <Sparkles className="h-4 w-4" />
-                    <span className="text-xs font-black uppercase tracking-widest">Motor v3.0 Active</span>
+                    <span className="label-brand text-xs">Motor v3.0 Active</span>
                 </div>
             </div>
 
             {/* STEP 1 — Choose type */}
-            <Card className="rounded-[2.5rem] border-none glass shadow-2xl overflow-hidden transition-all duration-500">
+            <Card className="rounded-[2.5rem] border-none smooth-glass shadow-2xl overflow-hidden transition-all duration-500">
                 <CardHeader className="border-b border-primary/5 p-8 bg-primary/[0.02]">
                     <div className="flex items-center gap-4">
-                        <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-primary text-primary-foreground text-lg font-black shadow-lg shadow-primary/20">1</div>
+                        <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-primary text-primary-foreground stat-brand text-lg shadow-lg shadow-primary/20">1</div>
                         <div>
-                            <CardTitle className="text-2xl font-black">Configuração Inicial</CardTitle>
-                            <CardDescription className="font-medium text-sm">Selecione o domínio de dados para importação.</CardDescription>
+                            <CardTitle className="h2-brand text-2xl">Configuração Inicial</CardTitle>
+                            <CardDescription className="body-brand text-sm">Selecione o domínio de dados para importação.</CardDescription>
                         </div>
                     </div>
                 </CardHeader>
@@ -154,13 +154,13 @@ export default function ImportPage() {
                                         {t.icon}
                                     </div>
                                     <div>
-                                        <div className="font-black text-lg mb-1">{t.label}</div>
-                                        <div className="text-xs font-semibold text-muted-foreground leading-relaxed italic">{t.description}</div>
+                                        <div className="h3-brand text-lg mb-1">{t.label}</div>
+                                        <div className="body-brand opacity-60 text-xs">{t.description}</div>
                                     </div>
 
                                     {!t.available ? (
                                         <div className="absolute top-4 right-4">
-                                            <Badge variant="secondary" className="text-[9px] font-black uppercase tracking-tighter px-2">Dev Flow</Badge>
+                                            <Badge variant="secondary" className="label-brand text-[9px] px-2">Dev Flow</Badge>
                                         </div>
                                     ) : selected?.key === t.key && (
                                         <div className="absolute top-4 right-4 h-6 w-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground animate-in zoom-in duration-300">
@@ -177,20 +177,20 @@ export default function ImportPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 {/* STEP 2 — Download template */}
                 <div className={`transition-all duration-500 transform ${selected ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-40 pointer-events-none'}`}>
-                    <Card className="h-full rounded-[2.5rem] border-none glass shadow-xl overflow-hidden flex flex-col">
+                    <Card className="h-full rounded-[2.5rem] border-none smooth-glass shadow-xl overflow-hidden flex flex-col">
                         <CardHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
                             <div className="flex items-center gap-4 mb-4">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-primary text-primary-foreground text-lg font-black shadow-lg shadow-primary/20">2</div>
-                                <CardTitle className="text-2xl font-black italic underline decoration-primary/40 underline-offset-8">Draft & Modelo</CardTitle>
+                                <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-primary text-primary-foreground stat-brand text-lg shadow-lg shadow-primary/20">2</div>
+                                <CardTitle className="h2-brand text-2xl italic underline decoration-primary/40 underline-offset-8">Draft & Modelo</CardTitle>
                             </div>
-                            <CardDescription className="space-y-4 font-medium leading-relaxed">
+                            <CardDescription className="space-y-4 body-brand">
                                 <p>Utilize nossa arquitetura de planilha para garantir 100% de precisão na sincronização.</p>
                                 <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10 space-y-2">
-                                    <div className="flex items-center gap-2 text-primary font-black uppercase text-[10px] tracking-widest">
+                                    <div className="flex items-center gap-2 text-primary label-brand text-[10px]">
                                         <Sparkles className="h-4 w-4" />
                                         Smart Columns Engine
                                     </div>
-                                    <p className="text-xs text-muted-foreground">O sistema detecta campos personalizados automaticamente. Mantenha os headers intactos para melhor performance.</p>
+                                    <p className="body-brand text-xs opacity-60">O sistema detecta campos personalizados automaticamente. Mantenha os headers intactos para melhor performance.</p>
                                 </div>
                             </CardDescription>
                         </CardHeader>
@@ -200,7 +200,7 @@ export default function ImportPage() {
                                 disabled={!selected || downloading}
                                 className="group relative w-full h-20 rounded-3xl bg-secondary hover:bg-primary text-secondary-foreground hover:text-primary-foreground transition-all duration-500 overflow-hidden shadow-lg hover:shadow-primary/30 disabled:opacity-50"
                             >
-                                <div className="relative z-10 flex items-center justify-center gap-3 font-black text-lg">
+                                <div className="relative z-10 flex items-center justify-center gap-3 label-brand text-lg">
                                     {downloading ? <Loader2 className="h-6 w-6 animate-spin" /> : <Download className="h-6 w-6 group-hover:-translate-y-1 transition-transform" />}
                                     <span>Download de Template</span>
                                 </div>
@@ -212,11 +212,11 @@ export default function ImportPage() {
 
                 {/* STEP 3 — Upload */}
                 <div className={`transition-all duration-500 delay-100 transform ${selected ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-40 pointer-events-none'}`}>
-                    <Card className="h-full rounded-[2.5rem] border-none glass shadow-xl overflow-hidden flex flex-col">
+                    <Card className="h-full rounded-[2.5rem] border-none smooth-glass shadow-xl overflow-hidden flex flex-col">
                         <CardHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
                             <div className="flex items-center gap-4">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-indigo-500 text-white text-lg font-black shadow-lg shadow-indigo-500/20">3</div>
-                                <CardTitle className="text-2xl font-black italic underline decoration-indigo-500/40 underline-offset-8 text-indigo-100">Deploy de Dados</CardTitle>
+                                <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-indigo-500 text-white stat-brand text-lg shadow-lg shadow-indigo-500/20">3</div>
+                                <CardTitle className="h2-brand text-2xl italic underline decoration-indigo-500/40 underline-offset-8 text-indigo-100">Deploy de Dados</CardTitle>
                             </div>
                         </CardHeader>
                         <CardContent className="p-8 flex-1 flex flex-col gap-6">
@@ -246,8 +246,8 @@ export default function ImportPage() {
                                             <FileSpreadsheet className="h-10 w-10" />
                                         </div>
                                         <div>
-                                            <p className="font-black text-xl text-emerald-100 truncate max-w-[200px] mx-auto">{file.name}</p>
-                                            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mt-1">{(file.size / 1024).toFixed(1)} KB — PRONTO</p>
+                                            <p className="stat-brand text-xl text-emerald-100 truncate max-w-[200px] mx-auto">{file.name}</p>
+                                            <p className="label-brand text-xs text-muted-foreground mt-1">{(file.size / 1024).toFixed(1)} KB — PRONTO</p>
                                         </div>
                                     </div>
                                 ) : (
@@ -256,8 +256,8 @@ export default function ImportPage() {
                                             <Upload className="h-10 w-10" />
                                         </div>
                                         <div>
-                                            <p className="font-bold text-lg">Arraste para importar</p>
-                                            <p className="text-xs uppercase tracking-tighter mt-1 opacity-60">Suporta .xlsx e .xls legíveis</p>
+                                            <p className="h3-brand text-lg">Arraste para importar</p>
+                                            <p className="label-brand text-xs mt-1 opacity-60">Suporta .xlsx e .xls legíveis</p>
                                         </div>
                                     </div>
                                 )}
@@ -266,7 +266,7 @@ export default function ImportPage() {
                             <button
                                 onClick={() => file && importMutation.mutate(file)}
                                 disabled={!file || importMutation.isPending}
-                                className="group relative w-full h-16 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-lg transition-all duration-300 disabled:opacity-40 shadow-xl hover:shadow-indigo-600/30"
+                                className="group relative w-full h-16 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white label-brand text-lg transition-all duration-300 disabled:opacity-40 shadow-xl hover:shadow-indigo-600/30"
                             >
                                 <div className="relative z-10 flex items-center justify-center gap-3">
                                     {importMutation.isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5 group-hover:rotate-12 transition-transform" />}
@@ -280,50 +280,50 @@ export default function ImportPage() {
 
             {/* Result */}
             {importMutation.isSuccess && (
-                <Card className="rounded-[2.5rem] border-none glass-dark bg-emerald-500/[0.03] overflow-hidden animate-in slide-in-from-top-4 duration-700">
+                <Card className="rounded-[2.5rem] border-none smooth-glass bg-emerald-500/[0.03] overflow-hidden animate-in slide-in-from-top-4 duration-700">
                     <CardHeader className="p-8 border-b border-emerald-500/10">
                         <div className="flex items-center gap-4">
                             <div className="h-12 w-12 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/20">
                                 <CheckCircle className="h-6 w-6" />
                             </div>
                             <div>
-                                <CardTitle className="text-2xl font-black text-emerald-100">Transação Finalizada</CardTitle>
-                                <p className="text-emerald-500/60 text-sm font-bold uppercase tracking-widest">{importMutation.data.message}</p>
+                                <CardTitle className="h2-brand text-2xl text-emerald-100">Transação Finalizada</CardTitle>
+                                <p className="label-brand text-emerald-500/60 text-sm">{importMutation.data.message}</p>
                             </div>
                         </div>
                     </CardHeader>
                     <CardContent className="p-8 space-y-8">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div className="bg-emerald-500/10 rounded-3xl p-6 border border-emerald-500/20 text-center">
-                                <p className="text-[10px] font-black uppercase text-emerald-500 tracking-tighter mb-1">Criados</p>
-                                <p className="text-4xl font-black text-emerald-50">{importMutation.data.created}</p>
+                                <p className="label-brand text-[10px] text-emerald-500 mb-1">Criados</p>
+                                <p className="stat-brand text-4xl text-emerald-50">{importMutation.data.created}</p>
                             </div>
                             <div className="bg-white/5 rounded-3xl p-6 border border-white/10 text-center">
-                                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-tighter mb-1">Ignorados</p>
-                                <p className="text-4xl font-black text-white">{importMutation.data.skipped}</p>
+                                <p className="label-brand text-[10px] text-muted-foreground mb-1">Ignorados</p>
+                                <p className="stat-brand text-4xl text-white">{importMutation.data.skipped}</p>
                             </div>
                             <div className={`rounded-3xl p-6 border text-center ${importMutation.data.errors.length > 0 ? 'bg-destructive/10 border-destructive/20 text-destructive' : 'bg-white/5 border-white/10 opacity-30'}`}>
-                                <p className="text-[10px] font-black uppercase tracking-tighter mb-1">Erros</p>
-                                <p className="text-4xl font-black">{importMutation.data.errors.length}</p>
+                                <p className="label-brand text-[10px] mb-1">Erros</p>
+                                <p className="stat-brand text-4xl">{importMutation.data.errors.length}</p>
                             </div>
                             <div className="bg-primary/10 rounded-3xl p-6 border border-primary/20 text-center">
-                                <p className="text-[10px] font-black uppercase text-primary tracking-tighter mb-1">Status</p>
-                                <p className="text-xl font-black text-primary mt-2">100% OK</p>
+                                <p className="label-brand text-[10px] text-primary mb-1">Status</p>
+                                <p className="stat-brand text-xl text-primary mt-2">100% OK</p>
                             </div>
                         </div>
 
                         {importMutation.data.errors.length > 0 && (
                             <div className="space-y-4">
-                                <p className="text-sm font-black uppercase tracking-widest text-destructive flex items-center gap-2">
+                                <p className="label-brand text-sm text-destructive flex items-center gap-2">
                                     <AlertCircle className="h-4 w-4" /> Relatório de Inconsistências
                                 </p>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {importMutation.data.errors.map((err, i) => (
-                                        <div key={i} className="flex items-center gap-4 p-4 glass-dark rounded-2xl border-white/5 hover:border-destructive/30 transition-colors">
-                                            <div className="h-10 w-10 rounded-xl bg-destructive/10 text-destructive flex-shrink-0 flex items-center justify-center font-black text-xs">
+                                        <div key={i} className="flex items-center gap-4 p-4 smooth-glass rounded-2xl border-white/5 hover:border-destructive/30 transition-colors">
+                                            <div className="h-10 w-10 rounded-xl bg-destructive/10 text-destructive flex-shrink-0 flex items-center justify-center stat-brand text-xs">
                                                 L {err.row}
                                             </div>
-                                            <p className="text-sm font-medium text-muted-foreground italic leading-tight">{err.error}</p>
+                                            <p className="body-brand opacity-60 text-sm italic">{err.error}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -334,17 +334,17 @@ export default function ImportPage() {
             )}
 
             {importMutation.isError && (
-                <Card className="rounded-[2.5rem] border-none glass shadow-2xl bg-destructive/5 overflow-hidden animate-in zoom-in duration-500">
+                <Card className="rounded-[2.5rem] border-none smooth-glass shadow-2xl bg-destructive/5 overflow-hidden animate-in zoom-in duration-500">
                     <CardHeader className="p-8 border-b border-destructive/10">
                         <div className="flex items-center gap-3">
                             <div className="h-10 w-10 rounded-xl bg-destructive text-white flex items-center justify-center">
                                 <AlertCircle className="h-6 w-6" />
                             </div>
-                            <CardTitle className="text-2xl font-black text-destructive">Falha na Integridade</CardTitle>
+                            <CardTitle className="h2-brand text-2xl text-destructive">Falha na Integridade</CardTitle>
                         </div>
                     </CardHeader>
                     <CardContent className="p-8">
-                        <p className="text-lg font-medium text-muted-foreground italic leading-relaxed">
+                        <p className="body-brand opacity-60 text-lg italic">
                             {importMutation.error.message}
                         </p>
                     </CardContent>

@@ -91,9 +91,13 @@ export function ProductForm({ product, onSuccess }: ProductFormProps) {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Nome do Produto *</FormLabel>
+                            <FormLabel className="label-brand ml-1">Nome do Produto <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                                <Input placeholder="Ex: Pijama de Seda, Camiseta Básica" {...field} />
+                                <Input
+                                    placeholder="Ex: Pijama de Seda, Camiseta Básica"
+                                    {...field}
+                                    className="h-12 rounded-xl smooth-glass border-primary/10 body-brand"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -105,9 +109,13 @@ export function ProductForm({ product, onSuccess }: ProductFormProps) {
                     name="internal_code"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Código Interno *</FormLabel>
+                            <FormLabel className="label-brand ml-1">Código Interno <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                                <Input placeholder="Ex: PIJ-INV-001" {...field} />
+                                <Input
+                                    placeholder="Ex: PIJ-INV-001"
+                                    {...field}
+                                    className="h-12 rounded-xl smooth-glass border-primary/10 body-brand"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -119,11 +127,11 @@ export function ProductForm({ product, onSuccess }: ProductFormProps) {
                     name="description"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Descrição</FormLabel>
+                            <FormLabel className="label-brand ml-1">Descrição</FormLabel>
                             <FormControl>
                                 <Textarea
                                     placeholder="Detalhes sobre o produto..."
-                                    className="resize-none"
+                                    className="resize-none rounded-xl smooth-glass border-primary/10 body-brand min-h-[100px]"
                                     {...field}
                                 />
                             </FormControl>
@@ -133,7 +141,11 @@ export function ProductForm({ product, onSuccess }: ProductFormProps) {
                 />
 
                 <div className="flex justify-end pt-4">
-                    <Button type="submit" disabled={mutation.isPending} className="w-full sm:w-auto">
+                    <Button
+                        type="submit"
+                        disabled={mutation.isPending}
+                        className="w-full sm:w-auto h-12 px-8 rounded-xl bg-primary text-primary-foreground h3-brand shadow-lg shadow-primary/10 hover:scale-[1.02] transition-all"
+                    >
                         {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Salvar Produto
                     </Button>

@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 export default function Layout() {
     const token = localStorage.getItem('token');
     const { theme, setTheme } = useTheme();
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(true);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Changed to false default for mobile usability
 
     if (!token) {
         return <Navigate to="/login" replace />;
@@ -20,29 +20,31 @@ export default function Layout() {
     };
 
     const handleMenuClick = () => {
-        setIsMobileMenuOpen(false);
+        if (window.innerWidth < 1024) {
+            setIsMobileMenuOpen(false);
+        }
     };
 
     return (
-        <div className="flex h-screen flex-col lg:flex-row bg-background/50 overflow-hidden">
+        <div className="flex h-screen flex-col lg:flex-row bg-background overflow-hidden">
             {/* Sidebar */}
             <aside
                 className={cn(
-                    "w-full lg:w-72 glass border-r shadow-2xl flex-shrink-0 flex flex-col h-full z-20 transition-all duration-300 premium-sidebar",
+                    "w-full lg:w-72 smooth-glass flex-shrink-0 flex flex-col h-full z-20 transition-all duration-500",
                     isMobileMenuOpen ? "flex" : "hidden lg:flex"
                 )}
             >
-                <div className="p-8 border-b flex items-center justify-center">
+                <div className="p-10 flex items-center justify-center">
                     <Link to="/" className="flex items-center justify-center">
                         <img
                             src={theme === 'dark' ? "/markface-white.png" : "/markface-blue.png"}
                             alt="MarkFace Logo"
-                            className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-sm"
+                            className="h-14 w-auto object-contain hover:scale-110 transition-transform duration-500 drop-shadow-2xl"
                         />
                     </Link>
                 </div>
 
-                <nav className="flex-1 p-6 space-y-1.5 overflow-y-auto">
+                <nav className="flex-1 px-6 space-y-1 overflow-y-auto custom-scrollbar">
                     {[
                         { to: "/", icon: LayoutDashboard, label: "Visão Geral" },
                         { to: "/products", icon: Package, label: "Produtos & Estoque" },
@@ -58,8 +60,10 @@ export default function Layout() {
                             key={item.to}
                             variant="ghost"
                             className={cn(
-                                "w-full justify-start gap-3 h-12 rounded-xl transition-all duration-200 hover:bg-primary/5 group",
-                                window.location.pathname === item.to ? "nav-item-active" : "text-muted-foreground hover:text-foreground"
+                                "w-full justify-start gap-3 h-12 rounded-2xl transition-all duration-300 group hover:translate-x-1",
+                                window.location.pathname === item.to
+                                    ? "bg-primary/10 text-primary font-bold shadow-[0_0_20px_rgba(0,60,113,0.1)]"
+                                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                             )}
                             asChild
                             onClick={handleMenuClick}
@@ -69,12 +73,12 @@ export default function Layout() {
                                     "h-5 w-5 transition-transform group-hover:scale-110",
                                     window.location.pathname === item.to ? "text-primary" : ""
                                 )} />
-                                {item.label}
+                                <span className="body-brand">{item.label}</span>
                             </Link>
                         </Button>
                     ))}
 
-                    <div className="my-6 border-t border-primary/10" />
+                    <div className="my-8 mx-4 h-[1px] bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
 
                     {[
                         { to: "/import", icon: FileUp, label: "Importar Dados" },
@@ -84,23 +88,26 @@ export default function Layout() {
                             key={item.to}
                             variant="ghost"
                             className={cn(
-                                "w-full justify-start gap-3 h-12 rounded-xl transition-all duration-200 hover:bg-primary/5 group",
-                                window.location.pathname === item.to ? "nav-item-active" : "text-muted-foreground hover:text-foreground"
+                                "w-full justify-start gap-3 h-12 rounded-2xl transition-all duration-300 group hover:translate-x-1",
+                                window.location.pathname === item.to
+                                    ? "bg-primary/10 text-primary font-bold shadow-[0_0_20px_rgba(0,60,113,0.1)]"
+                                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                             )}
                             asChild
                             onClick={handleMenuClick}
                         >
                             <Link to={item.to}>
                                 <item.icon className="h-5 w-5" />
-                                {item.label}
+                                <span className="body-brand">{item.label}</span>
                             </Link>
                         </Button>
                     ))}
                 </nav>
 
-                <div className="p-6 border-t mt-auto">
-                    <Button variant="outline" className="w-full justify-start gap-3 h-12 rounded-xl border-dashed hover:border-destructive hover:text-destructive transition-colors" onClick={handleLogout}>
-                        <LogOut className="h-5 w-5" /> Sair
+                <div className="p-8 mt-auto">
+                    <Button variant="ghost" className="w-full justify-start gap-3 h-14 rounded-2xl hover:bg-destructive/10 hover:text-destructive transition-all group" onClick={handleLogout}>
+                        <LogOut className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
+                        <span className="body-brand">Encerrar Sessão</span>
                     </Button>
                 </div>
             </aside>
@@ -112,40 +119,40 @@ export default function Layout() {
                     !isMobileMenuOpen ? "flex" : "hidden lg:flex"
                 )}
             >
-                <header className="h-20 glass border-b flex items-center px-8 shadow-sm flex-shrink-0 z-10">
+                <header className="h-24 flex items-center px-10 flex-shrink-0 z-10">
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="mr-4 lg:hidden rounded-xl bg-background shadow-sm border"
+                        className="mr-4 lg:hidden rounded-2xl bg-card/40 backdrop-blur-md shadow-xl"
                         onClick={() => setIsMobileMenuOpen(true)}
                     >
                         <Menu className="h-6 w-6" />
                     </Button>
 
-                    <div className="ml-auto flex items-center gap-6">
+                    <div className="ml-auto flex items-center gap-8">
                         <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                            className="rounded-xl h-10 w-10 bg-background border shadow-sm hover:scale-110 transition-transform"
+                            className="rounded-2xl h-12 w-12 bg-card/40 backdrop-blur-md shadow-xl hover:scale-110 active:scale-95 transition-all"
                         >
                             {theme === 'dark' ? <Sun className="h-5 w-5 text-yellow-500" /> : <Moon className="h-5 w-5 text-primary" />}
                         </Button>
 
-                        <div className="flex items-center gap-3 pl-4 border-l">
+                        <div className="flex items-center gap-4 pl-8 border-l border-primary/5">
                             <div className="text-right hidden sm:block">
-                                <p className="text-sm font-semibold leading-none">Administrador</p>
-                                <p className="text-xs text-muted-foreground mt-1">Gerente de Produção</p>
+                                <p className="text-sm font-bold tracking-tight">Administrador</p>
+                                <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">Produção</p>
                             </div>
-                            <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-primary to-purple-500 flex items-center justify-center shadow-lg shadow-primary/20 text-primary-foreground font-bold">
+                            <div className="h-12 w-12 rounded-2xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-xl shadow-primary/10 text-primary-foreground font-bold">
                                 AD
                             </div>
                         </div>
                     </div>
                 </header>
 
-                <div className="flex-1 p-6 md:p-10 overflow-y-auto w-full relative">
-                    <div className="max-w-7xl mx-auto">
+                <div className="flex-1 p-6 md:p-12 overflow-y-auto w-full relative custom-scrollbar">
+                    <div className="max-w-[1600px] mx-auto animate-in fade-in zoom-in-95 duration-700">
                         <Outlet />
                     </div>
                 </div>

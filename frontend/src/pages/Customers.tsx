@@ -123,23 +123,23 @@ export default function Customers() {
                 <Users className="h-12 w-12 text-primary/20" />
                 <div className="absolute inset-0 animate-ping opacity-20 bg-primary rounded-full scale-150" />
             </div>
-            <p className="text-muted-foreground font-black uppercase tracking-widest text-xs italic">Sincronizando Leads...</p>
+            <p className="label-brand text-muted-foreground italic">Sincronizando Leads...</p>
         </div>
     );
 
     if (error) return (
-        <div className="max-w-2xl mx-auto p-12 text-center space-y-8 glass rounded-[3rem] border-destructive/20 mt-10">
+        <div className="max-w-2xl mx-auto p-12 text-center space-y-8 smooth-glass rounded-[3rem] border-destructive/20 mt-10">
             <div className="w-20 h-20 bg-destructive/10 text-destructive rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-destructive/20">
                 <Users className="h-10 w-10" />
             </div>
             <div className="space-y-2">
-                <h3 className="text-3xl font-black italic underline decoration-destructive/40 underline-offset-8">Falha de Comunicação</h3>
-                <p className="text-muted-foreground font-medium">Não foi possível carregar a base de clientes. Tente novamente.</p>
+                <h3 className="h2-brand underline decoration-destructive/40 underline-offset-8">Falha de Comunicação</h3>
+                <p className="body-brand text-muted-foreground font-medium">Não foi possível carregar a base de clientes. Tente novamente.</p>
             </div>
             <Button
                 variant="outline"
                 onClick={() => queryClient.invalidateQueries({ queryKey: ['customers'] })}
-                className="h-14 px-8 rounded-2xl border-white/10 hover:bg-white/10 font-black uppercase tracking-widest text-xs"
+                className="h-14 px-8 rounded-2xl border-white/10 hover:bg-white/10 label-brand"
             >
                 Tentar Reconectar
             </Button>
@@ -162,10 +162,10 @@ export default function Customers() {
                             <UserCheck className="h-8 w-8" />
                         </div>
                         <div>
-                            <h2 className="text-5xl font-[900] tracking-tighter italic">CRM</h2>
+                            <h1 className="h1-brand">CRM</h1>
                             <div className="flex items-center gap-2 mt-1">
-                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none font-black text-[10px] uppercase tracking-widest px-2">Hub 3.1</Badge>
-                                <span className="text-muted-foreground text-sm font-semibold opacity-60 italic">— Gestão de Relacionamento e Clientes</span>
+                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none label-brand px-2">Hub 3.1</Badge>
+                                <span className="body-brand text-muted-foreground opacity-50 font-bold">— Gestão de Relacionamento e Clientes</span>
                             </div>
                         </div>
                     </div>
@@ -176,7 +176,7 @@ export default function Customers() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
                             placeholder="Buscar por nome, email ou CPF/CNPJ..."
-                            className="h-14 pl-12 rounded-2xl glass border-none ring-offset-background placeholder:text-muted-foreground/40 font-semibold focus-visible:ring-primary/40 shadow-xl"
+                            className="h-14 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/40 body-brand focus-visible:ring-primary/40 shadow-xl"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -186,23 +186,23 @@ export default function Customers() {
                         <DialogTrigger asChild>
                             <button
                                 onClick={handleAddNew}
-                                className="h-14 px-8 rounded-2xl bg-primary text-primary-foreground font-black uppercase tracking-widest text-xs shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3"
+                                className="h-14 px-8 rounded-2xl bg-primary text-primary-foreground label-brand shadow-2xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.03] active:scale-95 transition-all flex items-center gap-3"
                             >
                                 <Plus className="h-5 w-5 stroke-[4]" />
                                 Novo Cliente
                             </button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[600px] rounded-[3rem] border-none glass shadow-2xl p-0 overflow-hidden outline-none">
+                        <DialogContent className="sm:max-w-[600px] rounded-[3rem] border-none smooth-glass shadow-2xl p-0 overflow-hidden outline-none">
                             <DialogHeader className="p-10 bg-primary/10 border-b border-primary/5">
                                 <div className="flex items-center gap-4 mb-2">
                                     <div className="p-3 rounded-2xl bg-primary text-primary-foreground shadow-2xl">
                                         <UserPlus className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <DialogTitle className="text-3xl font-[900] italic uppercase tracking-tighter">
+                                        <DialogTitle className="h2-brand">
                                             {editingCustomer ? 'Perfil do Cliente' : 'Novo Registro'}
                                         </DialogTitle>
-                                        <DialogDescription className="text-xs font-bold text-muted-foreground italic uppercase tracking-widest">
+                                        <DialogDescription className="label-brand">
                                             {editingCustomer ? 'Camada de edição de dados sensíveis' : 'Iniciando novo ciclo de relacionamento'}
                                         </DialogDescription>
                                     </div>
@@ -221,63 +221,63 @@ export default function Customers() {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <Card className="rounded-[2.5rem] border-none glass overflow-hidden group">
+                <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
                     <CardContent className="p-8 flex items-center gap-6">
                         <div className="h-16 w-16 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center transition-transform group-hover:scale-110">
                             <Users className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Base Total</p>
-                            <p className="text-4xl font-black mt-1 leading-none">{data?.total || 0}</p>
+                            <p className="label-brand text-muted-foreground">Base Total</p>
+                            <p className="stat-brand mt-1 leading-none">{data?.total || 0}</p>
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="rounded-[2.5rem] border-none glass overflow-hidden group">
+                <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
                     <CardContent className="p-8 flex items-center gap-6">
                         <div className="h-16 w-16 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110">
                             <Activity className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Taxa Ativa</p>
-                            <p className="text-4xl font-black mt-1 leading-none">94%</p>
+                            <p className="label-brand text-muted-foreground">Taxa Ativa</p>
+                            <p className="stat-brand mt-1 leading-none">94%</p>
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="rounded-[2.5rem] border-none glass overflow-hidden group">
+                <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
                     <CardContent className="p-8 flex items-center gap-6">
                         <div className="h-16 w-16 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center transition-transform group-hover:scale-110">
                             <UserPlus className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Novos/Mês</p>
-                            <p className="text-4xl font-black mt-1 leading-none">+18</p>
+                            <p className="label-brand text-muted-foreground">Novos/Mês</p>
+                            <p className="stat-brand mt-1 leading-none">+18</p>
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="rounded-[2.5rem] border-none glass overflow-hidden group">
+                <Card className="rounded-[2.5rem] border-none smooth-glass overflow-hidden group">
                     <CardContent className="p-8 flex items-center gap-6">
                         <div className="h-16 w-16 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center transition-transform group-hover:scale-110">
                             <CreditCard className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Pessoas Jurídicas</p>
-                            <p className="text-4xl font-black mt-1 leading-none">24</p>
+                            <p className="label-brand text-muted-foreground">Pessoas Jurídicas</p>
+                            <p className="stat-brand mt-1 leading-none">24</p>
                         </div>
                     </CardContent>
                 </Card>
             </div>
 
             {/* Table */}
-            <Card className="rounded-[3.5rem] border-none glass shadow-2xl overflow-hidden min-h-[500px] flex flex-col">
+            <Card className="rounded-[3.5rem] border-none smooth-glass shadow-2xl overflow-hidden min-h-[500px] flex flex-col">
                 <div className="overflow-x-auto scrollbar-hide">
                     <Table>
                         <TableHeader className="bg-primary/[0.02]">
                             <TableRow className="border-b border-white/5 hover:bg-transparent">
-                                <TableHead className="py-6 px-10 font-black text-xs uppercase tracking-widest text-primary/70">Identificação & Perfil</TableHead>
-                                <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Canais de Contato</TableHead>
-                                <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Documentação</TableHead>
-                                <TableHead className="font-black text-xs uppercase tracking-widest text-primary/70">Status</TableHead>
-                                <TableHead className="w-[120px] text-right px-10 font-black text-xs uppercase tracking-widest text-primary/70">Ações</TableHead>
+                                <TableHead className="py-6 px-10 label-brand text-primary/70">Identificação & Perfil</TableHead>
+                                <TableHead className="label-brand text-primary/70">Canais de Contato</TableHead>
+                                <TableHead className="label-brand text-primary/70">Documentação</TableHead>
+                                <TableHead className="label-brand text-primary/70">Status</TableHead>
+                                <TableHead className="w-[120px] text-right px-10 label-brand text-primary/70">Ações</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -285,17 +285,17 @@ export default function Customers() {
                                 <TableRow key={item.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
                                     <TableCell className="py-7 px-10">
                                         <div className="flex items-center gap-6">
-                                            <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary text-xl font-black group-hover:scale-110 transition-transform shadow-inner">
+                                            <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary stat-brand group-hover:scale-110 transition-transform shadow-inner">
                                                 {item.name.charAt(0).toUpperCase()}
                                             </div>
                                             <div className="flex flex-col gap-1.5">
                                                 <div
-                                                    className="font-[900] text-xl text-white/90 truncate max-w-sm group-hover:text-primary transition-colors italic uppercase leading-none cursor-pointer"
+                                                    className="h3-brand text-white/90 truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer"
                                                     onClick={() => handleEdit(item)}
                                                 >
                                                     {item.name}
                                                 </div>
-                                                <div className="text-[10px] font-bold text-muted-foreground/40 italic flex items-center gap-2">
+                                                <div className="label-brand text-[10px] text-muted-foreground/40 italic flex items-center gap-2">
                                                     <div className="h-1.5 w-1.5 rounded-full bg-primary/40" />
                                                     Cliente desde {new Date().getFullYear()}
                                                 </div>
@@ -310,7 +310,7 @@ export default function Customers() {
                                                     {item.email}
                                                 </div>
                                             ) : (
-                                                <span className="text-[10px] font-black uppercase text-muted-foreground/20 italic">Email N/A</span>
+                                                <span className="label-brand text-muted-foreground/20 italic">Email N/A</span>
                                             )}
                                             {item.phone && (
                                                 <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground/40 italic ml-1">
@@ -321,14 +321,14 @@ export default function Customers() {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <div className="inline-flex items-center px-2 py-1 rounded-lg bg-white/5 border border-white/5 text-[10px] font-mono font-black text-muted-foreground">
+                                        <div className="inline-flex items-center px-2 py-1 rounded-lg bg-white/5 border border-white/5 label-brand font-mono">
                                             {item.tax_id || 'NÃO REGISTRADO'}
                                         </div>
                                     </TableCell>
                                     <TableCell>
                                         <button
                                             onClick={() => handleToggle(item.id)}
-                                            className={`w-28 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${item.active
+                                            className={`w-28 px-3 py-1.5 rounded-full label-brand transition-all ${item.active
                                                 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20'
                                                 : 'bg-slate-500/10 text-slate-400 border border-slate-500/20 hover:bg-slate-500/20'
                                                 }`}
@@ -359,8 +359,8 @@ export default function Customers() {
                                                 <Users className="h-12 w-12 opacity-20" />
                                             </div>
                                             <div className="space-y-1">
-                                                <p className="font-black text-xl italic uppercase">Nenhum Registro Localizado</p>
-                                                <p className="text-sm font-medium opacity-50 italic">Sua busca não retornou Leads.</p>
+                                                <p className="h3-brand">Nenhum Registro Localizado</p>
+                                                <p className="body-brand opacity-50 italic">Sua busca não retornou Leads.</p>
                                             </div>
                                             <Button variant="outline" className="rounded-xl border-primary/20 text-primary hover:bg-primary/10" onClick={handleAddNew}>Adicionar Cliente</Button>
                                         </div>

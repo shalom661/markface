@@ -101,9 +101,9 @@ export function SupplierForm({ supplier, onSuccess }: SupplierFormProps) {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Nome do Fornecedor *</FormLabel>
+                            <FormLabel className="label-brand ml-1">Nome do Fornecedor <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                                <Input placeholder="Ex: Tecidos Brilhante LTDA" {...field} />
+                                <Input placeholder="Ex: Tecidos Brilhante LTDA" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -116,9 +116,9 @@ export function SupplierForm({ supplier, onSuccess }: SupplierFormProps) {
                         name="contact_name"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Nome do Contato</FormLabel>
+                                <FormLabel className="label-brand ml-1">Nome do Contato</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Ex: João Silva" {...field} />
+                                    <Input placeholder="Ex: João Silva" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -129,9 +129,9 @@ export function SupplierForm({ supplier, onSuccess }: SupplierFormProps) {
                         name="phone"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Telefone</FormLabel>
+                                <FormLabel className="label-brand ml-1">Telefone</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="(00) 00000-0000" {...field} />
+                                    <Input placeholder="(00) 00000-0000" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -144,9 +144,9 @@ export function SupplierForm({ supplier, onSuccess }: SupplierFormProps) {
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>E-mail</FormLabel>
+                            <FormLabel className="label-brand ml-1">E-mail</FormLabel>
                             <FormControl>
-                                <Input placeholder="contato@fornecedor.com.br" {...field} />
+                                <Input placeholder="contato@fornecedor.com.br" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -158,11 +158,11 @@ export function SupplierForm({ supplier, onSuccess }: SupplierFormProps) {
                     name="notes"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Observações</FormLabel>
+                            <FormLabel className="label-brand ml-1">Observações</FormLabel>
                             <FormControl>
                                 <Textarea
                                     placeholder="Detalhes adicionais sobre o fornecedor..."
-                                    className="resize-none"
+                                    className="resize-none rounded-xl smooth-glass border-primary/10 body-brand min-h-[80px]"
                                     {...field}
                                 />
                             </FormControl>
@@ -176,19 +176,19 @@ export function SupplierForm({ supplier, onSuccess }: SupplierFormProps) {
                     name="active"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Status</FormLabel>
+                            <FormLabel className="label-brand ml-1">Status</FormLabel>
                             <Select
                                 onValueChange={(v) => field.onChange(v === "true")}
                                 defaultValue={field.value ? "true" : "false"}
                             >
                                 <FormControl>
-                                    <SelectTrigger>
+                                    <SelectTrigger className="h-12 rounded-xl smooth-glass border-primary/10 body-brand">
                                         <SelectValue placeholder="Selecione o status" />
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="true">Ativo</SelectItem>
-                                    <SelectItem value="false">Inativo</SelectItem>
+                                    <SelectItem value="true" className="body-brand">Ativo</SelectItem>
+                                    <SelectItem value="false" className="body-brand">Inativo</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />
@@ -197,7 +197,11 @@ export function SupplierForm({ supplier, onSuccess }: SupplierFormProps) {
                 />
 
                 <div className="flex justify-end pt-4">
-                    <Button type="submit" disabled={mutation.isPending} className="w-full md:w-auto">
+                    <Button
+                        type="submit"
+                        disabled={mutation.isPending}
+                        className="w-full md:w-auto h-12 px-8 rounded-xl bg-primary text-primary-foreground h3-brand shadow-lg shadow-primary/10 hover:scale-[1.02] transition-all"
+                    >
                         {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {supplier?.id ? "Salvar Alterações" : "Cadastrar Fornecedor"}
                     </Button>

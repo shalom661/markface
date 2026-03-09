@@ -73,19 +73,19 @@ export default function Dashboard() {
                         </div>
                         <div>
                             <div className="flex items-center gap-3">
-                                <h2 className="text-5xl font-[900] tracking-tighter italic uppercase text-white/90">Monitor</h2>
-                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none font-black text-[10px] uppercase tracking-widest px-2 py-0.5">Tempo Real</Badge>
+                                <h1 className="h1-brand">Monitor</h1>
+                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 label-brand px-2 py-0.5 border-none shadow-sm">Tempo Real</Badge>
                             </div>
-                            <p className="text-muted-foreground text-lg font-semibold opacity-60 italic mt-1">
-                                Bem-vindo ao cockpit do <span className="text-primary opacity-100 not-italic font-black">MarkFace Hub</span>.
+                            <p className="body-brand text-muted-foreground opacity-60 mt-1">
+                                Bem-vindo ao cockpit do <span className="text-primary font-bold">MarkFace Hub</span>.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 rounded-3xl glass border-white/5 shadow-2xl">
+                <div className="flex items-center gap-4 p-4 rounded-3xl smooth-glass shadow-2xl">
                     <div className="flex flex-col items-end">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Status do Cluster</span>
+                        <span className="label-brand text-muted-foreground">Status do Cluster</span>
                         <span className="text-xs font-bold text-emerald-400">Operando em 100%</span>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-emerald-500/20 flex items-center justify-center relative">
@@ -100,7 +100,7 @@ export default function Dashboard() {
                 {stats.map((stat, i) => (
                     <Card
                         key={i}
-                        className="group relative overflow-hidden rounded-[2.5rem] border-none glass p-1 transition-all duration-500 hover:scale-[1.02] hover:shadow-3xl hover:shadow-primary/5"
+                        className="group relative overflow-hidden rounded-[2.5rem] border-none smooth-glass p-1 transition-all duration-500 hover:scale-[1.02] hover:shadow-3xl hover:shadow-primary/5"
                     >
                         <CardContent className="p-8 relative z-10">
                             <div className="flex items-center justify-between mb-8">
@@ -108,8 +108,8 @@ export default function Dashboard() {
                                     <stat.icon className="h-7 w-7 stroke-[2.5]" />
                                 </div>
                                 <div className={cn(
-                                    "flex items-center gap-1 text-[10px] font-black uppercase tracking-tighter px-3 py-1.5 rounded-full border shadow-inner",
-                                    stat.trend === "up" ? "bg-emerald-500/5 text-emerald-400 border-emerald-500/10" : "bg-red-500/5 text-red-400 border-red-500/10"
+                                    "flex items-center gap-1 label-brand px-3 py-1.5 rounded-full shadow-inner border-none",
+                                    stat.trend === "up" ? "bg-emerald-500/5 text-emerald-400" : "bg-red-500/5 text-red-400"
                                 )}>
                                     {stat.trend === "up" ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                                     {stat.change}
@@ -117,12 +117,12 @@ export default function Dashboard() {
                             </div>
 
                             <div className="space-y-1">
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/60">{stat.label}</p>
+                                <p className="label-brand text-muted-foreground/60">{stat.label}</p>
                                 <div className="flex items-baseline gap-2">
-                                    <h4 className="text-4xl font-black tracking-tighter text-white/90">{stat.value}</h4>
-                                    <span className="text-[10px] font-bold text-muted-foreground/40 italic">total</span>
+                                    <h4 className="stat-brand text-white/90">{stat.value}</h4>
+                                    <span className="label-brand text-muted-foreground/40">total</span>
                                 </div>
-                                <p className="text-[10px] font-bold text-muted-foreground/30 italic pt-2 border-t border-white/5 mt-4">
+                                <p className="label-brand text-muted-foreground/20 pt-3 mt-3">
                                     {stat.description}
                                 </p>
                             </div>
@@ -137,19 +137,19 @@ export default function Dashboard() {
             {/* Main Content Area */}
             <div className="grid gap-8 lg:grid-cols-7">
                 {/* Visual Chart Placeholder Area */}
-                <Card className="lg:col-span-4 rounded-[3.5rem] border-none glass overflow-hidden shadow-2xl flex flex-col group">
+                <Card className="lg:col-span-4 rounded-[3.5rem] border-none smooth-glass overflow-hidden shadow-2xl flex flex-col group">
                     <CardHeader className="p-10 pb-0 flex flex-row items-center justify-between">
                         <div className="space-y-1">
-                            <CardTitle className="text-3xl font-black italic tracking-tighter uppercase flex items-center gap-3">
-                                <TrendingUp className="h-6 w-6 text-primary" />
+                            <CardTitle className="h2-brand uppercase flex items-center gap-3">
+                                <TrendingUp className="h-5 w-5 text-primary" />
                                 Projeção Mensal
                             </CardTitle>
-                            <CardDescription className="text-xs font-bold text-muted-foreground italic">Monitoramento de fluxo e conversão</CardDescription>
+                            <CardDescription className="label-brand text-muted-foreground opacity-60">Monitoramento de fluxo e conversão</CardDescription>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Button variant="ghost" size="sm" className="rounded-xl font-black text-[10px] uppercase tracking-widest bg-white/5">D</Button>
-                            <Button variant="secondary" size="sm" className="rounded-xl font-black text-[10px] uppercase tracking-widest bg-primary text-primary-foreground">S</Button>
-                            <Button variant="ghost" size="sm" className="rounded-xl font-black text-[10px] uppercase tracking-widest bg-white/5">M</Button>
+                            <Button variant="ghost" size="sm" className="rounded-xl label-brand bg-primary/5">D</Button>
+                            <Button variant="secondary" size="sm" className="rounded-xl label-brand bg-primary text-primary-foreground">S</Button>
+                            <Button variant="ghost" size="sm" className="rounded-xl label-brand bg-primary/5">M</Button>
                         </div>
                     </CardHeader>
 
@@ -162,7 +162,7 @@ export default function Dashboard() {
                                         className="flex-1 bg-gradient-to-t from-primary/5 to-primary/20 rounded-t-2xl hover:from-primary/20 hover:to-primary transition-all relative group cursor-pointer"
                                         style={{ height: `${h}% ` }}
                                     >
-                                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 glass text-white text-[10px] font-black py-1.5 px-3 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-all transform scale-50 group-hover:scale-100">
+                                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 smooth-glass text-white label-brand py-1.5 px-3 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-all transform scale-50 group-hover:scale-100">
                                             {h}%
                                         </div>
                                     </div>
@@ -171,7 +171,7 @@ export default function Dashboard() {
 
                             <div className="flex justify-between border-t border-white/5 pt-6 px-2">
                                 {['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'].map(m => (
-                                    <span key={m} className="text-[10px] font-black text-muted-foreground/30">{m}</span>
+                                    <span key={m} className="label-brand text-muted-foreground/30">{m}</span>
                                 ))}
                             </div>
                         </div>
@@ -180,14 +180,14 @@ export default function Dashboard() {
 
                 {/* Shortcuts & Actions */}
                 <div className="lg:col-span-3 space-y-8">
-                    <Card className="rounded-[3rem] border-none glass p-8 shadow-2xl relative overflow-hidden group">
+                    <Card className="rounded-[3rem] border-none smooth-glass p-8 shadow-2xl relative overflow-hidden group">
                         <div className="relative z-10 space-y-8">
                             <div className="space-y-1">
-                                <h3 className="text-2xl font-black italic tracking-tighter uppercase flex items-center gap-3">
-                                    <Crown className="h-6 w-6 text-amber-400" />
+                                <h3 className="h3-brand uppercase flex items-center gap-3">
+                                    <Crown className="h-5 w-5 text-amber-400" />
                                     Atalhos Mestres
                                 </h3>
-                                <p className="text-[10px] font-bold text-muted-foreground italic">Operações críticas do sistema</p>
+                                <p className="label-brand">Operações críticas do sistema</p>
                             </div>
 
                             <div className="space-y-4">
@@ -204,9 +204,9 @@ export default function Dashboard() {
                                             <div className={cn("p-3.5 rounded-2xl text-white shadow-2xl transform transition-transform group-hover/btn:scale-110", btn.color)}>
                                                 <btn.icon className="h-5 w-5 stroke-[2.5]" />
                                             </div>
-                                            <div className="text-left">
-                                                <span className="block font-black text-sm uppercase tracking-widest text-white/80">{btn.label}</span>
-                                                <span className="text-[10px] font-bold text-muted-foreground/40 italic">Acesso Instantâneo</span>
+                                            <div className="text-left space-y-1">
+                                                <span className="block h3-brand text-sm text-white/80">{btn.label}</span>
+                                                <span className="label-brand text-muted-foreground/50">Acesso Instantâneo</span>
                                             </div>
                                         </div>
                                         <div className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover/btn:opacity-100 transition-all transform group-hover/btn:translate-x-1">
@@ -221,14 +221,14 @@ export default function Dashboard() {
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </Card>
 
-                    <Card className="rounded-[3rem] border-none glass p-8 bg-primary/5 flex items-center justify-between group overflow-hidden">
+                    <Card className="rounded-[3rem] border-none smooth-glass p-8 bg-primary/5 flex items-center justify-between group overflow-hidden">
                         <div className="space-y-4 relative z-10">
                             <div className="h-12 w-12 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center shadow-2xl">
                                 <Target className="h-6 w-6" />
                             </div>
                             <div>
-                                <h4 className="font-black text-xl uppercase tracking-tighter italic">Meta Diária</h4>
-                                <p className="text-xs font-bold text-muted-foreground mt-1 underline underline-offset-4 decoration-primary/30">Faltam 12 vendas para bater o recorde</p>
+                                <h4 className="h3-brand">Meta Diária</h4>
+                                <p className="label-brand text-muted-foreground mt-1 opacity-50">Faltam 12 vendas para bater o recorde</p>
                             </div>
                         </div>
                         <div className="relative h-24 w-24 flex items-center justify-center z-10">
@@ -236,7 +236,7 @@ export default function Dashboard() {
                                 <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-white/5" />
                                 <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="251.2" strokeDashoffset="75" className="text-primary stroke-[10] drop-shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
                             </svg>
-                            <span className="absolute font-black text-lg">70%</span>
+                            <span className="absolute stat-brand">70%</span>
                         </div>
 
                         <div className="absolute -left-10 -bottom-10 h-32 w-32 bg-primary/20 blur-[80px] rounded-full group-hover:scale-150 transition-transform duration-1000" />

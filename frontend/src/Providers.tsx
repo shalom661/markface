@@ -12,6 +12,10 @@ const queryClient = new QueryClient({
 
 import { ThemeProvider } from './components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
+import WarmupService from './lib/warmup';
+
+// Start warming up the backend immediately
+WarmupService.start();
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (

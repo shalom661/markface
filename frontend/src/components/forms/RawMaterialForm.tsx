@@ -152,8 +152,8 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
         if (fields.length === 0) return null;
 
         return (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-muted/30 rounded-lg border border-dashed border-primary/20">
-                <div className="col-span-full text-xs font-bold uppercase tracking-wider text-primary/60 mb-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 bg-primary/5 rounded-[1.5rem] smooth-glass border-primary/10">
+                <div className="col-span-full h3-brand text-sm text-primary uppercase tracking-widest mb-2 opacity-70">
                     Especificações: {selectedCategoryName}
                 </div>
 
@@ -164,7 +164,7 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
                         name={`category_fields.${f.name}` as any}
                         render={({ field }) => (
                             <FormItem className="space-y-1">
-                                <FormLabel className="text-[10px] font-bold uppercase text-muted-foreground/70">{f.label}</FormLabel>
+                                <FormLabel className="label-brand ml-1 opacity-60">{f.label}</FormLabel>
                                 <FormControl>
                                     <div className="flex gap-1">
                                         <div className="flex-1">
@@ -194,12 +194,12 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
                                                     field.onChange({ value: currentValue, unit: v });
                                                 }}
                                             >
-                                                <SelectTrigger className="w-[70px] h-9 text-[10px] font-bold uppercase shrink-0">
+                                                <SelectTrigger className="w-[80px] h-10 rounded-xl smooth-glass border-primary/10 label-brand text-[10px] uppercase shrink-0">
                                                     <SelectValue placeholder="Un" />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {units.map(u => (
-                                                        <SelectItem key={u.id} value={u.symbol} className="text-[10px] uppercase font-bold">
+                                                        <SelectItem key={u.id} value={u.symbol} className="label-brand text-[10px] uppercase">
                                                             {u.symbol}
                                                         </SelectItem>
                                                     ))}
@@ -223,15 +223,19 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField control={form.control} name="category" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Categoria *</FormLabel>
+                            <FormLabel className="label-brand ml-1">Categoria <span className="text-destructive">*</span></FormLabel>
                             <div className="flex gap-2">
                                 <Select onValueChange={(v) => { field.onChange(v); setSelectedCategoryName(v); }} value={field.value}>
-                                    <FormControl><SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger></FormControl>
+                                    <FormControl>
+                                        <SelectTrigger className="h-12 rounded-xl smooth-glass border-primary/10 body-brand">
+                                            <SelectValue placeholder="Selecione" />
+                                        </SelectTrigger>
+                                    </FormControl>
                                     <SelectContent>
-                                        {categories.map(c => <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>)}
+                                        {categories.map(c => <SelectItem key={c.id} value={c.name} className="body-brand">{c.name}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
-                                <Button type="button" size="icon" variant="outline" asChild title="Gerenciar Categorias">
+                                <Button type="button" size="icon" variant="ghost" asChild title="Gerenciar Categorias" className="rounded-xl smooth-glass border-primary/5 text-primary/60 hover:text-primary">
                                     <Link to="/management"><Plus className="h-4 w-4" /></Link>
                                 </Button>
                             </div>
@@ -241,13 +245,21 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
 
                     <FormField control={form.control} name="supplier_id" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Fornecedor *</FormLabel>
+                            <FormLabel className="label-brand ml-1">Fornecedor <span className="text-destructive">*</span></FormLabel>
                             <div className="flex gap-2">
                                 <Select onValueChange={field.onChange} value={field.value}>
-                                    <FormControl><SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger></FormControl>
-                                    <SelectContent>{suppliersData?.items?.map((s: any) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}</SelectContent>
+                                    <FormControl>
+                                        <SelectTrigger className="h-12 rounded-xl smooth-glass border-primary/10 body-brand">
+                                            <SelectValue placeholder="Selecione" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {suppliersData?.items?.map((s: any) => (
+                                            <SelectItem key={s.id} value={s.id} className="body-brand">{s.name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
                                 </Select>
-                                <Button type="button" size="icon" variant="outline" asChild title="Novo Fornecedor">
+                                <Button type="button" size="icon" variant="ghost" asChild title="Novo Fornecedor" className="rounded-xl smooth-glass border-primary/5 text-primary/60 hover:text-primary">
                                     <Link to="/suppliers"><Plus className="h-4 w-4" /></Link>
                                 </Button>
                             </div>
@@ -260,26 +272,34 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField control={form.control} name="internal_code" render={({ field }) => (
-                        <FormItem><FormLabel>Cód. Interno</FormLabel><Input placeholder="MAT-001" {...field} /><FormMessage /></FormItem>
+                        <FormItem>
+                            <FormLabel className="label-brand ml-1">Cód. Interno</FormLabel>
+                            <Input placeholder="MAT-001" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
+                            <FormMessage />
+                        </FormItem>
                     )} />
                     <FormField control={form.control} name="supplier_code" render={({ field }) => (
-                        <FormItem><FormLabel>Cód. Fornecedor</FormLabel><Input {...field} /><FormMessage /></FormItem>
+                        <FormItem>
+                            <FormLabel className="label-brand ml-1">Cód. Fornecedor</FormLabel>
+                            <Input {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
+                            <FormMessage />
+                        </FormItem>
                     )} />
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <FormField control={form.control} name="unit" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Unidade de Medida *</FormLabel>
+                            <FormLabel className="label-brand ml-1">Unidade *</FormLabel>
                             <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
-                                    <SelectTrigger>
+                                    <SelectTrigger className="h-12 rounded-xl smooth-glass border-primary/10 body-brand">
                                         <SelectValue placeholder="Selecione" />
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
                                     {units.map(u => (
-                                        <SelectItem key={u.id} value={u.symbol}>
+                                        <SelectItem key={u.id} value={u.symbol} className="body-brand">
                                             {u.name} ({u.symbol})
                                         </SelectItem>
                                     ))}
@@ -289,22 +309,42 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
                         </FormItem>
                     )} />
                     <FormField control={form.control} name="color" render={({ field }) => (
-                        <FormItem><FormLabel>Cor</FormLabel><SuggestedInput fieldName="color" {...field} /><FormMessage /></FormItem>
+                        <FormItem>
+                            <FormLabel className="label-brand ml-1">Cor</FormLabel>
+                            <SuggestedInput fieldName="color" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
+                            <FormMessage />
+                        </FormItem>
                     )} />
                     <FormField control={form.control} name="composition" render={({ field }) => (
-                        <FormItem><FormLabel>Composição</FormLabel><SuggestedInput fieldName="composition" placeholder="100% Algodão" {...field} /><FormMessage /></FormItem>
+                        <FormItem>
+                            <FormLabel className="label-brand ml-1">Composição</FormLabel>
+                            <SuggestedInput fieldName="composition" placeholder="100% Algodão" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
+                            <FormMessage />
+                        </FormItem>
                     )} />
                     <FormField control={form.control} name="minimum_order" render={({ field }) => (
-                        <FormItem><FormLabel>Pedido Mínimo</FormLabel><Input type="number" step="0.01" {...field} /><FormMessage /></FormItem>
+                        <FormItem>
+                            <FormLabel className="label-brand ml-1">Pedido Mínimo</FormLabel>
+                            <Input type="number" step="0.01" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
+                            <FormMessage />
+                        </FormItem>
                     )} />
                 </div>
 
                 <FormField control={form.control} name="description" render={({ field }) => (
-                    <FormItem><FormLabel>Descrição / Notas</FormLabel><Textarea className="resize-none" {...field} /><FormMessage /></FormItem>
+                    <FormItem>
+                        <FormLabel className="label-brand ml-1">Descrição / Notas</FormLabel>
+                        <Textarea className="resize-none rounded-xl smooth-glass border-primary/10 body-brand min-h-[80px]" {...field} />
+                        <FormMessage />
+                    </FormItem>
                 )} />
 
                 <div className="flex justify-end pt-2">
-                    <Button type="submit" disabled={mutation.isPending} className="w-full md:w-auto">
+                    <Button
+                        type="submit"
+                        disabled={mutation.isPending}
+                        className="w-full md:w-auto h-12 px-8 rounded-xl bg-primary text-primary-foreground h3-brand shadow-lg shadow-primary/10 hover:scale-[1.02] transition-all"
+                    >
                         {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Salvar Matéria-Prima
                     </Button>

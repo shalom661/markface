@@ -329,12 +329,12 @@ export default function Management() {
     const renderCategoryDetails = () => {
         if (!selectedCategory) {
             return (
-                <div className="flex flex-col items-center justify-center h-full text-muted-foreground p-12 text-center glass rounded-[3rem] border-dashed border-2 border-white/5 animate-in fade-in zoom-in duration-700">
+                <div className="flex flex-col items-center justify-center h-full text-muted-foreground p-12 text-center smooth-glass rounded-[3rem] border-dashed border-2 border-white/5 animate-in fade-in zoom-in duration-700">
                     <div className="h-24 w-24 rounded-[2rem] bg-white/[0.02] flex items-center justify-center mb-8 border border-white/5">
                         <Terminal className="h-10 w-10 opacity-20" />
                     </div>
-                    <p className="text-2xl font-[1000] italic uppercase tracking-tighter text-white/20 leading-none mb-2">Setor Vazio</p>
-                    <p className="text-sm font-bold opacity-30 italic max-w-xs">Selecione uma categoria na infraestrutura ao lado para inspecionar parâmetros.</p>
+                    <p className="h2-brand text- white/20">Setor Vazio</p>
+                    <p className="label-brand opacity-30 italic max-w-xs">Selecione uma categoria na infraestrutura ao lado para inspecionar parâmetros.</p>
                 </div>
             )
         }
@@ -342,25 +342,25 @@ export default function Management() {
         const fields = selectedCategory.fields || []
 
         return (
-            <Card className="rounded-[3rem] border-none glass shadow-3xl overflow-hidden animate-in fade-in slide-in-from-right-10 duration-1000 relative">
+            <Card className="rounded-[3rem] smooth-glass animate-in fade-in slide-in-from-right-10 duration-1000 relative">
                 <div className="absolute top-0 right-0 p-10 opacity-[0.03] pointer-events-none">
                     <Database className="h-40 w-40" />
                 </div>
-                <CardHeader className="bg-primary/5 p-10 border-b border-primary/10">
+                <CardHeader className="bg-primary/5 p-12">
                     <div className="flex items-center justify-between mb-4">
-                        <CardTitle className="text-4xl font-[1000] tracking-tighter italic uppercase text-white flex items-center gap-6">
-                            <div className="p-5 rounded-[1.5rem] bg-primary/10 text-primary border border-primary/20 shadow-glow">
-                                <Layers className="h-8 w-8" />
+                        <CardTitle className="h2-brand italic uppercase text-white flex items-center gap-4">
+                            <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                                <Layers className="h-6 w-6" />
                             </div>
                             {selectedCategory.name}
                         </CardTitle>
-                        <Badge className={`h-10 px-6 rounded-full text-[10px] font-black uppercase tracking-[0.2em] italic border-none shadow-2xl ${selectedCategory.active ? "bg-primary text-primary-foreground" : "bg-white/5 text-muted-foreground"}`}>
-                            {selectedCategory.active ? "Alpha Active" : "Disabled Node"}
+                        <Badge className={`h-9 px-5 rounded-full label-brand border-none shadow-xl ${selectedCategory.active ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+                            {selectedCategory.active ? "Ativo" : "Inativo"}
                         </Badge>
                     </div>
-                    <CardDescription className="text-base font-bold italic opacity-40 uppercase tracking-widest">Definições técnicas e campos de dados.</CardDescription>
+                    <CardDescription className="label-brand text-sm opacity-40">Definições técnicas e campos de dados.</CardDescription>
                 </CardHeader>
-                <CardContent className="p-10">
+                <CardContent className="p-12">
                     {fields.length > 0 ? (
                         <div className="grid grid-cols-1 gap-6">
                             {fields.map((field: CategoryField, i: number) => {
@@ -368,25 +368,25 @@ export default function Management() {
                                 return (
                                     <div
                                         key={field.name}
-                                        className="group flex items-center justify-between p-8 rounded-[2rem] glass-dark hover:glass border border-white/5 transition-all hover:translate-x-3 duration-500 animate-in fade-in slide-in-from-right-6"
+                                        className="group flex items-center justify-between p-8 rounded-[2rem] bg-background/40 hover:bg-background/60 transition-all hover:translate-x-3 duration-500 animate-in fade-in slide-in-from-right-6 shadow-sm"
                                         style={{ animationDelay: `${i * 100}ms` }}
                                     >
                                         <div className="flex items-center gap-8">
-                                            <div className="h-14 w-14 rounded-2xl bg-white/5 flex items-center justify-center text-muted-foreground group-hover:text-primary transition-all">
+                                            <div className="h-14 w-14 rounded-2xl bg-primary/5 flex items-center justify-center text-muted-foreground group-hover:text-primary transition-all">
                                                 <Cpu className="h-6 w-6 opacity-40 group-hover:opacity-100" />
                                             </div>
                                             <div className="flex flex-col gap-1.5">
-                                                <span className="font-[1000] text-2xl italic tracking-tighter text-white/90 uppercase group-hover:text-primary transition-colors">{field.label}</span>
+                                                <span className="h3-brand italic uppercase group-hover:text-primary transition-colors">{field.label}</span>
                                                 {unit && (
                                                     <div className="flex items-center gap-3">
-                                                        <Badge variant="outline" className="text-[9px] uppercase font-black tracking-[0.15em] rounded-md h-5 px-2 bg-primary/10 text-primary border-none">Unit Mapping</Badge>
+                                                        <Badge variant="outline" className="text-[9px] uppercase font-black tracking-[0.15em] rounded-md h-5 px-2 bg-primary/10 text-primary border-none">Unidade</Badge>
                                                         <span className="text-xs font-bold text-muted-foreground italic opacity-50">{unit.name} ({unit.symbol})</span>
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
-                                        <Badge className="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] italic bg-white/5 text-primary border border-primary/10 shadow-lg group-hover:scale-110 transition-transform">
-                                            {field.type === "number" ? "Numérico (Dec)" : "Texto"}
+                                        <Badge className="px-5 py-2 rounded-xl label-brand bg-primary/5 text-primary border-none shadow-lg group-hover:scale-110 transition-transform">
+                                            {field.type === "number" ? "Numérico" : "Texto"}
                                         </Badge>
                                     </div>
                                 )
@@ -396,8 +396,8 @@ export default function Management() {
                         <div className="flex flex-col items-center justify-center py-24 text-muted-foreground italic text-center gap-8 bg-white/[0.01] rounded-[3rem] border-4 border-dashed border-white/5">
                             <Info className="h-16 w-16 opacity-5" />
                             <div className="space-y-2">
-                                <p className="text-3xl font-[1000] italic uppercase tracking-tighter text-white/10 leading-none">Vácuo Detectado</p>
-                                <p className="text-sm font-bold opacity-20 max-w-[280px]">Esta categoria não possui parâmetros registrados no banco de dados.</p>
+                                <p className="h2-brand text-white/10">Vácuo Detectado</p>
+                                <p className="label-brand opacity-20 max-w-[280px]">Esta categoria não possui parâmetros registrados no banco de dados.</p>
                             </div>
                         </div>
                     )}
@@ -412,32 +412,31 @@ export default function Management() {
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
                 <div className="space-y-6">
                     <div className="flex items-center gap-8">
-                        <div className="h-20 w-20 rounded-[2.5rem] bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary shadow-3xl border border-primary/10 transition-transform hover:scale-110 duration-500">
+                        <div className="h-20 w-20 rounded-[2.5rem] bg-primary/10 flex items-center justify-center text-primary shadow-2xl transition-transform hover:scale-110 duration-500">
                             <Settings className="h-10 w-10 animate-spin-slow" />
                         </div>
                         <div>
-                            <div className="flex items-center gap-4 mb-2">
-                                <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">Administração</h1>
-                                <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Infraestrutura Central</Badge>
+                            <div className="flex items-center gap-3 mb-1">
+                                <h1 className="h1-brand">Gerenciamento</h1>
+                                <Badge className="bg-primary/10 text-primary border-none label-brand px-3 py-1 rounded-full text-[10px]">Sistema</Badge>
                             </div>
-                            <p className="text-muted-foreground text-2xl font-semibold opacity-40 italic tracking-tight">
-                                Orquestração de <span className="text-primary not-italic font-black text-white/80">Categorias & Unidades</span> sistêmicas.
+                            <p className="text-muted-foreground body-brand opacity-60">
+                                Orquestração de <span className="text-primary font-medium">Categorias & Unidades</span>.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                {/* Dashboard Stats (Optional for visual flair) */}
                 <div className="flex gap-6">
-                    <Card className="rounded-[2.5rem] border-none glass p-6 py-8 flex flex-col items-center justify-center min-w-[200px] shadow-2xl hover:scale-105 transition-all">
+                    <Card className="rounded-[2.5rem] smooth-glass p-6 py-8 flex flex-col items-center justify-center min-w-[200px] shadow-2xl hover:scale-105 transition-all">
                         <Binary className="h-6 w-6 text-primary mb-3 opacity-40" />
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic">Categorias Injetadas</p>
-                        <p className="text-4xl font-[1000] text-white italic tracking-tighter leading-none mt-2">{categories.length}</p>
+                        <p className="label-brand">Categorias</p>
+                        <p className="stat-brand mt-2">{categories.length}</p>
                     </Card>
-                    <Card className="rounded-[2.5rem] border-none glass p-6 py-8 flex flex-col items-center justify-center min-w-[200px] shadow-2xl hover:scale-105 transition-all">
-                        <Cpu className="h-6 w-6 text-emerald-400 mb-3 opacity-40" />
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic">Unidades Ativas</p>
-                        <p className="text-4xl font-[1000] text-white italic tracking-tighter leading-none mt-2">{units.length}</p>
+                    <Card className="rounded-[2.5rem] smooth-glass p-6 py-8 flex flex-col items-center justify-center min-w-[200px] shadow-2xl hover:scale-105 transition-all">
+                        <Cpu className="h-6 w-6 text-secondary mb-3 opacity-40" />
+                        <p className="label-brand">Unidades</p>
+                        <p className="stat-brand mt-2">{units.length}</p>
                     </Card>
                 </div>
             </div>
@@ -445,45 +444,45 @@ export default function Management() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div className="lg:col-span-7 space-y-12">
                     {/* Categories Section */}
-                    <Card className="rounded-[4rem] border-none glass overflow-hidden shadow-3xl transition-all p-1">
+                    <Card className="rounded-[4rem] smooth-glass overflow-hidden transition-all">
                         <CardHeader
-                            className="cursor-pointer hover:bg-white/[0.02] transition-all flex flex-row items-center justify-between p-12 border-b border-white/5"
+                            className="cursor-pointer hover:bg-white/[0.02] transition-all flex flex-row items-center justify-between p-12"
                             onClick={() => setIsCategoriesExpanded(!isCategoriesExpanded)}
                         >
                             <div className="flex items-center gap-8">
-                                <div className="p-5 rounded-[1.5rem] bg-amber-500/10 text-amber-500 border border-amber-500/20 shadow-glow-amber">
-                                    <Layers className="h-8 w-8" />
+                                <div className="p-4 rounded-2xl bg-amber-500/10 text-amber-500 shadow-glow-amber">
+                                    <Layers className="h-7 w-7" />
                                 </div>
-                                <div className="space-y-2">
-                                    <CardTitle className="text-4xl font-[1000] tracking-tighter uppercase italic text-white/90 leading-none">Nós do Banco de Dados</CardTitle>
-                                    <CardDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40">Estruturação de modalidades e categorias operacionais.</CardDescription>
+                                <div className="space-y-1">
+                                    <CardTitle className="h2-brand uppercase text-white/90">Categorias</CardTitle>
+                                    <CardDescription className="label-brand opacity-40">Estruturação de modalidades operacionais.</CardDescription>
                                 </div>
                             </div>
-                            <div className="h-14 w-14 rounded-full bg-white/5 flex items-center justify-center text-muted-foreground group">
-                                {isCategoriesExpanded ? <ChevronDown className="h-6 w-6 animate-bounce-subtle" /> : <ChevronRight className="h-6 w-6 group-hover:translate-x-1 transition-transform" />}
+                            <div className="h-12 w-12 rounded-full bg-primary/5 flex items-center justify-center text-muted-foreground group">
+                                {isCategoriesExpanded ? <ChevronDown className="h-5 w-5 animate-bounce-subtle" /> : <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />}
                             </div>
                         </CardHeader>
                         {isCategoriesExpanded && (
                             <CardContent className="p-12 space-y-10 animate-in fade-in slide-in-from-top-4 duration-500">
                                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                                     <DialogTrigger asChild>
-                                        <Button className="w-full h-20 rounded-[2rem] bg-primary text-primary-foreground shadow-2xl shadow-primary/40 hover:scale-[1.02] active:scale-95 transition-all text-sm font-black uppercase tracking-[0.3em] italic group relative overflow-hidden" onClick={handleAddNew}>
-                                            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                                            <Plus className="h-6 w-6 mr-4" />
-                                            Inicializar Novo Nó
+                                        <Button className="w-full h-16 rounded-2xl bg-primary text-primary-foreground shadow-2xl shadow-primary/30 hover:scale-[1.01] active:scale-95 transition-all label-brand group relative overflow-hidden" onClick={handleAddNew}>
+                                            <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                                            <Plus className="h-5 w-5 mr-3" />
+                                            Nova Categoria
                                         </Button>
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[650px] rounded-[3rem] border-none glass-dark border-white/10 shadow-4xl p-0 overflow-hidden backdrop-blur-3xl animate-in zoom-in-95 duration-500">
-                                        <DialogHeader className="p-12 bg-primary/5 border-b border-primary/10">
+                                        <DialogHeader className="p-12 bg-primary/5">
                                             <div className="flex items-center gap-6 mb-4">
-                                                <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20">
-                                                    <Layers className="h-8 w-8" />
+                                                <div className="h-14 w-14 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20">
+                                                    <Layers className="h-7 w-7" />
                                                 </div>
                                                 <div>
-                                                    <DialogTitle className="text-4xl font-[1000] tracking-tighter italic uppercase text-white leading-none">
-                                                        {editingCategory ? "Alterar Nó" : "Criar Nó"}
+                                                    <DialogTitle className="h2-brand text-3xl italic uppercase text-white leading-none">
+                                                        {editingCategory ? "Alterar Categoria" : "Nova Categoria"}
                                                     </DialogTitle>
-                                                    <DialogDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40 mt-2 text-primary/60">
+                                                    <DialogDescription className="label-brand opacity-40 mt-2">
                                                         Definição de metadados e estrutura técnica.
                                                     </DialogDescription>
                                                 </div>
@@ -493,26 +492,26 @@ export default function Management() {
                                             <Form {...form}>
                                                 <form onSubmit={form.handleSubmit(handleSave)} className="space-y-10">
                                                     <FormField control={form.control} name="name" render={({ field }) => (
-                                                        <FormItem className="space-y-4">
-                                                            <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Tag de Identidade</FormLabel>
+                                                        <FormItem className="space-y-3">
+                                                            <FormLabel className="label-brand text-primary opacity-60 ml-1">Nome Identificador</FormLabel>
                                                             <FormControl>
                                                                 <Input
-                                                                    placeholder="Ex: FIBRA_CARBONO, LINHAGEM_A..."
-                                                                    className="h-20 rounded-2xl glass border-none focus:ring-4 focus:ring-primary/20 transition-all text-2xl font-[1000] italic tracking-tighter uppercase placeholder:opacity-20"
+                                                                    placeholder="Ex: FIBRA, LINHAGEM..."
+                                                                    className="h-12 rounded-xl bg-background/50 border-none focus:ring-primary/20 transition-all body-brand placeholder:opacity-20"
                                                                     {...field}
                                                                 />
                                                             </FormControl>
-                                                            <FormMessage className="text-[10px] uppercase font-black italic" />
+                                                            <FormMessage className="label-brand italic" />
                                                         </FormItem>
                                                     )} />
 
                                                     <div className="space-y-6">
                                                         <div className="flex items-center justify-between px-2">
                                                             <div className="space-y-1">
-                                                                <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic">Parâmetros de Hardware</Label>
-                                                                <p className="text-[9px] font-bold text-muted-foreground/40 italic uppercase">Campos injetados no sistema</p>
+                                                                <Label className="label-brand text-primary/60 italic">Parâmetros de Hardware</Label>
+                                                                <p className="label-brand text-muted-foreground/40 italic">Campos injetados no sistema</p>
                                                             </div>
-                                                            <Button type="button" variant="outline" size="sm" onClick={addField} className="h-10 rounded-xl glass border-white/5 font-black text-[10px] uppercase tracking-widest gap-2 hover:bg-primary/10 hover:text-primary transition-all">
+                                                            <Button type="button" variant="outline" size="sm" onClick={addField} className="h-10 rounded-xl smooth-glass border-white/5 label-brand gap-2 hover:bg-primary/10 hover:text-primary transition-all">
                                                                 <Plus className="h-4 w-4" /> Adicionar Parâmetro
                                                             </Button>
                                                         </div>
@@ -520,7 +519,7 @@ export default function Management() {
                                                         <div className="space-y-4 max-h-[350px] overflow-y-auto pr-4 custom-scrollbar">
                                                             {dynamicFields.map((f: any, i: number) => (
                                                                 <div key={i} className="flex gap-4 items-center animate-in slide-in-from-right-4 duration-300 group" style={{ animationDelay: `${i * 50}ms` }}>
-                                                                    <div className="h-12 w-12 rounded-xl bg-white/5 flex items-center justify-center font-black text-[10px] italic text-muted-foreground/20 border border-white/5 group-hover:border-primary/20 group-hover:text-primary transition-all shrink-0">
+                                                                    <div className="h-12 w-12 rounded-xl bg-white/5 flex items-center justify-center label-brand italic text-muted-foreground/20 border border-white/5 group-hover:border-primary/20 group-hover:text-primary transition-all shrink-0">
                                                                         {i + 1}
                                                                     </div>
                                                                     <Input
@@ -533,13 +532,13 @@ export default function Management() {
                                                                         value={f.type === "text" ? "text" : f.unit_id}
                                                                         onValueChange={(v) => updateFieldTypeAndUnit(i, v)}
                                                                     >
-                                                                        <SelectTrigger className="w-[180px] h-14 rounded-xl glass-dark border-none text-[10px] font-black uppercase italic">
+                                                                        <SelectTrigger className="w-[180px] h-14 rounded-xl glass-dark border-none label-brand italic">
                                                                             <SelectValue placeholder="Protocolo" />
                                                                         </SelectTrigger>
                                                                         <SelectContent className="glass-dark border-white/10 rounded-2xl">
-                                                                            <SelectItem value="text" className="text-[10px] font-black uppercase italic py-3">Protocolo Texto</SelectItem>
+                                                                            <SelectItem value="text" className="label-brand italic py-3">Protocolo Texto</SelectItem>
                                                                             {units.map((u) => (
-                                                                                <SelectItem key={u.id} value={u.id} className="text-[10px] font-black uppercase italic py-3">
+                                                                                <SelectItem key={u.id} value={u.id} className="label-brand italic py-3">
                                                                                     {u.symbol} - Numérico (Dec)
                                                                                 </SelectItem>
                                                                             ))}
@@ -552,7 +551,7 @@ export default function Management() {
                                                                 </div>
                                                             ))}
                                                             {dynamicFields.length === 0 && (
-                                                                <div className="text-center py-12 rounded-[2.5rem] bg-white/[0.01] border-4 border-dashed border-white/5 text-[10px] font-black italic uppercase tracking-widest text-muted-foreground/30">
+                                                                <div className="text-center py-12 rounded-[2.5rem] bg-white/[0.01] border-4 border-dashed border-white/5 label-brand italic text-muted-foreground/30">
                                                                     Sem Parâmetros.
                                                                 </div>
                                                             )}
@@ -560,7 +559,7 @@ export default function Management() {
                                                     </div>
 
                                                     <DialogFooter className="pt-8">
-                                                        <Button type="submit" disabled={mutation.isPending} className="w-full h-20 rounded-[2rem] bg-primary text-primary-foreground shadow-4xl shadow-primary/40 text-sm font-[1000] italic uppercase tracking-[0.3em] hover:scale-[1.03] active:scale-95 transition-all">
+                                                        <Button type="submit" disabled={mutation.isPending} className="w-full h-20 rounded-[2rem] bg-primary text-primary-foreground shadow-4xl shadow-primary/40 label-brand hover:scale-[1.03] active:scale-95 transition-all">
                                                             {mutation.isPending ? <Loader2 className="h-6 w-6 animate-spin mr-3 italic" /> : <ShieldCheck className="h-6 w-6 mr-3" />}
                                                             {editingCategory ? "Confirmar Alterações" : "Forjar Categoria"}
                                                         </Button>
@@ -571,13 +570,13 @@ export default function Management() {
                                     </DialogContent>
                                 </Dialog>
 
-                                <div className="rounded-[2.5rem] border border-white/5 overflow-hidden glass-dark shadow-2xl">
+                                <div className="rounded-[2.5rem] bg-background/20 overflow-hidden shadow-inner">
                                     <ScrollArea className="h-[500px]">
                                         <Table>
-                                            <TableHeader className="bg-white/5 sticky top-0 z-10">
+                                            <TableHeader className="bg-primary/5 sticky top-0 z-10">
                                                 <TableRow className="hover:bg-transparent border-none">
-                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">Nó do Sistema</TableHead>
-                                                    <TableHead className="w-[280px] text-right px-10 text-[10px] font-black uppercase tracking-[0.2em] italic text-primary">Ações</TableHead>
+                                                    <TableHead className="label-brand text-primary py-8 px-10">Categoria</TableHead>
+                                                    <TableHead className="w-[280px] text-right px-10 label-brand text-primary">Ações</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
@@ -593,21 +592,21 @@ export default function Management() {
                                                         </TableCell>
                                                     </TableRow>
                                                 ) : categories.length === 0 ? (
-                                                    <TableRow><TableCell colSpan={2} className="text-center py-32 text-[10px] font-black uppercase italic tracking-widest text-muted-foreground/40">Mapeamento de Entidades Vazio.</TableCell></TableRow>
+                                                    <TableRow><TableCell colSpan={2} className="text-center py-32 label-brand italic text-muted-foreground/40">Mapeamento de Entidades Vazio.</TableCell></TableRow>
                                                 ) : (
                                                     categories.map((cat: Category, i: number) => (
                                                         <TableRow
                                                             key={cat.id}
-                                                            className={`group border-b border-white/5 transition-all hover:bg-primary/5 cursor-pointer animate-in fade-in slide-in-from-left-4 duration-500 ${selectedCategory?.id === cat.id ? "bg-primary/10 border-l-[10px] border-l-primary" : ""}`}
+                                                            className={`group border-b border-primary/5 transition-all hover:bg-primary/5 cursor-pointer animate-in fade-in slide-in-from-left-4 duration-500 ${selectedCategory?.id === cat.id ? "bg-primary/10 border-l-[6px] border-l-primary" : ""}`}
                                                             style={{ animationDelay: `${i * 100}ms` }}
                                                             onClick={() => setSelectedCategory(cat)}
                                                         >
                                                             <TableCell className="py-8 px-10">
                                                                 <div className="flex items-center gap-6">
-                                                                    <div className={`h-4 w-4 rounded-full ${cat.active ? "bg-primary shadow-glow animate-pulse" : "bg-white/10"}`} />
+                                                                    <div className={`h-3 w-3 rounded-full ${cat.active ? "bg-primary shadow-glow accent-primary" : "bg-muted"}`} />
                                                                     <div>
-                                                                        <p className="text-2xl font-[1000] text-white/90 italic tracking-tighter leading-none uppercase group-hover:translate-x-2 transition-transform">{cat.name}</p>
-                                                                        <p className="text-[9px] font-black text-muted-foreground/30 uppercase tracking-[0.2em] italic mt-2">UUID: {cat.id.substring(0, 8)}... :: Protocolo Alpha</p>
+                                                                        <p className="h3-brand text-white/90 italic tracking-tighter leading-none uppercase group-hover:translate-x-1 transition-transform">{cat.name}</p>
+                                                                        <p className="label-brand opacity-20 mt-1.5 uppercase">ID: {cat.id.substring(0, 8)}</p>
                                                                     </div>
                                                                 </div>
                                                             </TableCell>
@@ -639,7 +638,7 @@ export default function Management() {
                                                                     </Button>
                                                                     <Button
                                                                         variant="secondary"
-                                                                        className="h-12 px-8 rounded-xl font-black text-[10px] italic uppercase tracking-[0.2em] bg-white text-black hover:bg-primary transition-all shadow-2xl"
+                                                                        className="h-12 px-8 rounded-xl label-brand italic bg-white text-black hover:bg-primary transition-all shadow-2xl"
                                                                         onClick={(e) => { e.stopPropagation(); setSelectedCategory(cat); }}
                                                                     >
                                                                         Inspecionar
@@ -658,60 +657,61 @@ export default function Management() {
                     </Card>
 
                     {/* Measurement Units Section */}
-                    <Card className="rounded-[4rem] border-none glass overflow-hidden shadow-3xl p-1">
+                    <Card className="rounded-[4rem] smooth-glass overflow-hidden transition-all">
                         <CardHeader
-                            className="cursor-pointer hover:bg-white/[0.02] transition-all flex flex-row items-center justify-between p-12 border-b border-white/5"
+                            className="cursor-pointer hover:bg-white/[0.02] transition-all flex flex-row items-center justify-between p-12"
                             onClick={() => setIsUnitsExpanded(!isUnitsExpanded)}
                         >
                             <div className="flex items-center gap-8">
-                                <div className="p-5 rounded-[1.5rem] bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-glow-emerald">
-                                    <Calculator className="h-8 w-8" />
+                                <div className="p-4 rounded-2xl bg-emerald-500/10 text-emerald-500 shadow-glow-emerald">
+                                    <Calculator className="h-7 w-7" />
                                 </div>
-                                <div className="space-y-2">
-                                    <CardTitle className="text-4xl font-[1000] tracking-tighter uppercase italic text-white/90 leading-none">Unidades Padrão</CardTitle>
-                                    <CardDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40">Orquestração de metadados métricos.</CardDescription>
+                                <div className="space-y-1">
+                                    <CardTitle className="h2-brand uppercase text-white/90">Unidades de Medida</CardTitle>
+                                    <CardDescription className="label-brand opacity-40">Orquestração de metadados métricos.</CardDescription>
                                 </div>
                             </div>
-                            <div className="h-14 w-14 rounded-full bg-white/5 flex items-center justify-center text-muted-foreground group">
-                                {isUnitsExpanded ? <ChevronDown className="h-6 w-6 animate-bounce-subtle" /> : <ChevronRight className="h-6 w-6 group-hover:translate-x-1 transition-transform" />}
+                            <div className="h-12 w-12 rounded-full bg-primary/5 flex items-center justify-center text-muted-foreground group">
+                                {isUnitsExpanded ? <ChevronDown className="h-5 w-5 animate-bounce-subtle" /> : <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />}
                             </div>
                         </CardHeader>
                         {isUnitsExpanded && (
                             <CardContent className="p-12 space-y-10 animate-in fade-in slide-in-from-top-4 duration-500">
                                 <Dialog open={isUnitDialogOpen} onOpenChange={setIsUnitDialogOpen}>
                                     <DialogTrigger asChild>
-                                        <Button className="w-full h-20 rounded-[2rem] bg-white text-black shadow-2xl hover:scale-[1.02] active:scale-95 transition-all text-sm font-black uppercase tracking-[0.3em] italic group relative overflow-hidden" onClick={handleAddNewUnit}>
-                                            <div className="absolute inset-0 bg-primary/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                                            <Plus className="h-6 w-6 mr-4" />
-                                            Registrar Unidade                                        </Button>
+                                        <Button className="w-full h-16 rounded-2xl bg-foreground text-background shadow-2xl hover:scale-[1.01] active:scale-95 transition-all label-brand italic group relative overflow-hidden" onClick={handleAddNewUnit}>
+                                            <div className="absolute inset-0 bg-primary/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                                            <Plus className="h-5 w-5 mr-3" />
+                                            Nova Unidade
+                                        </Button>
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[550px] rounded-[3rem] border-none glass-dark border-white/10 shadow-4xl p-0 overflow-hidden backdrop-blur-3xl">
                                         <DialogHeader className="p-12 bg-white/5 border-b border-white/5">
-                                            <DialogTitle className="text-4xl font-[1000] tracking-tighter italic uppercase text-white leading-none">Forjar Unidade</DialogTitle>
-                                            <DialogDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40 mt-2">Sincronização de unidades padrão.</DialogDescription>
+                                            <DialogTitle className="h2-brand text-4xl">Forjar Unidade</DialogTitle>
+                                            <DialogDescription className="label-brand opacity-40 mt-2">Sincronização de unidades padrão.</DialogDescription>
                                         </DialogHeader>
                                         <div className="p-12">
                                             <Form {...unitForm}>
                                                 <form onSubmit={unitForm.handleSubmit((v) => unitMutation.mutate(v))} className="space-y-10">
                                                     <div className="grid gap-10">
                                                         <FormField control={unitForm.control} name="name" render={({ field }) => (
-                                                            <FormItem className="space-y-4">
-                                                                <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Nome do Protocolo</FormLabel>
-                                                                <FormControl><Input className="h-20 rounded-2xl glass border-none text-2xl font-[1000] italic tracking-tighter uppercase placeholder:opacity-10" placeholder="Ex: Metros, Gramas..." {...field} /></FormControl>
+                                                            <FormItem className="space-y-2">
+                                                                <FormLabel className="label-brand text-primary/60 ml-1">Nome do Protocolo</FormLabel>
+                                                                <FormControl><Input className="h-14 rounded-xl smooth-glass border-none h3-brand placeholder:opacity-10" placeholder="Ex: Metros, Gramas..." {...field} /></FormControl>
                                                                 <FormMessage />
                                                             </FormItem>
                                                         )} />
                                                         <FormField control={unitForm.control} name="symbol" render={({ field }) => (
-                                                            <FormItem className="space-y-4">
-                                                                <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Cifra do Sistema</FormLabel>
-                                                                <FormControl><Input className="h-20 rounded-2xl glass border-none text-5xl font-[1000] italic tracking-tighter uppercase text-primary placeholder:opacity-10" placeholder="m/g/un" {...field} /></FormControl>
+                                                            <FormItem className="space-y-2">
+                                                                <FormLabel className="label-brand text-primary/60 ml-1">Cifra do Sistema</FormLabel>
+                                                                <FormControl><Input className="h-14 rounded-xl smooth-glass border-none body-brand text-primary placeholder:opacity-10" placeholder="m/g/un" {...field} /></FormControl>
                                                                 <FormMessage />
                                                             </FormItem>
                                                         )} />
                                                     </div>
 
                                                     <DialogFooter className="pt-8">
-                                                        <Button type="submit" disabled={unitMutation.isPending} className="w-full h-20 rounded-[2rem] bg-white text-black shadow-4xl text-sm font-[1000] italic uppercase tracking-[0.3em] hover:scale-[1.03] transition-all">
+                                                        <Button type="submit" disabled={unitMutation.isPending} className="w-full h-20 rounded-[2rem] bg-white text-black shadow-4xl label-brand hover:scale-[1.03] transition-all">
                                                             {unitMutation.isPending ? <Loader2 className="h-6 w-6 animate-spin mr-3" /> : <Plus className="h-6 w-6 mr-3" />}
                                                             {editingUnit ? "Corrigir Protocolo" : "Autorizar Nó"}
                                                         </Button>
@@ -727,16 +727,16 @@ export default function Management() {
                                         <Table>
                                             <TableHeader className="bg-white/5 sticky top-0 z-10">
                                                 <TableRow className="hover:bg-transparent border-none">
-                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">Identidade da Entidade</TableHead>
-                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">Cifra</TableHead>
-                                                    <TableHead className="w-[180px] text-right px-10 text-[10px] font-black uppercase tracking-[0.2em] italic text-primary">Ações</TableHead>
+                                                    <TableHead className="label-brand text-primary py-8 px-10">Identidade da Entidade</TableHead>
+                                                    <TableHead className="label-brand text-primary py-8 px-10">Cifra</TableHead>
+                                                    <TableHead className="w-[180px] text-right px-10 label-brand text-primary">Ações</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
                                                 {isLoadingUnits ? (
                                                     <TableRow><TableCell colSpan={3} className="text-center py-20"><Loader2 className="h-12 w-12 animate-spin mx-auto text-primary/40" /></TableCell></TableRow>
                                                 ) : units.length === 0 ? (
-                                                    <TableRow><TableCell colSpan={3} className="text-center py-32 text-[10px] font-black uppercase italic tracking-widest text-muted-foreground/40">Banco de Dados de Unidades Vazio.</TableCell></TableRow>
+                                                    <TableRow><TableCell colSpan={3} className="text-center py-32 label-brand italic text-muted-foreground/40">Banco de Dados de Unidades Vazio.</TableCell></TableRow>
                                                 ) : (
                                                     units.map((u: Unit, i: number) => (
                                                         <TableRow
@@ -744,7 +744,7 @@ export default function Management() {
                                                             className="group border-b border-white/5 transition-all hover:bg-white/[0.02] animate-in fade-in slide-in-from-right-4 duration-500"
                                                             style={{ animationDelay: `${i * 50}ms` }}
                                                         >
-                                                            <TableCell className="font-[1000] text-2xl italic tracking-tighter text-white/90 uppercase py-8 px-10">{u.name}</TableCell>
+                                                            <TableCell className="h3-brand text-white/90 py-8 px-10">{u.name}</TableCell>
                                                             <TableCell className="py-8 px-10">
                                                                 <Badge className="rounded-xl px-5 py-2 bg-primary/10 border-none text-primary text-sm font-black italic uppercase tracking-widest shadow-glow">{u.symbol}</Badge>
                                                             </TableCell>
@@ -791,18 +791,18 @@ export default function Management() {
                 <div className="lg:col-span-5 h-[calc(100vh-180px)] sticky top-12">
                     {renderCategoryDetails()}
 
-                    <Card className="mt-12 rounded-[3xl] border-none glass overflow-hidden shadow-2xl p-10 bg-primary/5 border border-primary/10 relative">
+                    <Card className="mt-12 rounded-[2.5rem] smooth-glass p-10 bg-primary/5 relative">
                         <div className="absolute top-0 right-0 p-6 opacity-5">
-                            <ShieldCheck className="h-20 w-20" />
+                            <ShieldCheck className="h-16 w-16" />
                         </div>
                         <div className="flex gap-8 items-center">
-                            <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center text-primary border border-primary/20 shrink-0 shadow-glow">
-                                <Activity className="h-8 w-8" />
+                            <div className="h-14 w-14 rounded-2xl bg-primary/20 flex items-center justify-center text-primary shadow-glow">
+                                <Activity className="h-7 w-7" />
                             </div>
-                            <div className="space-y-2">
-                                <p className="text-xs font-black uppercase tracking-widest italic text-white/80">Status da Infraestrutura</p>
-                                <p className="text-[10px] font-bold text-muted-foreground uppercase leading-relaxed italic opacity-40">
-                                    Todos os parâmetros definidos aqui afetam diretamente a construção dinâmica de formulários na <span className="text-primary italic">Matéria-Prima Hub</span>.
+                            <div className="space-y-1">
+                                <p className="label-brand text-primary">Status do Sistema</p>
+                                <p className="label-brand italic opacity-40">
+                                    Parâmetros globais que afetam a construção dinâmica de formulários no Hub.
                                 </p>
                             </div>
                         </div>

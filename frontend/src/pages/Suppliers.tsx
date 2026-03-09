@@ -131,23 +131,23 @@ export default function Suppliers() {
                 <Building2 className="h-12 w-12 text-primary/20" />
                 <div className="absolute inset-0 animate-ping opacity-20 bg-primary rounded-full scale-150" />
             </div>
-            <p className="text-muted-foreground font-black uppercase tracking-widest text-xs italic">Mapeando Cadeia de Suprimentos...</p>
+            <p className="label-brand text-muted-foreground italic">Mapeando Cadeia de Suprimentos...</p>
         </div>
     );
 
     if (error) return (
-        <div className="max-w-2xl mx-auto p-12 text-center space-y-8 glass rounded-[3rem] border-destructive/20 mt-10">
+        <div className="max-w-2xl mx-auto p-12 text-center space-y-8 smooth-glass rounded-[3rem] border-destructive/20 mt-10">
             <div className="w-20 h-20 bg-destructive/10 text-destructive rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-destructive/20">
                 <Building2 className="h-10 w-10" />
             </div>
             <div className="space-y-2">
-                <h3 className="text-3xl font-black italic underline decoration-destructive/40 underline-offset-8">Erro de Redundância</h3>
-                <p className="text-muted-foreground font-medium">Falha crítica ao acessar o cluster de fornecedores.</p>
+                <h3 className="h2-brand underline decoration-destructive/40 underline-offset-8">Erro de Redundância</h3>
+                <p className="body-brand text-muted-foreground">Falha crítica ao acessar o cluster de fornecedores.</p>
             </div>
             <Button
                 variant="outline"
                 onClick={() => queryClient.invalidateQueries({ queryKey: ['suppliers'] })}
-                className="h-14 px-8 rounded-2xl border-white/10 hover:bg-white/10 font-black uppercase tracking-widest text-xs"
+                className="h-14 px-8 rounded-2xl border-white/10 hover:bg-white/10 label-brand"
             >
                 Reiniciar Conexão
             </Button>
@@ -171,11 +171,11 @@ export default function Suppliers() {
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-1">
-                                <h1 className="text-6xl font-[900] tracking-tighter italic uppercase text-white/90 leading-none">Global</h1>
-                                <Badge variant="secondary" className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-3 py-1 mt-1">Sourcing</Badge>
+                                <h1 className="h1-brand">Global</h1>
+                                <Badge variant="secondary" className="bg-primary/10 text-primary border-none label-brand px-3 py-1 mt-1">Sourcing</Badge>
                             </div>
-                            <p className="text-muted-foreground text-xl font-semibold opacity-50 italic">
-                                Gestão centralizada de <span className="text-primary not-italic font-black">Trade Partners</span>.
+                            <p className="body-brand text-muted-foreground opacity-50 italic">
+                                Gestão centralizada de <span className="text-primary text-white/80">Trade Partners</span>.
                             </p>
                         </div>
                     </div>
@@ -186,7 +186,7 @@ export default function Suppliers() {
                         <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-all group-focus-within:scale-110" />
                         <Input
                             placeholder="Pesquisar fornecedor, consultor ou chave..."
-                            className="h-16 pl-14 rounded-[2rem] glass border-none ring-offset-background placeholder:text-muted-foreground/30 font-bold focus-visible:ring-primary/40 shadow-2xl text-lg"
+                            className="h-14 pl-14 rounded-[2rem] smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/30 body-brand focus-visible:ring-primary/40 shadow-2xl"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -196,23 +196,23 @@ export default function Suppliers() {
                         <DialogTrigger asChild>
                             <button
                                 onClick={handleAddNew}
-                                className="h-16 px-10 rounded-[2rem] bg-primary text-primary-foreground font-black uppercase tracking-widest text-[11px] shadow-3xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-4 group"
+                                className="h-14 px-10 rounded-[2rem] bg-primary text-primary-foreground label-brand shadow-3xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.05] active:scale-95 transition-all flex items-center gap-4 group"
                             >
                                 <Plus className="h-6 w-6 stroke-[4] group-hover:rotate-90 transition-transform" />
                                 Credenciar Fornecedor
                             </button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[700px] rounded-[4rem] border-none glass shadow-3xl p-0 overflow-hidden outline-none">
+                        <DialogContent className="sm:max-w-[700px] rounded-[4rem] border-none smooth-glass shadow-3xl p-0 overflow-hidden outline-none">
                             <DialogHeader className="p-12 bg-primary/10 border-b border-primary/5">
                                 <div className="flex items-center gap-6 mb-4">
                                     <div className="p-4 rounded-[2rem] bg-primary text-primary-foreground shadow-3xl">
                                         <Building2 className="h-8 w-8" />
                                     </div>
                                     <div>
-                                        <DialogTitle className="text-4xl font-[900] italic uppercase tracking-tighter">
+                                        <DialogTitle className="h2-brand">
                                             {editingSupplier ? 'Atualizar Assets' : 'Novo Credencial'}
                                         </DialogTitle>
-                                        <DialogDescription className="text-[10px] font-black text-muted-foreground/60 italic uppercase tracking-[0.2em] mt-1">
+                                        <DialogDescription className="label-brand text-muted-foreground/60 mt-1">
                                             {editingSupplier ? 'Protocolo de manutenção de registro' : 'Iniciando nova integração na cadeia produtiva'}
                                         </DialogDescription>
                                     </div>
@@ -237,14 +237,14 @@ export default function Suppliers() {
                     { label: 'Pipeline Ativo', value: '12', icon: Zap, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
                     { label: 'Integridade Verificada', value: '100%', icon: ShieldCheck, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat, i) => (
-                    <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.02] transition-transform shadow-xl">
+                    <Card key={i} className="rounded-[3rem] border-none smooth-glass p-8 group hover:scale-[1.02] transition-transform shadow-xl">
                         <div className="flex items-center gap-5">
                             <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} shadow-lg transition-transform group-hover:-rotate-12`}>
                                 <stat.icon className="h-8 w-8" />
                             </div>
                             <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">{stat.label}</p>
-                                <p className="text-3xl font-black mt-1 leading-none tracking-tighter">{stat.value}</p>
+                                <p className="label-brand text-muted-foreground/60">{stat.label}</p>
+                                <p className="stat-brand mt-1 leading-none">{stat.value}</p>
                             </div>
                         </div>
                     </Card>
@@ -252,16 +252,16 @@ export default function Suppliers() {
             </div>
 
             {/* High-End Table */}
-            <Card className="rounded-[4rem] border-none glass shadow-3xl overflow-hidden min-h-[600px] flex flex-col">
+            <Card className="rounded-[4rem] border-none smooth-glass shadow-3xl overflow-hidden min-h-[600px] flex flex-col">
                 <div className="overflow-x-auto scrollbar-hide">
                     <Table>
                         <TableHeader className="bg-primary/[0.03]">
                             <TableRow className="border-b border-white/5 hover:bg-transparent">
-                                <TableHead className="py-8 px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Organização & Hub</TableHead>
-                                <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Operações & Contato</TableHead>
-                                <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Status de Rede</TableHead>
-                                <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Registro Temporal</TableHead>
-                                <TableHead className="w-[120px] text-right px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60">Ações</TableHead>
+                                <TableHead className="py-8 px-12 label-brand text-primary/60">Organização & Hub</TableHead>
+                                <TableHead className="label-brand text-primary/60">Operações & Contato</TableHead>
+                                <TableHead className="label-brand text-primary/60">Status de Rede</TableHead>
+                                <TableHead className="label-brand text-primary/60">Registro Temporal</TableHead>
+                                <TableHead className="w-[120px] text-right px-12 label-brand text-primary/60">Ações</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -269,17 +269,17 @@ export default function Suppliers() {
                                 <TableRow key={supplier.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
                                     <TableCell className="py-8 px-12">
                                         <div className="flex items-center gap-8">
-                                            <div className="h-16 w-16 rounded-[2rem] bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center text-primary text-2xl font-black group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-2xl border border-white/5">
+                                            <div className="h-16 w-16 rounded-[2rem] bg-gradient-to-br from-primary/30 to-primary/5 flex items-center justify-center text-primary stat-brand text-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-2xl border border-white/5">
                                                 {supplier.name.charAt(0).toUpperCase()}
                                             </div>
                                             <div className="flex flex-col gap-2">
                                                 <div
-                                                    className="font-[900] text-2xl text-white/90 truncate max-w-md group-hover:text-primary transition-colors italic uppercase leading-none tracking-tight cursor-pointer"
+                                                    className="h3-brand text-white/90 truncate max-w-md group-hover:text-primary transition-colors cursor-pointer"
                                                     onClick={() => handleEdit(supplier)}
                                                 >
                                                     {supplier.name}
                                                 </div>
-                                                <div className="text-[11px] font-bold text-muted-foreground/40 italic flex items-center gap-3">
+                                                <div className="label-brand text-[10px] text-muted-foreground/40 italic flex items-center gap-3">
                                                     <div className="h-2 w-2 rounded-full bg-primary/30" />
                                                     Partner ID: <span className="text-muted-foreground/60">{supplier.id.slice(0, 8).toUpperCase()}</span>
                                                 </div>
@@ -288,11 +288,11 @@ export default function Suppliers() {
                                     </TableCell>
                                     <TableCell>
                                         <div className="space-y-3">
-                                            <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-[11px] font-bold text-muted-foreground/80 group-hover:bg-primary/5 transition-colors">
+                                            <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 label-brand text-[10px] text-muted-foreground/80 group-hover:bg-primary/5 transition-colors">
                                                 <UserIcon className="h-3.5 w-3.5 text-primary/40" />
                                                 {supplier.contact_name || 'Protocolo N/A'}
                                             </div>
-                                            <div className="flex items-center gap-4 text-[10px] font-black uppercase text-muted-foreground/30 italic px-1">
+                                            <div className="flex items-center gap-4 label-brand text-[10px] text-muted-foreground/40 italic px-1">
                                                 <div className="flex items-center gap-1.5"><Phone className="h-3 w-3" /> {supplier.phone || 'Sem terminal'}</div>
                                                 <div className="flex items-center gap-1.5 hover:text-primary transition-colors cursor-pointer"><Mail className="h-3 w-3" /> {supplier.email ? 'Email Ativo' : 'Sem canal'}</div>
                                             </div>
@@ -301,7 +301,7 @@ export default function Suppliers() {
                                     <TableCell>
                                         <button
                                             onClick={() => handleToggle(supplier.id)}
-                                            className={`h-10 px-5 rounded-2xl text-[10px] font-black uppercase tracking-[0.1em] transition-all flex items-center gap-3 ${supplier.active
+                                            className={`h-10 px-5 rounded-2xl label-brand text-[10px] transition-all flex items-center gap-3 ${supplier.active
                                                 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 shadow-lg shadow-emerald-500/5'
                                                 : 'bg-red-500/5 text-red-500/50 border border-red-500/10 hover:bg-red-500/10'
                                                 }`}
@@ -312,11 +312,11 @@ export default function Suppliers() {
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-1.5">
-                                            <div className="text-sm font-black text-muted-foreground/60 flex items-center gap-2 italic">
+                                            <div className="label-brand text-muted-foreground/60 flex items-center gap-2 italic">
                                                 <Calendar className="h-3.5 w-3.5 opacity-30" />
                                                 {format(new Date(supplier.created_at), 'MMM dd, yyyy')}
                                             </div>
-                                            <div className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/20 italic ml-5">Protocolo validado</div>
+                                            <div className="label-brand text-[9px] text-muted-foreground/20 italic ml-5">Protocolo validado</div>
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-right px-12">
@@ -342,11 +342,11 @@ export default function Suppliers() {
                                                 <Building2 className="h-16 w-16 opacity-5 rotate-12" />
                                             </div>
                                             <div className="space-y-2">
-                                                <p className="font-black text-3xl italic uppercase tracking-tighter text-white/20">Rede Vazia</p>
-                                                <p className="text-sm font-bold opacity-30 italic">Nenhum parceiro comercial localizado na região de busca.</p>
+                                                <p className="h2-brand text-white/20">Rede Vazia</p>
+                                                <p className="body-brand text-sm opacity-30 italic">Nenhum parceiro comercial localizado na região de busca.</p>
                                             </div>
                                             <button
-                                                className="h-14 px-10 rounded-2xl border border-primary/20 text-primary font-black uppercase tracking-widest text-[10px] hover:bg-primary/10 transition-all active:scale-95"
+                                                className="h-14 px-10 rounded-2xl border border-primary/20 text-primary label-brand hover:bg-primary/10 transition-all active:scale-95"
                                                 onClick={handleAddNew}
                                             >
                                                 Mapear Novo Fornecedor

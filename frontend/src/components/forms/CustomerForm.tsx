@@ -98,9 +98,9 @@ export function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Nome Completo / Razão Social *</FormLabel>
+                            <FormLabel className="label-brand ml-1">Nome Completo / Razão Social <span className="text-destructive">*</span></FormLabel>
                             <FormControl>
-                                <Input placeholder="João da Silva ou MarkFace LTDA" {...field} />
+                                <Input placeholder="João da Silva ou MarkFace LTDA" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -113,9 +113,9 @@ export function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>E-mail</FormLabel>
+                                <FormLabel className="label-brand ml-1">E-mail</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="cliente@exemplo.com" {...field} />
+                                    <Input placeholder="cliente@exemplo.com" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -127,9 +127,9 @@ export function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
                         name="phone"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Telefone</FormLabel>
+                                <FormLabel className="label-brand ml-1">Telefone</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="(00) 00000-0000" {...field} />
+                                    <Input placeholder="(00) 00000-0000" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -142,9 +142,9 @@ export function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
                     name="tax_id"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>CPF / CNPJ</FormLabel>
+                            <FormLabel className="label-brand ml-1">CPF / CNPJ</FormLabel>
                             <FormControl>
-                                <Input placeholder="Documento do cliente" {...field} />
+                                <Input placeholder="Documento do cliente" {...field} className="h-12 rounded-xl smooth-glass border-primary/10 body-brand" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -156,11 +156,11 @@ export function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
                     name="address"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Endereço</FormLabel>
+                            <FormLabel className="label-brand ml-1">Endereço</FormLabel>
                             <FormControl>
                                 <Textarea
                                     placeholder="Rua, Número, Bairro, Cidade - UF"
-                                    className="resize-none"
+                                    className="resize-none rounded-xl smooth-glass border-primary/10 body-brand min-h-[80px]"
                                     {...field}
                                 />
                             </FormControl>
@@ -170,7 +170,11 @@ export function CustomerForm({ customer, onSuccess }: CustomerFormProps) {
                 />
 
                 <div className="flex justify-end pt-4">
-                    <Button type="submit" disabled={mutation.isPending} className="w-full sm:w-auto">
+                    <Button
+                        type="submit"
+                        disabled={mutation.isPending}
+                        className="w-full sm:w-auto h-12 px-8 rounded-xl bg-primary text-primary-foreground h3-brand shadow-lg shadow-primary/10 hover:scale-[1.02] transition-all"
+                    >
                         {mutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Salvar Cliente
                     </Button>

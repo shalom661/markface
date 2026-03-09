@@ -132,7 +132,7 @@ export default function Costs() {
                 <div className="absolute inset-0 animate-ping opacity-10 bg-primary rounded-full scale-[2]" />
             </div>
             <div className="text-center space-y-2">
-                <p className="text-muted-foreground font-black uppercase tracking-[0.3em] text-[10px] italic">Sincronizando Margens...</p>
+                <p className="label-brand text-muted-foreground italic">Sincronizando Margens...</p>
                 <div className="h-1 w-48 bg-white/5 rounded-full overflow-hidden mx-auto">
                     <div className="h-full bg-primary animate-[shimmer_2s_infinite] w-1/3" />
                 </div>
@@ -151,10 +151,10 @@ export default function Costs() {
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-2">
-                                <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">Lucro</h1>
-                                <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Análise</Badge>
+                                <h1 className="h1-brand text-7xl text-white">Lucro</h1>
+                                <Badge className="bg-primary/10 text-primary border-none label-brand px-4 py-1.5 rounded-full">Análise</Badge>
                             </div>
-                            <p className="text-muted-foreground text-2xl font-semibold opacity-40 italic tracking-tight">
+                            <p className="h3-brand text-muted-foreground opacity-40">
                                 Auditoria técnica de <span className="text-primary not-italic font-black text-white/80">Margens & Custos Fixos</span>.
                             </p>
                         </div>
@@ -164,14 +164,14 @@ export default function Costs() {
                 {/* Overhead Monitor */}
                 <div className="w-full lg:w-auto flex flex-col items-end gap-6">
                     <div className="w-full max-w-[320px] space-y-3">
-                        <Label className="text-[10px] font-black uppercase tracking-widest text-primary/60 italic ml-2">Modo de Escoamento (Venda)</Label>
+                        <Label className="label-brand text-primary/60 ml-2">Modo de Escoamento (Venda)</Label>
                         <Select value={selectedModality} onValueChange={setSelectedModality}>
-                            <SelectTrigger className="h-16 rounded-2xl glass border-none focus:ring-2 focus:ring-primary/20 transition-all text-sm font-black uppercase tracking-widest italic">
+                            <SelectTrigger className="h-16 rounded-2xl smooth-glass border-none focus:ring-2 focus:ring-primary/20 transition-all body-brand text-sm uppercase">
                                 <SelectValue placeholder="Selecione a modalidade" />
                             </SelectTrigger>
-                            <SelectContent className="glass-dark border-white/5 rounded-2xl">
+                            <SelectContent className="smooth-glass border-white/5 rounded-2xl">
                                 {modalitiesArr.map(m => (
-                                    <SelectItem key={m.id} value={m.id} className="text-xs font-bold uppercase tracking-widest py-4 focus:bg-primary/20 focus:text-primary transition-colors">
+                                    <SelectItem key={m.id} value={m.id} className="label-brand py-4 focus:bg-primary/20 focus:text-primary transition-colors">
                                         {m.name}
                                     </SelectItem>
                                 ))}
@@ -182,21 +182,21 @@ export default function Costs() {
                     <div className="flex gap-4 w-full max-w-[320px]">
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" className="h-14 flex-1 rounded-2xl border-white/5 hover:bg-white/5 font-black uppercase tracking-widest text-[10px] px-6 gap-2">
+                                <Button variant="outline" className="h-14 flex-1 rounded-2xl border-white/5 hover:bg-white/5 label-brand px-6 gap-2">
                                     <Settings className="h-4 w-4" /> Gerenciar
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent className="glass-dark border-white/5 sm:max-w-[500px] rounded-[2.5rem] overflow-hidden">
+                            <DialogContent className="smooth-glass border-white/5 sm:max-w-[500px] rounded-[2.5rem] overflow-hidden">
                                 <DialogHeader>
-                                    <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter">Modalidades de Venda</DialogTitle>
-                                    <DialogDescription className="font-bold text-muted-foreground italic">Configure taxas e custos extras por canal de venda.</DialogDescription>
+                                    <DialogTitle className="h2-brand text-2xl">Modalidades de Venda</DialogTitle>
+                                    <DialogDescription className="label-brand text-muted-foreground">Configure taxas e custos extras por canal de venda.</DialogDescription>
                                 </DialogHeader>
                                 <div className="space-y-6 py-4">
                                     {isFormOpen ? (
                                         <div className="animate-in fade-in slide-in-from-top-4 duration-500">
                                             <div className="flex justify-between items-center mb-6">
-                                                <h3 className="text-sm font-black uppercase tracking-widest italic">{editingModality ? 'Editar' : 'Nova'} Modalidade</h3>
-                                                <Button variant="ghost" className="text-[10px] uppercase font-bold" onClick={() => { setIsFormOpen(false); setEditingModality(null); }}>Cancelar</Button>
+                                                <h3 className="h3-brand text-sm">{editingModality ? 'Editar' : 'Nova'} Modalidade</h3>
+                                                <Button variant="ghost" className="label-brand" onClick={() => { setIsFormOpen(false); setEditingModality(null); }}>Cancelar</Button>
                                             </div>
                                             <SalesModalityForm
                                                 initialData={editingModality}
@@ -212,8 +212,8 @@ export default function Costs() {
                                             {modalitiesArr.map(m => (
                                                 <div key={m.id} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-all">
                                                     <div>
-                                                        <p className="font-black uppercase text-xs tracking-widest">{m.name}</p>
-                                                        <p className="text-[10px] text-muted-foreground font-bold italic opacity-60">Taxa: {m.tax_percent}% + R$ {(m.fixed_fee + m.extra_cost).toFixed(2)}</p>
+                                                        <p className="body-brand text-xs uppercase">{m.name}</p>
+                                                        <p className="label-brand text-muted-foreground opacity-60">Taxa: {m.tax_percent}% + R$ {(m.fixed_fee + m.extra_cost).toFixed(2)}</p>
                                                     </div>
                                                     <div className="flex gap-2 lg:opacity-0 group-hover:opacity-100 transition-all">
                                                         <Button
@@ -239,7 +239,7 @@ export default function Costs() {
                                                 </div>
                                             ))}
                                             <Button
-                                                className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-[10px] bg-primary hover:scale-[1.02] shadow-xl shadow-primary/20"
+                                                className="w-full h-12 rounded-xl label-brand bg-primary hover:scale-[1.02] shadow-xl shadow-primary/20"
                                                 onClick={() => {
                                                     setEditingModality(null);
                                                     setIsFormOpen(true);
@@ -254,25 +254,25 @@ export default function Costs() {
                         </Dialog>
                     </div>
 
-                    <Card className="rounded-[2.5rem] border-none glass p-8 relative overflow-hidden group hover:scale-[1.02] transition-all shadow-2xl min-w-[320px]">
+                    <Card className="rounded-[2.5rem] border-none smooth-glass p-8 relative overflow-hidden group hover:scale-[1.02] transition-all shadow-2xl min-w-[320px]">
                         <div className="absolute top-0 right-0 p-6 opacity-[0.03] group-hover:opacity-[0.1] transition-opacity">
                             <PieChart className="h-24 w-24" />
                         </div>
                         <div className="relative z-10 space-y-3">
                             <div className="flex items-center justify-between">
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic flex items-center gap-2">
+                                <p className="label-brand text-muted-foreground/40 flex items-center gap-2">
                                     <Activity className="h-3 w-3" /> Hub de OpEx Fixo
                                 </p>
-                                <span className="text-[10px] font-black text-emerald-400 uppercase italic">Meta em Tempo Real</span>
+                                <span className="label-brand text-emerald-400">Meta em Tempo Real</span>
                             </div>
-                            <p className="text-5xl font-[1000] text-primary italic tracking-tighter leading-none uppercase">
+                            <p className="stat-brand text-5xl text-primary">
                                 R$ {totalFixed.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                             </p>
                             <div className="flex items-center gap-2">
                                 <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
                                     <div className="h-full bg-primary w-[42%]" />
                                 </div>
-                                <span className="text-[10px] font-bold text-muted-foreground/30 italic uppercase">Índice de Utilização</span>
+                                <span className="label-brand text-muted-foreground/30">Índice de Utilização</span>
                             </div>
                         </div>
                     </Card>
@@ -287,14 +287,14 @@ export default function Costs() {
                     { label: 'Score OEE', value: '88', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
                     { label: 'Carga Tributária', value: `${modality.tax_percent}% + R$ ${modality.fixed_fee + modality.extra_cost}`, icon: Compass, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
-                    <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
+                    <Card key={i} className="rounded-[3rem] border-none smooth-glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
                         <div className="space-y-4">
                             <div className={`w-12 h-12 rounded-2xl ${stat.bg} ${stat.color} flex items-center justify-center shadow-lg border border-white/5 group-hover:rotate-12 transition-transform`}>
                                 <stat.icon className="h-6 w-6" />
                             </div>
                             <div>
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic">{stat.label}</p>
-                                <p className="text-3xl font-[900] tracking-tighter mt-1 italic uppercase">{stat.value}</p>
+                                <p className="label-brand text-muted-foreground/40">{stat.label}</p>
+                                <p className="stat-brand text-3xl mt-1">{stat.value}</p>
                             </div>
                         </div>
                     </Card>
@@ -303,25 +303,25 @@ export default function Costs() {
 
             <Tabs defaultValue="manufactured" className="w-full">
                 <div className="flex justify-between items-center mb-10">
-                    <TabsList className="bg-white/5 p-2 rounded-[2rem] glass border-white/5 h-auto">
-                        <TabsTrigger value="manufactured" className="rounded-2xl px-12 py-5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all font-black uppercase tracking-[0.2em] text-[10px] flex gap-4">
+                    <TabsList className="bg-white/5 p-2 rounded-[2rem] smooth-glass border-white/5 h-auto">
+                        <TabsTrigger value="manufactured" className="rounded-2xl px-12 py-5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all label-brand flex gap-4">
                             <Calculator className="h-4 w-4" /> Produção Própria
                         </TabsTrigger>
-                        <TabsTrigger value="resale" className="rounded-2xl px-12 py-5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all font-black uppercase tracking-[0.2em] text-[10px] flex gap-4">
+                        <TabsTrigger value="resale" className="rounded-2xl px-12 py-5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all label-brand flex gap-4">
                             <TrendingUp className="h-4 w-4" /> Revenda Externa
                         </TabsTrigger>
                     </TabsList>
 
-                    <div className="hidden lg:flex items-center gap-6 p-6 rounded-[2rem] glass border-none">
+                    <div className="hidden lg:flex items-center gap-6 p-6 rounded-[2rem] smooth-glass border-none">
                         <Info className="h-5 w-5 text-primary animate-pulse" />
-                        <p className="text-[10px] font-bold text-muted-foreground/40 italic uppercase leading-none tracking-widest max-w-[300px]">
+                        <p className="label-brand text-muted-foreground/40 max-w-[300px]">
                             O cálculo de Rateio (COGS + OpEx) é calibrado para lotes otimizados de <span className="text-white font-black">1.000 unidades</span> mensais.
                         </p>
                     </div>
                 </div>
 
                 <TabsContent value="manufactured" className="mt-0 focus-visible:outline-none">
-                    <Card className="rounded-[4rem] border-none glass overflow-hidden shadow-3xl min-h-[500px]">
+                    <Card className="rounded-[4rem] border-none smooth-glass overflow-hidden shadow-3xl min-h-[500px]">
                         <CostTable
                             data={productsArr.filter((p: Product) => p.is_manufactured)}
                             type="manufactured"
@@ -332,7 +332,7 @@ export default function Costs() {
                 </TabsContent>
 
                 <TabsContent value="resale" className="mt-0 focus-visible:outline-none">
-                    <Card className="rounded-[4rem] border-none glass overflow-hidden shadow-3xl min-h-[500px]">
+                    <Card className="rounded-[4rem] border-none smooth-glass overflow-hidden shadow-3xl min-h-[500px]">
                         <CostTable
                             data={productsArr.filter((p: Product) => !p.is_manufactured)}
                             type="resale"
@@ -352,10 +352,10 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
             <Table>
                 <TableHeader className="bg-primary/[0.03]">
                     <TableRow className="border-b border-white/5 hover:bg-transparent">
-                        <TableHead className="py-10 px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Entidade do Produto</TableHead>
-                        <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Configuração (SKU)</TableHead>
-                        <TableHead className="text-right font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">{type === 'manufactured' ? 'COGS de Insumos' : 'Aquisição'}</TableHead>
-                        <TableHead className="text-right px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Yield de Mercado (Custo Estimado)</TableHead>
+                        <TableHead className="py-10 px-12 label-brand text-primary/60">Entidade do Produto</TableHead>
+                        <TableHead className="label-brand text-primary/60">Configuração (SKU)</TableHead>
+                        <TableHead className="text-right label-brand text-primary/60">{type === 'manufactured' ? 'COGS de Insumos' : 'Aquisição'}</TableHead>
+                        <TableHead className="text-right px-12 label-brand text-primary/60">Yield de Mercado (Custo Estimado)</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -384,12 +384,12 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                                 <DollarSign className="h-8 w-8 opacity-40 group-hover:opacity-100" />
                                             </div>
                                             <div className="space-y-1.5">
-                                                <div className="text-2xl font-[1000] text-white/90 italic tracking-tighter leading-none uppercase group-hover:translate-x-1 transition-transform">
+                                                <div className="h3-brand text-2xl text-white/90 group-hover:translate-x-1 transition-transform">
                                                     {product.name}
                                                 </div>
                                                 <div className="flex items-center gap-3">
                                                     {Object.entries(variant.attributes || {}).map(([key, value]) => (
-                                                        <span key={key} className="text-[10px] font-black text-primary/40 uppercase tracking-widest italic flex items-center gap-1.5">
+                                                        <span key={key} className="label-brand text-primary/40 flex items-center gap-1.5">
                                                             <div className="h-1 w-1 rounded-full bg-primary/40" />
                                                             {key}: {String(value)}
                                                         </span>
@@ -400,29 +400,29 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex flex-col gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
-                                            <span className="font-mono text-sm font-bold text-white uppercase tracking-tighter">{variant.sku}</span>
-                                            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] italic">ID de Registro do Sistema</span>
+                                            <span className="body-brand text-sm text-white uppercase">{variant.sku}</span>
+                                            <span className="label-brand text-[9px] text-muted-foreground">ID de Registro do Sistema</span>
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-right">
                                         <div className="space-y-1">
-                                            <p className="text-xl font-black text-white/60 tracking-tighter italic">
+                                            <p className="stat-brand text-xl text-white/60">
                                                 R$ {Number(bomCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                             </p>
-                                            <p className="text-[10px] font-bold text-muted-foreground/20 uppercase tracking-widest italic">Valor de Inventário Base</p>
+                                            <p className="label-brand text-muted-foreground/20">Valor de Inventário Base</p>
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-right px-12">
                                         <div className="flex flex-col items-end gap-1 group-hover:translate-x-[-4px] transition-transform">
                                             <div className="flex items-center gap-4">
                                                 {(modality.tax_percent > 0 || modality.fixed_fee > 0 || modality.extra_cost > 0) && (
-                                                    <Badge className="bg-primary/10 text-primary border-none font-black text-[9px] uppercase italic h-5">Incl. Taxas</Badge>
+                                                    <Badge className="bg-primary/10 text-primary border-none label-brand text-[9px] h-5">Incl. Taxas</Badge>
                                                 )}
-                                                <span className="text-4xl font-[1000] text-primary italic tracking-tighter leading-none uppercase">
+                                                <span className="stat-brand text-4xl text-primary">
                                                     R$ {Number(totalYieldCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-emerald-400/60 text-[10px] font-black uppercase tracking-widest italic">
+                                            <div className="flex items-center gap-2 label-brand text-emerald-400/60">
                                                 <ArrowUpRight className="h-3 w-3" />
                                                 Yield de {modality.name}
                                             </div>
@@ -440,8 +440,8 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                         <Calculator className="h-20 w-20 opacity-5 -rotate-12" />
                                     </div>
                                     <div className="space-y-3">
-                                        <p className="font-black text-4xl italic uppercase tracking-tighter text-white/20 leading-none">Vazio Detectado</p>
-                                        <p className="text-sm font-bold opacity-30 italic">Nenhum dado de custo disponível para análise neste cluster.</p>
+                                        <p className="h2-brand text-4xl text-white/20">Vazio Detectado</p>
+                                        <p className="label-brand opacity-30">Nenhum dado de custo disponível para análise neste cluster.</p>
                                     </div>
                                 </div>
                             </TableCell>

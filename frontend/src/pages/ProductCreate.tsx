@@ -231,17 +231,17 @@ export default function ProductCreate() {
                         <ArrowLeft className="h-6 w-6 text-primary" />
                     </Button>
                     <div>
-                        <h2 className="text-4xl font-extrabold tracking-tight">Novo Produto</h2>
-                        <p className="text-muted-foreground text-lg mt-1">Configure variações e ficha técnica individual.</p>
+                        <h2 className="h1-brand text-4xl">Novo Produto</h2>
+                        <p className="body-brand text-muted-foreground text-lg opacity-60">Configure variações e ficha técnica individual.</p>
                     </div>
                 </div>
             </div>
 
             {/* Type Selector */}
-            <div className="grid grid-cols-2 gap-4 p-1.5 bg-muted/30 rounded-3xl glass border-white/20 h-20">
+            <div className="grid grid-cols-2 gap-4 p-1.5 bg-muted/30 rounded-3xl smooth-glass border-white/20 h-20">
                 <button
                     onClick={() => setType('manufactured')}
-                    className={`flex items-center justify-center gap-3 text-lg font-bold rounded-2xl transition-all duration-300 ${type === 'manufactured'
+                    className={`flex items-center justify-center gap-3 text-lg h3-brand rounded-2xl transition-all duration-300 ${type === 'manufactured'
                         ? 'bg-primary text-primary-foreground shadow-xl shadow-primary/20 scale-[0.98]'
                         : 'hover:bg-background/50 text-muted-foreground'
                         }`}
@@ -251,7 +251,7 @@ export default function ProductCreate() {
                 </button>
                 <button
                     onClick={() => setType('resale')}
-                    className={`flex items-center justify-center gap-3 text-lg font-bold rounded-2xl transition-all duration-300 ${type === 'resale'
+                    className={`flex items-center justify-center gap-3 text-lg h3-brand rounded-2xl transition-all duration-300 ${type === 'resale'
                         ? 'bg-card text-foreground shadow-xl scale-[0.98] border border-primary/10'
                         : 'hover:bg-background/50 text-muted-foreground'
                         }`}
@@ -263,9 +263,9 @@ export default function ProductCreate() {
 
             <div className="grid grid-cols-1 gap-8">
                 {/* BASIC INFO CARD */}
-                <Card className="rounded-3xl border-none glass overflow-hidden shadow-2xl">
+                <Card className="rounded-3xl border-none smooth-glass overflow-hidden shadow-2xl">
                     <CardHeader className="border-b border-primary/10 bg-primary/5 p-8">
-                        <CardTitle className="flex items-center gap-3 text-2xl font-bold">
+                        <CardTitle className="flex items-center gap-3 h2-brand text-2xl">
                             <div className="p-2 rounded-xl bg-primary/10 text-primary">
                                 <Shirt className="h-6 w-6" />
                             </div>
@@ -275,12 +275,12 @@ export default function ProductCreate() {
                     <CardContent className="p-8 space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
-                                <Label className="text-sm font-semibold ml-1">Nome do Produto <span className="text-destructive">*</span></Label>
+                                <Label className="label-brand ml-1">Nome do Produto <span className="text-destructive">*</span></Label>
                                 <Input
                                     value={name}
                                     onChange={e => setName(e.target.value)}
                                     placeholder="Ex: Camiseta Básica Algodão"
-                                    className="h-12 rounded-xl border-primary/10 focus:border-primary/30 transition-all font-medium"
+                                    className="h-12 rounded-xl border-primary/10 focus:border-primary/30 transition-all body-brand"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -294,12 +294,12 @@ export default function ProductCreate() {
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <Label className="text-sm font-semibold ml-1">Descrição</Label>
+                            <Label className="label-brand ml-1">Descrição</Label>
                             <Textarea
                                 value={description}
                                 onChange={e => setDescription(e.target.value)}
                                 placeholder="Descreva os diferenciais deste modelo..."
-                                className="resize-none rounded-xl border-primary/10 focus:border-primary/30 transition-all min-h-[100px]"
+                                className="resize-none rounded-xl border-primary/10 focus:border-primary/30 transition-all min-h-[100px] body-brand"
                                 rows={3}
                             />
                         </div>
@@ -340,7 +340,7 @@ export default function ProductCreate() {
                             <div className="p-2 rounded-xl bg-primary/10 text-primary">
                                 <Package className="h-6 w-6" />
                             </div>
-                            <h3 className="text-2xl font-bold tracking-tight">Variações & Grade</h3>
+                            <h3 className="h2-brand text-2xl">Variações & Grade</h3>
                         </div>
                         <Button
                             onClick={handleAddVariant}
@@ -354,7 +354,7 @@ export default function ProductCreate() {
                     <div className="space-y-4">
                         {variants.map((variant, vIdx) => (
                             <div key={vIdx} className="group">
-                                <Card className={`rounded-3xl border-none glass overflow-hidden transition-all duration-300 shadow-lg ${variant.isExpanded ? 'ring-2 ring-primary/30 shadow-2xl' : 'hover:shadow-xl'}`}>
+                                <Card className={`rounded-3xl border-none smooth-glass overflow-hidden transition-all duration-300 shadow-lg ${variant.isExpanded ? 'ring-2 ring-primary/30 shadow-2xl' : 'hover:shadow-xl'}`}>
                                     <div
                                         className={`p-6 flex items-center justify-between cursor-pointer transition-colors ${variant.isExpanded ? 'bg-primary/5' : 'hover:bg-primary/5'}`}
                                         onClick={() => handleVariantChange(vIdx, { isExpanded: !variant.isExpanded })}
@@ -364,7 +364,7 @@ export default function ProductCreate() {
                                                 {vIdx + 1}
                                             </div>
                                             <div>
-                                                <div className="font-bold text-lg">
+                                                <div className="h3-brand text-lg">
                                                     {variant.sku || <span className="text-muted-foreground italic font-normal">Aguardando SKU...</span>}
                                                 </div>
                                                 <div className="flex gap-2 mt-1">
@@ -417,30 +417,30 @@ export default function ProductCreate() {
                                             {/* SKU and ATTRIBUTES */}
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                                 <div className="space-y-2">
-                                                    <Label className="text-[10px] uppercase font-black text-primary tracking-widest ml-1">SKU do Produto <span className="text-destructive">*</span></Label>
+                                                    <Label className="label-brand text-primary ml-1">SKU do Produto <span className="text-destructive">*</span></Label>
                                                     <Input
                                                         value={variant.sku}
                                                         onChange={e => handleVariantChange(vIdx, { sku: e.target.value })}
                                                         placeholder="Ex: MOD001-P-PRETO"
-                                                        className="h-11 rounded-xl border-primary/10 font-bold"
+                                                        className="h-11 rounded-xl border-primary/10 body-brand"
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <Label className="text-[10px] uppercase font-black text-primary tracking-widest ml-1">Cor / Estampa</Label>
+                                                    <Label className="label-brand text-primary ml-1">Cor / Estampa</Label>
                                                     <Input
                                                         value={variant.attributes.color}
                                                         onChange={e => handleAttributeChange(vIdx, 'color', e.target.value)}
                                                         placeholder="Ex: Off-White"
-                                                        className="h-11 rounded-xl border-primary/10"
+                                                        className="h-11 rounded-xl border-primary/10 body-brand"
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <Label className="text-[10px] uppercase font-black text-primary tracking-widest ml-1">Tamanho / Grade</Label>
+                                                    <Label className="label-brand text-primary ml-1">Tamanho / Grade</Label>
                                                     <Input
                                                         value={variant.attributes.size}
                                                         onChange={e => handleAttributeChange(vIdx, 'size', e.target.value)}
                                                         placeholder="Ex: GG"
-                                                        className="h-11 rounded-xl border-primary/10"
+                                                        className="h-11 rounded-xl border-primary/10 body-brand"
                                                     />
                                                 </div>
                                             </div>
