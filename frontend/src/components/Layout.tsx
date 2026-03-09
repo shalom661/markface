@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, Outlet, Link } from 'react-router-dom';
+import { Navigate, Outlet, Link, useLocation } from 'react-router-dom';
 import { LogOut, Package, ShoppingCart, Truck, Scissors, LayoutDashboard, FileUp, Moon, Sun, User as UserIcon, Settings, Menu, DollarSign, ShoppingBag, Landmark } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 export default function Layout() {
     const token = localStorage.getItem('token');
     const { theme, setTheme } = useTheme();
+    const location = useLocation();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Changed to false default for mobile usability
 
     if (!token) {
@@ -61,7 +62,7 @@ export default function Layout() {
                             variant="ghost"
                             className={cn(
                                 "w-full justify-start gap-3 h-12 rounded-2xl transition-all duration-300 group hover:translate-x-1",
-                                window.location.pathname === item.to
+                                location.pathname === item.to
                                     ? "bg-primary/10 text-primary font-bold shadow-[0_0_20px_rgba(0,60,113,0.1)]"
                                     : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                             )}
@@ -71,7 +72,7 @@ export default function Layout() {
                             <Link to={item.to}>
                                 <item.icon className={cn(
                                     "h-5 w-5 transition-transform group-hover:scale-110",
-                                    window.location.pathname === item.to ? "text-primary" : ""
+                                    location.pathname === item.to ? "text-primary" : ""
                                 )} />
                                 <span className="body-brand">{item.label}</span>
                             </Link>
@@ -89,7 +90,7 @@ export default function Layout() {
                             variant="ghost"
                             className={cn(
                                 "w-full justify-start gap-3 h-12 rounded-2xl transition-all duration-300 group hover:translate-x-1",
-                                window.location.pathname === item.to
+                                location.pathname === item.to
                                     ? "bg-primary/10 text-primary font-bold shadow-[0_0_20px_rgba(0,60,113,0.1)]"
                                     : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                             )}

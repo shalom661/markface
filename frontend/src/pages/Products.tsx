@@ -179,7 +179,7 @@ export default function Products() {
                                     >
                                         {product.name}
                                     </div>
-                                    <div className="label-brand text-muted-foreground/50 line-clamp-1 max-w-sm">
+                                    <div className="label-brand text-muted-foreground/70 line-clamp-1 max-w-sm">
                                         {product.description || 'Sem descrição técnica do produto.'}
                                     </div>
                                 </div>
@@ -208,7 +208,7 @@ export default function Products() {
                                         </Badge>
                                     ))}
                                     {product.variants.length === 0 && (
-                                        <span className="label-brand text-[9px] text-muted-foreground/30">Sem SKUs</span>
+                                        <span className="label-brand text-[9px] text-muted-foreground/50">Sem SKUs</span>
                                     )}
                                 </div>
                             </TableCell>
@@ -236,7 +236,7 @@ export default function Products() {
                                     </div>
                                     <div className="space-y-1">
                                         <p className="h3-brand text-xl">Nenhum Ativo Encontrado</p>
-                                        <p className="label-brand opacity-50">Refine sua busca ou inicie um novo cadastro.</p>
+                                        <p className="label-brand opacity-70">Refine sua busca ou inicie um novo cadastro.</p>
                                     </div>
                                     <Button variant="outline" className="rounded-xl border-primary/20 text-primary hover:bg-primary/10 label-brand" onClick={() => navigate('/products/new')}>Cadastrar Primeiro</Button>
                                 </div>
@@ -260,8 +260,8 @@ export default function Products() {
                         <div>
                             <h2 className="h2-brand text-5xl">Portfólio</h2>
                             <div className="flex items-center gap-2 mt-1">
-                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none label-brand px-2">Hub 3.1</Badge>
-                                <span className="label-brand text-muted-foreground opacity-60">— Gestão do Portfólio Industrial</span>
+                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground border-none label-brand px-2">Hub 3.1</Badge>
+                                <span className="label-brand text-muted-foreground opacity-80">— Gestão do Portfólio Industrial</span>
                             </div>
                         </div>
                     </div>
@@ -272,7 +272,7 @@ export default function Products() {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                         <Input
                             placeholder="Pesquisar por nome ou código..."
-                            className="h-14 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/40 body-brand focus-visible:ring-primary/40 shadow-xl"
+                            className="h-14 pl-12 rounded-2xl smooth-glass border-none ring-offset-background placeholder:text-muted-foreground/60 body-brand focus-visible:ring-primary/40 shadow-xl"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />

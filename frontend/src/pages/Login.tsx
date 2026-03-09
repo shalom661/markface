@@ -74,7 +74,7 @@ export default function Login() {
 
                     <div className="flex items-center justify-center gap-3">
                         <div className="h-px w-6 bg-white/10" />
-                        <p className="text-muted-foreground text-[9px] font-black tracking-[0.4em] uppercase opacity-40 italic">Hub de Inteligência</p>
+                        <p className="text-muted-foreground text-[9px] font-black tracking-[0.4em] uppercase opacity-60 italic">Hub de Inteligência</p>
                         <div className="h-px w-6 bg-white/10" />
                     </div>
                 </div>
@@ -158,14 +158,14 @@ export default function Login() {
                         </Button>
 
                         <div className="text-center pt-2">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/30 italic cursor-pointer hover:text-primary transition-colors">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 italic cursor-pointer hover:text-primary transition-colors">
                                 Redefinição de Protocolo Esquecido &mdash; Contate o Admin
                             </span>
                         </div>
                     </form>
                 </Card>
 
-                <div className="mt-8 flex flex-col items-center space-y-3 opacity-20">
+                <div className="mt-8 flex flex-col items-center space-y-3 opacity-40">
                     <p className="text-[8px] font-black tracking-[0.5em] text-white uppercase italic">
                         &copy; 2026 Mark Face Systems
                     </p>

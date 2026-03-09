@@ -76,7 +76,7 @@ export default function Dashboard() {
                                 <h1 className="h1-brand">Monitor</h1>
                                 <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 label-brand px-2 py-0.5 border-none shadow-sm">Tempo Real</Badge>
                             </div>
-                            <p className="body-brand text-muted-foreground opacity-60 mt-1">
+                            <p className="body-brand text-muted-foreground opacity-80 mt-1">
                                 Bem-vindo ao cockpit do <span className="text-primary font-bold">MarkFace Hub</span>.
                             </p>
                         </div>
@@ -117,12 +117,12 @@ export default function Dashboard() {
                             </div>
 
                             <div className="space-y-1">
-                                <p className="label-brand text-muted-foreground/60">{stat.label}</p>
+                                <p className="label-brand text-muted-foreground/80">{stat.label}</p>
                                 <div className="flex items-baseline gap-2">
                                     <h4 className="stat-brand text-white/90">{stat.value}</h4>
-                                    <span className="label-brand text-muted-foreground/40">total</span>
+                                    <span className="label-brand text-muted-foreground/60">total</span>
                                 </div>
-                                <p className="label-brand text-muted-foreground/20 pt-3 mt-3">
+                                <p className="label-brand text-muted-foreground/40 pt-3 mt-3">
                                     {stat.description}
                                 </p>
                             </div>
@@ -144,7 +144,7 @@ export default function Dashboard() {
                                 <TrendingUp className="h-5 w-5 text-primary" />
                                 Projeção Mensal
                             </CardTitle>
-                            <CardDescription className="label-brand text-muted-foreground opacity-60">Monitoramento de fluxo e conversão</CardDescription>
+                            <CardDescription className="label-brand text-muted-foreground opacity-80">Monitoramento de fluxo e conversão</CardDescription>
                         </div>
                         <div className="flex items-center gap-2">
                             <Button variant="ghost" size="sm" className="rounded-xl label-brand bg-primary/5">D</Button>
@@ -171,7 +171,7 @@ export default function Dashboard() {
 
                             <div className="flex justify-between border-t border-white/5 pt-6 px-2">
                                 {['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'].map(m => (
-                                    <span key={m} className="label-brand text-muted-foreground/30">{m}</span>
+                                    <span key={m} className="label-brand text-muted-foreground/50">{m}</span>
                                 ))}
                             </div>
                         </div>
@@ -206,7 +206,7 @@ export default function Dashboard() {
                                             </div>
                                             <div className="text-left space-y-1">
                                                 <span className="block h3-brand text-sm text-white/80">{btn.label}</span>
-                                                <span className="label-brand text-muted-foreground/50">Acesso Instantâneo</span>
+                                                <span className="label-brand text-muted-foreground/70">Acesso Instantâneo</span>
                                             </div>
                                         </div>
                                         <div className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover/btn:opacity-100 transition-all transform group-hover/btn:translate-x-1">
@@ -228,7 +228,7 @@ export default function Dashboard() {
                             </div>
                             <div>
                                 <h4 className="h3-brand">Meta Diária</h4>
-                                <p className="label-brand text-muted-foreground mt-1 opacity-50">Faltam 12 vendas para bater o recorde</p>
+                                <p className="label-brand text-muted-foreground mt-1 opacity-70">Faltam 12 vendas para bater o recorde</p>
                             </div>
                         </div>
                         <div className="relative h-24 w-24 flex items-center justify-center z-10">

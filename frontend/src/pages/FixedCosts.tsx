@@ -116,10 +116,10 @@ export default function FixedCosts() {
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-2">
-                                <h1 className="h1-brand text-7xl">OpEx</h1>
+                                <h1 className="h1-brand text-7xl">Gastos Operacionais</h1>
                                 <Badge className="bg-primary/10 text-primary border-none label-brand px-4 py-1.5 rounded-full">Recorrente</Badge>
                             </div>
-                            <p className="h3-brand text-muted-foreground text-2xl opacity-60">
+                            <p className="h3-brand text-muted-foreground text-2xl">
                                 Gestão estratégica de <span className="text-primary text-white/80">Custos Fixos & Operação</span>.
                             </p>
                         </div>
@@ -241,7 +241,7 @@ export default function FixedCosts() {
                                     <CreditCard className="h-8 w-8 text-primary shadow-glow" />
                                     <div>
                                         <h2 className="h3-brand text-3xl text-white/90">Pilha de Registros</h2>
-                                        <p className="label-brand text-muted-foreground opacity-60 mt-1">Custos fixos em vigor</p>
+                                        <p className="label-brand text-muted-foreground opacity-80 mt-1">Custos fixos em vigor</p>
                                     </div>
                                 </div>
                                 <Badge className="rounded-full bg-white/5 border-white/5 label-brand px-6 py-2">{costsArr.length} Registros</Badge>

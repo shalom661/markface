@@ -154,7 +154,7 @@ export default function Costs() {
                                 <h1 className="h1-brand text-7xl text-white">Lucro</h1>
                                 <Badge className="bg-primary/10 text-primary border-none label-brand px-4 py-1.5 rounded-full">Análise</Badge>
                             </div>
-                            <p className="h3-brand text-muted-foreground opacity-40">
+                            <p className="h3-brand text-muted-foreground opacity-70">
                                 Auditoria técnica de <span className="text-primary not-italic font-black text-white/80">Margens & Custos Fixos</span>.
                             </p>
                         </div>
@@ -213,7 +213,7 @@ export default function Costs() {
                                                 <div key={m.id} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-all">
                                                     <div>
                                                         <p className="body-brand text-xs uppercase">{m.name}</p>
-                                                        <p className="label-brand text-muted-foreground opacity-60">Taxa: {m.tax_percent}% + R$ {(m.fixed_fee + m.extra_cost).toFixed(2)}</p>
+                                                        <p className="label-brand text-muted-foreground opacity-80">Taxa: {m.tax_percent}% + R$ {(m.fixed_fee + m.extra_cost).toFixed(2)}</p>
                                                     </div>
                                                     <div className="flex gap-2 lg:opacity-0 group-hover:opacity-100 transition-all">
                                                         <Button
@@ -260,8 +260,8 @@ export default function Costs() {
                         </div>
                         <div className="relative z-10 space-y-3">
                             <div className="flex items-center justify-between">
-                                <p className="label-brand text-muted-foreground/40 flex items-center gap-2">
-                                    <Activity className="h-3 w-3" /> Hub de OpEx Fixo
+                                <p className="label-brand text-muted-foreground/60 flex items-center gap-2">
+                                    <Activity className="h-3 w-3" /> Hub de Gastos Operacionais Fixos
                                 </p>
                                 <span className="label-brand text-emerald-400">Meta em Tempo Real</span>
                             </div>
@@ -315,7 +315,7 @@ export default function Costs() {
                     <div className="hidden lg:flex items-center gap-6 p-6 rounded-[2rem] smooth-glass border-none">
                         <Info className="h-5 w-5 text-primary animate-pulse" />
                         <p className="label-brand text-muted-foreground/40 max-w-[300px]">
-                            O cálculo de Rateio (COGS + OpEx) é calibrado para lotes otimizados de <span className="text-white font-black">1.000 unidades</span> mensais.
+                            O cálculo de Rateio (COGS + Gastos Operacionais) é calibrado para lotes otimizados de <span className="text-white font-black">1.000 unidades</span> mensais.
                         </p>
                     </div>
                 </div>
@@ -368,7 +368,7 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                 }, 0)
                                 : Number(variant.cost || 0);
 
-                            // Base Cost = Production/Resale Cost + OpEx Share
+                            // Base Cost = Production/Resale Cost + Gastos Operacionais Share
                             const baseCost = bomCost + fixedShare;
 
                             // Formula: (Base Cost + Fixed Fee + Extra Cost) / (1 - Tax%)
@@ -409,7 +409,7 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                             <p className="stat-brand text-xl text-white/60">
                                                 R$ {Number(bomCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                             </p>
-                                            <p className="label-brand text-muted-foreground/20">Valor de Inventário Base</p>
+                                            <p className="label-brand text-muted-foreground/40">Valor de Inventário Base</p>
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-right px-12">

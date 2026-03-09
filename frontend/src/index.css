@@ -20,7 +20,7 @@
     /* #5b9bd5 - Light Blue */
     --secondary-foreground: 210 20% 98%;
     --muted: 210 20% 94%;
-    --muted-foreground: 209 20% 45%;
+    --muted-foreground: 209 25% 35%;
     --accent: 209 100% 95%;
     --accent-foreground: 209 100% 22%;
     --destructive: 0 84.2% 60.2%;
@@ -46,7 +46,7 @@
     --secondary: 209 60% 60%;
     --secondary-foreground: 210 20% 98%;
     --muted: 209 40% 12%;
-    --muted-foreground: 209 20% 65%;
+    --muted-foreground: 209 15% 75%;
     --accent: 209 100% 15%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
@@ -88,11 +88,11 @@
 
 @layer components {
   .smooth-glass {
-    @apply bg-card/40 backdrop-blur-xl border-none shadow-2xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,60,113,0.15)];
+    @apply bg-card/40 backdrop-blur-xl border-none shadow-2xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0, 60, 113, 0.15)];
   }
 
   .dark .smooth-glass {
-    @apply bg-card/60 backdrop-blur-xl border-none shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)];
+    @apply bg-card/60 backdrop-blur-xl border-none shadow-2xl hover:shadow-[0_20px_50px_rgba(0, 0, 0, 0.4)];
   }
 
   .nav-item-active {
@@ -121,6 +121,6 @@
   }
 
   .label-brand {
-    @apply text-[10px] font-black uppercase tracking-widest opacity-60 italic;
+    @apply text-[10px] font-black uppercase tracking-widest italic;
   }
 }
