@@ -130,7 +130,6 @@ export default function Products() {
     );
 
     if (error) return (
-    if (error) return (
         <div className="max-w-2xl mx-auto p-12 text-center space-y-8 smooth-glass rounded-[3rem] border-destructive/20 mt-10">
             <div className="w-20 h-20 bg-destructive/10 text-destructive rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-destructive/20">
                 <AlertCircle className="h-10 w-10" />
