@@ -29,10 +29,10 @@ export default function SalesModalityForm({ initialData, onSuccess }: SalesModal
         setLoading(true);
         try {
             if (initialData?.id) {
-                await api.put(`/finance/sales-modalities/${initialData.id}`, data);
+                await api.put(`/sales-modalities/${initialData.id}`, data);
                 toast({ title: "Modalidade Atualizada", description: "As taxas foram salvas com sucesso." });
             } else {
-                await api.post('/finance/sales-modalities', data);
+                await api.post('/sales-modalities', data);
                 toast({ title: "Modalidade Criada", description: "A nova modalidade já está disponível para cálculo." });
             }
             onSuccess();
