@@ -224,11 +224,11 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                                     </div>
                                     <div className="space-y-1.5">
                                         <div className="text-2xl font-[1000] text-white/90 italic tracking-tighter leading-none uppercase">
-                                            {purchase.purchase_date ? new Date(purchase.purchase_date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Protocol N/A'}
+                                            {purchase.purchase_date ? new Date(purchase.purchase_date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Protocolo N/A'}
                                         </div>
                                         <div className="text-[10px] font-black text-muted-foreground/30 uppercase tracking-[0.1em] flex items-center gap-2">
                                             <div className="h-1.5 w-1.5 rounded-full bg-primary/20" />
-                                            PO Ref: <span className="text-muted-foreground/50">{purchase.id.slice(0, 12).toUpperCase()}</span>
+                                            Ref PO: <span className="text-muted-foreground/50">{purchase.id.slice(0, 12).toUpperCase()}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -240,9 +240,9 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                                     </div>
                                     <div className="space-y-1">
                                         <span className="text-xl font-black text-white/80 group-hover:text-primary transition-colors italic uppercase leading-none tracking-tight">
-                                            {purchase.supplier?.name || 'Unknown Entity'}
+                                            {purchase.supplier?.name || 'Entidade Desconhecida'}
                                         </span>
-                                        <p className="text-[10px] font-bold text-muted-foreground/20 uppercase tracking-widest italic leading-none">Verified Partner Architecture</p>
+                                        <p className="text-[10px] font-bold text-muted-foreground/20 uppercase tracking-widest italic leading-none">Arquitetura de Parceiro Verificada</p>
                                     </div>
                                 </div>
                             </TableCell>
@@ -253,7 +253,7 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                                     </span>
                                     <div className="flex items-center gap-2 text-emerald-400/60 text-[10px] font-black uppercase tracking-widest italic">
                                         <ArrowUpRight className="h-3 w-3" />
-                                        Indexed Value
+                                        Valor Indexado
                                     </div>
                                 </div>
                             </TableCell>
@@ -268,7 +268,7 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                                     <button
                                         className="h-12 px-6 rounded-2xl bg-primary text-primary-foreground font-black uppercase tracking-[0.15em] text-[10px] transition-all flex items-center gap-3 hover:shadow-2xl hover:shadow-primary/20"
                                     >
-                                        Inspect
+                                        Inspecionar
                                         <ArrowRight className="h-4 w-4 stroke-[3]" />
                                     </button>
                                 </div>
@@ -283,7 +283,7 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                                         <ShoppingCart className="h-20 w-20 opacity-5 rotate-12" />
                                     </div>
                                     <div className="space-y-3">
-                                        <p className="font-black text-4xl italic uppercase tracking-tighter text-white/20 leading-none">Zero Liquidity</p>
+                                        <p className="font-black text-4xl italic uppercase tracking-tighter text-white/20 leading-none">Liquidez Zero</p>
                                         <p className="text-sm font-bold opacity-30 italic">Nenhum registro de aquisição localizado no ledger atual.</p>
                                     </div>
                                     <button

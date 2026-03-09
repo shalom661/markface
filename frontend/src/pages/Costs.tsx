@@ -41,6 +41,8 @@ import api from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import SalesModalityForm from '@/components/forms/SalesModalityForm';
+import { useToast } from '@/hooks/use-toast';
 
 interface ProductVariant {
     id: string;
@@ -74,6 +76,9 @@ interface SalesModality {
 
 export default function Costs() {
     const [selectedModality, setSelectedModality] = React.useState<string>('direct');
+    const [isFormOpen, setIsFormOpen] = React.useState(false);
+    const [editingModality, setEditingModality] = React.useState<SalesModality | null>(null);
+    const { toast } = useToast();
 
     const { data: products = [], isLoading: loadingProducts } = useQuery<Product[]>({
         queryKey: ['products'],
@@ -91,13 +96,24 @@ export default function Costs() {
         },
     });
 
-    const { data: modalities = [], isLoading: loadingModalities } = useQuery<SalesModality[]>({
+    const { data: modalities = [], isLoading: loadingModalities, refetch: refetchModalities } = useQuery<SalesModality[]>({
         queryKey: ['sales-modalities'],
         queryFn: async () => {
             const res = await api.get('/finance/sales-modalities');
             return res.data;
         },
     });
+
+    const handleDeleteModality = async (id: string) => {
+        if (!confirm('Tem certeza que deseja excluir esta modalidade?')) return;
+        try {
+            await api.delete(`/finance/sales-modalities/${id}`);
+            toast({ title: "Modalidade Excluída", description: "O registro foi removido com sucesso." });
+            refetchModalities();
+        } catch (error) {
+            toast({ title: "Erro ao Excluir", description: "Não foi possível remover a modalidade.", variant: "destructive" });
+        }
+    };
 
     const productsArr = Array.isArray(products) ? products : [];
     const fixedCostsArr = Array.isArray(fixedCosts) ? fixedCosts : [];
@@ -135,11 +151,11 @@ export default function Costs() {
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-2">
-                                <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">Yield</h1>
-                                <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Analysis</Badge>
+                                <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">Lucro</h1>
+                                <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Análise</Badge>
                             </div>
                             <p className="text-muted-foreground text-2xl font-semibold opacity-40 italic tracking-tight">
-                                Auditoria técnica de <span className="text-primary not-italic font-black text-white/80">Margins & Overhead</span>.
+                                Auditoria técnica de <span className="text-primary not-italic font-black text-white/80">Margens & Custos Fixos</span>.
                             </p>
                         </div>
                     </div>
@@ -176,25 +192,63 @@ export default function Costs() {
                                     <DialogDescription className="font-bold text-muted-foreground italic">Configure taxas e custos extras por canal de venda.</DialogDescription>
                                 </DialogHeader>
                                 <div className="space-y-6 py-4">
-                                    {modalitiesArr.map(m => (
-                                        <div key={m.id} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-all">
-                                            <div>
-                                                <p className="font-black uppercase text-xs tracking-widest">{m.name}</p>
-                                                <p className="text-[10px] text-muted-foreground font-bold">Taxa: {m.tax_percent}% + R$ {(m.fixed_fee + m.extra_cost).toFixed(2)}</p>
+                                    {isFormOpen ? (
+                                        <div className="animate-in fade-in slide-in-from-top-4 duration-500">
+                                            <div className="flex justify-between items-center mb-6">
+                                                <h3 className="text-sm font-black uppercase tracking-widest italic">{editingModality ? 'Editar' : 'Nova'} Modalidade</h3>
+                                                <Button variant="ghost" className="text-[10px] uppercase font-bold" onClick={() => { setIsFormOpen(false); setEditingModality(null); }}>Cancelar</Button>
                                             </div>
-                                            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-primary hover:bg-primary/10">
-                                                    <Edit2 className="h-4 w-4" />
-                                                </Button>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-destructive hover:bg-destructive/10">
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </div>
+                                            <SalesModalityForm
+                                                initialData={editingModality}
+                                                onSuccess={() => {
+                                                    setIsFormOpen(false);
+                                                    setEditingModality(null);
+                                                    refetchModalities();
+                                                }}
+                                            />
                                         </div>
-                                    ))}
-                                    <Button className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-[10px] bg-primary hover:scale-[1.02] shadow-xl shadow-primary/20">
-                                        <Plus className="h-4 w-4 mr-2" /> Nova Modalidade
-                                    </Button>
+                                    ) : (
+                                        <>
+                                            {modalitiesArr.map(m => (
+                                                <div key={m.id} className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/5 group hover:bg-white/10 transition-all">
+                                                    <div>
+                                                        <p className="font-black uppercase text-xs tracking-widest">{m.name}</p>
+                                                        <p className="text-[10px] text-muted-foreground font-bold italic opacity-60">Taxa: {m.tax_percent}% + R$ {(m.fixed_fee + m.extra_cost).toFixed(2)}</p>
+                                                    </div>
+                                                    <div className="flex gap-2 lg:opacity-0 group-hover:opacity-100 transition-all">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-8 w-8 rounded-lg text-primary hover:bg-primary/10"
+                                                            onClick={() => {
+                                                                setEditingModality(m);
+                                                                setIsFormOpen(true);
+                                                            }}
+                                                        >
+                                                            <Edit2 className="h-4 w-4" />
+                                                        </Button>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-8 w-8 rounded-lg text-destructive hover:bg-destructive/10"
+                                                            onClick={() => handleDeleteModality(m.id)}
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            <Button
+                                                className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-[10px] bg-primary hover:scale-[1.02] shadow-xl shadow-primary/20"
+                                                onClick={() => {
+                                                    setEditingModality(null);
+                                                    setIsFormOpen(true);
+                                                }}
+                                            >
+                                                <Plus className="h-4 w-4 mr-2" /> Nova Modalidade
+                                            </Button>
+                                        </>
+                                    )}
                                 </div>
                             </DialogContent>
                         </Dialog>
@@ -207,9 +261,9 @@ export default function Costs() {
                         <div className="relative z-10 space-y-3">
                             <div className="flex items-center justify-between">
                                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic flex items-center gap-2">
-                                    <Activity className="h-3 w-3" /> Fixed OpEx Hub
+                                    <Activity className="h-3 w-3" /> Hub de OpEx Fixo
                                 </p>
-                                <span className="text-[10px] font-black text-emerald-400 uppercase italic">Live Target</span>
+                                <span className="text-[10px] font-black text-emerald-400 uppercase italic">Meta em Tempo Real</span>
                             </div>
                             <p className="text-5xl font-[1000] text-primary italic tracking-tighter leading-none uppercase">
                                 R$ {totalFixed.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
@@ -218,7 +272,7 @@ export default function Costs() {
                                 <div className="h-1 flex-1 bg-white/5 rounded-full overflow-hidden">
                                     <div className="h-full bg-primary w-[42%]" />
                                 </div>
-                                <span className="text-[10px] font-bold text-muted-foreground/30 italic uppercase">Utilization Index</span>
+                                <span className="text-[10px] font-bold text-muted-foreground/30 italic uppercase">Índice de Utilização</span>
                             </div>
                         </div>
                     </Card>
@@ -228,10 +282,10 @@ export default function Costs() {
             {/* Performance Widgets */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
-                    { label: 'COGS Avg', value: 'R$ 42,90', icon: Target, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-                    { label: 'Net Efficiency', value: '94.2%', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-                    { label: 'OEE Score', value: '88', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-                    { label: 'Tax Load', value: `${modality.tax_percent}% + R$ ${modality.fixed_fee + modality.extra_cost}`, icon: Compass, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+                    { label: 'Média COGS', value: 'R$ 42,90', icon: Target, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+                    { label: 'Eficiência Líquida', value: '94.2%', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+                    { label: 'Score OEE', value: '88', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+                    { label: 'Carga Tributária', value: `${modality.tax_percent}% + R$ ${modality.fixed_fee + modality.extra_cost}`, icon: Compass, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
                     <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
                         <div className="space-y-4">
@@ -298,10 +352,10 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
             <Table>
                 <TableHeader className="bg-primary/[0.03]">
                     <TableRow className="border-b border-white/5 hover:bg-transparent">
-                        <TableHead className="py-10 px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Product Entity</TableHead>
-                        <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Configuration (SKU)</TableHead>
-                        <TableHead className="text-right font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">{type === 'manufactured' ? 'Input COGS' : 'Acquisition'}</TableHead>
-                        <TableHead className="text-right px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Market Yield (Estimated Cost)</TableHead>
+                        <TableHead className="py-10 px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Entidade do Produto</TableHead>
+                        <TableHead className="font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Configuração (SKU)</TableHead>
+                        <TableHead className="text-right font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">{type === 'manufactured' ? 'COGS de Insumos' : 'Aquisição'}</TableHead>
+                        <TableHead className="text-right px-12 font-black text-[11px] uppercase tracking-[0.2em] text-primary/60 italic">Yield de Mercado (Custo Estimado)</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -347,7 +401,7 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                     <TableCell>
                                         <div className="flex flex-col gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
                                             <span className="font-mono text-sm font-bold text-white uppercase tracking-tighter">{variant.sku}</span>
-                                            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] italic">System Registry ID</span>
+                                            <span className="text-[9px] font-black text-muted-foreground uppercase tracking-[0.2em] italic">ID de Registro do Sistema</span>
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-right">
@@ -355,7 +409,7 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                             <p className="text-xl font-black text-white/60 tracking-tighter italic">
                                                 R$ {Number(bomCost).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                             </p>
-                                            <p className="text-[10px] font-bold text-muted-foreground/20 uppercase tracking-widest italic">Base Inventory Value</p>
+                                            <p className="text-[10px] font-bold text-muted-foreground/20 uppercase tracking-widest italic">Valor de Inventário Base</p>
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-right px-12">
@@ -386,7 +440,7 @@ function CostTable({ data, type, fixedShare, modality }: { data: Product[], type
                                         <Calculator className="h-20 w-20 opacity-5 -rotate-12" />
                                     </div>
                                     <div className="space-y-3">
-                                        <p className="font-black text-4xl italic uppercase tracking-tighter text-white/20 leading-none">Vacuum detected</p>
+                                        <p className="font-black text-4xl italic uppercase tracking-tighter text-white/20 leading-none">Vazio Detectado</p>
                                         <p className="text-sm font-bold opacity-30 italic">Nenhum dado de custo disponível para análise neste cluster.</p>
                                     </div>
                                 </div>

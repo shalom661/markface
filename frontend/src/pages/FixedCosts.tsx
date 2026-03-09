@@ -97,7 +97,7 @@ export default function FixedCosts() {
                 <div className="absolute inset-0 animate-ping opacity-10 bg-primary rounded-full scale-[2]" />
             </div>
             <div className="text-center space-y-2">
-                <p className="text-muted-foreground font-black uppercase tracking-[0.3em] text-[10px] italic">Loading Overhead Hub...</p>
+                <p className="text-muted-foreground font-black uppercase tracking-[0.3em] text-[10px] italic">Carregando Hub de Custos Fixos...</p>
                 <div className="h-1 w-48 bg-white/5 rounded-full overflow-hidden mx-auto">
                     <div className="h-full bg-primary animate-[shimmer_2s_infinite] w-1/3" />
                 </div>
@@ -117,7 +117,7 @@ export default function FixedCosts() {
                         <div>
                             <div className="flex items-center gap-4 mb-2">
                                 <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">OpEx</h1>
-                                <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Recurrent</Badge>
+                                <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Recorrente</Badge>
                             </div>
                             <p className="text-muted-foreground text-2xl font-semibold opacity-40 italic tracking-tight">
                                 Gestão estratégica de <span className="text-primary not-italic font-black text-white/80">Custos Fixos & Operação</span>.
@@ -158,7 +158,7 @@ export default function FixedCosts() {
                 {[
                     { label: 'Fluxo Recorrente', value: costsArr.length.toString(), icon: Receipt, color: 'text-blue-400', bg: 'bg-blue-500/10' },
                     { label: 'Impacto Médio Unitário', value: 'R$ ' + (totalFixed / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 2 }), icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-                    { label: 'Score de Auditoria', value: 'Alpha', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+                    { label: 'Nível de Auditoria', value: 'Alpha', icon: ShieldCheck, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
                     { label: 'Eficiência Financeira', value: 'Alta', icon: PiggyBank, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat: { label: string; value: string; icon: React.ElementType; color: string; bg: string }, i: number) => (
                     <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.05] transition-all shadow-2xl">
@@ -244,7 +244,7 @@ export default function FixedCosts() {
                                         <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] italic opacity-40 mt-1">Custos fixos em vigor</p>
                                     </div>
                                 </div>
-                                <Badge className="rounded-full bg-white/5 border-white/5 text-[10px] font-black italic uppercase tracking-widest px-6 py-2">{costsArr.length} Nodes</Badge>
+                                <Badge className="rounded-full bg-white/5 border-white/5 text-[10px] font-black italic uppercase tracking-widest px-6 py-2">{costsArr.length} Registros</Badge>
                             </div>
 
                             <div className="grid gap-6">
@@ -264,7 +264,7 @@ export default function FixedCosts() {
                                                 </p>
                                                 <p className="text-[10px] font-black text-primary/40 uppercase tracking-widest italic flex items-center gap-1.5">
                                                     <div className="h-1 w-1 rounded-full bg-primary/40" />
-                                                    Fixed Operation Registry
+                                                    Registro de Operação Fixa
                                                 </p>
                                             </div>
                                         </div>
@@ -275,7 +275,7 @@ export default function FixedCosts() {
                                                     R$ {Number(cost.value || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                                 </p>
                                                 <div className="flex items-center justify-end gap-2 text-emerald-400/40 text-[9px] font-black uppercase tracking-widest italic">
-                                                    <ArrowUpRight className="h-3 w-3" /> Monthly Valid
+                                                    <ArrowUpRight className="h-3 w-3" /> Validade Mensal
                                                 </div>
                                             </div>
 
@@ -297,7 +297,7 @@ export default function FixedCosts() {
                                             <Landmark className="h-20 w-20 opacity-5 -rotate-12" />
                                         </div>
                                         <div className="space-y-3 text-center">
-                                            <p className="font-black text-4xl italic uppercase tracking-tighter text-white/20 leading-none">Node Vacuum</p>
+                                            <p className="font-black text-4xl italic uppercase tracking-tighter text-white/20 leading-none">Vazio de Dados</p>
                                             <p className="text-sm font-bold opacity-30 italic">Nenhum custo fixo registrado neste perímetro de operação.</p>
                                         </div>
                                     </div>

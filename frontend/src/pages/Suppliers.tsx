@@ -232,10 +232,10 @@ export default function Suppliers() {
             {/* Visual Stats Row */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
-                    { label: 'Market Partners', value: data?.total || 0, icon: Building2, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+                    { label: 'Parceiros de Mercado', value: data?.total || 0, icon: Building2, color: 'text-blue-400', bg: 'bg-blue-500/10' },
                     { label: 'Taxa de Entrega', value: '98.4%', icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-                    { label: 'Active Pipeline', value: '12', icon: Zap, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-                    { label: 'Verified Integrity', value: '100%', icon: ShieldCheck, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+                    { label: 'Pipeline Ativo', value: '12', icon: Zap, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+                    { label: 'Integridade Verificada', value: '100%', icon: ShieldCheck, color: 'text-purple-400', bg: 'bg-purple-500/10' },
                 ].map((stat, i) => (
                     <Card key={i} className="rounded-[3rem] border-none glass p-8 group hover:scale-[1.02] transition-transform shadow-xl">
                         <div className="flex items-center gap-5">
@@ -307,7 +307,7 @@ export default function Suppliers() {
                                                 }`}
                                         >
                                             <div className={`h-2 w-2 rounded-full shadow-inner ${supplier.active ? 'bg-emerald-400 animate-pulse' : 'bg-red-900'}`} />
-                                            {supplier.active ? 'Operational' : 'Restricted'}
+                                            {supplier.active ? 'Operacional' : 'Restrito'}
                                         </button>
                                     </TableCell>
                                     <TableCell>
@@ -342,7 +342,7 @@ export default function Suppliers() {
                                                 <Building2 className="h-16 w-16 opacity-5 rotate-12" />
                                             </div>
                                             <div className="space-y-2">
-                                                <p className="font-black text-3xl italic uppercase tracking-tighter text-white/20">Empty Network</p>
+                                                <p className="font-black text-3xl italic uppercase tracking-tighter text-white/20">Rede Vazia</p>
                                                 <p className="text-sm font-bold opacity-30 italic">Nenhum parceiro comercial localizado na região de busca.</p>
                                             </div>
                                             <button

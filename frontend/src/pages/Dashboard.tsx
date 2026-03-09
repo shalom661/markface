@@ -48,7 +48,7 @@ export default function Dashboard() {
             trend: "up",
             color: "text-purple-400",
             bg: "bg-purple-500/10",
-            description: "Lead generation"
+            description: "Geração de Leads"
         },
         {
             label: "Receita (Mês)",
@@ -74,7 +74,7 @@ export default function Dashboard() {
                         <div>
                             <div className="flex items-center gap-3">
                                 <h2 className="text-5xl font-[900] tracking-tighter italic uppercase text-white/90">Monitor</h2>
-                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none font-black text-[10px] uppercase tracking-widest px-2 py-0.5">Live View</Badge>
+                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none font-black text-[10px] uppercase tracking-widest px-2 py-0.5">Tempo Real</Badge>
                             </div>
                             <p className="text-muted-foreground text-lg font-semibold opacity-60 italic mt-1">
                                 Bem-vindo ao cockpit do <span className="text-primary opacity-100 not-italic font-black">MarkFace Hub</span>.

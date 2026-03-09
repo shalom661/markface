@@ -333,8 +333,8 @@ export default function Management() {
                     <div className="h-24 w-24 rounded-[2rem] bg-white/[0.02] flex items-center justify-center mb-8 border border-white/5">
                         <Terminal className="h-10 w-10 opacity-20" />
                     </div>
-                    <p className="text-2xl font-[1000] italic uppercase tracking-tighter text-white/20 leading-none mb-2">Null Sector</p>
-                    <p className="text-sm font-bold opacity-30 italic max-w-xs">Selecione uma categoria na infraestrutura ao lado para injetar parâmetros no buffer.</p>
+                    <p className="text-2xl font-[1000] italic uppercase tracking-tighter text-white/20 leading-none mb-2">Setor Vazio</p>
+                    <p className="text-sm font-bold opacity-30 italic max-w-xs">Selecione uma categoria na infraestrutura ao lado para inspecionar parâmetros.</p>
                 </div>
             )
         }
@@ -358,7 +358,7 @@ export default function Management() {
                             {selectedCategory.active ? "Alpha Active" : "Disabled Node"}
                         </Badge>
                     </div>
-                    <CardDescription className="text-base font-bold italic opacity-40 uppercase tracking-widest">Protocolos técnicos e definições de buffer.</CardDescription>
+                    <CardDescription className="text-base font-bold italic opacity-40 uppercase tracking-widest">Definições técnicas e campos de dados.</CardDescription>
                 </CardHeader>
                 <CardContent className="p-10">
                     {fields.length > 0 ? (
@@ -386,7 +386,7 @@ export default function Management() {
                                             </div>
                                         </div>
                                         <Badge className="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] italic bg-white/5 text-primary border border-primary/10 shadow-lg group-hover:scale-110 transition-transform">
-                                            {field.type === "number" ? "Float64" : "String"}
+                                            {field.type === "number" ? "Numérico (Dec)" : "Texto"}
                                         </Badge>
                                     </div>
                                 )
@@ -396,8 +396,8 @@ export default function Management() {
                         <div className="flex flex-col items-center justify-center py-24 text-muted-foreground italic text-center gap-8 bg-white/[0.01] rounded-[3rem] border-4 border-dashed border-white/5">
                             <Info className="h-16 w-16 opacity-5" />
                             <div className="space-y-2">
-                                <p className="text-3xl font-[1000] italic uppercase tracking-tighter text-white/10 leading-none">Vacuum Found</p>
-                                <p className="text-sm font-bold opacity-20 max-w-[280px]">Esta categoria não possui parâmetros de hardware registrados no buffer central.</p>
+                                <p className="text-3xl font-[1000] italic uppercase tracking-tighter text-white/10 leading-none">Vácuo Detectado</p>
+                                <p className="text-sm font-bold opacity-20 max-w-[280px]">Esta categoria não possui parâmetros registrados no banco de dados.</p>
                             </div>
                         </div>
                     )}
@@ -417,8 +417,8 @@ export default function Management() {
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-2">
-                                <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">Admin</h1>
-                                <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Core Infrastructure</Badge>
+                                <h1 className="text-7xl font-[1000] tracking-[calc(-0.05em)] italic uppercase text-white leading-none">Administração</h1>
+                                <Badge className="bg-primary/10 text-primary border-none font-black text-[10px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">Infraestrutura Central</Badge>
                             </div>
                             <p className="text-muted-foreground text-2xl font-semibold opacity-40 italic tracking-tight">
                                 Orquestração de <span className="text-primary not-italic font-black text-white/80">Categorias & Unidades</span> sistêmicas.
@@ -431,12 +431,12 @@ export default function Management() {
                 <div className="flex gap-6">
                     <Card className="rounded-[2.5rem] border-none glass p-6 py-8 flex flex-col items-center justify-center min-w-[200px] shadow-2xl hover:scale-105 transition-all">
                         <Binary className="h-6 w-6 text-primary mb-3 opacity-40" />
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic">Categories Injected</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic">Categorias Injetadas</p>
                         <p className="text-4xl font-[1000] text-white italic tracking-tighter leading-none mt-2">{categories.length}</p>
                     </Card>
                     <Card className="rounded-[2.5rem] border-none glass p-6 py-8 flex flex-col items-center justify-center min-w-[200px] shadow-2xl hover:scale-105 transition-all">
                         <Cpu className="h-6 w-6 text-emerald-400 mb-3 opacity-40" />
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic">Units Active</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 italic">Unidades Ativas</p>
                         <p className="text-4xl font-[1000] text-white italic tracking-tighter leading-none mt-2">{units.length}</p>
                     </Card>
                 </div>
@@ -455,8 +455,8 @@ export default function Management() {
                                     <Layers className="h-8 w-8" />
                                 </div>
                                 <div className="space-y-2">
-                                    <CardTitle className="text-4xl font-[1000] tracking-tighter uppercase italic text-white/90 leading-none">Database Nodes</CardTitle>
-                                    <CardDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40">Estruturação técnica de categorias operacionais.</CardDescription>
+                                    <CardTitle className="text-4xl font-[1000] tracking-tighter uppercase italic text-white/90 leading-none">Nós do Banco de Dados</CardTitle>
+                                    <CardDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40">Estruturação de modalidades e categorias operacionais.</CardDescription>
                                 </div>
                             </div>
                             <div className="h-14 w-14 rounded-full bg-white/5 flex items-center justify-center text-muted-foreground group">
@@ -470,7 +470,7 @@ export default function Management() {
                                         <Button className="w-full h-20 rounded-[2rem] bg-primary text-primary-foreground shadow-2xl shadow-primary/40 hover:scale-[1.02] active:scale-95 transition-all text-sm font-black uppercase tracking-[0.3em] italic group relative overflow-hidden" onClick={handleAddNew}>
                                             <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                                             <Plus className="h-6 w-6 mr-4" />
-                                            Initialize New Node
+                                            Inicializar Novo Nó
                                         </Button>
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[650px] rounded-[3rem] border-none glass-dark border-white/10 shadow-4xl p-0 overflow-hidden backdrop-blur-3xl animate-in zoom-in-95 duration-500">
@@ -481,7 +481,7 @@ export default function Management() {
                                                 </div>
                                                 <div>
                                                     <DialogTitle className="text-4xl font-[1000] tracking-tighter italic uppercase text-white leading-none">
-                                                        {editingCategory ? "Alter Node" : "Spawn Node"}
+                                                        {editingCategory ? "Alterar Nó" : "Criar Nó"}
                                                     </DialogTitle>
                                                     <DialogDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40 mt-2 text-primary/60">
                                                         Definição de metadados e estrutura técnica.
@@ -494,7 +494,7 @@ export default function Management() {
                                                 <form onSubmit={form.handleSubmit(handleSave)} className="space-y-10">
                                                     <FormField control={form.control} name="name" render={({ field }) => (
                                                         <FormItem className="space-y-4">
-                                                            <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Identity Tag</FormLabel>
+                                                            <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Tag de Identidade</FormLabel>
                                                             <FormControl>
                                                                 <Input
                                                                     placeholder="Ex: FIBRA_CARBONO, LINHAGEM_A..."
@@ -509,11 +509,11 @@ export default function Management() {
                                                     <div className="space-y-6">
                                                         <div className="flex items-center justify-between px-2">
                                                             <div className="space-y-1">
-                                                                <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic">Hardware Params</Label>
-                                                                <p className="text-[9px] font-bold text-muted-foreground/40 italic uppercase">Campos injetados no buffer</p>
+                                                                <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic">Parâmetros de Hardware</Label>
+                                                                <p className="text-[9px] font-bold text-muted-foreground/40 italic uppercase">Campos injetados no sistema</p>
                                                             </div>
                                                             <Button type="button" variant="outline" size="sm" onClick={addField} className="h-10 rounded-xl glass border-white/5 font-black text-[10px] uppercase tracking-widest gap-2 hover:bg-primary/10 hover:text-primary transition-all">
-                                                                <Plus className="h-4 w-4" /> Add Param
+                                                                <Plus className="h-4 w-4" /> Adicionar Parâmetro
                                                             </Button>
                                                         </div>
 
@@ -534,13 +534,13 @@ export default function Management() {
                                                                         onValueChange={(v) => updateFieldTypeAndUnit(i, v)}
                                                                     >
                                                                         <SelectTrigger className="w-[180px] h-14 rounded-xl glass-dark border-none text-[10px] font-black uppercase italic">
-                                                                            <SelectValue placeholder="Protocol" />
+                                                                            <SelectValue placeholder="Protocolo" />
                                                                         </SelectTrigger>
                                                                         <SelectContent className="glass-dark border-white/10 rounded-2xl">
-                                                                            <SelectItem value="text" className="text-[10px] font-black uppercase italic py-3">String Protocol</SelectItem>
+                                                                            <SelectItem value="text" className="text-[10px] font-black uppercase italic py-3">Protocolo Texto</SelectItem>
                                                                             {units.map((u) => (
                                                                                 <SelectItem key={u.id} value={u.id} className="text-[10px] font-black uppercase italic py-3">
-                                                                                    {u.symbol} - Float64
+                                                                                    {u.symbol} - Numérico (Dec)
                                                                                 </SelectItem>
                                                                             ))}
                                                                         </SelectContent>
@@ -553,7 +553,7 @@ export default function Management() {
                                                             ))}
                                                             {dynamicFields.length === 0 && (
                                                                 <div className="text-center py-12 rounded-[2.5rem] bg-white/[0.01] border-4 border-dashed border-white/5 text-[10px] font-black italic uppercase tracking-widest text-muted-foreground/30">
-                                                                    Null Buffer Parameters.
+                                                                    Sem Parâmetros.
                                                                 </div>
                                                             )}
                                                         </div>
@@ -562,7 +562,7 @@ export default function Management() {
                                                     <DialogFooter className="pt-8">
                                                         <Button type="submit" disabled={mutation.isPending} className="w-full h-20 rounded-[2rem] bg-primary text-primary-foreground shadow-4xl shadow-primary/40 text-sm font-[1000] italic uppercase tracking-[0.3em] hover:scale-[1.03] active:scale-95 transition-all">
                                                             {mutation.isPending ? <Loader2 className="h-6 w-6 animate-spin mr-3 italic" /> : <ShieldCheck className="h-6 w-6 mr-3" />}
-                                                            {editingCategory ? "Commit Changes" : "Forge Category"}
+                                                            {editingCategory ? "Confirmar Alterações" : "Forjar Categoria"}
                                                         </Button>
                                                     </DialogFooter>
                                                 </form>
@@ -576,8 +576,8 @@ export default function Management() {
                                         <Table>
                                             <TableHeader className="bg-white/5 sticky top-0 z-10">
                                                 <TableRow className="hover:bg-transparent border-none">
-                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">System Node</TableHead>
-                                                    <TableHead className="w-[280px] text-right px-10 text-[10px] font-black uppercase tracking-[0.2em] italic text-primary">Actions</TableHead>
+                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">Nó do Sistema</TableHead>
+                                                    <TableHead className="w-[280px] text-right px-10 text-[10px] font-black uppercase tracking-[0.2em] italic text-primary">Ações</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
@@ -593,7 +593,7 @@ export default function Management() {
                                                         </TableCell>
                                                     </TableRow>
                                                 ) : categories.length === 0 ? (
-                                                    <TableRow><TableCell colSpan={2} className="text-center py-32 text-[10px] font-black uppercase italic tracking-widest text-muted-foreground/40">Zero Entity Mapping.</TableCell></TableRow>
+                                                    <TableRow><TableCell colSpan={2} className="text-center py-32 text-[10px] font-black uppercase italic tracking-widest text-muted-foreground/40">Mapeamento de Entidades Vazio.</TableCell></TableRow>
                                                 ) : (
                                                     categories.map((cat: Category, i: number) => (
                                                         <TableRow
@@ -607,7 +607,7 @@ export default function Management() {
                                                                     <div className={`h-4 w-4 rounded-full ${cat.active ? "bg-primary shadow-glow animate-pulse" : "bg-white/10"}`} />
                                                                     <div>
                                                                         <p className="text-2xl font-[1000] text-white/90 italic tracking-tighter leading-none uppercase group-hover:translate-x-2 transition-transform">{cat.name}</p>
-                                                                        <p className="text-[9px] font-black text-muted-foreground/30 uppercase tracking-[0.2em] italic mt-2">UUID: {cat.id.substring(0, 8)}... :: Protocol Alpha</p>
+                                                                        <p className="text-[9px] font-black text-muted-foreground/30 uppercase tracking-[0.2em] italic mt-2">UUID: {cat.id.substring(0, 8)}... :: Protocolo Alpha</p>
                                                                     </div>
                                                                 </div>
                                                             </TableCell>
@@ -642,7 +642,7 @@ export default function Management() {
                                                                         className="h-12 px-8 rounded-xl font-black text-[10px] italic uppercase tracking-[0.2em] bg-white text-black hover:bg-primary transition-all shadow-2xl"
                                                                         onClick={(e) => { e.stopPropagation(); setSelectedCategory(cat); }}
                                                                     >
-                                                                        Inspect
+                                                                        Inspecionar
                                                                     </Button>
                                                                 </div>
                                                             </TableCell>
@@ -668,8 +668,8 @@ export default function Management() {
                                     <Calculator className="h-8 w-8" />
                                 </div>
                                 <div className="space-y-2">
-                                    <CardTitle className="text-4xl font-[1000] tracking-tighter uppercase italic text-white/90 leading-none">Standard Units</CardTitle>
-                                    <CardDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40">Orquestração de metadados métricos (SI).</CardDescription>
+                                    <CardTitle className="text-4xl font-[1000] tracking-tighter uppercase italic text-white/90 leading-none">Unidades Padrão</CardTitle>
+                                    <CardDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40">Orquestração de metadados métricos.</CardDescription>
                                 </div>
                             </div>
                             <div className="h-14 w-14 rounded-full bg-white/5 flex items-center justify-center text-muted-foreground group">
@@ -683,12 +683,11 @@ export default function Management() {
                                         <Button className="w-full h-20 rounded-[2rem] bg-white text-black shadow-2xl hover:scale-[1.02] active:scale-95 transition-all text-sm font-black uppercase tracking-[0.3em] italic group relative overflow-hidden" onClick={handleAddNewUnit}>
                                             <div className="absolute inset-0 bg-primary/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                                             <Plus className="h-6 w-6 mr-4" />
-                                            Register Standard
-                                        </Button>
+                                            Registrar Unidade                                        </Button>
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-[550px] rounded-[3rem] border-none glass-dark border-white/10 shadow-4xl p-0 overflow-hidden backdrop-blur-3xl">
                                         <DialogHeader className="p-12 bg-white/5 border-b border-white/5">
-                                            <DialogTitle className="text-4xl font-[1000] tracking-tighter italic uppercase text-white leading-none">Forge Unit</DialogTitle>
+                                            <DialogTitle className="text-4xl font-[1000] tracking-tighter italic uppercase text-white leading-none">Forjar Unidade</DialogTitle>
                                             <DialogDescription className="text-[10px] font-black italic uppercase tracking-[0.2em] opacity-40 mt-2">Sincronização de unidades padrão.</DialogDescription>
                                         </DialogHeader>
                                         <div className="p-12">
@@ -697,14 +696,14 @@ export default function Management() {
                                                     <div className="grid gap-10">
                                                         <FormField control={unitForm.control} name="name" render={({ field }) => (
                                                             <FormItem className="space-y-4">
-                                                                <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Protocol Name</FormLabel>
+                                                                <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Nome do Protocolo</FormLabel>
                                                                 <FormControl><Input className="h-20 rounded-2xl glass border-none text-2xl font-[1000] italic tracking-tighter uppercase placeholder:opacity-10" placeholder="Ex: Metros, Gramas..." {...field} /></FormControl>
                                                                 <FormMessage />
                                                             </FormItem>
                                                         )} />
                                                         <FormField control={unitForm.control} name="symbol" render={({ field }) => (
                                                             <FormItem className="space-y-4">
-                                                                <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">System Cipher</FormLabel>
+                                                                <FormLabel className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-1">Cifra do Sistema</FormLabel>
                                                                 <FormControl><Input className="h-20 rounded-2xl glass border-none text-5xl font-[1000] italic tracking-tighter uppercase text-primary placeholder:opacity-10" placeholder="m/g/un" {...field} /></FormControl>
                                                                 <FormMessage />
                                                             </FormItem>
@@ -714,7 +713,7 @@ export default function Management() {
                                                     <DialogFooter className="pt-8">
                                                         <Button type="submit" disabled={unitMutation.isPending} className="w-full h-20 rounded-[2rem] bg-white text-black shadow-4xl text-sm font-[1000] italic uppercase tracking-[0.3em] hover:scale-[1.03] transition-all">
                                                             {unitMutation.isPending ? <Loader2 className="h-6 w-6 animate-spin mr-3" /> : <Plus className="h-6 w-6 mr-3" />}
-                                                            {editingUnit ? "Patch Protocol" : "Authorize Node"}
+                                                            {editingUnit ? "Corrigir Protocolo" : "Autorizar Nó"}
                                                         </Button>
                                                     </DialogFooter>
                                                 </form>
@@ -728,16 +727,16 @@ export default function Management() {
                                         <Table>
                                             <TableHeader className="bg-white/5 sticky top-0 z-10">
                                                 <TableRow className="hover:bg-transparent border-none">
-                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">Entity Identity</TableHead>
-                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">Cipher</TableHead>
-                                                    <TableHead className="w-[180px] text-right px-10 text-[10px] font-black uppercase tracking-[0.2em] italic text-primary">Actions</TableHead>
+                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">Identidade da Entidade</TableHead>
+                                                    <TableHead className="text-[10px] font-black uppercase tracking-[0.2em] italic text-primary py-8 px-10">Cifra</TableHead>
+                                                    <TableHead className="w-[180px] text-right px-10 text-[10px] font-black uppercase tracking-[0.2em] italic text-primary">Ações</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
                                                 {isLoadingUnits ? (
                                                     <TableRow><TableCell colSpan={3} className="text-center py-20"><Loader2 className="h-12 w-12 animate-spin mx-auto text-primary/40" /></TableCell></TableRow>
                                                 ) : units.length === 0 ? (
-                                                    <TableRow><TableCell colSpan={3} className="text-center py-32 text-[10px] font-black uppercase italic tracking-widest text-muted-foreground/40">Empty Unit Database.</TableCell></TableRow>
+                                                    <TableRow><TableCell colSpan={3} className="text-center py-32 text-[10px] font-black uppercase italic tracking-widest text-muted-foreground/40">Banco de Dados de Unidades Vazio.</TableCell></TableRow>
                                                 ) : (
                                                     units.map((u: Unit, i: number) => (
                                                         <TableRow
@@ -801,7 +800,7 @@ export default function Management() {
                                 <Activity className="h-8 w-8" />
                             </div>
                             <div className="space-y-2">
-                                <p className="text-xs font-black uppercase tracking-widest italic text-white/80">Infrastructure Status</p>
+                                <p className="text-xs font-black uppercase tracking-widest italic text-white/80">Status da Infraestrutura</p>
                                 <p className="text-[10px] font-bold text-muted-foreground uppercase leading-relaxed italic opacity-40">
                                     Todos os parâmetros definidos aqui afetam diretamente a construção dinâmica de formulários na <span className="text-primary italic">Matéria-Prima Hub</span>.
                                 </p>

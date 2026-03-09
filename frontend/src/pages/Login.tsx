@@ -53,7 +53,7 @@ export default function Login() {
 
                     <div className="flex items-center justify-center gap-3">
                         <div className="h-px w-6 bg-white/10" />
-                        <p className="text-muted-foreground text-[9px] font-black tracking-[0.4em] uppercase opacity-40 italic">Intelligence Hub</p>
+                        <p className="text-muted-foreground text-[9px] font-black tracking-[0.4em] uppercase opacity-40 italic">Hub de Inteligência</p>
                         <div className="h-px w-6 bg-white/10" />
                     </div>
                 </div>
@@ -62,7 +62,7 @@ export default function Login() {
                     <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-30 group-hover/card:opacity-100 transition-opacity duration-1000" />
 
                     <CardHeader className="p-10 pb-4 text-center space-y-1">
-                        <CardTitle className="text-3xl font-[1000] text-white tracking-tighter uppercase italic">Access Portal</CardTitle>
+                        <CardTitle className="text-3xl font-[1000] text-white tracking-tighter uppercase italic">Portal de Acesso</CardTitle>
                         <CardDescription className="text-[10px] font-bold text-muted-foreground/40 italic uppercase tracking-widest">
                             Inicializando protocolos de autenticação...
                         </CardDescription>
@@ -78,7 +78,7 @@ export default function Login() {
 
                         <div className="space-y-5">
                             <div className="space-y-2">
-                                <Label htmlFor="email" className="text-[9px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-4">Credential ID</Label>
+                                <Label htmlFor="email" className="text-[9px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-4">Identificação de Credencial</Label>
                                 <div className="relative group/input">
                                     <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
                                         <Mail className="h-4 w-4 text-gray-500 group-focus-within/input:text-primary transition-colors" />
@@ -96,7 +96,7 @@ export default function Login() {
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="password" title="Senha" className="text-[9px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-4">Access Cipher</Label>
+                                <Label htmlFor="password" title="Senha" className="text-[9px] font-black uppercase tracking-[0.2em] text-primary/60 italic ml-4">Cifra de Acesso</Label>
                                 <div className="relative group/input">
                                     <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
                                         <Lock className="h-4 w-4 text-gray-500 group-focus-within/input:text-primary transition-colors" />
@@ -123,11 +123,11 @@ export default function Login() {
                             {loading ? (
                                 <div className="flex items-center gap-3">
                                     <Loader2 className="h-5 w-5 animate-spin" />
-                                    <span>Syncing...</span>
+                                    <span>Sincronizando...</span>
                                 </div>
                             ) : (
                                 <div className="flex items-center justify-center gap-3">
-                                    <span>Authorize</span>
+                                    <span>Autorizar</span>
                                     <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
                                 </div>
                             )}
@@ -135,7 +135,7 @@ export default function Login() {
 
                         <div className="text-center pt-2">
                             <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/30 italic cursor-pointer hover:text-primary transition-colors">
-                                Forgotten Protocol Reset &mdash; Contact Admin
+                                Redefinição de Protocolo Esquecido &mdash; Contate o Admin
                             </span>
                         </div>
                     </form>
