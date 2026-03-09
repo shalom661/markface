@@ -275,6 +275,7 @@ export default function Costs() {
                                 <span className="label-brand text-muted-foreground/30">Índice de Utilização</span>
                             </div>
                         </div>
+                    </Card>
                 </div>
             </div>
 
