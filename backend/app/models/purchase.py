@@ -11,7 +11,7 @@ class Purchase(UUIDMixin, TimestampMixin, Base):
     __tablename__ = "purchases"
 
     purchase_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
-    type: Mapped[PurchaseType] = mapped_column(SQLEnum(PurchaseType), nullable=False)
+    type: Mapped[PurchaseType] = mapped_column(String(50), nullable=False)
     supplier_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("suppliers.id", ondelete="SET NULL"), nullable=True)
     total_value: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False, default=Decimal("0.00"))
     notes: Mapped[str | None] = mapped_column(Text, nullable=True)
