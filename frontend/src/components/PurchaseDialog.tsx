@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Trash2 } from 'lucide-react';
 import api from '@/lib/api';
-import { toast } from 'sonner';
+import { useToast } from "@/hooks/use-toast";
 
 interface PurchaseDialogProps {
     open: boolean;
@@ -17,9 +17,17 @@ interface PurchaseDialogProps {
 
 export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDialogProps) {
     const queryClient = useQueryClient();
+    const { toast } = useToast();
     const [supplierId, setSupplierId] = useState('');
     const [items, setItems] = useState<any[]>([]);
     const [notes, setNotes] = useState('');
+
+    // Pre-populate with one empty item when dialog opens
+    useEffect(() => {
+        if (open && items.length === 0) {
+            setItems([{ id: '', quantity: 1, unit_price: 0 }]);
+        }
+    }, [open]);
 
     const { data: suppliersData } = useQuery({
         queryKey: ['suppliers'],
@@ -27,6 +35,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
             const res = await api.get('/suppliers', { params: { page_size: 100 } });
             return res.data;
         },
+        enabled: open,
     });
 
     const { data: rawMaterialsData } = useQuery({
@@ -35,7 +44,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
             const res = await api.get('/raw-materials', { params: { page_size: 100 } });
             return res.data;
         },
-        enabled: type === 'raw_material',
+        enabled: open && type === 'raw_material',
     });
 
     const { data: productsData } = useQuery({
@@ -44,7 +53,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
             const res = await api.get('/products', { params: { page_size: 100 } });
             return res.data;
         },
-        enabled: type === 'resale_product',
+        enabled: open && type === 'resale_product',
     });
 
     const suppliersArr = Array.isArray(suppliersData) ? suppliersData : (suppliersData?.items || []);
@@ -57,7 +66,10 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
             queryClient.invalidateQueries({ queryKey: ['purchases'] });
             queryClient.invalidateQueries({ queryKey: ['products'] });
             queryClient.invalidateQueries({ queryKey: ['raw-materials'] });
-            toast.success('Compra registrada com sucesso!');
+            toast({
+                title: "Sucesso",
+                description: "Compra registrada com sucesso!",
+            });
             onOpenChange(false);
             setItems([]);
             setSupplierId('');
@@ -65,7 +77,11 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         },
         onError: (error: any) => {
             const detail = error.response?.data?.detail;
-            toast.error(`Erro ao salvar: ${typeof detail === 'string' ? detail : 'Verifique os dados.'}`);
+            toast({
+                variant: "destructive",
+                title: "Erro ao salvar",
+                description: typeof detail === 'string' ? detail : 'Verifique os dados da compra e tente novamente.',
+            });
         }
     });
 
@@ -88,12 +104,24 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
     const handleSubmit = () => {
         const validItems = items.filter(item => item.id && Number(item.quantity) > 0);
 
-        if (!supplierId || validItems.length === 0) {
-            toast.error('Preencha o fornecedor e adicione itens válidos.');
+        if (!supplierId) {
+            toast({
+                variant: "destructive",
+                title: "Campo Obrigatório",
+                description: "Selecione um fornecedor.",
+            });
             return;
         }
 
-        // Re-calculate exactly what is being sent
+        if (validItems.length === 0) {
+            toast({
+                variant: "destructive",
+                title: "Itens Inválidos",
+                description: "Adicione pelo menos um item com quantidade válida.",
+            });
+            return;
+        }
+
         const calculatedTotal = validItems.reduce((acc, item) => acc + (Number(item.quantity) * Number(item.unit_price)), 0);
 
         const payload = {
@@ -114,7 +142,6 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         createMutation.mutate(payload);
     };
 
-    // Get options for items (raw materials or product variants)
     const itemOptions = type === 'raw_material'
         ? rawMaterialsArr.map((m: any) => ({
             id: m.id,
@@ -128,7 +155,7 @@ export default function PurchaseDialog({ open, onOpenChange, type }: PurchaseDia
         );
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={open} onValueChange={onOpenChange}>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Nova Compra - {type === 'raw_material' ? 'Matéria-Prima' : 'Revenda'}</DialogTitle>
