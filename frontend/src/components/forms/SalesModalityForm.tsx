@@ -16,7 +16,7 @@ export default function SalesModalityForm({ initialData, onSuccess }: SalesModal
     const { toast } = useToast();
     const [loading, setLoading] = React.useState(false);
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit } = useForm({
         defaultValues: initialData || {
             name: '',
             tax_percent: 0,
