@@ -21,7 +21,22 @@ if backend_dir not in sys.path:
 # IMPORTANT: do NOT use 'handler = app' as it can trigger legacy class checks.
 try:
     from app.main import app
-    logger.info("✅ FastAPI app imported successfully")
+    
+    # Diagnostic routes to see how Vercel is passing the path
+    @app.get("/api/health-check")
+    async def health_check_prefixed():
+        return {"status": "ok", "source": "api/index.py", "path": "/api/health-check"}
+
+    @app.get("/health-check")
+    async def health_check_direct():
+        return {"status": "ok", "source": "api/index.py", "path": "/health-check"}
+
+    @app.middleware("http")
+    async def log_request(request, call_next):
+        logger.info(f"Incoming request: {request.method} {request.url.path}")
+        return await call_next(request)
+
+    logger.info("✅ FastAPI app imported and diagnostic routes added")
 except Exception as e:
     logger.error(f"❌ FATAL: import failed: {e}", exc_info=True)
     raise e
