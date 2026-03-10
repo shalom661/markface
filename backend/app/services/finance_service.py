@@ -30,36 +30,47 @@ async def list_purchases(db: AsyncSession):
 async def create_purchase(db: AsyncSession, schema: PurchaseCreate):
     from app.models.raw_material import RawMaterial
     from app.models.product import ProductVariant
+    import logging
+    logger = logging.getLogger(__name__)
     
-    purchase_data = schema.model_dump()
-    items_data = purchase_data.pop("items")
-    
-    new_purchase = Purchase(**purchase_data)
-    db.add(new_purchase)
-    await db.flush()
-    
-    for item in items_data:
-        pi = PurchaseItem(**item, purchase_id=new_purchase.id)
-        db.add(pi)
+    try:
+        purchase_data = schema.model_dump()
+        items_data = purchase_data.pop("items")
         
-        # Update last price of material or variant
-        if item.get("raw_material_id"):
-            stmt = select(RawMaterial).where(RawMaterial.id == item["raw_material_id"])
-            res = await db.execute(stmt)
-            material = res.scalar_one_or_none()
-            if material:
-                material.last_unit_price = item["unit_price"]
+        logger.info(f"Creating purchase type={purchase_data.get('type')} supplier={purchase_data.get('supplier_id')}")
         
-        if item.get("variant_id"):
-            stmt = select(ProductVariant).where(ProductVariant.id == item["variant_id"])
-            res = await db.execute(stmt)
-            variant = res.scalar_one_or_none()
-            if variant:
-                variant.cost = item["unit_price"]
-    
-    await db.commit()
-    await db.refresh(new_purchase)
-    return new_purchase
+        new_purchase = Purchase(**purchase_data)
+        db.add(new_purchase)
+        await db.flush()
+        
+        for item in items_data:
+            logger.debug(f"Adding purchase item: {item}")
+            pi = PurchaseItem(**item, purchase_id=new_purchase.id)
+            db.add(pi)
+            
+            # Update last price of material or variant (Legacy, kept for quick reference)
+            if item.get("raw_material_id"):
+                stmt = select(RawMaterial).where(RawMaterial.id == item["raw_material_id"])
+                res = await db.execute(stmt)
+                material = res.scalar_one_or_none()
+                if material:
+                    material.last_unit_price = item["unit_price"]
+            
+            if item.get("variant_id"):
+                stmt = select(ProductVariant).where(ProductVariant.id == item["variant_id"])
+                res = await db.execute(stmt)
+                variant = res.scalar_one_or_none()
+                if variant:
+                    variant.cost = item["unit_price"]
+        
+        await db.commit()
+        await db.refresh(new_purchase)
+        logger.info(f"Purchase created successfully: {new_purchase.id}")
+        return new_purchase
+    except Exception as e:
+        logger.error(f"Error creating purchase: {e}", exc_info=True)
+        await db.rollback()
+        raise e
 
 async def list_sales_modalities(db: AsyncSession):
     result = await db.execute(select(SalesModality))
@@ -89,21 +100,47 @@ async def get_raw_material_avg_prices(db: AsyncSession) -> dict[str, Decimal]:
     )
     result = await db.execute(stmt)
     avg_prices = {}
-    for row in result:
+    for row in result.all():
         if row.total_qty and row.total_qty > 0:
             avg_prices[str(row.raw_material_id)] = row.total_spent / row.total_qty
     
     # Fill in materials that were never purchased using their last_unit_price
     all_materials = await db.execute(select(RawMaterial.id, RawMaterial.last_unit_price))
-    for m in all_materials:
+    for m in all_materials.all():
         m_id_str = str(m.id)
         if m_id_str not in avg_prices:
             avg_prices[m_id_str] = m.last_unit_price or Decimal("0.00")
             
     return avg_prices
 
+async def get_variant_avg_prices(db: AsyncSession) -> dict[str, Decimal]:
+    """Calculates the weighted average price for all product variants based on purchase history."""
+    stmt = (
+        select(
+            PurchaseItem.variant_id,
+            func.sum(PurchaseItem.quantity * PurchaseItem.unit_price).label("total_spent"),
+            func.sum(PurchaseItem.quantity).label("total_qty")
+        )
+        .where(PurchaseItem.variant_id.is_not(None))
+        .group_by(PurchaseItem.variant_id)
+    )
+    result = await db.execute(stmt)
+    avg_prices = {}
+    for row in result.all():
+        if row.total_qty and row.total_qty > 0:
+            avg_prices[str(row.variant_id)] = row.total_spent / row.total_qty
+    
+    # Fill in variants that were never purchased using their current 'cost'
+    all_variants = await db.execute(select(ProductVariant.id, ProductVariant.cost))
+    for v in all_variants.all():
+        v_id_str = str(v.id)
+        if v_id_str not in avg_prices:
+            avg_prices[v_id_str] = v.cost or Decimal("0.00")
+            
+    return avg_prices
+
 async def calculate_all_variant_costs(db: AsyncSession, modality_id: str):
-    """Calculates yield prices for all variants for a specific modality."""
+    """Calculates yield prices for all variants for a specific modality using weighted averages."""
     # 1. Get Modality
     stmt = select(SalesModality).where(SalesModality.id == modality_id)
     res = await db.execute(stmt)
@@ -114,11 +151,12 @@ async def calculate_all_variant_costs(db: AsyncSession, modality_id: str):
     # 2. Get Fixed Costs and Share
     fixed_costs = await list_fixed_costs(db)
     total_fixed = sum(c.value for c in fixed_costs)
-    avg_monthly_production = Decimal("1000") # As per requirement/plan
+    avg_monthly_production = Decimal("1000") # Estimate
     fixed_share = total_fixed / avg_monthly_production
 
-    # 3. Get Average Prices
-    avg_prices = await get_raw_material_avg_prices(db)
+    # 3. Get Average Prices from Purchases
+    material_avg_prices = await get_raw_material_avg_prices(db)
+    variant_avg_prices = await get_variant_avg_prices(db)
 
     # 4. Get All Variants with their materials
     from sqlalchemy.orm import selectinload
@@ -132,29 +170,31 @@ async def calculate_all_variant_costs(db: AsyncSession, modality_id: str):
     results = []
     for v in variants:
         # Calculate BOM Cost using average prices
-        bom_cost = Decimal("0.00")
+        current_cost = Decimal("0.00")
         if v.product.is_manufactured:
             for pm in v.materials:
                 m_id = str(pm.raw_material_id)
-                price = avg_prices.get(m_id, Decimal("0.00"))
-                bom_cost += pm.quantity * price
+                price = material_avg_prices.get(m_id, Decimal("0.00"))
+                current_cost += pm.quantity * price
         else:
-            bom_cost = v.cost or Decimal("0.00")
+            # Resale product: Use weighted average cost from its purchases
+            v_id = str(v.id)
+            current_cost = variant_avg_prices.get(v_id, v.cost or Decimal("0.00"))
 
-        # Base Cost = BOM + Fixed Share
-        base_cost = bom_cost + (fixed_share if v.product.is_manufactured else Decimal("0.00"))
+        # Base Cost = BOM + Fixed Share (only for manufactured)
+        base_cost = current_cost + (fixed_share if v.product.is_manufactured else Decimal("0.00"))
 
         # Final Yield Formula: (Base Cost + Fixed Fee + Extra Cost) / (1 - Tax%)
-        tax_rate = modality.tax_percent / Decimal("100")
+        tax_rate = (modality.tax_percent or Decimal("0")) / Decimal("100")
         if tax_rate >= 1:
-            yield_price = Decimal("0.00") # Guard against division by zero
+            yield_price = Decimal("0.00")
         else:
-            yield_price = (base_cost + modality.fixed_fee + modality.extra_cost) / (1 - tax_rate)
+            yield_price = (base_cost + (modality.fixed_fee or Decimal("0")) + (modality.extra_cost or Decimal("0"))) / (1 - tax_rate)
 
         results.append({
             "product_name": v.product.name,
             "sku": v.sku,
-            "bom_cost": bom_cost,
+            "bom_cost": current_cost,
             "fixed_share": fixed_share if v.product.is_manufactured else 0,
             "yield_price": yield_price
         })

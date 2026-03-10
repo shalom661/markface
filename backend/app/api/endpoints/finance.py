@@ -28,7 +28,14 @@ async def get_purchases(db: AsyncSession = Depends(get_db)):
 
 @router.post("/purchases", response_model=PurchaseRead)
 async def post_purchase(schema: PurchaseCreate, db: AsyncSession = Depends(get_db)):
-    return await finance_service.create_purchase(db, schema)
+    try:
+        return await finance_service.create_purchase(db, schema)
+    except Exception as e:
+        # Check if it's a known error or a generic one
+        detail = str(e)
+        if "ForeignKey" in detail or "foreign key" in detail.lower():
+            detail = "Erro de integridade: Fornecedor ou Item não encontrado."
+        raise HTTPException(status_code=500, detail=detail)
 
 @router.get("/sales-modalities", response_model=list[SalesModalityRead])
 async def get_sales_modalities(db: AsyncSession = Depends(get_db)):
