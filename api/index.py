@@ -22,20 +22,12 @@ if backend_dir not in sys.path:
 try:
     from app.main import app
     from app.db.session import engine
+    from app.core.config import settings
     from sqlalchemy import text
     
-    # Force FastAPI to recognize /api prefix if needed
-    # app.root_path = "/api" 
-
-    @app.get("/api/health-check")
-    async def health_check_diag():
-        db_ok = False
-        db_error = None
-        db_host = "Unknown"
-        try:
-            # Extract host from DATABASE_URL for diagnostic (safe way)
-            from sqlalchemy.engine.url import make_url
-            url = make_url(os.getenv("DATABASE_URL", settings.DATABASE_URL))
+    # Extract host from DATABASE_URL for diagnostic (safe way)
+    from sqlalchemy.engine.url import make_url
+    url = make_url(os.getenv("DATABASE_URL", settings.DATABASE_URL))
             db_host = url.host
             
             async with engine.connect() as conn:
