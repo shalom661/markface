@@ -132,12 +132,22 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
                 return response.data
             }
         },
-        onSuccess: () => {
+        onSuccess: async () => {
+            // v1.1.4 - Improved synchronization Protocol
+            // Invalidate first to mark as stale
             queryClient.invalidateQueries({ queryKey: ["raw-materials"] })
+
             toast({
-                title: "Sucesso!",
-                description: rawMaterial ? "Matéria-prima atualizada." : "Matéria-prima cadastrada."
+                title: "Protocolo de Sincronização",
+                description: rawMaterial ? "Matéria-prima atualizada." : "Matéria-prima cadastrada no catalogo."
             })
+
+            // Small delay to allow DB transaction to propagate completely in Serverless
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            // Force a hard refetch before closing
+            await queryClient.refetchQueries({ queryKey: ["raw-materials"] });
+
             form.reset()
             onSuccess?.()
         },

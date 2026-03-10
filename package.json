@@ -1,10 +1,10 @@
 {
     "name": "markface",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "private": true,
     "scripts": {
         "build": "cd frontend && npm install && npm run build",
         "install": "cd frontend && npm install",
-        "trigger": "echo v1.1.3 - Fix Raw Material Creation Response"
+        "trigger": "echo v1.1.4 - Stability & Connection Hardening"
     }
 }

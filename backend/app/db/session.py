@@ -41,11 +41,25 @@ else:
 _db_url = settings.DATABASE_URL
 if _db_url.startswith("postgres://"):
     _db_url = _db_url.replace("postgres://", "postgresql+asyncpg://", 1)
+
+# Supabase / PgBouncer stability: MUST disable prepared statements
+if "prepared_statements=" not in _db_url:
+    separator = "&" if "?" in _db_url else "?"
+    _db_url += f"{separator}prepared_statements=false"
+
 if "sslmode=" in _db_url:
     _db_url = _db_url.replace("sslmode=require", "ssl=require").replace("sslmode=allow", "ssl=allow")
 
+# Force SSL if not present (required by Supabase)
+if "ssl=" not in _db_url:
+    separator = "&" if "?" in _db_url else "?"
+    _db_url += f"{separator}ssl=require"
+
 engine: AsyncEngine = create_async_engine(
     _db_url,
+    # Recycle connections to prevent "stale" connections in serverless cold starts
+    pool_recycle=300, 
+    pool_pre_ping=True,
     **engine_kwargs
 )
 
