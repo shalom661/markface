@@ -57,14 +57,18 @@ try:
         }
 
     # 3. Custom 404 handler for easier debugging
+    from fastapi.responses import JSONResponse
     @app.exception_handler(404)
     async def custom_404_handler(request, exc):
-        return {
-            "detail": "Not Found",
-            "requested_path": request.url.path,
-            "msg": "FastAPI reached but no route matched.",
-            "available": ["/api/v1", "/api/health-check"]
-        }
+        return JSONResponse(
+            status_code=404,
+            content={
+                "detail": "Not Found",
+                "requested_path": request.url.path,
+                "msg": "FastAPI reached but no route matched.",
+                "available": ["/api/v1", "/api/health-check"]
+            }
+        )
 
     logger.info("✅ FastAPI app imported with diagnostic tools")
 
