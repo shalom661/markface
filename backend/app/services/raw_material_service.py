@@ -42,36 +42,55 @@ def _serialize_for_event(data: dict) -> dict:
 async def create_raw_material(
     db: AsyncSession, data: RawMaterialCreate
 ) -> RawMaterial:
-    # Validate supplier exists if provided
-    if data.supplier_id:
-        from app.services.supplier_service import get_supplier_or_404
-        await get_supplier_or_404(db, data.supplier_id)
+    import logging
+    logger = logging.getLogger(__name__)
 
-    # Check unique internal_code
-    if data.internal_code:
-        existing = (
-            await db.execute(
-                select(RawMaterial).where(RawMaterial.internal_code == data.internal_code)
-            )
-        ).scalar_one_or_none()
-        if existing:
+    try:
+        # Validate supplier exists if provided
+        if data.supplier_id:
+            from app.services.supplier_service import get_supplier_or_404
+            await get_supplier_or_404(db, data.supplier_id)
+
+        # Check unique internal_code
+        if data.internal_code:
+            existing = (
+                await db.execute(
+                    select(RawMaterial).where(RawMaterial.internal_code == data.internal_code)
+                )
+            ).scalar_one_or_none()
+            if existing:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=f"Código interno '{data.internal_code}' já existe.",
+                )
+
+        material_data = data.model_dump()
+        if material_data.get("last_unit_price") is None:
+            material_data["last_unit_price"] = Decimal("0.00")
+        
+        material = RawMaterial(**material_data)
+        db.add(material)
+        await db.flush()
+        
+        await create_event(
+            db,
+            "RAW_MATERIAL_CREATED",
+            {"raw_material_id": str(material.id), "category": material.category},
+        )
+        return material
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating raw material: {str(e)}", exc_info=True)
+        if "unique constraint" in str(e).lower() or "duplicate key" in str(e).lower():
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail=f"Código interno '{data.internal_code}' já existe.",
+                detail="Erro de integridade: Código Interno já existe."
             )
-
-    material_data = data.model_dump()
-    if material_data.get("last_unit_price") is None:
-        material_data["last_unit_price"] = Decimal("0.00")
-    material = RawMaterial(**material_data)
-    db.add(material)
-    await db.flush()
-    await create_event(
-        db,
-        "RAW_MATERIAL_CREATED",
-        {"raw_material_id": str(material.id), "category": material.category},
-    )
-    return material
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro interno ao criar matéria-prima: {str(e)}"
+        )
 
 
 from sqlalchemy.orm import selectinload
@@ -135,34 +154,51 @@ async def get_raw_material_or_404(
 async def update_raw_material(
     db: AsyncSession, raw_material_id: uuid.UUID, data: RawMaterialUpdate
 ) -> RawMaterial:
-    material = await get_raw_material_or_404(db, raw_material_id)
-    changes = data.model_dump(exclude_none=True)
+    import logging
+    logger = logging.getLogger(__name__)
 
-    # If internal_code is being changed, check uniqueness
-    if "internal_code" in changes and changes["internal_code"] != material.internal_code:
-        existing = (
-            await db.execute(
-                select(RawMaterial).where(
-                    RawMaterial.internal_code == changes["internal_code"]
+    try:
+        material = await get_raw_material_or_404(db, raw_material_id)
+        changes = data.model_dump(exclude_none=True)
+
+        # If internal_code is being changed, check uniqueness
+        if "internal_code" in changes and changes["internal_code"] != material.internal_code:
+            existing = (
+                await db.execute(
+                    select(RawMaterial).where(
+                        RawMaterial.internal_code == changes["internal_code"]
+                    )
                 )
-            )
-        ).scalar_one_or_none()
-        if existing:
+            ).scalar_one_or_none()
+            if existing:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=f"Código interno '{changes['internal_code']}' já existe.",
+                )
+
+        for field, value in changes.items():
+            setattr(material, field, value)
+        await db.flush()
+
+        await create_event(
+            db,
+            "RAW_MATERIAL_UPDATED",
+            {"raw_material_id": str(material.id), "changes": _serialize_for_event(changes)},
+        )
+        return material
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating raw material {raw_material_id}: {str(e)}", exc_info=True)
+        if "unique constraint" in str(e).lower() or "duplicate key" in str(e).lower():
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail=f"Código interno '{changes['internal_code']}' já existe.",
+                detail="Erro de integridade: Código Interno já existe."
             )
-
-    for field, value in changes.items():
-        setattr(material, field, value)
-    await db.flush()
-
-    await create_event(
-        db,
-        "RAW_MATERIAL_UPDATED",
-        {"raw_material_id": str(material.id), "changes": _serialize_for_event(changes)},
-    )
-    return material
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro interno ao atualizar matéria-prima: {str(e)}"
+        )
 
 
 async def delete_raw_material(db: AsyncSession, raw_material_id: uuid.UUID) -> None:
