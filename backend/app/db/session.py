@@ -15,13 +15,31 @@ from sqlalchemy.ext.asyncio import (
 
 from app.core.config import settings
 
-# Create the async engine — connection pool tuned for small workloads
+import os
+from sqlalchemy.pool import NullPool
+
+# Detect if running in Vercel or production serverless env
+IS_VERCEL = os.getenv("VERCEL") == "1" or os.getenv("APP_ENV") == "production"
+
+# Create the async engine
+# For Serverless (Vercel), we MUST disable pooling (NullPool) because
+# connections cannot be reused across different function invocations.
+engine_kwargs = {
+    "echo": settings.APP_DEBUG,
+}
+
+if IS_VERCEL:
+    engine_kwargs["poolclass"] = NullPool
+else:
+    engine_kwargs.update({
+        "pool_size": 10,
+        "max_overflow": 20,
+        "pool_pre_ping": True,
+    })
+
 engine: AsyncEngine = create_async_engine(
     settings.DATABASE_URL,
-    echo=settings.APP_DEBUG,
-    pool_size=10,
-    max_overflow=20,
-    pool_pre_ping=True,
+    **engine_kwargs
 )
 
 # Session factory — expire_on_commit=False prevents lazy-load issues
