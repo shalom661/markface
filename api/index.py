@@ -1,4 +1,4 @@
-# api/index.py (v1.0.2 - Triggering Vercel Build)
+# api/index.py (v1.0.5 - Triggering Vercel Build)
 import sys
 import os
 import logging
@@ -35,6 +35,8 @@ try:
             # Extract host from DATABASE_URL for diagnostic (safe way)
             raw_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
             # Pre-process URL to fix common asyncpg/ssl issues
+            if raw_url.startswith("postgres://"):
+                raw_url = raw_url.replace("postgres://", "postgresql+asyncpg://", 1)
             if "sslmode=" in raw_url:
                 raw_url = raw_url.replace("sslmode=require", "ssl=require").replace("sslmode=allow", "ssl=allow")
             
