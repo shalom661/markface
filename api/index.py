@@ -1,4 +1,4 @@
-# api/index.py
+# api/index.py (v1.0.1 - Keep-Alive Trigger)
 import sys
 import os
 import logging
