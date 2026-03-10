@@ -34,13 +34,15 @@ try:
         try:
             # Extract host from DATABASE_URL for diagnostic (safe way)
             raw_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
-            # Pre-process URL to fix common asyncpg/ssl issues
             if raw_url.startswith("postgres://"):
                 raw_url = raw_url.replace("postgres://", "postgresql+asyncpg://", 1)
-            if "sslmode=" in raw_url:
-                raw_url = raw_url.replace("sslmode=require", "ssl=require").replace("sslmode=allow", "ssl=allow")
             
-            url = make_url(raw_url)
+            # Remove problematic params for make_url
+            diag_url = raw_url
+            if "?" in diag_url:
+                diag_url = diag_url.split("?")[0]
+            
+            url = make_url(diag_url)
             db_host = url.host
             
             async with engine.connect() as conn:

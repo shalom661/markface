@@ -38,16 +38,19 @@ else:
         "pool_recycle": 300,
     })
 
-# Handle DATABASE_URL pre-processing for asyncpg compatibility
+# Handle DATABASE_URL pre-processing
 _db_url = settings.DATABASE_URL
 if _db_url.startswith("postgres://"):
     _db_url = _db_url.replace("postgres://", "postgresql+asyncpg://", 1)
 
-# Supabase / PgBouncer stability: MUST disable prepared statements
-if "prepared_statements=" not in _db_url:
-    separator = "&" if "?" in _db_url else "?"
-    _db_url += f"{separator}prepared_statements=false"
+# Clean up common URL params that might bug asyncpg
+if "?" in _db_url:
+    _base_url, _params = _db_url.split("?", 1)
+    # Remove prepared_statements if it was manually added or came from env
+    filtered_params = "&".join([p for p in _params.split("&") if "prepared_statements" not in p])
+    _db_url = f"{_base_url}?{filtered_params}" if filtered_params else _base_url
 
+# Standardize SSL param for asyncpg
 if "sslmode=" in _db_url:
     _db_url = _db_url.replace("sslmode=require", "ssl=require").replace("sslmode=allow", "ssl=allow")
 
@@ -55,6 +58,14 @@ if "sslmode=" in _db_url:
 if "ssl=" not in _db_url:
     separator = "&" if "?" in _db_url else "?"
     _db_url += f"{separator}ssl=require"
+
+# Vercel / Supabase (PgBouncer) safe configuration
+engine_kwargs.update({
+    "connect_args": {
+        "statement_cache_size": 0,
+        "prepared_statement_cache_size": 0,
+    }
+})
 
 engine: AsyncEngine = create_async_engine(
     _db_url,
