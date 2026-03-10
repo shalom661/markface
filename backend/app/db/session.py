@@ -39,6 +39,8 @@ else:
 
 # Handle DATABASE_URL pre-processing for asyncpg compatibility
 _db_url = settings.DATABASE_URL
+if _db_url.startswith("postgres://"):
+    _db_url = _db_url.replace("postgres://", "postgresql+asyncpg://", 1)
 if "sslmode=" in _db_url:
     _db_url = _db_url.replace("sslmode=require", "ssl=require").replace("sslmode=allow", "ssl=allow")
 

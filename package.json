@@ -1,10 +1,10 @@
 {
     "name": "markface",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "private": true,
     "scripts": {
         "build": "cd frontend && npm install && npm run build",
         "install": "cd frontend && npm install",
-        "trigger": "echo v1.0.4"
+        "trigger": "echo v1.0.5"
     }
 }
