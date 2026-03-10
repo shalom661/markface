@@ -18,7 +18,24 @@ if backend_path not in sys.path:
 try:
     from app.main import app
     handler = app
-    logger.info("Successfully imported FastAPI app")
+    logger.info("✅ Successfully imported FastAPI app from backend")
+    
+    # Add a direct health check that doesn't rely on the full backend logic
+    @app.get("/api/health-check")
+    async def health_check_simple():
+        return {"status": "ok", "message": "Vercel function is alive", "backend": "imported"}
+
 except Exception as e:
-    logger.error(f"FATAL: Failed to import app: {e}", exc_info=True)
-    raise e
+    logger.error(f"❌ FATAL: Failed to import app: {e}", exc_info=True)
+    
+    # Create a fallback app to report the error in the browser if building fails
+    from fastapi import FastAPI
+    handler = FastAPI()
+    
+    @handler.get("/api/health-check")
+    async def health_check_error():
+        return {"status": "error", "message": str(e)}
+    
+    @handler.get("/api/{path:path}")
+    async def catch_all_error(path: str):
+        return {"status": "critical_error", "detail": f"Function failed to start. Error: {e}"}
