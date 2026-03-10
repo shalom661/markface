@@ -112,80 +112,128 @@ async def get_product_or_404(db: AsyncSession, product_id: uuid.UUID) -> Product
 async def update_product(
     db: AsyncSession, product_id: uuid.UUID, data: ProductUpdate
 ) -> Product:
-    product = await get_product_or_404(db, product_id)
-    data_dict = data.model_dump(exclude_unset=True)
-    variants_data = data_dict.pop("variants", None)
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    try:
+        product = await get_product_or_404(db, product_id)
+        data_dict = data.model_dump(exclude_unset=True)
+        variants_data = data_dict.pop("variants", None)
 
-    for field, value in data_dict.items():
-        setattr(product, field, value)
+        for field, value in data_dict.items():
+            setattr(product, field, value)
 
-    # Re-sync variants if provided
-    if variants_data is not None:
-        # Simple implementation: Delete existing variants and re-create? 
-        # Actually, it's better to update by ID if present, but since we have 
-        # complex nested BOMs, a full replacement for this specific requirement
-        # might be easier if the user always sends the full state.
-        # But to be safe, let's try to match by ID.
-        
-        current_variant_ids = {v.id for v in product.variants}
-        updated_variant_ids = {uuid.UUID(str(v["id"])) for v in variants_data if v.get("id")}
-        
-        # 1. Remove variants that are not in the update
-        for variant in list(product.variants):
-            if variant.id not in updated_variant_ids:
-                await db.delete(variant)
-        
-        # 2. Update or Create variants
-        for v_data in variants_data:
-            v_id = v_data.pop("id", None)
-            materials_data = v_data.pop("materials", None)
+        # Re-sync variants if provided
+        if variants_data is not None:
+            # 1. Map existing variants for faster lookup
+            current_variants = {v.id: v for v in product.variants}
             
-            if v_id and v_id in current_variant_ids:
-                # Update existing
-                variant = next(v for v in product.variants if v.id == v_id)
-                for f, val in v_data.items():
-                    setattr(variant, f, val)
-            else:
-                # Create new
-                variant = ProductVariant(product_id=product.id, **v_data)
-                db.add(variant)
-                await db.flush()
-                # Inventory for new variant
-                inventory = Inventory(variant_id=variant.id, stock_available=0, stock_reserved=0)
-                db.add(inventory)
+            # 2. Identify variants in payload
+            # Handle string IDs from frontend safely
+            updated_variant_ids = set()
+            for v in variants_data:
+                v_id_val = v.get("id")
+                if v_id_val:
+                    try:
+                        updated_variant_ids.add(uuid.UUID(str(v_id_val)))
+                    except ValueError:
+                        pass # Ignore malformed IDs
 
-            # Sync Materials (BOM) for this variant
-            if materials_data is not None:
-                variant.materials.clear()
-                if product.is_manufactured:
-                    for mat in materials_data:
-                        pm = ProductMaterial(
-                            variant_id=variant.id,
-                            raw_material_id=mat["raw_material_id"],
-                            quantity=mat["quantity"],
-                            unit_override=mat.get("unit_override"),
+            # 3. Remove variants not in payload
+            for v_id in list(current_variants.keys()):
+                if v_id not in updated_variant_ids:
+                    variant_to_del = current_variants[v_id]
+                    await db.delete(variant_to_del)
+                    # Note: We don't need to manually remove from list, 
+                    # SQLAlchemy handles it if cascade is set, but let's be safe
+            
+            # 4. Update or Create variants
+            for v_data in variants_data:
+                v_id_val = v_data.pop("id", None)
+                v_id = None
+                if v_id_val:
+                    try:
+                        v_id = uuid.UUID(str(v_id_val))
+                    except ValueError:
+                        v_id = None
+                        
+                materials_data = v_data.pop("materials", None)
+                sku = v_data.get("sku")
+                
+                # Check SKU Uniqueness if SKU is changing or new
+                if sku:
+                    stmt = select(ProductVariant).where(ProductVariant.sku == sku)
+                    if v_id:
+                        stmt = stmt.where(ProductVariant.id != v_id)
+                    
+                    sku_conflict = (await db.execute(stmt)).scalar_one_or_none()
+                    if sku_conflict:
+                        raise HTTPException(
+                            status_code=status.HTTP_409_CONFLICT,
+                            detail=f"SKU '{sku}' já está em uso por outro produto."
                         )
-                        variant.materials.append(pm)
 
-    await db.flush()
-    
-    await create_event(
-        db,
-        "PRODUCT_UPDATED",
-        {"product_id": str(product.id), "changes": data.model_dump(mode="json", exclude_unset=True)},
-    )
-    
-    # Reload
-    from sqlalchemy.orm import selectinload
-    result = await db.execute(
-        select(Product)
-        .options(
-            selectinload(Product.variants).selectinload(ProductVariant.materials),
-            selectinload(Product.variants).selectinload(ProductVariant.inventory)
+                if v_id and v_id in current_variants:
+                    # Update existing
+                    variant = current_variants[v_id]
+                    for f, val in v_data.items():
+                        setattr(variant, f, val)
+                else:
+                    # Create new
+                    variant = ProductVariant(product_id=product.id, **v_data)
+                    db.add(variant)
+                    await db.flush()
+                    # Inventory for new variant
+                    inventory = Inventory(variant_id=variant.id, stock_available=0, stock_reserved=0)
+                    db.add(inventory)
+                    await db.flush()
+
+                # Sync Materials (BOM) for this variant
+                if materials_data is not None:
+                    variant.materials.clear()
+                    if product.is_manufactured:
+                        for mat in materials_data:
+                            pm = ProductMaterial(
+                                variant_id=variant.id,
+                                raw_material_id=mat["raw_material_id"],
+                                quantity=mat["quantity"],
+                                unit_override=mat.get("unit_override"),
+                            )
+                            variant.materials.append(pm)
+
+        await db.flush()
+        
+        await create_event(
+            db,
+            "PRODUCT_UPDATED",
+            {"product_id": str(product.id), "changes": data.model_dump(mode="json", exclude_unset=True)},
         )
-        .where(Product.id == product.id)
-    )
-    return result.scalar_one()
+        
+        # Reload fully
+        from sqlalchemy.orm import selectinload
+        result = await db.execute(
+            select(Product)
+            .options(
+                selectinload(Product.variants).selectinload(ProductVariant.materials),
+                selectinload(Product.variants).selectinload(ProductVariant.inventory)
+            )
+            .where(Product.id == product.id)
+        )
+        return result.scalar_one()
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating product {product_id}: {str(e)}", exc_info=True)
+        if "unique constraint" in str(e).lower():
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Erro de integridade: SKU ou Código Interno já existe."
+            )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro interno ao atualizar produto: {str(e)}"
+        )
 
 
 async def delete_product(db: AsyncSession, product_id: uuid.UUID) -> None:
