@@ -33,7 +33,12 @@ try:
         db_host = "Unknown"
         try:
             # Extract host from DATABASE_URL for diagnostic (safe way)
-            url = make_url(os.getenv("DATABASE_URL", settings.DATABASE_URL))
+            raw_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
+            # Pre-process URL to fix common asyncpg/ssl issues
+            if "sslmode=" in raw_url:
+                raw_url = raw_url.replace("sslmode=require", "ssl=require").replace("sslmode=allow", "ssl=allow")
+            
+            url = make_url(raw_url)
             db_host = url.host
             
             async with engine.connect() as conn:
