@@ -200,3 +200,123 @@ async def calculate_all_variant_costs(db: AsyncSession, modality_id: str):
         })
 
     return results
+
+def convert_quantity(qty: Decimal, unit_from: str | None, unit_to: str | None) -> Decimal:
+    """Simple unit conversion helper."""
+    if not unit_from or not unit_to:
+        return qty
+    
+    u_from = unit_from.lower().strip()
+    u_to = unit_to.lower().strip()
+    
+    if u_from == u_to:
+        return qty
+    
+    # Common conversions
+    conversions = {
+        ("g", "kg"): Decimal("0.001"),
+        ("gramas", "kg"): Decimal("0.001"),
+        ("grama", "kg"): Decimal("0.001"),
+        ("g", "quilograma"): Decimal("0.001"),
+        ("kg", "g"): Decimal("1000"),
+        ("cm", "m"): Decimal("0.01"),
+        ("mm", "m"): Decimal("0.001"),
+        ("milímetros", "m"): Decimal("0.001"),
+        ("centímetros", "m"): Decimal("0.01"),
+    }
+    
+    factor = conversions.get((u_from, u_to))
+    if factor:
+        return qty * factor
+    
+    return qty
+
+async def get_detailed_variant_costs(db: AsyncSession, modality_id: str):
+    """Calculates detailed yield prices and BOM breakdown for all variants."""
+    # 1. Get Modality
+    stmt = select(SalesModality).where(SalesModality.id == modality_id)
+    res = await db.execute(stmt)
+    modality = res.scalar_one_or_none()
+    if not modality:
+        return []
+
+    # 2. Get Fixed Costs and Share
+    fixed_costs = await list_fixed_costs(db)
+    total_fixed = sum(c.value for c in fixed_costs)
+    avg_monthly_production = Decimal("1000") # Estimate
+    fixed_share = total_fixed / avg_monthly_production
+
+    # 3. Get Average Prices from Purchases
+    material_avg_prices = await get_raw_material_avg_prices(db)
+    variant_avg_prices = await get_variant_avg_prices(db)
+
+    # 4. Get All Variants with their materials
+    from sqlalchemy.orm import selectinload
+    stmt = select(ProductVariant).options(
+        selectinload(ProductVariant.product),
+        selectinload(ProductVariant.materials).selectinload(ProductMaterial.raw_material)
+    )
+    res = await db.execute(stmt)
+    variants = res.scalars().all()
+
+    results = []
+    for v in variants:
+        bom_items = []
+        bom_total = Decimal("0.00")
+        
+        if v.product.is_manufactured:
+            for pm in v.materials:
+                m_id = str(pm.raw_material_id)
+                avg_price = material_avg_prices.get(m_id, Decimal("0.00"))
+                
+                # Handle Unit Conversion
+                # pm.quantity is the amount used. pm.unit_override is the unit used in BOM.
+                # pm.raw_material.unit is the unit of purchase/price.
+                real_qty = convert_quantity(pm.quantity, pm.unit_override, pm.raw_material.unit)
+                item_cost = real_qty * avg_price
+                
+                bom_items.append({
+                    "material_name": pm.raw_material.description or pm.raw_material.category,
+                    "quantity": pm.quantity,
+                    "unit": pm.unit_override or pm.raw_material.unit,
+                    "avg_price": avg_price,
+                    "item_cost": item_cost
+                })
+                bom_total += item_cost
+        else:
+            # Resale product
+            v_id = str(v.id)
+            bom_total = variant_avg_prices.get(v_id, v.cost or Decimal("0.00"))
+            bom_items.append({
+                "material_name": "Custo de Aquisição (Revenda)",
+                "quantity": 1,
+                "unit": "un",
+                "avg_price": bom_total,
+                "item_cost": bom_total
+            })
+
+        # Base Cost = BOM + Fixed Share (only for manufactured)
+        base_cost = bom_total + (fixed_share if v.product.is_manufactured else Decimal("0.00"))
+
+        # Final Yield Formula
+        tax_rate = (modality.tax_percent or Decimal("0")) / Decimal("100")
+        if tax_rate >= 1:
+            yield_price = Decimal("0.00")
+        else:
+            yield_price = (base_cost + (modality.fixed_fee or Decimal("0")) + (modality.extra_cost or Decimal("0"))) / (1 - tax_rate)
+
+        results.append({
+            "product_name": v.product.name,
+            "sku": v.sku,
+            "modality_name": modality.name,
+            "materials": bom_items,
+            "bom_total": bom_total,
+            "fixed_share": fixed_share if v.product.is_manufactured else Decimal("0.00"),
+            "base_cost": base_cost,
+            "yield_price": yield_price,
+            "tax_rate": tax_rate * 100,
+            "fixed_fee": modality.fixed_fee or 0,
+            "extra_cost": modality.extra_cost or 0
+        })
+
+    return results
