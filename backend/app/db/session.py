@@ -37,8 +37,13 @@ else:
         "pool_pre_ping": True,
     })
 
+# Handle DATABASE_URL pre-processing for asyncpg compatibility
+_db_url = settings.DATABASE_URL
+if "sslmode=" in _db_url:
+    _db_url = _db_url.replace("sslmode=require", "ssl=require").replace("sslmode=allow", "ssl=allow")
+
 engine: AsyncEngine = create_async_engine(
-    settings.DATABASE_URL,
+    _db_url,
     **engine_kwargs
 )
 
