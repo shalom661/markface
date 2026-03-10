@@ -1,5 +1,4 @@
 {
-    "//": "Force deployment for keep-alive mechanism",
     "version": 2,
     "builds": [
         {
