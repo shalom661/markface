@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from sqlalchemy import ForeignKey, Numeric, String, Text, DateTime, Enum as SQLEnum
 from sqlalchemy.dialects.postgresql import UUID
@@ -10,7 +10,7 @@ from app.schemas.purchase import PurchaseType
 class Purchase(UUIDMixin, TimestampMixin, Base):
     __tablename__ = "purchases"
 
-    purchase_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+    purchase_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
     type: Mapped[PurchaseType] = mapped_column(String(50), nullable=False)
     supplier_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("suppliers.id", ondelete="SET NULL"), nullable=True)
     total_value: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False, default=Decimal("0.00"))
