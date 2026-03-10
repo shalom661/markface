@@ -1,5 +1,5 @@
 """
-app/main.py
+app/main.py (v1.0.3 - Deployment Trigger)
 FastAPI application factory.
 - Mounts all routers under /api/v1
 - Configures structured logging on startup
