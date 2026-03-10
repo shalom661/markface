@@ -35,6 +35,7 @@ else:
         "pool_size": 10,
         "max_overflow": 20,
         "pool_pre_ping": True,
+        "pool_recycle": 300,
     })
 
 # Handle DATABASE_URL pre-processing for asyncpg compatibility
@@ -57,9 +58,6 @@ if "ssl=" not in _db_url:
 
 engine: AsyncEngine = create_async_engine(
     _db_url,
-    # Recycle connections to prevent "stale" connections in serverless cold starts
-    pool_recycle=300, 
-    pool_pre_ping=True,
     **engine_kwargs
 )
 

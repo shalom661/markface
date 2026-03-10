@@ -1,10 +1,10 @@
 {
     "name": "markface",
-    "version": "1.1.5",
+    "version": "1.1.6",
     "private": true,
     "scripts": {
         "build": "cd frontend && npm install && npm run build",
         "install": "cd frontend && npm install",
-        "trigger": "echo v1.1.5 - Fix Build TS and Prefetch Data"
+        "trigger": "echo v1.1.6 - Fix Vercel Pool Config"
     }
 }
