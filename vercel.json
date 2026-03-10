@@ -22,5 +22,11 @@
             "source": "/((?!api|assets|favicon.ico|logo.png|LOGO-sem-pijamas).*)",
             "destination": "/index.html"
         }
+    ],
+    "crons": [
+        {
+            "path": "/api/health-check",
+            "schedule": "0 */2 * * *"
+        }
     ]
 }
