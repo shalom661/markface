@@ -31,7 +31,13 @@ try:
     async def health_check_diag():
         db_ok = False
         db_error = None
+        db_host = "Unknown"
         try:
+            # Extract host from DATABASE_URL for diagnostic (safe way)
+            from sqlalchemy.engine.url import make_url
+            url = make_url(os.getenv("DATABASE_URL", settings.DATABASE_URL))
+            db_host = url.host
+            
             async with engine.connect() as conn:
                 await conn.execute(text("SELECT 1"))
                 db_ok = True
@@ -41,6 +47,7 @@ try:
         return {
             "status": "ok",
             "database": "connected" if db_ok else "failed",
+            "attempted_db_host": db_host,
             "db_error": db_error,
             "engine": "FastAPI via Vercel",
             "env": os.getenv("APP_ENV", "undefined")
