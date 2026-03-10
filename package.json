@@ -1,6 +1,7 @@
 {
     "name": "markface",
-    "version": "1.0.2",
+    "version": "1.0.3",
+    "build-id": "force-redeploy-3142",
     "private": true,
     "scripts": {
         "build": "cd frontend && npm install && npm run build",
