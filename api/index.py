@@ -1,14 +1,24 @@
 import sys
 import os
+import logging
 
-# Add backend directory to sys.path to allow imports from app
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "backend"))
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Add the project root and backend directory to sys.path
+# Vercel's current working directory is usually the root of the project.
+root_path = os.path.dirname(os.path.dirname(__file__))
+backend_path = os.path.join(root_path, "backend")
+
+if backend_path not in sys.path:
+    sys.path.append(backend_path)
+    logger.info(f"Added {backend_path} to sys.path")
 
 try:
     from app.main import app
     handler = app
+    logger.info("Successfully imported FastAPI app")
 except Exception as e:
-    # If the app fails to import, this allows seeing the error in the function logs
-    import logging
-    logging.error(f"Failed to import app: {e}")
+    logger.error(f"FATAL: Failed to import app: {e}", exc_info=True)
     raise e
