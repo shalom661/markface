@@ -6,3 +6,4 @@ Sistema de gestão de matérias-primas e insumos.
 - Monitorado via Vercel Crons (Keep-Alive)
 - Backend: FastAPI (Serverless)
 - Frontend: React + Vite
+- **Última Atualização:** Inteligência de Custo Médio Ponderada implementada.
