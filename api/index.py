@@ -1,41 +1,52 @@
+# Standard Vercel entry point for Python/FastAPI
 import sys
 import os
 import logging
 
-# Configure logging
+# Configure logging to see diagnostic information in Vercel 'Functions' logs
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Add the project root and backend directory to sys.path
-# Vercel's current working directory is usually the root of the project.
-root_path = os.path.dirname(os.path.dirname(__file__))
-backend_path = os.path.join(root_path, "backend")
+# This ensures that 'from app.main import app' works correctly.
+current_dir = os.path.dirname(__file__)
+project_root = os.path.abspath(os.path.join(current_dir, ".."))
+backend_dir = os.path.join(project_root, "backend")
 
-if backend_path not in sys.path:
-    sys.path.append(backend_path)
-    logger.info(f"Added {backend_path} to sys.path")
+if backend_dir not in sys.path:
+    sys.path.append(backend_dir)
+    logger.info(f"Adding backend directory to sys.path: {backend_dir}")
 
 try:
     from app.main import app
     handler = app
-    logger.info("✅ Successfully imported FastAPI app from backend")
+    logger.info("✅ FastAPI app imported successfully from backend")
     
-    # Add a direct health check that doesn't rely on the full backend logic
+    # -------------------------------------------------------------------------
+    # Health checks to verify the function is alive and routing is correct
+    # -------------------------------------------------------------------------
+    
+    # Matches /api/health-check (if Vercel passes the full path)
     @app.get("/api/health-check")
-    async def health_check_simple():
-        return {"status": "ok", "message": "Vercel function is alive", "backend": "imported"}
+    async def health_api_prefixed():
+        return {"status": "ok", "mode": "prefixed", "service": "MarkFace Hub API"}
+
+    # Matches /health-check (if Vercel strips /api/)
+    @app.get("/health-check")
+    async def health_api_direct():
+        return {"status": "ok", "mode": "direct", "service": "MarkFace Hub API"}
 
 except Exception as e:
-    logger.error(f"❌ FATAL: Failed to import app: {e}", exc_info=True)
+    logger.error(f"❌ FATAL ERROR: Deployment Failure: {e}", exc_info=True)
     
-    # Create a fallback app to report the error in the browser if building fails
     from fastapi import FastAPI
     handler = FastAPI()
     
-    @handler.get("/api/health-check")
-    async def health_check_error():
-        return {"status": "error", "message": str(e)}
-    
-    @handler.get("/api/{path:path}")
-    async def catch_all_error(path: str):
-        return {"status": "critical_error", "detail": f"Function failed to start. Error: {e}"}
+    @handler.get("/{path:path}")
+    async def report_error(path: str):
+        return {
+            "status": "error",
+            "detail": "Failed to start MarkFace Hub API",
+            "python_error": str(e),
+            "requested_path": path
+        }
