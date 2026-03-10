@@ -24,19 +24,20 @@ _AUTOCOMPLETE_FIELDS = {
 }
 
 
-def _serialize_for_event(data: dict) -> dict:
-    """Convert non-JSON-serializable values (Decimal, UUID, date) to strings."""
+def _serialize_for_event(data: any) -> any:
+    """Recursively convert non-JSON-serializable values (Decimal, UUID, date) to strings."""
     import decimal
     from datetime import date as date_type
-    result = {}
-    for k, v in data.items():
-        if isinstance(v, (decimal.Decimal, uuid.UUID)):
-            result[k] = str(v)
-        elif isinstance(v, date_type):
-            result[k] = v.isoformat()
-        else:
-            result[k] = v
-    return result
+    
+    if isinstance(data, dict):
+        return {k: _serialize_for_event(v) for k, v in data.items()}
+    elif isinstance(data, (list, tuple)):
+        return [_serialize_for_event(v) for v in data]
+    elif isinstance(data, (decimal.Decimal, uuid.UUID)):
+        return str(data)
+    elif isinstance(data, date_type):
+        return data.isoformat()
+    return data
 
 
 async def create_raw_material(
@@ -140,7 +141,9 @@ async def get_raw_material_or_404(
     db: AsyncSession, raw_material_id: uuid.UUID
 ) -> RawMaterial:
     result = await db.execute(
-        select(RawMaterial).where(RawMaterial.id == raw_material_id)
+        select(RawMaterial)
+        .where(RawMaterial.id == raw_material_id)
+        .options(selectinload(RawMaterial.supplier))
     )
     material = result.scalar_one_or_none()
     if not material:
@@ -161,6 +164,11 @@ async def update_raw_material(
         material = await get_raw_material_or_404(db, raw_material_id)
         changes = data.model_dump(exclude_none=True)
 
+        # Validate supplier exists if being updated
+        if "supplier_id" in changes and changes["supplier_id"]:
+            from app.services.supplier_service import get_supplier_or_404
+            await get_supplier_or_404(db, changes["supplier_id"])
+
         # If internal_code is being changed, check uniqueness
         if "internal_code" in changes and changes["internal_code"] != material.internal_code:
             existing = (
@@ -180,6 +188,9 @@ async def update_raw_material(
             setattr(material, field, value)
         await db.flush()
 
+        # Reload to ensure relationships are fresh for the response
+        await db.refresh(material)
+
         await create_event(
             db,
             "RAW_MATERIAL_UPDATED",
@@ -190,14 +201,22 @@ async def update_raw_material(
         raise
     except Exception as e:
         logger.error(f"Error updating raw material {raw_material_id}: {str(e)}", exc_info=True)
-        if "unique constraint" in str(e).lower() or "duplicate key" in str(e).lower():
+        # Catch and explain integrity errors (FK violations, Unique constraints)
+        err_msg = str(e).lower()
+        if "unique constraint" in err_msg or "duplicate key" in err_msg:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail="Erro de integridade: Código Interno já existe."
+                detail="Erro de integridade: Código Interno (ou outro campo único) já existe."
             )
+        if "foreign key constraint" in err_msg:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Erro de integridade: O Fornecedor selecionado não existe ou é inválido."
+            )
+        
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Erro interno ao atualizar matéria-prima: {str(e)}"
+            detail=f"Erro interno ao atualizar: {str(e)}"
         )
 
 
