@@ -16,25 +16,31 @@ if backend_dir not in sys.path:
     sys.path.append(backend_dir)
     logger.info(f"Adding backend directory: {backend_dir}")
 
-# Vercel's Python runtime automatically detects the 'app' variable 
-# and treats it as an ASGI application if it's a FastAPI instance.
-# IMPORTANT: do NOT use 'handler = app' as it can trigger legacy class checks.
+# Vercel's Python runtime detects 'app' in api/index.py
 try:
+    # 1. Import dependencies
     from app.main import app
-    from app.db.session import engine
     from app.core.config import settings
+    from app.db.session import engine
     from sqlalchemy import text
-    
-    # Extract host from DATABASE_URL for diagnostic (safe way)
     from sqlalchemy.engine.url import make_url
-    url = make_url(os.getenv("DATABASE_URL", settings.DATABASE_URL))
+
+    # 2. Diagnostic Route
+    @app.get("/api/health-check")
+    async def health_check_diag():
+        db_ok = False
+        db_error = None
+        db_host = "Unknown"
+        try:
+            # Extract host from DATABASE_URL for diagnostic (safe way)
+            url = make_url(os.getenv("DATABASE_URL", settings.DATABASE_URL))
             db_host = url.host
             
             async with engine.connect() as conn:
                 await conn.execute(text("SELECT 1"))
                 db_ok = True
-        except Exception as e:
-            db_error = str(e)
+        except Exception as ex:
+            db_error = str(ex)
 
         return {
             "status": "ok",
@@ -45,17 +51,29 @@ try:
             "env": os.getenv("APP_ENV", "undefined")
         }
 
-    # Custom 404 handler to see what path FastAPI is actually receiving
+    # 3. Custom 404 handler for easier debugging
     @app.exception_handler(404)
     async def custom_404_handler(request, exc):
         return {
             "detail": "Not Found",
             "requested_path": request.url.path,
-            "msg": "If you see this, FastAPI reached the 404 handler. Check if the path matches your routers.",
-            "available_routers": ["/api/v1", "/api/health-check"]
+            "msg": "FastAPI reached but no route matched.",
+            "available": ["/api/v1", "/api/health-check"]
         }
 
     logger.info("✅ FastAPI app imported with diagnostic tools")
+
 except Exception as e:
     logger.error(f"❌ FATAL: import failed: {e}", exc_info=True)
-    raise e
+    
+    # Fallback to report error in browser
+    from fastapi import FastAPI
+    app = FastAPI()
+    
+    @app.get("/{path:path}")
+    async def report_crash(path: str):
+        return {
+            "status": "crash",
+            "detail": "FastAPI failed to start",
+            "python_error": str(e)
+        }
