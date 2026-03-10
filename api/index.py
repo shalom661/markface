@@ -70,6 +70,10 @@ try:
             }
         )
 
+    @app.get("/api/v1/trigger-check")
+    async def trigger_check():
+        return {"status": "ok", "version": "1.0.4"}
+
     logger.info("✅ FastAPI app imported with diagnostic tools")
 
 except Exception as e:
