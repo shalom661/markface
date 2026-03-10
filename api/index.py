@@ -21,22 +21,42 @@ if backend_dir not in sys.path:
 # IMPORTANT: do NOT use 'handler = app' as it can trigger legacy class checks.
 try:
     from app.main import app
+    from app.db.session import engine
+    from sqlalchemy import text
     
-    # Diagnostic routes to see how Vercel is passing the path
+    # Force FastAPI to recognize /api prefix if needed
+    # app.root_path = "/api" 
+
     @app.get("/api/health-check")
-    async def health_check_prefixed():
-        return {"status": "ok", "source": "api/index.py", "path": "/api/health-check"}
+    async def health_check_diag():
+        db_ok = False
+        db_error = None
+        try:
+            async with engine.connect() as conn:
+                await conn.execute(text("SELECT 1"))
+                db_ok = True
+        except Exception as e:
+            db_error = str(e)
 
-    @app.get("/health-check")
-    async def health_check_direct():
-        return {"status": "ok", "source": "api/index.py", "path": "/health-check"}
+        return {
+            "status": "ok",
+            "database": "connected" if db_ok else "failed",
+            "db_error": db_error,
+            "engine": "FastAPI via Vercel",
+            "env": os.getenv("APP_ENV", "undefined")
+        }
 
-    @app.middleware("http")
-    async def log_request(request, call_next):
-        logger.info(f"Incoming request: {request.method} {request.url.path}")
-        return await call_next(request)
+    # Custom 404 handler to see what path FastAPI is actually receiving
+    @app.exception_handler(404)
+    async def custom_404_handler(request, exc):
+        return {
+            "detail": "Not Found",
+            "requested_path": request.url.path,
+            "msg": "If you see this, FastAPI reached the 404 handler. Check if the path matches your routers.",
+            "available_routers": ["/api/v1", "/api/health-check"]
+        }
 
-    logger.info("✅ FastAPI app imported and diagnostic routes added")
+    logger.info("✅ FastAPI app imported with diagnostic tools")
 except Exception as e:
     logger.error(f"❌ FATAL: import failed: {e}", exc_info=True)
     raise e
