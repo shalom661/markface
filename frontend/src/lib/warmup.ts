@@ -9,6 +9,7 @@ const HEALTH_ENDPOINT = '/api/health-check';
 class WarmupService {
     private static initiated = false;
     private static intervalId: number | null = null;
+    // v1.0.2 - Trigger
 
     static async start() {
         if (this.initiated) return;

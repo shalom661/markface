@@ -1,4 +1,4 @@
-# api/index.py (v1.0.1 - Keep-Alive Trigger)
+# api/index.py (v1.0.2 - Triggering Vercel Build)
 import sys
 import os
 import logging
@@ -14,7 +14,7 @@ backend_dir = os.path.join(project_root, "backend")
 
 if backend_dir not in sys.path:
     sys.path.append(backend_dir)
-    logger.info(f"Adding backend directory: {backend_dir}")
+    logger.info(f"Adding backend directory to sys.path: {backend_dir}")
 
 # Vercel's Python runtime detects 'app' in api/index.py
 try:
