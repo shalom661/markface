@@ -155,9 +155,9 @@ export default function Suppliers() {
     );
 
     const filteredItems = data?.items.filter(item =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.contact_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.email?.toLowerCase().includes(searchQuery.toLowerCase())
+        (item.name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+        (item.contact_name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+        (item.email?.toLowerCase() || "").includes(searchQuery.toLowerCase())
     ) || [];
 
     return (

@@ -147,9 +147,9 @@ export default function Customers() {
     );
 
     const filteredItems = data?.items.filter(item =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.tax_id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.email?.toLowerCase().includes(searchQuery.toLowerCase())
+        (item.name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+        (item.tax_id?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+        (item.email?.toLowerCase() || "").includes(searchQuery.toLowerCase())
     ) || [];
 
     return (

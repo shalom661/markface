@@ -149,8 +149,8 @@ export default function Products() {
     );
 
     const filteredItems = data?.items.filter(item =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.internal_code?.toLowerCase().includes(searchQuery.toLowerCase())
+        (item.name?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+        (item.internal_code?.toLowerCase() || "").includes(searchQuery.toLowerCase())
     ) || [];
 
     const manufacturedProducts = filteredItems.filter(p => p.is_manufactured);

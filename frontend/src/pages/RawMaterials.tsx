@@ -183,9 +183,9 @@ export default function RawMaterials() {
     }
 
     const filteredItems = data?.items.filter(item =>
-        item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.internal_code?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.category.toLowerCase().includes(searchQuery.toLowerCase())
+        (item.description?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+        (item.internal_code?.toLowerCase() || "").includes(searchQuery.toLowerCase()) ||
+        (item.category?.toLowerCase() || "").includes(searchQuery.toLowerCase())
     ) || [];
 
     return (
