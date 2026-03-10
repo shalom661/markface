@@ -73,6 +73,9 @@ async def create_raw_material(
         db.add(material)
         await db.flush()
         
+        # Reload to ensure relationships (like supplier) are available for the response
+        await db.refresh(material)
+
         await create_event(
             db,
             "RAW_MATERIAL_CREATED",
@@ -83,10 +86,16 @@ async def create_raw_material(
         raise
     except Exception as e:
         logger.error(f"Error creating raw material: {str(e)}", exc_info=True)
-        if "unique constraint" in str(e).lower() or "duplicate key" in str(e).lower():
+        err_msg = str(e).lower()
+        if "unique constraint" in err_msg or "duplicate key" in err_msg:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="Erro de integridade: Código Interno já existe."
+            )
+        if "foreign key constraint" in err_msg:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Erro de integridade: O Fornecedor selecionado não existe ou é inválido."
             )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
