@@ -103,13 +103,33 @@ export default function RawMaterials() {
         }
     });
 
-    const handleEdit = (item: RawMaterial) => {
-        setEditingItem(item);
-        setIsDialogOpen(true);
+    // v1.1.5 - Prefetch Support Data to prevent empty dropdowns
+    const prefetchData = async () => {
+        await Promise.all([
+            queryClient.prefetchQuery({
+                queryKey: ['suppliers'],
+                queryFn: async () => (await api.get('/suppliers')).data
+            }),
+            queryClient.prefetchQuery({
+                queryKey: ['categories'],
+                queryFn: async () => (await api.get('/categories')).data
+            }),
+            queryClient.prefetchQuery({
+                queryKey: ['units'],
+                queryFn: async () => (await api.get('/units?active_only=true')).data
+            })
+        ]);
     };
 
     const handleAddNew = () => {
+        prefetchData();
         setEditingItem(null);
+        setIsDialogOpen(true);
+    };
+
+    const handleEdit = (item: RawMaterial) => {
+        prefetchData();
+        setEditingItem(item);
         setIsDialogOpen(true);
     };
 

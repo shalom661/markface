@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Component, type ErrorInfo, type ReactNode } from "react";
 import { AlertCircle, RefreshCw, Home } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -70,7 +70,7 @@ class ErrorBoundary extends Component<Props, State> {
             );
         }
 
-        return this.children;
+        return this.props.children;
     }
 }
 

@@ -264,6 +264,11 @@ export function RawMaterialForm({ rawMaterial, onSuccess }: RawMaterialFormProps
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
+                                        {!suppliersData && (
+                                            <SelectItem value="loading" disabled className="body-brand italic opacity-50">
+                                                Carregando Protocolo...
+                                            </SelectItem>
+                                        )}
                                         {suppliersData?.items?.map((s: any) => (
                                             <SelectItem key={s.id} value={s.id} className="body-brand">{s.name}</SelectItem>
                                         ))}
