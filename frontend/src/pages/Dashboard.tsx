@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import api from '@/lib/api';
+import { Link } from 'react-router-dom';
 import {
     Package,
     ShoppingCart,
@@ -145,9 +146,9 @@ export default function Dashboard() {
             </div>
 
             {/* Main Content Area */}
-            <div className="grid gap-8 lg:grid-cols-7">
+            <div className="grid gap-8 lg:grid-cols-10">
                 {/* Visual Chart Placeholder Area */}
-                <Card className="lg:col-span-4 rounded-[3.5rem] border-none smooth-glass overflow-hidden shadow-2xl flex flex-col group">
+                <Card className="lg:col-span-6 rounded-[3.5rem] border-none smooth-glass overflow-hidden shadow-2xl flex flex-col group">
                     <CardHeader className="p-10 pb-0 flex flex-row items-center justify-between">
                         <div className="space-y-1">
                             <CardTitle className="h2-brand uppercase flex items-center gap-3">
@@ -189,67 +190,81 @@ export default function Dashboard() {
                 </Card>
 
                 {/* Shortcuts & Actions */}
-                <div className="lg:col-span-3 space-y-8">
-                    <Card className="rounded-[3rem] border-none smooth-glass p-8 shadow-2xl relative overflow-hidden group">
+                <div className="lg:col-span-4 space-y-8">
+                    {/* Real-time Notifications */}
+                    <Card className="rounded-[3rem] border-none smooth-glass p-8 shadow-2xl relative overflow-hidden group min-h-[400px]">
                         <div className="relative z-10 space-y-8">
-                            <div className="space-y-1">
-                                <h3 className="h3-brand uppercase flex items-center gap-3">
-                                    <Crown className="h-5 w-5 text-amber-400" />
-                                    Atalhos Mestres
-                                </h3>
-                                <p className="label-brand">Operações críticas do sistema</p>
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-1">
+                                    <h3 className="h3-brand uppercase flex items-center gap-3">
+                                        <Activity className="h-5 w-5 text-emerald-400" />
+                                        Atividade Recente
+                                    </h3>
+                                    <p className="label-brand">Notificações em tempo real</p>
+                                </div>
+                                <Badge className="bg-primary/10 text-primary border-none">3 Pendentes</Badge>
                             </div>
 
                             <div className="space-y-4">
                                 {[
-                                    { label: "Novo Produto", icon: Package, color: "bg-blue-500", to: "/products/new" },
-                                    { label: "Registrar Compra", icon: ShoppingBag, color: "bg-purple-500", to: "/purchases" },
-                                    { label: "Custo de Peça", icon: DollarSign, color: "bg-emerald-500", to: "/costs" },
-                                ].map((btn, i) => (
-                                    <button
-                                        key={i}
-                                        className="w-full flex items-center justify-between p-5 rounded-[2rem] bg-white/[0.03] border border-white/5 hover:bg-white/[0.08] hover:border-white/10 transition-all group/btn"
-                                    >
-                                        <div className="flex items-center gap-5">
-                                            <div className={cn("p-3.5 rounded-2xl text-white shadow-2xl transform transition-transform group-hover/btn:scale-110", btn.color)}>
-                                                <btn.icon className="h-5 w-5 stroke-[2.5]" />
-                                            </div>
-                                            <div className="text-left space-y-1">
-                                                <span className="block h3-brand text-sm text-white/80">{btn.label}</span>
-                                                <span className="label-brand text-muted-foreground/70">Acesso Instantâneo</span>
-                                            </div>
+                                    { type: 'whatsapp', title: 'Mensagem de Carlos', desc: 'Confirmado o envio do pedido...', time: '2m atrás', color: 'bg-emerald-500' },
+                                    { type: 'order', title: 'Novo Pedido #842', desc: 'Cliente: Maria Fernanda', time: '15m atrás', color: 'bg-blue-500' },
+                                    { type: 'inventory', title: 'Estoque Baixo', desc: 'Tecido Algodão (Preto)', time: '1h atrás', color: 'bg-amber-500' },
+                                ].map((item, i) => (
+                                    <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-all cursor-pointer group/item">
+                                        <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center shrink-0 shadow-lg text-white", item.color)}>
+                                            {item.type === 'whatsapp' ? <MessageSquare className="h-5 w-5" /> : item.type === 'order' ? <ShoppingCart className="h-5 w-5" /> : <Package className="h-5 w-5" />}
                                         </div>
-                                        <div className="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover/btn:opacity-100 transition-all transform group-hover/btn:translate-x-1">
-                                            <MousePointer2 className="h-4 w-4 text-primary" />
+                                        <div className="flex-1 space-y-0.5 min-w-0">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm font-bold truncate">{item.title}</span>
+                                                <span className="text-[10px] text-muted-foreground shrink-0">{item.time}</span>
+                                            </div>
+                                            <p className="text-xs text-muted-foreground truncate opacity-70 group-hover/item:opacity-100 transition-opacity">{item.desc}</p>
                                         </div>
-                                    </button>
+                                    </div>
                                 ))}
                             </div>
-                        </div>
 
-                        {/* Interactive Sparkle effect */}
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <Button variant="ghost" className="w-full rounded-2xl h-12 text-muted-foreground hover:text-primary border border-dashed border-white/10 hover:border-primary/30">
+                                Ver todas as notificações
+                            </Button>
+                        </div>
                     </Card>
 
-                    <Card className="rounded-[3rem] border-none smooth-glass p-8 bg-primary/5 flex items-center justify-between group overflow-hidden">
-                        <div className="space-y-4 relative z-10">
-                            <div className="h-12 w-12 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center shadow-2xl">
-                                <Target className="h-6 w-6" />
+                    <Card className="rounded-[3rem] border-none smooth-glass p-8 shadow-2xl relative overflow-hidden group">
+                        <div className="relative z-10 space-y-8">
+                            <div className="space-y-1">
+                                <h3 className="h3-brand uppercase flex items-center gap-3">
+                                    <MessageSquare className="h-5 w-5 text-primary" />
+                                    Atendimento WhatsApp
+                                </h3>
+                                <p className="label-brand">Fila de espera centralizada</p>
                             </div>
-                            <div>
-                                <h4 className="h3-brand">Meta Diária</h4>
-                                <p className="label-brand text-muted-foreground mt-1 opacity-70">Faltam 12 vendas para bater o recorde</p>
-                            </div>
-                        </div>
-                        <div className="relative h-24 w-24 flex items-center justify-center z-10">
-                            <svg className="h-full w-full -rotate-90">
-                                <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-white/5" />
-                                <circle cx="48" cy="48" r="40" stroke="currentColor" strokeWidth="8" fill="transparent" strokeDasharray="251.2" strokeDashoffset="75" className="text-primary stroke-[10] drop-shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
-                            </svg>
-                            <span className="absolute stat-brand">70%</span>
-                        </div>
 
-                        <div className="absolute -left-10 -bottom-10 h-32 w-32 bg-primary/20 blur-[80px] rounded-full group-hover:scale-150 transition-transform duration-1000" />
+                            <div className="flex items-center gap-4">
+                                <div className="flex -space-x-3">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="h-10 w-10 rounded-xl bg-primary/20 border-2 border-background flex items-center justify-center text-[10px] font-bold text-primary">
+                                            U{i}
+                                        </div>
+                                    ))}
+                                    <div className="h-10 w-10 rounded-xl bg-muted border-2 border-background flex items-center justify-center text-[10px] font-bold text-muted-foreground">
+                                        +5
+                                    </div>
+                                </div>
+                                <p className="text-xs text-muted-foreground">
+                                    <span className="text-white font-bold">8 clientes</span> aguardando
+                                </p>
+                            </div>
+
+                            <Button className="w-full h-14 rounded-2xl bg-primary text-white shadow-xl shadow-primary/20 group/btn" asChild>
+                                <Link to="/whatsapp" className="flex items-center justify-center gap-2">
+                                    Abrir Central de Chat
+                                    <ArrowUpRight className="h-4 w-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                                </Link>
+                            </Button>
+                        </div>
                     </Card>
                 </div>
             </div>
