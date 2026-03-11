@@ -236,7 +236,10 @@ export default function Dashboard() {
                                     <MessageSquare className="h-5 w-5 text-primary" />
                                     Atendimento WhatsApp
                                 </h3>
-                                <p className="label-brand">Fila de espera centralizada</p>
+                                <div className="flex items-center gap-2">
+                                    <p className="label-brand">Fila de espera centralizada</p>
+                                    <Badge className="bg-emerald-500/20 text-emerald-400 border-none animate-bounce">12 Novas</Badge>
+                                </div>
                             </div>
 
                             <div className="flex items-center gap-4">
