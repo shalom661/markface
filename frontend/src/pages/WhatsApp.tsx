@@ -60,7 +60,7 @@ export default function WhatsApp() {
     const activeChat = MOCK_CONVERSATIONS.find(c => c.id === selectedId);
 
     return (
-        <div className="h-[calc(100vh-120px)] lg:h-[calc(100vh-140px)] overflow-hidden rounded-[3.5rem] smooth-glass border-none shadow-3xl flex animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="h-full w-full overflow-hidden border-none shadow-none flex animate-in fade-in duration-700">
             {/* Sidebar Conversas */}
             <div className="w-full lg:w-[400px] border-r border-white/5 flex flex-col bg-white/[0.02]">
                 <div className="p-8 space-y-6">

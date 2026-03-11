@@ -155,8 +155,14 @@ export default function Layout() {
                     <Menu className="h-6 w-6 text-primary" />
                 </Button>
 
-                <div className="flex-1 p-6 md:p-12 lg:p-16 overflow-y-auto w-full relative custom-scrollbar">
-                    <div className="max-w-[1600px] mx-auto animate-in fade-in zoom-in-95 duration-700">
+                <div className={cn(
+                    "flex-1 overflow-y-auto w-full relative custom-scrollbar",
+                    location.pathname === '/whatsapp' ? "p-0" : "p-6 md:p-12 lg:p-16"
+                )}>
+                    <div className={cn(
+                        "mx-auto animate-in fade-in zoom-in-95 duration-700 h-full",
+                        location.pathname === '/whatsapp' ? "max-w-none w-full" : "max-w-[1600px]"
+                    )}>
                         <Outlet />
                     </div>
                 </div>
