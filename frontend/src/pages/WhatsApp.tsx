@@ -2,19 +2,20 @@ import { useState } from 'react';
 import {
     Send,
     MessageSquare,
-    ArrowLeft,
-    Search,
     MoreVertical,
-    Check,
+    Phone,
+    Video,
+    Search,
     CheckCheck,
-    Info,
-    Smartphone,
-    X,
-    Users
+    Users,
+    CircleDashed,
+    UserPlus,
+    Filter
 } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
