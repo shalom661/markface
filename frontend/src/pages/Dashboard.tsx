@@ -9,12 +9,9 @@ import {
     DollarSign,
     ArrowUpRight,
     ArrowDownRight,
-    ShoppingBag,
     Activity,
-    MousePointer2,
     Zap,
-    Crown,
-    Target
+    MessageSquare,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
