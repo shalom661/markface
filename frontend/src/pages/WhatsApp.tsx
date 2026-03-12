@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Send, Search, MoreVertical, Paperclip, Smile, ShieldCheck, ShieldAlert, Clock, RefreshCw } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import api from '@/lib/api';
@@ -36,7 +36,7 @@ const MOCK_CONVERSATIONS: Conversation[] = [
         name: 'Cliente Teste',
         phoneNumber: '5511990115302',
         lastMessage: 'Sincronizado com Meta API',
-        time: format(new Date(), 'HH:mm'),
+        time: format(new Date(), 'HH:mm', { locale: ptBR }),
         unread: 0,
         online: true,
         avatar: 'CT'
@@ -231,8 +231,8 @@ export default function WhatsApp() {
                                 messages.map((msg) => (
                                     <div key={msg.id} className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
                                         <div className={`max-w-[70%] group relative px-4 py-2.5 rounded-2xl ${msg.sender === 'me'
-                                                ? 'bg-blue-600 text-white rounded-tr-none'
-                                                : 'bg-[#1e1e1e] text-white/90 rounded-tl-none border border-white/5'
+                                            ? 'bg-blue-600 text-white rounded-tr-none'
+                                            : 'bg-[#1e1e1e] text-white/90 rounded-tl-none border border-white/5'
                                             }`}>
                                             <p className="text-sm leading-relaxed">{msg.text}</p>
                                             <div className="flex items-center justify-end gap-1.5 mt-1 opacity-50">
