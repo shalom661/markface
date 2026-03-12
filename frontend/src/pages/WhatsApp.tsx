@@ -34,7 +34,7 @@ const MOCK_CONVERSATIONS = [
     {
         id: '2',
         name: 'Cliente Teste',
-        phoneNumber: '5511999999999', // O usuário deve testar com o número dele
+        phoneNumber: '5511990115302', // Número para teste do usuário
         lastMessage: 'Qual o valor total com o frete?',
         time: '12:05',
         unread: 0,
