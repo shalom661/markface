@@ -1,11 +1,15 @@
 from typing import List, Optional, Dict, Any
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, Request, Query, status
 from pydantic import BaseModel
 import httpx
+from sqlalchemy import select, desc
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
 from app.core.logging import get_logger
-from app.core.deps import get_current_user
+from app.core.deps import get_current_user, get_db
 from app.models.user import User
+from app.models.whatsapp_message import WhatsAppMessage
 
 router = APIRouter(prefix="/whatsapp", tags=["WhatsApp"])
 log = get_logger(__name__)
@@ -14,7 +18,11 @@ class WhatsAppMessageRequest(BaseModel):
     to: str
     message: str
 
-class WebhookResponse(BaseModel):
+class MessageSchema(BaseModel):
+    id: str
+    sender: str
+    text: str
+    time: str
     status: str
 
 @router.get("/webhook")
@@ -34,25 +42,104 @@ async def verify_webhook(
     raise HTTPException(status_code=403, detail="Verification failed")
 
 @router.post("/webhook")
-async def receive_webhook(request: Request):
+async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
     """
     Handle incoming notifications from WhatsApp Cloud API.
     """
-    data = await request.json()
-    log.debug("WhatsApp Webhook received", data=data)
+    try:
+        data = await request.json()
+        log.debug("WhatsApp Webhook received", data=data)
+        
+        # Meta sends notifications in a nested structure
+        for entry in data.get("entry", []):
+            for change in entry.get("changes", []):
+                value = change.get("value", {})
+                
+                # Check for incoming messages
+                for msg in value.get("messages", []):
+                    from_phone = msg.get("from")
+                    wa_id = msg.get("id")
+                    body = msg.get("text", {}).get("body", "")
+                    wa_ts = msg.get("timestamp")
+                    
+                    # Convert timestamp strings to datetime
+                    wa_datetime = None
+                    if wa_ts:
+                        wa_datetime = datetime.fromtimestamp(int(wa_ts), tz=timezone.utc)
+                    
+                    # Save inbound message
+                    new_msg = WhatsAppMessage(
+                        wa_id=wa_id,
+                        from_phone=from_phone,
+                        to_phone=settings.WHATSAPP_PHONE_NUMBER_ID, # Our business number ID
+                        body=body,
+                        direction="inbound",
+                        status="received",
+                        wa_timestamp=wa_datetime
+                    )
+                    db.add(new_msg)
+                    log.info("Inbound WhatsApp message saved", from_phone=from_phone, wa_id=wa_id)
+                
+                # Check for status updates (sent, delivered, read)
+                for status_update in value.get("statuses", []):
+                    wa_id = status_update.get("id")
+                    new_status = status_update.get("status")
+                    
+                    # Update status in DB if message exists
+                    stmt = select(WhatsAppMessage).where(WhatsAppMessage.wa_id == wa_id)
+                    res = await db.execute(stmt)
+                    existing_msg = res.scalar_one_or_none()
+                    if existing_msg:
+                        existing_msg.status = new_status
+                        log.debug("WhatsApp status updated", wa_id=wa_id, status=new_status)
+
+        await db.commit()
+        return {"status": "ok"}
+    except Exception as e:
+        log.error("Error processing WhatsApp webhook", error=str(e))
+        # Always return 200 to Meta to avoid retries if the error is on our side
+        return {"status": "error", "message": str(e)}
+
+@router.get("/history/{phone_number}", response_model=List[MessageSchema])
+async def get_chat_history(
+    phone_number: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Fetch message history for a specific contact.
+    """
+    # Clean the phone number to match how we store it
+    clean_phone = "".join(filter(str.isdigit, phone_number))
     
-    # Process the message (e.g., save to DB, trigger real-time updates)
-    # For now, we just log it.
+    # Fetch messages where phone matches either from or to
+    stmt = select(WhatsAppMessage).where(
+        (WhatsAppMessage.from_phone == clean_phone) | 
+        (WhatsAppMessage.to_phone == clean_phone)
+    ).order_by(WhatsAppMessage.wa_timestamp.asc())
     
-    return {"status": "ok"}
+    result = await db.execute(stmt)
+    messages = result.scalars().all()
+    
+    return [
+        MessageSchema(
+            id=str(msg.id),
+            sender="other" if msg.direction == "inbound" else "me",
+            text=msg.body,
+            time=msg.wa_timestamp.strftime("%H:%M") if msg.wa_timestamp else msg.created_at.strftime("%H:%M"),
+            status=msg.status
+        )
+        for msg in messages
+    ]
 
 @router.post("/send", status_code=status.HTTP_200_OK)
 async def send_message(
     payload: WhatsAppMessageRequest,
+    db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """
-    Send a WhatsApp message using the Official Cloud API.
+    Send a WhatsApp message and save to history.
     """
     url = f"https://graph.facebook.com/{settings.WHATSAPP_API_VERSION}/{settings.WHATSAPP_PHONE_NUMBER_ID}/messages"
     
@@ -61,10 +148,8 @@ async def send_message(
         "Content-Type": "application/json"
     }
     
-    # Clean the phone number (remove +, spaces, etc.)
     clean_to = "".join(filter(str.isdigit, payload.to))
     
-    # WhatsApp requires the number to be in international format without the +
     body = {
         "messaging_product": "whatsapp",
         "recipient_type": "individual",
@@ -88,7 +173,21 @@ async def send_message(
                     detail=f"WhatsApp API Error: {response_data.get('error', {}).get('message', 'Unknown error')}"
                 )
             
-            log.info("WhatsApp message sent successfully", to=clean_to, message_id=response_data.get("messages", [{}])[0].get("id"))
+            # Save outbound message to DB
+            wa_id = response_data.get("messages", [{}])[0].get("id")
+            new_msg = WhatsAppMessage(
+                wa_id=wa_id,
+                from_phone=settings.WHATSAPP_PHONE_NUMBER_ID,
+                to_phone=clean_to,
+                body=payload.message,
+                direction="outbound",
+                status="sent",
+                wa_timestamp=datetime.now(timezone.utc)
+            )
+            db.add(new_msg)
+            await db.commit()
+            
+            log.info("WhatsApp message sent and saved", to=clean_to, wa_id=wa_id)
             return response_data
             
         except httpx.RequestError as exc:

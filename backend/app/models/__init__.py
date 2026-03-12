@@ -10,14 +10,15 @@ from app.models.raw_material import RawMaterial
 from app.models.customer import Customer
 from app.models.category import RawMaterialCategory
 from app.models.unit import MeasurementUnit
-
 from app.models.product_material import ProductMaterial
 from app.models.finance import FixedCost, SalesModality
 from app.models.purchase import Purchase, PurchaseItem
+from app.models.whatsapp_message import WhatsAppMessage
 
 __all__ = [
     "User", "Product", "ProductVariant", "Inventory", "EventLog",
     "Order", "OrderItem", "InventoryMovement", "WebhookEvent",
     "Supplier", "RawMaterial", "Customer", "RawMaterialCategory", "MeasurementUnit",
     "ProductMaterial", "FixedCost", "SalesModality", "Purchase", "PurchaseItem",
+    "WhatsAppMessage",
 ]

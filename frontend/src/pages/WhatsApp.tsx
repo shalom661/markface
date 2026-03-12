@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Send,
     MessageSquare,
@@ -46,41 +46,75 @@ const MOCK_CONVERSATIONS = [
 export default function WhatsApp() {
     const [selectedId, setSelectedId] = useState('1');
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState<Message[]>([
-        { id: 1, sender: 'other', text: 'Boa tarde! Gostaria de saber sobre o status do meu pedido.', time: '14:10' },
-        { id: 2, sender: 'me', text: 'Olá Carlos! Seu pedido já foi processado e está em fase de separação.', time: '14:15' },
-        { id: 3, sender: 'other', text: 'Confirmado o envio do pedido 452?', time: '14:20' },
-    ]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [isSending, setIsSending] = useState(false);
+    const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const { toast } = useToast();
 
     const activeChat = MOCK_CONVERSATIONS.find(c => c.id === selectedId);
+
+    // Fetch history when activeChat changes
+    useEffect(() => {
+        const fetchHistory = async () => {
+            if (!activeChat) return;
+
+            setIsLoadingHistory(true);
+            try {
+                const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
+                setMessages(response.data);
+            } catch (error) {
+                console.error("Erro ao carregar histórico:", error);
+            } finally {
+                setIsLoadingHistory(false);
+            }
+        };
+
+        fetchHistory();
+    }, [selectedId, activeChat]);
+
+    // Simple polling for new messages every 5 seconds
+    useEffect(() => {
+        const interval = setInterval(async () => {
+            if (!activeChat || isSending) return;
+
+            try {
+                const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
+                // Simple check: if length changed, update. In a real app, you'd check IDs.
+                if (response.data.length !== messages.length) {
+                    setMessages(response.data);
+                }
+            } catch (error) {
+                console.error("Erro no polling de mensagens:", error);
+            }
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [selectedId, activeChat, messages.length, isSending]);
 
     const handleSendMessage = async () => {
         if (!message.trim() || !activeChat || isSending) return;
 
         setIsSending(true);
+        const currentMessage = message;
+        setMessage(''); // Clear input immediately for better UX
+
         try {
             await api.post('/whatsapp/send', {
                 to: activeChat.phoneNumber,
-                message: message
+                message: currentMessage
             });
 
-            const newMessage: Message = {
-                id: Date.now(),
-                sender: 'me',
-                text: message,
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            };
+            // Re-fetch history to get the official message state from DB
+            const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
+            setMessages(response.data);
 
-            setMessages((prev: Message[]) => [...prev, newMessage]);
-            setMessage('');
             toast({
                 title: "Mensagem enviada",
                 description: "Sua mensagem foi entregue com sucesso.",
             });
         } catch (error: any) {
             console.error("Erro ao enviar mensagem:", error);
+            setMessage(currentMessage); // Restore message on error
             toast({
                 variant: "destructive",
                 title: "Erro ao enviar",
