@@ -41,6 +41,13 @@ class Settings(BaseSettings):
     INTERNAL_API_KEY: str = "change-me-internal-api-key"
     RECONCILE_REPAIR: bool = False
 
+    # ── WhatsApp Cloud API ─────────────────────────────────────────────
+    WHATSAPP_TOKEN: str = ""
+    WHATSAPP_PHONE_NUMBER_ID: str = ""
+    WHATSAPP_BUSINESS_ACCOUNT_ID: str = ""
+    WHATSAPP_VERIFY_TOKEN: str = "markface_hub_v1"
+    WHATSAPP_API_VERSION: str = "v19.0"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

@@ -1,26 +1,30 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
     Send,
     MessageSquare,
-    MoreVertical,
-    Phone,
-    Video,
-    Search,
     CheckCheck,
-    Users,
-    CircleDashed,
-    UserPlus,
-    Filter
+    Loader2,
+    Search
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import api from '@/lib/api';
 import { cn } from "@/lib/utils";
+
+interface Message {
+    id: number;
+    sender: 'me' | 'other';
+    text: string;
+    time: string;
+}
 
 const MOCK_CONVERSATIONS = [
     {
         id: '1',
         name: 'Carlos Oliveira',
+        phoneNumber: '5511999999999', // Exemplo
         lastMessage: 'Confirmado o envio do pedido 452',
         time: '14:20',
         unread: 2,
@@ -29,35 +33,63 @@ const MOCK_CONVERSATIONS = [
     },
     {
         id: '2',
-        name: 'Maria Fernanda',
+        name: 'Cliente Teste',
+        phoneNumber: '5511999999999', // O usuário deve testar com o número dele
         lastMessage: 'Qual o valor total com o frete?',
         time: '12:05',
         unread: 0,
         online: false,
-        avatar: 'MF'
-    },
-    {
-        id: '3',
-        name: 'Fornecedor Tecidos',
-        lastMessage: 'Nova remessa chega amanhã',
-        time: 'Ontem',
-        unread: 1,
-        online: false,
-        avatar: 'FT'
+        avatar: 'CT'
     }
-];
-
-const MOCK_MESSAGES = [
-    { id: 1, sender: 'other', text: 'Boa tarde! Gostaria de saber sobre o status do meu pedido.', time: '14:10' },
-    { id: 2, sender: 'me', text: 'Olá Carlos! Seu pedido já foi processado e está em fase de separação.', time: '14:15' },
-    { id: 3, sender: 'other', text: 'Confirmado o envio do pedido 452?', time: '14:20' },
 ];
 
 export default function WhatsApp() {
     const [selectedId, setSelectedId] = useState('1');
     const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState<Message[]>([
+        { id: 1, sender: 'other', text: 'Boa tarde! Gostaria de saber sobre o status do meu pedido.', time: '14:10' },
+        { id: 2, sender: 'me', text: 'Olá Carlos! Seu pedido já foi processado e está em fase de separação.', time: '14:15' },
+        { id: 3, sender: 'other', text: 'Confirmado o envio do pedido 452?', time: '14:20' },
+    ]);
+    const [isSending, setIsSending] = useState(false);
+    const { toast } = useToast();
 
     const activeChat = MOCK_CONVERSATIONS.find(c => c.id === selectedId);
+
+    const handleSendMessage = async () => {
+        if (!message.trim() || !activeChat || isSending) return;
+
+        setIsSending(true);
+        try {
+            await api.post('/whatsapp/send', {
+                to: activeChat.phoneNumber,
+                message: message
+            });
+
+            const newMessage: Message = {
+                id: Date.now(),
+                sender: 'me',
+                text: message,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            setMessages((prev: Message[]) => [...prev, newMessage]);
+            setMessage('');
+            toast({
+                title: "Mensagem enviada",
+                description: "Sua mensagem foi entregue com sucesso.",
+            });
+        } catch (error: any) {
+            console.error("Erro ao enviar mensagem:", error);
+            toast({
+                variant: "destructive",
+                title: "Erro ao enviar",
+                description: error.response?.data?.detail || "Não foi possível enviar a mensagem.",
+            });
+        } finally {
+            setIsSending(false);
+        }
+    };
 
     return (
         <div className="h-full w-full overflow-hidden border-none shadow-none flex animate-in fade-in duration-700">
@@ -70,15 +102,7 @@ export default function WhatsApp() {
                                 <MessageSquare className="h-6 w-6 text-primary" />
                                 Mensagens
                             </h2>
-                            <Badge className="bg-primary/20 text-primary border-none shadow-none">5 Novas</Badge>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <Button variant="ghost" size="icon" className="rounded-full h-10 w-10">
-                                <CircleDashed className="h-5 w-5 text-muted-foreground" />
-                            </Button>
-                            <Button variant="ghost" size="icon" className="rounded-full h-10 w-10">
-                                <UserPlus className="h-5 w-5 text-muted-foreground" />
-                            </Button>
+                            <Badge className="bg-primary/20 text-primary border-none shadow-none">Integração Ativa</Badge>
                         </div>
                     </div>
 
@@ -88,9 +112,6 @@ export default function WhatsApp() {
                             placeholder="Buscar cliente ou conversa..."
                             className="pl-12 h-14 bg-white/5 border-none rounded-2xl focus-visible:ring-1 focus-visible:ring-primary/30 transition-all shadow-inner"
                         />
-                        <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10">
-                            <Filter className="h-4 w-4 text-muted-foreground" />
-                        </Button>
                     </div>
                 </div>
 
@@ -113,9 +134,6 @@ export default function WhatsApp() {
                                 )}>
                                     {chat.avatar}
                                 </div>
-                                {chat.online && (
-                                    <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-4 border-background" />
-                                )}
                             </div>
 
                             <div className="flex-1 text-left overflow-hidden space-y-1">
@@ -126,26 +144,13 @@ export default function WhatsApp() {
                                     )}>
                                         {chat.name}
                                     </span>
-                                    <span className={cn(
-                                        "text-[10px] font-bold",
-                                        selectedId === chat.id ? "text-white/60" : "text-muted-foreground"
-                                    )}>
-                                        {chat.time}
-                                    </span>
                                 </div>
-                                <div className="flex items-center justify-between gap-2">
-                                    <p className={cn(
-                                        "text-xs truncate opacity-70",
-                                        selectedId === chat.id ? "text-white/80" : "text-muted-foreground"
-                                    )}>
-                                        {chat.lastMessage}
-                                    </p>
-                                    {chat.unread > 0 && selectedId !== chat.id && (
-                                        <Badge className="bg-primary text-white border-none h-5 min-w-[20px] px-1 justify-center">
-                                            {chat.unread}
-                                        </Badge>
-                                    )}
-                                </div>
+                                <p className={cn(
+                                    "text-xs truncate opacity-70",
+                                    selectedId === chat.id ? "text-white/80" : "text-muted-foreground"
+                                )}>
+                                    {chat.phoneNumber}
+                                </p>
                             </div>
                         </button>
                     ))}
@@ -166,26 +171,15 @@ export default function WhatsApp() {
                                     <h3 className="font-bold text-lg leading-tight">{activeChat.name}</h3>
                                     <span className="text-xs text-emerald-400 font-bold flex items-center gap-1.5">
                                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                        Disponível Agora
+                                        Meta Cloud API Oficial
                                     </span>
                                 </div>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border border-white/5 bg-white/5 hover:bg-white/10 transition-all shadow-sm">
-                                    <Phone className="h-5 w-5 text-muted-foreground" />
-                                </Button>
-                                <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border border-white/5 bg-white/5 hover:bg-white/10 transition-all shadow-sm">
-                                    <Video className="h-5 w-5 text-muted-foreground" />
-                                </Button>
-                                <Button variant="ghost" size="icon" className="rounded-2xl h-12 w-12 border border-white/5 bg-white/5 hover:bg-white/10 transition-all shadow-sm">
-                                    <MoreVertical className="h-5 w-5 text-muted-foreground" />
-                                </Button>
                             </div>
                         </div>
 
                         {/* Corpo do Chat */}
-                        <div className="flex-1 overflow-y-auto p-12 space-y-8 custom-scrollbar bg-[url('/chat-bg.png')] bg-repeat opacity-[0.98]">
-                            {MOCK_MESSAGES.map((msg) => (
+                        <div className="flex-1 overflow-y-auto p-12 space-y-8 custom-scrollbar">
+                            {messages.map((msg: Message) => (
                                 <div
                                     key={msg.id}
                                     className={cn(
@@ -218,22 +212,23 @@ export default function WhatsApp() {
                                 <div className="flex-1 relative">
                                     <Input
                                         value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
+                                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handleSendMessage()}
                                         placeholder="Digite sua mensagem para o cliente..."
+                                        disabled={isSending}
                                         className="h-16 pr-16 bg-white/5 border-none rounded-3xl focus-visible:ring-1 focus-visible:ring-primary/20 transition-all shadow-inner text-base"
                                     />
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 text-muted-foreground hover:text-primary transition-all"
-                                    >
-                                        <Users className="h-5 w-5" />
-                                    </Button>
                                 </div>
                                 <Button
+                                    onClick={handleSendMessage}
+                                    disabled={isSending || !message.trim()}
                                     className="h-16 w-16 rounded-3xl bg-primary text-primary-foreground shadow-2xl shadow-primary/40 hover:scale-105 active:scale-95 transition-all group"
                                 >
-                                    <Send className="h-6 w-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform stroke-[2.5]" />
+                                    {isSending ? (
+                                        <Loader2 className="h-6 w-6 animate-spin" />
+                                    ) : (
+                                        <Send className="h-6 w-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform stroke-[2.5]" />
+                                    )}
                                 </Button>
                             </div>
                         </div>
@@ -247,12 +242,9 @@ export default function WhatsApp() {
                         <div className="text-center space-y-2">
                             <h3 className="h3-brand">MarkFace Omnichannel</h3>
                             <p className="body-brand text-muted-foreground opacity-60 max-w-[300px]">
-                                Selecione uma conversa ao lado para iniciar o atendimento centralizado.
+                                Selecione uma conversa ao lado para iniciar o atendimento real via WhatsApp.
                             </p>
                         </div>
-                        <Button variant="secondary" className="rounded-2xl px-8 h-12 label-brand bg-primary/10 text-primary border-none shadow-none hover:bg-primary hover:text-white transition-all">
-                            Nova Conversa
-                        </Button>
                     </div>
                 )}
             </div>
