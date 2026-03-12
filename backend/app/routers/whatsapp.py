@@ -41,6 +41,13 @@ async def verify_webhook(
     log.error("Webhook verification failed", mode=mode, token=verify_token)
     raise HTTPException(status_code=403, detail="Verification failed")
 
+def standardize_phone(phone: str) -> str:
+    """Standardize phone numbers to include 55 prefix if missing (assuming Brazil)."""
+    digits = "".join(filter(str.isdigit, phone))
+    if len(digits) == 11 and not digits.startswith("55"):
+        return f"55{digits}"
+    return digits
+
 @router.post("/webhook")
 async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
     """
@@ -50,28 +57,32 @@ async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
         data = await request.json()
         log.debug("WhatsApp Webhook received", data=data)
         
-        # Meta sends notifications in a nested structure
         for entry in data.get("entry", []):
             for change in entry.get("changes", []):
                 value = change.get("value", {})
                 
                 # Check for incoming messages
                 for msg in value.get("messages", []):
-                    from_phone = msg.get("from")
+                    from_phone = standardize_phone(msg.get("from"))
                     wa_id = msg.get("id")
                     body = msg.get("text", {}).get("body", "")
                     wa_ts = msg.get("timestamp")
                     
-                    # Convert timestamp strings to datetime
+                    # Idempotency: Check if message already exists
+                    stmt = select(WhatsAppMessage).where(WhatsAppMessage.wa_id == wa_id)
+                    res = await db.execute(stmt)
+                    if res.scalar_one_or_none():
+                        continue
+
+                    # Convert timestamp
                     wa_datetime = None
                     if wa_ts:
                         wa_datetime = datetime.fromtimestamp(int(wa_ts), tz=timezone.utc)
                     
-                    # Save inbound message
                     new_msg = WhatsAppMessage(
                         wa_id=wa_id,
                         from_phone=from_phone,
-                        to_phone=settings.WHATSAPP_PHONE_NUMBER_ID, # Our business number ID
+                        to_phone=settings.WHATSAPP_PHONE_NUMBER_ID,
                         body=body,
                         direction="inbound",
                         status="received",
@@ -80,12 +91,11 @@ async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
                     db.add(new_msg)
                     log.info("Inbound WhatsApp message saved", from_phone=from_phone, wa_id=wa_id)
                 
-                # Check for status updates (sent, delivered, read)
+                # Check for status updates
                 for status_update in value.get("statuses", []):
                     wa_id = status_update.get("id")
                     new_status = status_update.get("status")
                     
-                    # Update status in DB if message exists
                     stmt = select(WhatsAppMessage).where(WhatsAppMessage.wa_id == wa_id)
                     res = await db.execute(stmt)
                     existing_msg = res.scalar_one_or_none()
@@ -97,7 +107,7 @@ async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
         return {"status": "ok"}
     except Exception as e:
         log.error("Error processing WhatsApp webhook", error=str(e))
-        # Always return 200 to Meta to avoid retries if the error is on our side
+        await db.rollback()
         return {"status": "error", "message": str(e)}
 
 @router.get("/history/{phone_number}", response_model=List[MessageSchema])
@@ -109,10 +119,10 @@ async def get_chat_history(
     """
     Fetch message history for a specific contact.
     """
-    # Clean the phone number to match how we store it
-    clean_phone = "".join(filter(str.isdigit, phone_number))
+    clean_phone = standardize_phone(phone_number)
     
     # Fetch messages where phone matches either from or to
+    # We use a loose match or just the cleaned number
     stmt = select(WhatsAppMessage).where(
         (WhatsAppMessage.from_phone == clean_phone) | 
         (WhatsAppMessage.to_phone == clean_phone)
@@ -148,7 +158,7 @@ async def send_message(
         "Content-Type": "application/json"
     }
     
-    clean_to = "".join(filter(str.isdigit, payload.to))
+    clean_to = standardize_phone(payload.to)
     
     body = {
         "messaging_product": "whatsapp",
@@ -167,10 +177,11 @@ async def send_message(
             response_data = response.json()
             
             if response.status_code != 200:
-                log.error("Failed to send WhatsApp message", status=response.status_code, error=response_data)
+                error_msg = response_data.get('error', {}).get('message', 'Unknown error')
+                log.error("Failed to send WhatsApp message", status=response.status_code, error=error_msg)
                 raise HTTPException(
                     status_code=response.status_code,
-                    detail=f"WhatsApp API Error: {response_data.get('error', {}).get('message', 'Unknown error')}"
+                    detail=f"Meta API Error: {error_msg}"
                 )
             
             # Save outbound message to DB
@@ -190,6 +201,8 @@ async def send_message(
             log.info("WhatsApp message sent and saved", to=clean_to, wa_id=wa_id)
             return response_data
             
-        except httpx.RequestError as exc:
-            log.error("HTTP Request failed", error=str(exc))
-            raise HTTPException(status_code=500, detail=f"Request to WhatsApp API failed: {str(exc)}")
+        except HTTPException:
+            raise
+        except Exception as exc:
+            log.error("WhatsApp Send Error", error=str(exc))
+            raise HTTPException(status_code=500, detail=f"Erro interno ao enviar para o WhatsApp: {str(exc)}")
