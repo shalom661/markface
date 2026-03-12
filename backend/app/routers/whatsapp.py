@@ -11,6 +11,7 @@ from app.core.logging import get_logger
 from app.core.deps import get_current_user, get_db
 from app.models.user import User
 from app.models.whatsapp_message import WhatsAppMessage
+from app.models.whatsapp_event import WhatsAppEvent
 
 router = APIRouter(prefix="/whatsapp", tags=["WhatsApp"])
 log = get_logger(__name__)
