@@ -59,11 +59,6 @@ if "ssl=" not in _db_url:
     separator = "&" if "?" in _db_url else "?"
     _db_url += f"{separator}ssl=require"
 
-# Ensure prepared_statements=false for PgBouncer / Vercel
-if "prepared_statements=" not in _db_url:
-    separator = "&" if "?" in _db_url else "?"
-    _db_url += f"{separator}prepared_statements=false"
-
 # Vercel / Supabase (PgBouncer) safe configuration
 # We must disable prepared statements because PgBouncer in transaction mode
 # doesn't support them.
