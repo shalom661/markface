@@ -19,6 +19,7 @@ class Product(UUIDMixin, TimestampMixin, Base):
 
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    images: Mapped[list[str] | None] = mapped_column(JSONBType, nullable=True, default=list)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     # Manufacturing & Sourcing Fields
@@ -62,6 +63,7 @@ class ProductVariant(UUIDMixin, Base):
     height: Mapped[Decimal | None] = mapped_column(Numeric(10, 3), nullable=True)
     width: Mapped[Decimal | None] = mapped_column(Numeric(10, 3), nullable=True)
     length: Mapped[Decimal | None] = mapped_column(Numeric(10, 3), nullable=True)
+    image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     # Relationships

@@ -44,6 +44,7 @@ class VariantCreate(BaseModel):
     height: Decimal | None = Field(default=None, ge=0)
     width: Decimal | None = Field(default=None, ge=0)
     length: Decimal | None = Field(default=None, ge=0)
+    image_url: str | None = Field(default=None, max_length=500)
     active: bool = True
     
     # BOM per variant
@@ -59,6 +60,7 @@ class VariantUpdate(BaseModel):
     height: Decimal | None = Field(default=None, ge=0)
     width: Decimal | None = Field(default=None, ge=0)
     length: Decimal | None = Field(default=None, ge=0)
+    image_url: str | None = Field(default=None, max_length=500)
     active: bool | None = None
     
     # BOM updates
@@ -75,6 +77,7 @@ class VariantRead(BaseModel):
     height: Decimal | None
     width: Decimal | None
     length: Decimal | None
+    image_url: str | None
     active: bool
     
     # Relationships
@@ -88,6 +91,7 @@ class VariantRead(BaseModel):
 class ProductCreate(BaseModel):
     name: str = Field(min_length=1, max_length=255)
     description: str | None = None
+    images: list[str] | None = Field(default_factory=list)
     active: bool = True
     
     # Manufacturing
@@ -108,6 +112,7 @@ class ProductCreate(BaseModel):
 class ProductUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=255)
     description: str | None = None
+    images: list[str] | None = None
     active: bool | None = None
 
     # Manufacturing
@@ -123,6 +128,7 @@ class ProductRead(BaseModel):
     id: uuid.UUID
     name: str
     description: str | None
+    images: list[str] | None
     active: bool
     
     # Manufacturing
