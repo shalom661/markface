@@ -242,9 +242,11 @@ async def send_message(
             if response.status_code != 200:
                 error_msg = response_data.get('error', {}).get('message', 'Erro desconhecido na Meta API')
                 log.error("Failed to send WhatsApp message", status=response.status_code, error=error_msg)
+                # We return 400 instead of 401 to avoid triggering the frontend login redirect
+                # but we keep the original error message.
                 raise HTTPException(
-                    status_code=response.status_code,
-                    detail=f"Meta API Error: {error_msg}"
+                    status_code=400,
+                    detail=f"Erro na Meta API: {error_msg}"
                 )
             
             # Save outbound message to DB
