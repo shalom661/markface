@@ -1,44 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import {
-    Send,
-    MessageSquare,
-    CheckCheck,
-    Loader2,
-    Search
-} from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Send, Search, MoreVertical, Paperclip, Smile, ShieldCheck, ShieldAlert, Clock, RefreshCw } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 import api from '@/lib/api';
-import { cn } from "@/lib/utils";
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 interface Message {
-    id: number;
+    id: string;
     sender: 'me' | 'other';
     text: string;
     time: string;
+    status: 'sent' | 'delivered' | 'read' | 'received';
 }
 
-const MOCK_CONVERSATIONS = [
+interface Conversation {
+    id: string;
+    name: string;
+    phoneNumber: string;
+    lastMessage: string;
+    time: string;
+    unread: number;
+    online: boolean;
+    avatar?: string;
+}
+
+const MOCK_CONVERSATIONS: Conversation[] = [
     {
         id: '1',
-        name: 'Carlos Oliveira',
-        phoneNumber: '5511999999999', // Exemplo
-        lastMessage: 'Confirmado o envio do pedido 452',
-        time: '14:20',
-        unread: 2,
-        online: true,
-        avatar: 'CO'
-    },
-    {
-        id: '2',
         name: 'Cliente Teste',
-        phoneNumber: '5511990115302', // Número para teste do usuário
-        lastMessage: 'Qual o valor total com o frete?',
-        time: '12:05',
+        phoneNumber: '5511990115302',
+        lastMessage: 'Sincronizado com Meta API',
+        time: format(new Date(), 'HH:mm'),
         unread: 0,
-        online: false,
+        online: true,
         avatar: 'CT'
     }
 ];
@@ -48,72 +48,80 @@ export default function WhatsApp() {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Message[]>([]);
     const [isSending, setIsSending] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [connectionStatus, setConnectionStatus] = useState<'online' | 'error' | 'checking'>('checking');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const { toast } = useToast();
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const activeChat = MOCK_CONVERSATIONS.find(c => c.id === selectedId);
 
-    // Fetch history when activeChat changes
-    useEffect(() => {
-        const fetchHistory = async () => {
-            if (!activeChat) return;
+    const fetchHistory = useCallback(async (showLoading = false) => {
+        if (!activeChat) return;
+        if (showLoading) setIsLoading(true);
 
-            try {
-                const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
-                setMessages(response.data);
-            } catch (error) {
-                console.error("Erro ao carregar histórico:", error);
+        try {
+            const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
+            setMessages(response.data);
+            setConnectionStatus('online');
+            setErrorMessage(null);
+        } catch (error: any) {
+            console.error("Erro ao carregar histórico:", error);
+            if (error.response?.status === 400) {
+                setConnectionStatus('error');
+                setErrorMessage("Erro na Meta Cloud API. Verifique seu token.");
             }
-        };
+        } finally {
+            if (showLoading) setIsLoading(false);
+        }
+    }, [activeChat]);
 
-        fetchHistory();
-    }, [selectedId, activeChat]);
-
-    // Live polling for new messages every 2 seconds
+    // Initial Load
     useEffect(() => {
-        const interval = setInterval(async () => {
-            if (!activeChat || isSending) return;
+        fetchHistory(true);
+    }, [fetchHistory]);
 
-            try {
-                const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
-                if (response.data.length !== messages.length) {
-                    setMessages(response.data);
-                }
-            } catch (error) {
-                console.error("Erro no polling de mensagens:", error);
-            }
+    // Real-time Sync (2s Polling)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (!isSending) fetchHistory(false);
         }, 2000);
-
         return () => clearInterval(interval);
-    }, [selectedId, activeChat, messages.length, isSending]);
+    }, [fetchHistory, isSending]);
+
+    // Auto Scroll
+    useEffect(() => {
+        if (scrollRef.current) {
+            const scrollContainer = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
+            if (scrollContainer) {
+                scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            }
+        }
+    }, [messages]);
 
     const handleSendMessage = async () => {
         if (!message.trim() || !activeChat || isSending) return;
 
         setIsSending(true);
-        const currentMessage = message;
-        setMessage(''); // Clear input immediately for better UX
+        const textToSend = message;
+        setMessage('');
 
         try {
             await api.post('/whatsapp/send', {
                 to: activeChat.phoneNumber,
-                message: currentMessage
+                message: textToSend
             });
-
-            // Re-fetch history to get the official message state from DB
-            const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
-            setMessages(response.data);
-
-            toast({
-                title: "Mensagem enviada",
-                description: "Sua mensagem foi entregue com sucesso.",
-            });
+            await fetchHistory(false);
         } catch (error: any) {
-            console.error("Erro ao enviar mensagem:", error);
-            setMessage(currentMessage); // Restore message on error
+            console.error("Erro ao enviar:", error);
+            const detail = error.response?.data?.detail || "Erro ao conectar com a Meta.";
+            setErrorMessage(detail);
+            setConnectionStatus('error');
+            setMessage(textToSend); // Restore text
             toast({
                 variant: "destructive",
-                title: "Erro ao enviar",
-                description: error.response?.data?.detail || "Não foi possível enviar a mensagem.",
+                title: "Falha no envio",
+                description: detail
             });
         } finally {
             setIsSending(false);
@@ -121,162 +129,186 @@ export default function WhatsApp() {
     };
 
     return (
-        <div className="h-full w-full overflow-hidden border-none shadow-none flex animate-in fade-in duration-700">
-            {/* Sidebar Conversas */}
-            <div className="w-full lg:w-[400px] border-r border-white/5 flex flex-col bg-white/[0.02]">
-                <div className="p-8 space-y-6">
+        <div className="flex h-[calc(100vh-64px)] w-full overflow-hidden bg-[#0a0a0a]">
+            {/* Sidebar */}
+            <div className="w-80 border-r border-white/5 flex flex-col bg-[#0f0f0f]">
+                <div className="p-4 border-b border-white/5 space-y-4">
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <h2 className="h2-brand flex items-center gap-2">
-                                <MessageSquare className="h-6 w-6 text-primary" />
-                                Mensagens
-                            </h2>
-                            <Badge className="bg-primary/20 text-primary border-none shadow-none">Integração Ativa</Badge>
-                        </div>
+                        <h2 className="text-xl font-bold text-white">Conversas</h2>
+                        <Button variant="ghost" size="icon" className="text-white/50 hover:text-white">
+                            <MoreVertical className="w-5 h-5" />
+                        </Button>
                     </div>
-
-                    <div className="relative group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                         <Input
-                            placeholder="Buscar cliente ou conversa..."
-                            className="pl-12 h-14 bg-white/5 border-none rounded-2xl focus-visible:ring-1 focus-visible:ring-primary/30 transition-all shadow-inner"
+                            placeholder="Buscar contato..."
+                            className="bg-white/5 border-none pl-10 text-white placeholder:text-white/20 focus-visible:ring-1 focus-visible:ring-blue-500"
                         />
                     </div>
                 </div>
 
-                <div className="flex-1 overflow-y-auto px-4 space-y-2 custom-scrollbar">
+                <ScrollArea className="flex-1">
                     {MOCK_CONVERSATIONS.map((chat) => (
-                        <button
+                        <div
                             key={chat.id}
                             onClick={() => setSelectedId(chat.id)}
-                            className={cn(
-                                "w-full flex items-center gap-4 p-5 rounded-[2rem] transition-all duration-300 group",
-                                selectedId === chat.id
-                                    ? "bg-primary shadow-2xl shadow-primary/20"
-                                    : "hover:bg-white/5 border border-transparent hover:border-white/5"
-                            )}
+                            className={`p-4 flex items-center gap-3 cursor-pointer transition-colors ${selectedId === chat.id ? 'bg-blue-500/10 border-l-2 border-blue-500' : 'hover:bg-white/5 border-l-2 border-transparent'
+                                }`}
                         >
-                            <div className="relative">
-                                <div className={cn(
-                                    "h-14 w-14 rounded-2xl flex items-center justify-center font-bold text-lg shadow-xl",
-                                    selectedId === chat.id ? "bg-white text-primary" : "bg-primary/10 text-primary"
-                                )}>
+                            <Avatar className="w-12 h-12 border border-white/10">
+                                <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-medium">
                                     {chat.avatar}
-                                </div>
-                            </div>
-
-                            <div className="flex-1 text-left overflow-hidden space-y-1">
+                                </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between">
-                                    <span className={cn(
-                                        "font-bold truncate",
-                                        selectedId === chat.id ? "text-white" : "text-foreground"
-                                    )}>
-                                        {chat.name}
-                                    </span>
+                                    <span className="font-semibold text-white truncate">{chat.name}</span>
+                                    <span className="text-[10px] text-white/40 uppercase">{chat.time}</span>
                                 </div>
-                                <p className={cn(
-                                    "text-xs truncate opacity-70",
-                                    selectedId === chat.id ? "text-white/80" : "text-muted-foreground"
-                                )}>
-                                    {chat.phoneNumber}
-                                </p>
+                                <p className="text-sm text-white/40 truncate">{chat.lastMessage}</p>
                             </div>
-                        </button>
+                        </div>
                     ))}
-                </div>
+                </ScrollArea>
             </div>
 
-            {/* Area de Chat */}
-            <div className="flex-1 flex flex-col relative overflow-hidden bg-white/[0.01]">
-                {activeChat ? (
-                    <>
-                        {/* Header do Chat */}
-                        <div className="p-8 border-b border-white/5 flex items-center justify-between bg-white/[0.02] backdrop-blur-3xl sticky top-0 z-10">
-                            <div className="flex items-center gap-4">
-                                <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold shadow-inner">
-                                    {activeChat.avatar}
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-lg leading-tight">{activeChat.name}</h3>
-                                    <span className="text-xs text-emerald-400 font-bold flex items-center gap-1.5">
-                                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                        Meta Cloud API Oficial
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Corpo do Chat */}
-                        <div className="flex-1 overflow-y-auto p-12 space-y-8 custom-scrollbar">
-                            {messages.map((msg: Message) => (
-                                <div
-                                    key={msg.id}
-                                    className={cn(
-                                        "flex group animate-in slide-in-from-bottom-2 duration-300",
-                                        msg.sender === 'me' ? "justify-end" : "justify-start"
-                                    )}
-                                >
-                                    <div className={cn(
-                                        "max-w-[70%] p-5 px-6 rounded-[2rem] shadow-2xl relative",
-                                        msg.sender === 'me'
-                                            ? "bg-primary text-white rounded-tr-sm"
-                                            : "smooth-glass rounded-tl-sm text-foreground border border-white/5"
-                                    )}>
-                                        <p className="text-sm leading-relaxed tracking-wide font-medium">{msg.text}</p>
-                                        <div className={cn(
-                                            "flex items-center justify-end gap-1.5 mt-2 opacity-60",
-                                            msg.sender === 'me' ? "text-white/70" : "text-muted-foreground"
-                                        )}>
-                                            <span className="text-[10px] font-bold">{msg.time}</span>
-                                            {msg.sender === 'me' && <CheckCheck className="h-3 w-3 text-emerald-300" />}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Input de Mensagem */}
-                        <div className="p-8 pb-10 bg-white/[0.02] backdrop-blur-3xl border-t border-white/5">
-                            <div className="flex items-end gap-4 max-w-5xl mx-auto">
-                                <div className="flex-1 relative">
-                                    <Input
-                                        value={message}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
-                                        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handleSendMessage()}
-                                        placeholder="Digite sua mensagem para o cliente..."
-                                        disabled={isSending}
-                                        className="h-16 pr-16 bg-white/5 border-none rounded-3xl focus-visible:ring-1 focus-visible:ring-primary/20 transition-all shadow-inner text-base"
-                                    />
-                                </div>
-                                <Button
-                                    onClick={handleSendMessage}
-                                    disabled={isSending || !message.trim()}
-                                    className="h-16 w-16 rounded-3xl bg-primary text-primary-foreground shadow-2xl shadow-primary/40 hover:scale-105 active:scale-95 transition-all group"
-                                >
-                                    {isSending ? (
-                                        <Loader2 className="h-6 w-6 animate-spin" />
+            {/* Chat Area */}
+            {activeChat ? (
+                <div className="flex-1 flex flex-col relative">
+                    {/* Header */}
+                    <div className="h-16 border-b border-white/5 flex items-center justify-between px-6 bg-[#0f0f0f]/80 backdrop-blur-md z-10">
+                        <div className="flex items-center gap-3">
+                            <Avatar className="w-10 h-10 border border-white/10">
+                                <AvatarFallback className="bg-blue-600 text-white text-xs">{activeChat.avatar}</AvatarFallback>
+                            </Avatar>
+                            <div className="flex flex-col">
+                                <span className="font-semibold text-white">{activeChat.name}</span>
+                                <div className="flex items-center gap-1.5">
+                                    {connectionStatus === 'online' ? (
+                                        <Badge variant="outline" className="h-4 px-1.5 text-[9px] border-green-500/30 bg-green-500/10 text-green-500 gap-1 flex">
+                                            <ShieldCheck className="w-2.5 h-2.5" /> Meta Cloud API Oficial
+                                        </Badge>
+                                    ) : connectionStatus === 'error' ? (
+                                        <Badge variant="outline" className="h-4 px-1.5 text-[9px] border-red-500/30 bg-red-500/10 text-red-500 gap-1 flex">
+                                            <ShieldAlert className="w-2.5 h-2.5" /> Conexão Meta Expirada
+                                        </Badge>
                                     ) : (
-                                        <Send className="h-6 w-6 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform stroke-[2.5]" />
+                                        <Badge variant="outline" className="h-4 px-1.5 text-[9px] border-white/10 bg-white/5 text-white/40 gap-1 flex animate-pulse">
+                                            <RefreshCw className="w-2.5 h-2.5 animate-spin" /> Verificando...
+                                        </Badge>
                                     )}
-                                </Button>
+                                </div>
                             </div>
-                        </div>
-                    </>
-                ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center p-12 space-y-8 animate-in fade-in zoom-in-95 duration-1000">
-                        <div className="h-32 w-32 rounded-[2.5rem] bg-primary/5 flex items-center justify-center relative">
-                            <div className="absolute inset-0 rounded-[2.5rem] bg-primary animate-pulse opacity-10" />
-                            <MessageSquare className="h-16 w-16 text-primary" />
-                        </div>
-                        <div className="text-center space-y-2">
-                            <h3 className="h3-brand">MarkFace Omnichannel</h3>
-                            <p className="body-brand text-muted-foreground opacity-60 max-w-[300px]">
-                                Selecione uma conversa ao lado para iniciar o atendimento real via WhatsApp.
-                            </p>
                         </div>
                     </div>
-                )}
-            </div>
+
+                    {/* Messages */}
+                    <ScrollArea ref={scrollRef} className="flex-1 p-6 bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] bg-repeat opacity-[0.03] absolute inset-0 pt-16 pb-20 pointer-events-none" />
+
+                    <ScrollArea ref={scrollRef} className="flex-1 p-6 pt-20 pb-24 z-0">
+                        <div className="max-w-4xl mx-auto space-y-4">
+                            {/* History Alert */}
+                            <div className="flex justify-center mb-8">
+                                <div className="bg-white/5 border border-white/10 rounded-full px-4 py-1.5 flex items-center gap-2">
+                                    <Clock className="w-3 h-3 text-white/40" />
+                                    <span className="text-[10px] text-white/40 uppercase font-medium tracking-wider">Início do histórico seguro no Hub</span>
+                                </div>
+                            </div>
+
+                            {isLoading ? (
+                                <div className="flex flex-col items-center justify-center py-20 gap-4 opacity-50">
+                                    <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
+                                    <p className="text-white/40 text-sm italic">Sincronizando com a Meta...</p>
+                                </div>
+                            ) : messages.length === 0 ? (
+                                <div className="text-center py-20 opacity-30">
+                                    <Smile className="w-12 h-12 mx-auto mb-4" />
+                                    <p className="text-white">Nenhuma mensagem registrada ainda.</p>
+                                    <p className="text-xs">As conversas aparecem aqui conforme são sincronizadas.</p>
+                                </div>
+                            ) : (
+                                messages.map((msg) => (
+                                    <div key={msg.id} className={`flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
+                                        <div className={`max-w-[70%] group relative px-4 py-2.5 rounded-2xl ${msg.sender === 'me'
+                                                ? 'bg-blue-600 text-white rounded-tr-none'
+                                                : 'bg-[#1e1e1e] text-white/90 rounded-tl-none border border-white/5'
+                                            }`}>
+                                            <p className="text-sm leading-relaxed">{msg.text}</p>
+                                            <div className="flex items-center justify-end gap-1.5 mt-1 opacity-50">
+                                                <span className="text-[9px] uppercase">{msg.time}</span>
+                                                {msg.sender === 'me' && (
+                                                    <span className="text-[10px]">✓✓</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </ScrollArea>
+
+                    {/* Meta Error Banner */}
+                    {errorMessage && connectionStatus === 'error' && (
+                        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 w-full max-w-lg px-6 z-20">
+                            <Card className="bg-red-500/10 border-red-500/20 backdrop-blur-md p-3 flex items-center gap-3">
+                                <ShieldAlert className="w-5 h-5 text-red-500 shrink-0" />
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-xs font-semibold text-red-500">Erro de Sincronia</p>
+                                    <p className="text-[10px] text-red-500/70 truncate">{errorMessage}</p>
+                                </div>
+                                <Button size="sm" variant="ghost" className="text-[10px] text-red-500 hover:bg-red-500/10 h-7" asChild>
+                                    <a href="/api/v1/whatsapp/debug" target="_blank">Debug</a>
+                                </Button>
+                            </Card>
+                        </div>
+                    )}
+
+                    {/* Input Area */}
+                    <div className="p-4 bg-[#0f0f0f]/80 backdrop-blur-md border-t border-white/5 space-y-4 z-10">
+                        <div className="max-w-4xl mx-auto flex items-center gap-3">
+                            <Button variant="ghost" size="icon" className="text-white/30 hover:text-white shrink-0">
+                                <Paperclip className="w-5 h-5" />
+                            </Button>
+                            <div className="flex-1 relative">
+                                <Input
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                                    placeholder="Escreva sua mensagem..."
+                                    className="bg-white/5 border-none text-white placeholder:text-white/20 h-11 pr-12 focus-visible:ring-1 focus-visible:ring-blue-500"
+                                />
+                                <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 text-white/20 hover:text-white">
+                                    <Smile className="w-5 h-5" />
+                                </Button>
+                            </div>
+                            <Button
+                                onClick={handleSendMessage}
+                                disabled={!message.trim() || isSending || connectionStatus === 'error'}
+                                className="bg-blue-600 hover:bg-blue-500 text-white px-6 h-11 rounded-xl transition-all shadow-lg active:scale-95 disabled:scale-100 disabled:opacity-50"
+                            >
+                                {isSending ? (
+                                    <RefreshCw className="w-5 h-5 animate-spin" />
+                                ) : (
+                                    <Send className="w-5 h-5" />
+                                )}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <div className="flex-1 flex items-center justify-center bg-[#0a0a0a]">
+                    <div className="text-center space-y-4 opacity-20">
+                        <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto">
+                            <ShieldCheck className="w-8 h-8 text-white" />
+                        </div>
+                        <h3 className="text-xl font-medium text-white">Mensagens Criptografadas</h3>
+                        <p className="text-sm max-w-xs text-white/60">
+                            Selecione um contato para sincronizar sua conversa oficial através da Meta Cloud API.
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
