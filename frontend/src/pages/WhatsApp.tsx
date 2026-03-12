@@ -68,21 +68,20 @@ export default function WhatsApp() {
         fetchHistory();
     }, [selectedId, activeChat]);
 
-    // Simple polling for new messages every 5 seconds
+    // Live polling for new messages every 2 seconds
     useEffect(() => {
         const interval = setInterval(async () => {
             if (!activeChat || isSending) return;
 
             try {
                 const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
-                // Simple check: if length changed, update. In a real app, you'd check IDs.
                 if (response.data.length !== messages.length) {
                     setMessages(response.data);
                 }
             } catch (error) {
                 console.error("Erro no polling de mensagens:", error);
             }
-        }, 5000);
+        }, 2000);
 
         return () => clearInterval(interval);
     }, [selectedId, activeChat, messages.length, isSending]);
