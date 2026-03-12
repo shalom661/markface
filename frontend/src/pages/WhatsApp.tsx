@@ -48,7 +48,6 @@ export default function WhatsApp() {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Message[]>([]);
     const [isSending, setIsSending] = useState(false);
-    const [isLoadingHistory, setIsLoadingHistory] = useState(false);
     const { toast } = useToast();
 
     const activeChat = MOCK_CONVERSATIONS.find(c => c.id === selectedId);
@@ -58,14 +57,11 @@ export default function WhatsApp() {
         const fetchHistory = async () => {
             if (!activeChat) return;
 
-            setIsLoadingHistory(true);
             try {
                 const response = await api.get(`/whatsapp/history/${activeChat.phoneNumber}`);
                 setMessages(response.data);
             } catch (error) {
                 console.error("Erro ao carregar histórico:", error);
-            } finally {
-                setIsLoadingHistory(false);
             }
         };
 
