@@ -133,4 +133,17 @@
   .label-brand {
     @apply text-[10px] font-black uppercase tracking-widest italic;
   }
+
+  /* Hide scrollbars but allow scrolling */
+  .custom-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari and Opera */
+  }
 }
