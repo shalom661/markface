@@ -57,16 +57,29 @@ async def debug_whatsapp(db: AsyncSession = Depends(get_db)):
         res = await db.execute(text("SELECT COUNT(*) FROM whatsapp_messages"))
         count = res.scalar()
         
+        # Check Last Events
+        res_events = await db.execute(
+            select(WhatsAppEvent).order_by(WhatsAppEvent.created_at.desc()).limit(5)
+        )
+        events = res_events.scalars().all()
+        
         return {
             "status": "online",
             "database": {
-                "table_exists": True,
-                "message_count": count
+                "message_count": count,
+                "event_count": len(events)
             },
+            "last_events": [
+                {
+                    "id": str(e.id),
+                    "timestamp": e.created_at.isoformat(),
+                    "payload_preview": str(e.payload)[:200]
+                }
+                for e in events
+            ],
             "config": {
                 "token_set": bool(settings.WHATSAPP_TOKEN),
-                "phone_id_set": bool(settings.WHATSAPP_PHONE_NUMBER_ID),
-                "business_id_set": bool(settings.WHATSAPP_BUSINESS_ACCOUNT_ID),
+                "phone_id_set": settings.WHATSAPP_PHONE_NUMBER_ID,
                 "api_version": settings.WHATSAPP_API_VERSION,
                 "verify_token": settings.WHATSAPP_VERIFY_TOKEN
             }
@@ -75,9 +88,7 @@ async def debug_whatsapp(db: AsyncSession = Depends(get_db)):
         return {
             "status": "error",
             "error": str(e),
-            "config_preview": {
-                "token_prefix": settings.WHATSAPP_TOKEN[:10] if settings.WHATSAPP_TOKEN else "None"
-            }
+            "traceback": traceback.format_exc()
         }
 
 @router.post("/webhook")
@@ -87,7 +98,14 @@ async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
     """
     try:
         data = await request.json()
-        log.info("WhatsApp Webhook received", data=data) # Changed to info for visibility
+        
+        # LOG RAW EVENT FOR DEBUGGING
+        new_event = WhatsAppEvent(
+            payload=data,
+            event_type="webhook_hit"
+        )
+        db.add(new_event)
+        await db.flush() # Ensure it gets an ID but don't commit yet
         
         for entry in data.get("entry", []):
             for change in entry.get("changes", []):
@@ -100,14 +118,12 @@ async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
                     body = msg.get("text", {}).get("body", "")
                     wa_ts = msg.get("timestamp")
                     
-                    # Idempotency: Check if message already exists
+                    # Idempotency
                     stmt = select(WhatsAppMessage).where(WhatsAppMessage.wa_id == wa_id)
                     res = await db.execute(stmt)
                     if res.scalar_one_or_none():
-                        log.debug("Duplicate message received, skipping", wa_id=wa_id)
                         continue
 
-                    # Convert timestamp
                     wa_datetime = None
                     if wa_ts:
                         wa_datetime = datetime.fromtimestamp(int(wa_ts), tz=timezone.utc)
@@ -134,15 +150,20 @@ async def receive_webhook(request: Request, db: AsyncSession = Depends(get_db)):
                     existing_msg = res.scalar_one_or_none()
                     if existing_msg:
                         existing_msg.status = new_status
-                        log.debug("WhatsApp status updated", wa_id=wa_id, status=new_status)
 
         await db.commit()
         return {"status": "ok"}
     except Exception as e:
-        log.error("CRITICAL error in WhatsApp webhook", error=str(e), traceback=traceback.format_exc())
+        log.error("CRITICAL error in WhatsApp webhook", error=str(e))
         await db.rollback()
-        # Return 200 to Meta so they stop retrying a broken payload, 
-        # but technically we should fix the parsing
+        # Log the error into a standalone event if possible
+        try:
+            async with AsyncSessionLocal() as error_db:
+                err_event = WhatsAppEvent(payload={"error": str(e)}, event_type="webhook_error")
+                error_db.add(err_event)
+                await error_db.commit()
+        except:
+            pass
         return {"status": "error", "message": str(e)}
 
 @router.get("/history/{phone_number}", response_model=List[MessageSchema])

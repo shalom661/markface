@@ -1,30 +1,18 @@
+
 import asyncio
-import os
-import sys
-
-# Add backend to path
-sys.path.append(os.getcwd())
-
+from sqlalchemy import text
 from app.db.session import AsyncSessionLocal
-from app.models.raw_material import RawMaterial
-from app.models.product_material import ProductMaterial
-from sqlalchemy import select
 
-async def check():
-    async with AsyncSessionLocal() as db:
-        # Check some materials
-        res = await db.execute(select(RawMaterial).limit(5))
-        materials = res.scalars().all()
-        print("--- Materials ---")
-        for m in materials:
-            print(f"ID: {m.id}, Desc: {m.description}, Unit: {m.unit}, Price: {m.last_unit_price}")
-        
-        # Check some BOMs
-        res = await db.execute(select(ProductMaterial).limit(5))
-        boms = res.scalars().all()
-        print("--- BOMs ---")
-        for b in boms:
-            print(f"Variant: {b.variant_id}, Mat: {b.raw_material_id}, Qty: {b.quantity}, UnitOverride: {b.unit_override}")
+async def check_data():
+    async with AsyncSessionLocal() as session:
+        try:
+            result = await session.execute(text("SELECT id, from_phone, to_phone, direction, body FROM whatsapp_messages;"))
+            rows = result.fetchall()
+            print(f"Messages in DB ({len(rows)}):")
+            for row in rows:
+                print(f"ID: {row[0]}, From: {row[1]}, To: {row[2]}, Dir: {row[3]}, Body: {row[4][:20]}...")
+        except Exception as e:
+            print(f"Error checking data: {e}")
 
 if __name__ == "__main__":
-    asyncio.run(check())
+    asyncio.run(check_data())

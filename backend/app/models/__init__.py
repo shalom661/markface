@@ -14,11 +14,12 @@ from app.models.product_material import ProductMaterial
 from app.models.finance import FixedCost, SalesModality
 from app.models.purchase import Purchase, PurchaseItem
 from app.models.whatsapp_message import WhatsAppMessage
+from app.models.whatsapp_event import WhatsAppEvent
 
 __all__ = [
     "User", "Product", "ProductVariant", "Inventory", "EventLog",
     "Order", "OrderItem", "InventoryMovement", "WebhookEvent",
     "Supplier", "RawMaterial", "Customer", "RawMaterialCategory", "MeasurementUnit",
     "ProductMaterial", "FixedCost", "SalesModality", "Purchase", "PurchaseItem",
-    "WhatsAppMessage",
+    "WhatsAppMessage", "WhatsAppEvent",
 ]
