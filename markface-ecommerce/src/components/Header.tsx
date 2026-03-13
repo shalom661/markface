@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -46,7 +48,7 @@ const Header = () => {
             </button>
             <Link href="/cart" className="p-2 hover:bg-primary/10 rounded-full transition-colors relative">
               <span className="material-symbols-outlined">shopping_bag</span>
-              <span className="absolute top-1 right-1 bg-primary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">2</span>
+              <span className="absolute top-1 right-1 bg-primary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">0</span>
             </Link>
             <button className="p-2 hover:bg-primary/10 rounded-full transition-colors">
               <span className="material-symbols-outlined">person</span>

@@ -67,7 +67,7 @@ const ProductCard = ({ product, label }: ProductCardProps) => {
 
       <div className="mt-4 flex justify-between">
         <div>
-          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary transition-colors">
+          <h3 className="text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">
             {product.name}
           </h3>
           <p className="text-xs font-medium text-slate-500">{categoryLabel}</p>
@@ -78,7 +78,7 @@ const ProductCard = ({ product, label }: ProductCardProps) => {
       </div>
 
       <div className="mt-2 flex gap-1">
-        <span className="h-3 w-3 rounded-full bg-[#f8f6f6] border border-slate-200"></span>
+        <span className="h-3 w-3 rounded-full bg-white border border-slate-200"></span>
         <span className="h-3 w-3 rounded-full bg-[#2b2d42]"></span>
         <span className="h-3 w-3 rounded-full bg-[#e8305e]"></span>
       </div>

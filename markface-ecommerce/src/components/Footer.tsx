@@ -1,8 +1,6 @@
 import Link from 'next/link';
 
-const Footer = () => {
-  return (
-    <footer className="bg-white dark:bg-background-dark/50 border-t border-primary/10 px-4 md:px-20 py-16">
+    <footer className="bg-white border-t border-primary/10 px-4 md:px-20 py-16">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 mb-16">
           <div className="col-span-2">
@@ -10,13 +8,13 @@ const Footer = () => {
               <div className="p-2 bg-primary rounded-lg text-white">
                 <span className="material-symbols-outlined text-xl">bedtime</span>
               </div>
-              <h2 className="text-xl font-black text-slate-900 dark:text-slate-100">Mark Face</h2>
+              <h2 className="text-xl font-black text-slate-900">Mark Face</h2>
             </div>
             <p className="text-slate-500 max-w-xs mb-6 leading-relaxed text-sm">
               Criando os pijamas mais confortáveis do mundo desde 2012. Materiais de qualidade, produção ética e design atemporal.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 flex items-center justify-center bg-white dark:bg-background-dark border border-primary/10 rounded-full hover:bg-primary hover:text-white transition-all">
+              <a href="#" className="w-10 h-10 flex items-center justify-center bg-white border border-primary/10 rounded-full hover:bg-primary hover:text-white transition-all">
                 <span className="material-symbols-outlined text-xl">share</span>
               </a>
             </div>
@@ -42,14 +40,14 @@ const Footer = () => {
           </div>
 
           <div className="col-span-2 space-y-8">
-            <div className="flex items-start gap-4 p-4 bg-white dark:bg-background-dark/30 rounded-xl border border-primary/10">
+            <div className="flex items-start gap-4 p-4 bg-white rounded-xl border border-primary/10">
               <span className="material-symbols-outlined text-3xl text-primary">local_shipping</span>
               <div>
                 <h5 className="font-bold text-sm">Frete Expresso Grátis</h5>
                 <p className="text-xs text-slate-500">Em todos os pedidos acima de R$ 500</p>
               </div>
             </div>
-            <div className="flex items-start gap-4 p-4 bg-white dark:bg-background-dark/30 rounded-xl border border-primary/10">
+            <div className="flex items-start gap-4 p-4 bg-white rounded-xl border border-primary/10">
               <span className="material-symbols-outlined text-3xl text-primary">verified</span>
               <div>
                 <h5 className="font-bold text-sm">Garantia de Qualidade</h5>
