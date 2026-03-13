@@ -154,10 +154,10 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           ].map((bar) => (
             <div key={bar.label} className="grid grid-cols-[20px_1fr_40px] items-center gap-3 text-xs">
               <p className="font-bold">{bar.label}</p>
-              <div className="h-1.5 overflow-hidden rounded-full bg-slate-200 
+              <div className="h-1.5 overflow-hidden rounded-full bg-slate-200">
                 <div className="h-full bg-primary" style={{ width: bar.width }}></div>
               </div>
-              <p className="text-[10px] text-slate-700 text-right">{bar.width}</p>
+              <p className="text-[10px] text-slate-700 text-right font-black">{bar.width}</p>
             </div>
           ))}
         </div>

@@ -42,11 +42,13 @@ const CartPage = () => {
                   <div className="flex-grow">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-lg font-bold text-slate-900 
-                        <p className="text-sm text-primary font-bold">{item.color || 'Premium Silk'}</p>
-                        <p className="text-xs text-slate-700 mt-1">Tamanho: {item.size || 'N/A'} | SKU: {item.sku}</p>
+                        <h3 className="text-lg font-black text-slate-900">
+                          {item.name}
+                        </h3>
+                        <p className="text-sm text-primary font-black">{item.color || 'Premium Silk'}</p>
+                        <p className="text-xs text-slate-700 mt-1 font-bold">Tamanho: {item.size || 'N/A'} | SKU: {item.sku}</p>
                       </div>
-                      <p className="text-lg font-bold text-slate-900 
+                      <p className="text-lg font-black text-slate-900">
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.price)}
                       </p>
                     </div>
@@ -96,19 +98,19 @@ const CartPage = () => {
           <div className="bg-white  border border-primary/10 p-8 rounded-2xl shadow-sm sticky top-28">
             <h3 className="text-xl font-bold mb-6">Resumo do Pedido</h3>
             <div className="space-y-4 mb-6 text-sm">
-              <div className="flex justify-between text-slate-600 
+              <div className="flex justify-between text-slate-700 font-bold">
                 <span>Subtotal</span>
-                <span className="font-semibold text-slate-900 
+                <span className="font-black text-slate-900">
                   {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalPrice())}
                 </span>
               </div>
-              <div className="flex justify-between text-slate-600 
+              <div className="flex justify-between text-slate-700 font-bold">
                 <span>Frete</span>
-                <span className="text-green-600 font-bold uppercase text-[10px] tracking-widest">Grátis</span>
+                <span className="text-green-600 font-black uppercase text-[10px] tracking-widest">Grátis</span>
               </div>
-              <div className="flex justify-between text-slate-600 
+              <div className="flex justify-between text-slate-700 font-bold">
                 <span>Taxas Estimadas (ISS/ICMS)</span>
-                <span className="font-semibold text-slate-900 
+                <span className="font-black text-slate-900">R$ 0,00</span>
               </div>
             </div>
             
