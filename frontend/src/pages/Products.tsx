@@ -251,6 +251,7 @@ export default function Products() {
                                             <Globe className={`h-4 w-4 ${product.is_on_website ? 'animate-pulse' : ''}`} />
                                         </button>
                                     </TableCell>
+                                    <TableCell>
                                         <div className="flex flex-wrap gap-1.5 max-w-[200px]">
                                             {product.variants.map(v => (
                                                 <div key={v.id} className="bg-primary/5 text-primary border-none label-brand text-[9px] px-1.5 rounded-md">
@@ -261,6 +262,7 @@ export default function Products() {
                                                 <span className="label-brand text-[9px] text-muted-foreground/50">Sem SKUs</span>
                                             )}
                                         </div>
+                                    </TableCell>
                                     <TableCell className="text-right px-10">
                                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
                                             <Button variant="ghost" size="icon" onClick={() => handleEdit(product.id)} className="h-8 w-8 rounded-lg hover:bg-primary/20 hover:text-primary">
