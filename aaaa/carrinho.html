@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping Cart | Mark Face</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a2a47",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#211115",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-300">
+<div class="relative flex min-h-screen flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-4 md:px-10 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="text-primary font-bold">
+<svg class="w-8 h-8" fill="currentColor" viewbox="0 0 48 48">
+<path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Mark Face</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Shop</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">New Arrivals</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Best Sellers</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-1 right-1 w-4 h-4 bg-primary text-white text-[10px] flex items-center justify-center rounded-full font-bold">2</span>
+</button>
+<button class="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 text-primary font-bold">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-7xl mx-auto w-full px-4 md:px-10 py-8 lg:py-12">
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Cart Items Section -->
+<div class="flex-grow space-y-8">
+<div class="flex items-center justify-between border-b border-primary/10 pb-6">
+<h2 class="text-3xl font-black tracking-tight">Shopping Bag</h2>
+<span class="text-slate-500 dark:text-slate-400 font-medium">2 Items</span>
+</div>
+<div class="space-y-6">
+<!-- Item 1 -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-4 rounded-xl hover:bg-primary/5 transition-colors border border-transparent hover:border-primary/10">
+<div class="w-24 h-24 sm:w-32 sm:h-32 rounded-lg bg-cover bg-center shrink-0 border border-primary/5" data-alt="Premium glass bottle of revitalizing facial serum" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBOpV9HWWL9zjg_MJO4NUpAc_8HZT3KzqcKIyzz4wcnrmPuPHl3NTfeManPc8UI51lF2alewZjg6AqXRiNNIBL4VhQmiHg4PjzXg5ctp1lewh0Y1rYG2rQpcLigxp-T1R4DzkppK7v_2muE3TuKixPTU4G-3RVjqn7zUbPcGNMwR56v5IW2nf0J5Mnb37F1_rzIIfEyblic6Jc6u6pwSZGnxrl90HXuIGtVs2Y-UsA0U0YJtwUbsFzxdEobKq9n-CfBGl_JOxkQ754T')">
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Revitalizing Serum</h3>
+<p class="text-sm text-primary font-medium font-bold">Anti-Aging Complex</p>
+<p class="text-xs text-slate-500 mt-1">30ml / 1.0 fl.oz</p>
+</div>
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100">$45.00</p>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center bg-background-light dark:bg-slate-800 rounded-full px-2 py-1 border border-primary/10">
+<button class="w-8 h-8 flex items-center justify-center hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="w-8 text-center font-bold text-sm">1</span>
+<button class="w-8 h-8 flex items-center justify-center hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors flex items-center gap-1 text-sm font-medium">
+<span class="material-symbols-outlined text-lg">delete</span>
+<span>Remove</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-4 rounded-xl hover:bg-primary/5 transition-colors border border-transparent hover:border-primary/10">
+<div class="w-24 h-24 sm:w-32 sm:h-32 rounded-lg bg-cover bg-center shrink-0 border border-primary/5" data-alt="Gentle foaming facial cleanser in minimalist tube" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9Kysnk994JMWeNljPNQrjWG87KBkRrNvenRQicZF8X8MHTUlSNeWW3sCt2t6x9eHMbHOgIMk8h2ZjZVf2TH7x4WBsuA9I7CoY0JhC8cwtNkeCrAQ_xeWnCChHflL2Ojm4KQ4uS1ZIwIm5jMts_syaC_i6pnNm77FznSLGle7bCS-z0qj0wFzpy7CTRtUOiptFMwPLsO9cDNlhpn0HflHdd8v7pWFgdqNh4BIPaw1iFfii0A1FoFtcUGX8lC9G4hNct39rEnwTenSa')">
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Gentle Cleanser</h3>
+<p class="text-sm text-primary font-medium font-bold">Sensitive Skin Formula</p>
+<p class="text-xs text-slate-500 mt-1">150ml / 5.1 fl.oz</p>
+</div>
+<p class="text-lg font-bold text-slate-900 dark:text-slate-100">$28.00</p>
+</div>
+<div class="flex items-center justify-between mt-6">
+<div class="flex items-center bg-background-light dark:bg-slate-800 rounded-full px-2 py-1 border border-primary/10">
+<button class="w-8 h-8 flex items-center justify-center hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="w-8 text-center font-bold text-sm">2</span>
+<button class="w-8 h-8 flex items-center justify-center hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+<button class="text-slate-400 hover:text-primary transition-colors flex items-center gap-1 text-sm font-medium">
+<span class="material-symbols-outlined text-lg">delete</span>
+<span>Remove</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Summary Sidebar -->
+<aside class="w-full lg:w-96 shrink-0">
+<div class="bg-white dark:bg-background-dark/40 border border-primary/10 p-8 rounded-2xl shadow-sm sticky top-28">
+<h3 class="text-xl font-bold mb-6">Order Summary</h3>
+<div class="space-y-4 mb-6">
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Subtotal</span>
+<span class="font-semibold text-slate-900 dark:text-slate-100">$101.00</span>
+</div>
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Shipping</span>
+<span class="text-green-600 font-medium">Free</span>
+</div>
+<div class="flex justify-between text-slate-600 dark:text-slate-400">
+<span>Estimated Tax</span>
+<span class="font-semibold text-slate-900 dark:text-slate-100">$8.24</span>
+</div>
+</div>
+<div class="border-t border-primary/10 pt-4 mb-8">
+<div class="flex justify-between items-end">
+<span class="text-lg font-bold">Total</span>
+<span class="text-2xl font-black text-primary font-bold">$109.24</span>
+</div>
+</div>
+<!-- Promo Code -->
+<div class="mb-8">
+<label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Promo Code</label>
+<div class="flex gap-2">
+<input class="flex-grow bg-background-light dark:bg-slate-800 border-none rounded-lg text-sm px-4 focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Enter code" type="text"/>
+<button class="bg-primary/10 text-primary font-bold px-4 py-2 rounded-lg text-sm hover:bg-primary hover:text-white transition-all">Apply</button>
+</div>
+</div>
+<button class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 mb-4 hover:bg-opacity-90">
+                            Proceed to Checkout
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2 text-xs text-slate-500 justify-center">
+<span class="material-symbols-outlined text-sm">lock</span>
+                                Secure checkout with 256-bit SSL
+                            </div>
+<div class="flex justify-center gap-4 opacity-50 grayscale hover:grayscale-0 transition-all">
+<img class="h-4" data-alt="Visa payment provider logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4_i4rzZ443D8OOIaTLFKkZjuVI8kQ4xUrNRmHKiNNfhJBcdnS_swx5YF6p074m6GydOUMmOdxUjpH1VqpIwlHLAn_XiwWeX8vbCNYLkxkPyKpWiUSJj30NqIuZVn_J48c7GCYVeLYDLU4Mo-kVi0AXQHa47pvO89cJ9S-USm-0bnN3jO1ihWeTz86AMGEjQBcItvF1CCwaHzVOyWE_m9r9vBrLPkdGcf20T5WZeLYXIK8LvrdaoNegWVctK7sSQ5PTyMYFfiQ8Qvx"/>
+<img class="h-4" data-alt="Mastercard payment provider logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8WHH7ayyFZ_0BxUyEVyZBL7VdI8Rz3GACDH-v8u6RvuWyLRdIpgL1j9ilRIdZYCKsDClzT4PHxcKBLxbM_CWIK7v0twcG4vJlKA_vjyAg2YDR4C8u5Qe6KxLOlBxa4XhGDEbWM6rZ6p_RIejOAGq2eY3wi78xqiwulQ6yXKrinWA1mAFrNRMyVqmWHdN3rrkjc2cbn2k2t3qXgGKpvZe0R_hNUhTnXoOAEGW-tMZQy16tvh7Nu34YxuFu_caa3z3tn21WGV3dgPLj"/>
+<img class="h-4" data-alt="Paypal payment provider logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9zlkJhTXOa61neJMa-Y2FlQNHSRlQEBw-f8ys_6x1T181xvNHJzhpXckbXJzqNhCfzA7vm05gqp4rzZNiS7aaRT7oEeC1owwVKH_YY5AMyiZeb58CKiJgj78Ez8MZ6TL_EB0oKo8l0Kd1eI4cJQsW86ZLjy-aMJfGPeIbeOUzBaRESh0ELy-FT6nQ-Ww5Kc68nNFEC3yyiVpXAK-VxZjJnU7D2MdsZrJcOlG-0Lu4fjhO9spBGUTsYG7Y_SobWkyAYQDVFz79t2Gm"/>
+</div>
+</div>
+</div>
+<div class="mt-6 p-6 bg-primary/5 rounded-2xl border border-primary/10 flex items-start gap-4">
+<span class="material-symbols-outlined text-primary font-bold">local_shipping</span>
+<div>
+<h4 class="text-sm font-bold">Member Benefit</h4>
+<p class="text-xs text-slate-600 dark:text-slate-400 mt-1">You're getting free standard shipping because you're a Mark Face Rewards member.</p>
+</div>
+</div>
+</aside>
+</div>
+<!-- Recently Viewed / Recommendations -->
+<section class="mt-20 border-t border-primary/10 pt-16">
+<h3 class="text-2xl font-bold mb-8">You might also like</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Recommendation Card 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden mb-4 relative">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="White plastic cream jar on neutral background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBc2weCfaBhD9wh2eZlRfrYsAyqrVlk680MX4vUST87vgzkTHYhrb2QMH51H2De8_4dBXf0TSfqC3HbEth1Ed41IN8QyjGrSqHu3rNV2ZOXXp4XThaJauX5-UsbpOXlrTEg_8o25ZBmsB7t1IT5R_zGvpv66USrVDRT-YGF1khgUKtOYPfy-2EfBy1zBevu1BsYMfqklU3howc3cOFjWxXdEBVzJoMeARA96AspfS7gt_yixVbhO7Sbp6rq8Buu9oLRg2fpUqWty1jO')"></div>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-white dark:bg-slate-900 rounded-full shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<h4 class="font-bold text-sm">Hydrating Face Mask</h4>
+<p class="text-xs text-slate-500 mt-1">$34.00</p>
+</div>
+<!-- Recommendation Card 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden mb-4 relative">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Sunscreen bottle in bright lighting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGPi5cQ-2L_54htDfWTY1jva2nVDKqYtFUcN2nCwBWkNjWoWmyr6R2cP4VgD7f3ieInmRVx20KhfeHW6mSkjsob3cuSBnsVDjvaOeA4v3qj12xbg7Y0EyR1TU8uCv-hmXF-psLrGYxPCrs8D2cHcFHpxSBdaKJFrxDRrdTUSgc9OwxMbzymg4y0UeyN9qt77wFpaXmIrlbfb3LTvKCyC70Uv85AheI7nk27gRswE010-kcHx1ED5NBWX-oxPX8TAvpph14RXwhO6_I')"></div>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-white dark:bg-slate-900 rounded-full shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<h4 class="font-bold text-sm">Daily Defense SPF 50</h4>
+<p class="text-xs text-slate-500 mt-1">$22.00</p>
+</div>
+<!-- Recommendation Card 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden mb-4 relative">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Luxury facial oil in dark pipette bottle" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHjZCAl8e-E0WlewysqYSwPluS487OZHrWQqZruep-pEaJYhsycGKsVzSnYWHLu5KntCaB5uFBiFl1b3NWSUz9iUeYQo0U1iggfPx8WZOc6Y_nLBrx1sSJRLdvXocZolLTt1RNNnfw1wQyNgY1Lu2Trn_3uY6jJEem6-u8CgVew9F0PvR2EfwoASPgrYMzih44Dm19wbBL4ZO_QyScJ57BmF6CwG68R5HnQSHw8kx5k8XnquWb-AY-oJGAv6IQZUhfrWFP_h8XzG-i')"></div>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-white dark:bg-slate-900 rounded-full shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<h4 class="font-bold text-sm">Night Repair Oil</h4>
+<p class="text-xs text-slate-500 mt-1">$52.00</p>
+</div>
+<!-- Recommendation Card 4 -->
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl bg-slate-100 dark:bg-slate-800 overflow-hidden mb-4 relative">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Scented candle in minimalist ceramic holder" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBC2iUtM9O6UhTiMZBYbLidr0BXoCFL0PXpfeq5391EjuMp5jiwBrnf07BQF6orubXVOb6QSHVu1qXbjV3EuZbcPdswrbxxkS-R34xK0gFgymkLcFxGRle6Z4gVniCMq1ZCTP8XyG1I2XzJoL7dobiCg3w5pXJ6TaBRFHMsO0-KrdA7oApopjl_DaTUOPjXgBFSWC2BCddJx3nbKtz4Ec9NPXeKw0oJ7ckiYqsYoiXfax3GgmyetgzE27cRGXq_oerOI8Mmt-RjnDUt')"></div>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-white dark:bg-slate-900 rounded-full shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</button>
+</div>
+<h4 class="font-bold text-sm">Rose Clay Mask</h4>
+<p class="text-xs text-slate-500 mt-1">$38.00</p>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-white dark:bg-background-dark/80 border-t border-primary/10 mt-auto py-12 px-4 md:px-10">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-3 grayscale opacity-60">
+<svg class="w-6 h-6 text-slate-900 dark:text-slate-100" fill="currentColor" viewbox="0 0 48 48">
+<path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z"></path>
+</svg>
+<span class="font-bold text-slate-900 dark:text-slate-100">Mark Face</span>
+</div>
+<div class="flex gap-8 text-sm font-medium text-slate-500">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Shipping &amp; Returns</a>
+<a class="hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<div class="flex gap-4">
+<a class="w-8 h-8 rounded-full border border-primary/20 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition-all" href="#">
+<span class="material-symbols-outlined text-sm">public</span>
+</a>
+<a class="w-8 h-8 rounded-full border border-primary/20 flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition-all" href="#">
+<span class="material-symbols-outlined text-sm">share</span>
+</a>
+</div>
+</div>
+<p class="text-center text-xs text-slate-400 mt-8">© 2024 Mark Face Premium Skincare. All rights reserved.</p>
+</footer>
+</div>
+</body></html>

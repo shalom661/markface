@@ -115,8 +115,8 @@ export default function Layout() {
                                 AD
                             </div>
                             <div className="text-left">
-                                <p className="text-xs font-bold tracking-tight">Administrador</p>
-                                <p className="text-[8px] text-muted-foreground font-black uppercase tracking-widest opacity-40 italic">Produção</p>
+                                <p className="text-xs font-bold tracking-tight text-foreground">Administrador</p>
+                                <p className="text-[8px] text-muted-foreground font-black uppercase tracking-widest opacity-80 italic">Produção</p>
                             </div>
                         </div>
                         <Button

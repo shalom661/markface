@@ -213,12 +213,12 @@ export default function Products() {
                                     <TableCell className="py-3 px-10">
                                         <div className="flex flex-col gap-0.5">
                                             <div
-                                                className="h3-brand text-lg text-white/90 truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer text-left"
+                                                className="h3-brand text-lg text-foreground truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer text-left"
                                                 onClick={() => handleEdit(product.id)}
                                             >
                                                 {product.name}
                                             </div>
-                                            <div className="label-brand text-muted-foreground/70 line-clamp-1 max-w-sm text-left">
+                                            <div className="label-brand text-muted-foreground line-clamp-1 max-w-sm text-left">
                                                 {product.description || 'Sem descrição técnica do produto.'}
                                             </div>
                                         </div>

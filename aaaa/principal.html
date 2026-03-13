@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1a2a47",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0d1524",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+<header class="sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-primary/5 px-4 md:px-20 py-4">
+<div class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-12">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl">bedtime</span>
+</div>
+<h2 class="text-xl font-black tracking-tight text-slate-900 dark:text-slate-100">Mark Face</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Pajamas</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Robes</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Loungewear</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Best Sellers</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-primary/5 dark:bg-primary/10 rounded-full px-4 py-2 border border-primary/10">
+<span class="material-symbols-outlined text-xl">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder:text-slate-400" placeholder="Search comfort..." type="text"/>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="p-2 hover:bg-primary/10 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="absolute top-1 right-1 bg-primary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">2</span>
+</button>
+<button class="p-2 hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<section class="px-4 md:px-20 py-8">
+<div class="relative h-[600px] w-full overflow-hidden rounded-xl bg-slate-200">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Cozy person in silk pajamas relaxing on a plush bed" style='background-image: linear-gradient(to right, rgba(33, 17, 21, 0.7), transparent), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAvfSB0_ShNDICdM05DvY7AwFJas_HeO8xEqv11lf-94nURtpnl5HRXMFYlSZXBIVstvZzRwxxka81_WGKVOezgBRnnyR_iRvJkxBD5NNmhqA7mtsABnXkRHNLpoIgE5tejL2_ijTi5yQ3O2wHstC5rs792oqapy_4u9EEdrBOVk8ud3UHbAZh9yB8ad6WJagxpmH4UCuhBYA-AHq7o1iH9J7WYdu_MWIkuzgitfAtXU9fN6MXlSh5Y-_Quq9_rIh_LBcQaQAeDWsYl");'>
+</div>
+<div class="relative h-full flex flex-col justify-center px-12 md:px-24 text-white max-w-3xl">
+<span class="bg-primary px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6 w-fit">New Season</span>
+<h1 class="text-5xl md:text-7xl font-black leading-tight mb-6">Redefine Your Nightly Ritual</h1>
+<p class="text-lg md:text-xl text-slate-200 mb-8 max-w-lg">Experience the ultimate luxury in premium silk and cloud-soft cotton. Designed for dreams that last longer.</p>
+<div class="flex gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105">Shop the Collection</button>
+<button class="bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-bold transition-all">View Lookbook</button>
+</div>
+</div>
+</div>
+</section>
+<section class="px-4 md:px-20 py-16">
+<div class="flex items-end justify-between mb-10">
+<div>
+<h2 class="text-3xl font-black mb-2">New Arrivals</h2>
+<p class="text-slate-500">The latest pieces added to our collection this week.</p>
+</div>
+<a class="font-bold flex items-center gap-2 hover:gap-3 transition-all text-[#1a2a47]" href="#">View All <span class="material-symbols-outlined">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<div class="group">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-100 mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Elegant navy blue silk pajama set" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuASwMITUIS41ozCui46BYbXlpWlHUCQGCYYk6dK1mPaFUcaI5w8kup5dBRxXkvtWUB5zLeHaQes53V0bnwbHEMHFE5-j9I_gaNeb4XPwKvPNZ2XdHou3MdziYPWsh8CpeVzT8PFck9yfqZ4vdfXhjfxLP8VEPcb_YxjlDoAeBkjIAC2NuLxvV9I5KQqHtmONrOxXr4uAyvF5bXT0FiuekIFPki2tmVbFDFWVRJfNbODGcyFRoX8Rx4CuwI03ipeRxfsvqy3UBSH8q-H");'>
+</div>
+<button class="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-slate-900 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<h3 class="font-bold text-lg mb-1">Midnight Silk Set</h3>
+<p class="font-bold">$120.00</p>
+</div>
+<div class="group">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-100 mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Soft pink cashmere lounge robe" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuChGDCaFLStRrjvFP62amSmb6PC30BNnDci7a2ltA66_Yhey0t6E77Lkmzw-GwhvmohJXanDSHsEe8CnYgo4bvdGBWO9iuRrFU2HgkVKDb4F8dEe-RhYIA7aISzRHLyUHcb6rk8B91FWJ1S4l_P7SKQGvOHQboC_axj1nFgUQeyvXnGqCLcGgFFV77UYlN_1SZ7eROGFQuNy9UuaRsSofia14YtPVeufyWJGt7FLJxrJFqED5h--vw4iRp8JAPAxoqievM59AKJeyBM");'>
+</div>
+<button class="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-slate-900 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<h3 class="font-bold text-lg mb-1">Cloud Cotton Robe</h3>
+<p class="font-bold">$85.00</p>
+</div>
+<div class="group">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-100 mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Minimalist grey organic cotton lounge pants" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAeoAzxgRt5gfy4tcmxLhe3aIE44d2Lg4HufgSQcqFCC8h3lmqecccqtxzsKQbuaboLYtCh1E419Dn-SQlDiGun7flJr8ml1sYtaKBo5p16j0w7JFiUID2iIezuVWNakbIfCMkKDAfkv9z9tvJSrsfoDMq79CwxpLr3wG9F1Gfy8PAx1LPW5TF9E72IiEuiMn6OV8SqzE1hXb1AGL0seyQtZz5zrqAxAPcd_gf9Z69iyi8neCPvwMO70luB_Dir1S0997jPDF6ecIMp");'>
+</div>
+<button class="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-slate-900 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<h3 class="font-bold text-lg mb-1">Essential Joggers</h3>
+<p class="font-bold">$65.00</p>
+</div>
+<div class="group">
+<div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-100 mb-4">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Champagne colored satin slip dress for sleeping" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDYYnM3g5MluW8lDipDb7PYfaKKjlprWUxFVbSlARfomU1vXqY-hGT800Ox7XQGhSRuctH540fJIkXiyw7WVZ1A6YxwxUf-w35z4l29OA7wmzegs0t7hA8vizlL8Nz4P7mp_XIzIXZvQaNbIC5yN02Cfq2aMirV6yAWajN7kXzRnye6tPN5cfqs-rRztFbm41Ul9FxYSfVM_l7EtC3LAS5nKHWFCD7LrFz7fc8jnfzMBdpePl3kGmtpq3vld5ZU-6JQS3gNqwTYoV_B");'>
+</div>
+<button class="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-slate-900 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<h3 class="font-bold text-lg mb-1">Satin Sleep Slip</h3>
+<p class="font-bold">$95.00</p>
+</div>
+</div>
+</section>
+<section class="px-4 md:px-20 py-16 bg-slate-50 dark:bg-slate-900/20">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-3xl font-black mb-10 text-center">Shop by Category</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="relative group h-80 overflow-hidden rounded-xl cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Assortment of neatly folded colorful pajamas" style='background-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBV8G8H6saF5qYSEjdXmMZWMdWTUa3GC2edw0pzerCNmWv5UL-G0juIHZGIIRkpGu6X7a9F1icoPL8hheq5jYZXszI8fK2Ngphlau46tnB63oMLXp8ndSK6aeh1oHh_sbqZR9DICRUXGCjtfT9bcJV00kw9oQkdsAkcBS2bZM-UaTMLttrtLYpRREOVxurQJ6_QvjXBeAeDs-PTDlT8G4gf2IUH_oMpzdBnkrIbAX2Uld0KFw3zrrSXgfCtBwaEj2I4IMmgNc-dlCVx");'>
+</div>
+<div class="absolute inset-0 flex items-end p-8">
+<div class="text-white">
+<h3 class="text-2xl font-black mb-2">Pajamas</h3>
+<p class="text-sm opacity-90 mb-4">The ultimate sleep comfort</p>
+<span class="inline-block border-b-2 border-white font-bold text-sm">Explore</span>
+</div>
+</div>
+</div>
+<div class="relative group h-80 overflow-hidden rounded-xl cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Luxurious velvet robe hanging on a wooden hook" style='background-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent), url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4xn4NitApvgHQbtXKBAfW9_Ij8yMzKS7DbRv2f0UeD4dGgL1VVVsk1cA2-RTplWVqYSnXF7iO3sePHylla8WWHN_CpapndX-V_Oj67ItKu0FSlK7ghrkRxeL0-s8dPoWytlv3QihMye-p09985s94OfaDdjW6LdB0Gq_0JwRXJrDrcVxlxGJoNV294A6E0sFokXm2PdBFiMHTojDlB7fCdg_iuk5n1M8AW35hXsQFK2G2IT2k4JMG_6aNpdQDKSJMTf2Q_guXWkAm");'>
+</div>
+<div class="absolute inset-0 flex items-end p-8">
+<div class="text-white">
+<h3 class="text-2xl font-black mb-2">Robes</h3>
+<p class="text-sm opacity-90 mb-4">Morning coffee essentials</p>
+<span class="inline-block border-b-2 border-white font-bold text-sm">Explore</span>
+</div>
+</div>
+</div>
+<div class="relative group h-80 overflow-hidden rounded-xl cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" data-alt="Relaxed person wearing comfortable loungewear on a sofa" style='background-image: linear-gradient(to top, rgba(0,0,0,0.6), transparent), url("https://lh3.googleusercontent.com/aida-public/AB6AXuB5u-Fg1twJ9L7jTcqzxkWroHwmPOpUlNtErNr3btZsCYcN0Lfo8gtiLwAqeGoABQMiKU920aOMB1gWfEVkXHOhix_sImrtYdDTwlWBxzoTAX-1CBhuf9PT03WY3HbDHH3GQ1dB0ayDmvz_EDyauRf_9Rszo--kY3DDZl_A_XWGTtBafyuKyqsBhW5AsbyC0728d9h5jkviGtU9vatHuenAaPnggiCxi-T5K21XaSTd52kDYxlkOncZDEZsEY5BWv9HPSDCuOtclAGb");'>
+</div>
+<div class="absolute inset-0 flex items-end p-8">
+<div class="text-white">
+<h3 class="text-2xl font-black mb-2">Loungewear</h3>
+<p class="text-sm opacity-90 mb-4">For the moments in between</p>
+<span class="inline-block border-b-2 border-white font-bold text-sm">Explore</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="px-4 md:px-20 py-16">
+<div class="bg-primary rounded-2xl p-12 flex flex-col items-center text-center text-white">
+<h2 class="text-4xl font-black mb-6">Join the Dreamer's Club</h2>
+<p class="max-w-xl text-lg opacity-90 mb-8">Get 15% off your first order and stay updated with our latest releases, exclusive sales, and sleep tips.</p>
+<form class="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+<input class="flex-grow rounded-xl border-none px-6 py-4 text-slate-900 focus:ring-2 focus:ring-white" placeholder="Your email address" type="email"/>
+<button class="bg-slate-900 hover:bg-slate-800 px-8 py-4 rounded-xl font-black transition-colors">Subscribe</button>
+</form>
+</div>
+</section>
+</main>
+<footer class="bg-white dark:bg-background-dark/50 border-t border-primary/10 px-4 md:px-20 py-16">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 mb-16">
+<div class="col-span-2">
+<div class="flex items-center gap-3 mb-6">
+<div class="p-2 bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined text-xl">bedtime</span>
+</div>
+<h2 class="text-xl font-black text-slate-900 dark:text-slate-100">Mark Face</h2>
+</div>
+<p class="text-slate-500 max-w-xs mb-6 leading-relaxed">Crafting the world's most comfortable sleepwear since 2012. Quality materials, ethical production.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 flex items-center justify-center bg-white dark:bg-background-dark border border-primary/10 rounded-full hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-bold mb-6">Shop</h4>
+<ul class="space-y-4 text-slate-500">
+<li><a class="hover:text-primary" href="#">All Products</a></li>
+<li><a class="hover:text-primary" href="#">Best Sellers</a></li>
+<li><a class="hover:text-primary" href="#">New Arrivals</a></li>
+<li><a class="hover:text-primary" href="#">Gift Cards</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-6">Help</h4>
+<ul class="space-y-4 text-slate-500">
+<li><a class="hover:text-primary" href="#">Shipping</a></li>
+<li><a class="hover:text-primary" href="#">Returns</a></li>
+<li><a class="hover:text-primary" href="#">Size Guide</a></li>
+<li><a class="hover:text-primary" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div class="col-span-2 space-y-8">
+<div class="flex items-start gap-4 p-4 bg-white dark:bg-background-dark/30 rounded-xl border border-primary/10">
+<span class="material-symbols-outlined text-3xl">local_shipping</span>
+<div>
+<h5 class="font-bold text-sm">Free Express Shipping</h5>
+<p class="text-xs text-slate-500">On all orders over $150</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 bg-white dark:bg-background-dark/30 rounded-xl border border-primary/10">
+<span class="material-symbols-outlined text-3xl">verified</span>
+<div>
+<h5 class="font-bold text-sm">100-Night Guarantee</h5>
+<p class="text-xs text-slate-500">Love it or return it, hassle-free</p>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 text-sm">
+<p>© 2024 Mark Face Premium Sleepwear. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

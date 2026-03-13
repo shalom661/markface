@@ -108,9 +108,9 @@ export default function Website() {
                         <Globe className="h-7 w-7" />
                     </div>
                     <div>
-                        <h1 className="h1-brand text-4xl text-white mb-1">Website Hub</h1>
-                        <p className="label-brand text-muted-foreground opacity-70 text-xs text-left">
-                            Gestão de <span className="text-blue-400 not-italic font-black">Produtos Online & Pricing Diferenciado</span>.
+                        <h1 className="h1-brand text-4xl text-foreground mb-1">Website Hub</h1>
+                        <p className="label-brand text-muted-foreground opacity-90 text-xs text-left">
+                            Gestão de <span className="text-blue-600 dark:text-blue-400 not-italic font-black">Produtos Online & Pricing Diferenciado</span>.
                         </p>
                     </div>
                 </div>
@@ -162,8 +162,8 @@ export default function Website() {
                                             <TableRow key={product.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5">
                                                 <TableCell className="py-5 px-10">
                                                     <div className="flex flex-col gap-1">
-                                                        <span className="h3-brand text-lg text-white/90 group-hover:text-blue-400 transition-colors text-left">{product.name}</span>
-                                                        <Badge className="w-fit bg-blue-500/10 text-blue-400 border-none text-[8px] uppercase">{product.is_manufactured ? 'In-House' : 'Revenda'}</Badge>
+                                                        <span className="h3-brand text-lg text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-left">{product.name}</span>
+                                                        <Badge className="w-fit bg-blue-500/10 text-blue-700 dark:text-blue-400 border-none text-[8px] uppercase">{product.is_manufactured ? 'In-House' : 'Revenda'}</Badge>
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
@@ -171,8 +171,8 @@ export default function Website() {
                                                 </TableCell>
                                                 <TableCell>
                                                     <div className="flex flex-col">
-                                                        <span className="stat-brand text-xl text-blue-400">R$ {yieldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
-                                                        <span className="label-brand text-[8px] text-muted-foreground/40">Yield Calculado</span>
+                                                        <span className="stat-brand text-xl text-blue-700 dark:text-blue-400">R$ {yieldPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
+                                                        <span className="label-brand text-[8px] text-muted-foreground">Yield Calculado</span>
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
@@ -210,19 +210,19 @@ export default function Website() {
                             <Activity className="h-20 w-20" />
                         </div>
                         <div className="space-y-1 relative z-10">
-                            <p className="label-brand text-blue-400 text-xs uppercase tracking-widest">Resumo Online</p>
-                            <p className="stat-brand text-4xl text-white">{filteredProducts.length}</p>
+                            <p className="label-brand text-blue-700 dark:text-blue-400 text-xs uppercase tracking-widest">Resumo Online</p>
+                            <p className="stat-brand text-4xl text-foreground">{filteredProducts.length}</p>
                             <p className="body-brand text-[10px] text-muted-foreground italic">Produtos na vitrine digital</p>
                         </div>
                         
-                        <div className="space-y-4 pt-4 border-t border-white/5 relative z-10">
+                        <div className="space-y-4 pt-4 border-t border-navy/10 relative z-10">
                             <div className="flex justify-between items-center">
                                 <span className="label-brand text-[10px] text-muted-foreground">Taxa Canal</span>
-                                <span className="stat-brand text-blue-400">{websiteModality?.tax_percent || 0}%</span>
+                                <span className="stat-brand text-blue-700 dark:text-blue-400">{websiteModality?.tax_percent || 0}%</span>
                             </div>
                             <div className="flex justify-between items-center">
                                 <span className="label-brand text-[10px] text-muted-foreground">Rateio Fixo</span>
-                                <span className="stat-brand text-blue-400">R$ {fixedShare.toFixed(2)}</span>
+                                <span className="stat-brand text-blue-700 dark:text-blue-400">R$ {fixedShare.toFixed(2)}</span>
                             </div>
                         </div>
                     </Card>
@@ -232,7 +232,7 @@ export default function Website() {
                             <Zap className="h-5 w-5" />
                         </div>
                         <p className="label-brand text-[10px] text-muted-foreground leading-relaxed">
-                            O preço de venda é calculado automaticamente aplicando o <span className="text-white">Yield Target</span> sobre o custo de produção + taxas de canal.
+                            O preço de venda é calculado automaticamente aplicando o <span className="text-primary font-bold">Yield Target</span> sobre o custo de produção + taxas de canal.
                         </p>
                     </Card>
                 </div>
