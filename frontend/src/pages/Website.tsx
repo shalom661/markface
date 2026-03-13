@@ -3,13 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import {
     Globe,
     Search,
-    Package,
-    ArrowUpRight,
     Zap,
-    BarChart3,
     Activity,
     Info,
-    LayoutGrid,
     ShoppingBag
 } from 'lucide-react';
 import api from '@/lib/api';
