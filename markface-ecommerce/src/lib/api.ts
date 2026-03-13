@@ -28,8 +28,23 @@ export interface PaginatedResponse<T> {
   page_size: number;
 }
 
-export async function fetchProducts(page = 1, pageSize = 20): Promise<PaginatedResponse<Product>> {
-  const res = await fetch(`${HUB_API_URL}/products?page=${page}&page_size=${pageSize}&active_only=true`, {
+export async function fetchProducts(
+  page = 1, 
+  pageSize = 20, 
+  filters: { category?: string; min_price?: number; max_price?: number; sort?: string } = {}
+): Promise<PaginatedResponse<Product>> {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    page_size: pageSize.toString(),
+    active_only: 'true',
+  });
+
+  if (filters.category) params.append('category', filters.category);
+  if (filters.min_price) params.append('min_price', filters.min_price.toString());
+  if (filters.max_price) params.append('max_price', filters.max_price.toString());
+  if (filters.sort) params.append('sort', filters.sort);
+
+  const res = await fetch(`${HUB_API_URL}/products?${params.toString()}`, {
     next: { revalidate: 3600 }, // Revalidate every hour
   });
 
