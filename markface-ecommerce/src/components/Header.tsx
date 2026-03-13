@@ -1,42 +1,55 @@
+'use client';
+
 import Link from 'next/link';
-import Image from 'next/image';
+import { useState } from 'react';
 
 const Header = () => {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   return (
-    <header className="sticky top-0 z-50 premium-glass border-b border-white/20">
-      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <Image 
-            src="/logo.png" 
-            alt="MarkFace Logo" 
-            width={150} 
-            height={40} 
-            className="h-10 w-auto"
-            priority 
-          />
-        </Link>
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-primary/5 px-4 md:px-20 py-4">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-12">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="p-2 bg-primary rounded-lg text-white group-hover:scale-110 transition-transform">
+              <span className="material-symbols-outlined text-2xl">bedtime</span>
+            </div>
+            <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-100">Mark Face</h2>
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-8 font-medium text-sm tracking-widest uppercase">
-          <Link href="/catalog" className="hover:text-brand-navy transition-colors">Catálogo</Link>
-          <Link href="/catalog?category=feminino" className="hover:text-brand-navy transition-colors">Feminino</Link>
-          <Link href="/catalog?category=masculino" className="hover:text-brand-navy transition-colors">Masculino</Link>
-          <Link href="/catalog?category=infantil" className="hover:text-brand-navy transition-colors">Infantil</Link>
-          <Link href="/about" className="hover:text-brand-navy transition-colors">Sobre</Link>
-        </nav>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-8">
+            <Link href="/catalog?category=pajamas" className="text-sm font-semibold hover:text-primary transition-colors">Pajamas</Link>
+            <Link href="/catalog?category=robes" className="text-sm font-semibold hover:text-primary transition-colors">Robes</Link>
+            <Link href="/catalog?category=loungewear" className="text-sm font-semibold hover:text-primary transition-colors">Loungewear</Link>
+            <Link href="/catalog?category=best-sellers" className="text-sm font-semibold hover:text-primary transition-colors">Best Sellers</Link>
+          </nav>
+        </div>
 
-        <div className="flex items-center gap-6">
-          <button className="hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-          </button>
-          
-          <button className="relative hover:scale-110 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-            </svg>
-            <span className="absolute -top-2 -right-2 bg-brand-navy text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">0</span>
-          </button>
+        {/* Right Actions */}
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center bg-primary/5 dark:bg-primary/10 rounded-full px-4 py-2 border border-primary/10 group focus-within:border-primary/30 transition-all">
+            <span className="material-symbols-outlined text-xl text-slate-400 group-focus-within:text-primary">search</span>
+            <input 
+              type="text"
+              placeholder="Search comfort..."
+              className="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder:text-slate-400"
+            />
+          </div>
+
+          <div className="flex gap-2">
+            <button className="p-2 hover:bg-primary/10 rounded-full transition-colors">
+              <span className="material-symbols-outlined">favorite</span>
+            </button>
+            <Link href="/cart" className="p-2 hover:bg-primary/10 rounded-full transition-colors relative">
+              <span className="material-symbols-outlined">shopping_bag</span>
+              <span className="absolute top-1 right-1 bg-primary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">2</span>
+            </Link>
+            <button className="p-2 hover:bg-primary/10 rounded-full transition-colors">
+              <span className="material-symbols-outlined">person</span>
+            </button>
+          </div>
         </div>
       </div>
     </header>
