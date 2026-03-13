@@ -21,6 +21,7 @@ class Product(UUIDMixin, TimestampMixin, Base):
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
     images: Mapped[list[str] | None] = mapped_column(JSONBType, nullable=True, default=list)
     active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    is_on_website: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
     # Manufacturing & Sourcing Fields
     is_manufactured: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)

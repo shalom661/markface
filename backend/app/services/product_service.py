@@ -72,7 +72,7 @@ async def create_product(db: AsyncSession, data: ProductCreate) -> Product:
 
 
 async def list_products(
-    db: AsyncSession, page: int = 1, page_size: int = 20, active_only: bool = False
+    db: AsyncSession, page: int = 1, page_size: int = 20, active_only: bool = False, website_only: bool = False
 ) -> tuple[int, Sequence[Product]]:
     from sqlalchemy.orm import selectinload
     query = select(Product).options(
@@ -81,6 +81,8 @@ async def list_products(
     )
     if active_only:
         query = query.where(Product.active == True)  # noqa: E712
+    if website_only:
+        query = query.where(Product.is_on_website == True)  # noqa: E712
     query = query.order_by(Product.created_at.desc())
 
     from sqlalchemy import func
@@ -255,6 +257,18 @@ async def toggle_product_active(db: AsyncSession, product_id: uuid.UUID) -> Prod
         db,
         "PRODUCT_STATUS_TOGGLED",
         {"product_id": str(product_id), "active": product.active},
+    )
+    return product
+
+
+async def toggle_product_website(db: AsyncSession, product_id: uuid.UUID) -> Product:
+    product = await get_product_or_404(db, product_id)
+    product.is_on_website = not product.is_on_website
+    await db.flush()
+    await create_event(
+        db,
+        "PRODUCT_WEBSITE_TOGGLED",
+        {"product_id": str(product_id), "is_on_website": product.is_on_website},
     )
     return product
 

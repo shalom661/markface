@@ -43,10 +43,11 @@ async def list_products(
     page: int = Query(default=1, ge=1),
     page_size: int = Query(default=20, ge=1, le=100),
     active_only: bool = Query(default=False),
+    website_only: bool = Query(default=False),
     db: AsyncSession = Depends(get_db),
     _user: User = Depends(get_current_user),
 ) -> PaginatedResponse[ProductRead]:
-    total, items = await product_service.list_products(db, page, page_size, active_only)
+    total, items = await product_service.list_products(db, page, page_size, active_only, website_only)
     return PaginatedResponse(total=total, page=page, page_size=page_size, items=list(items))
 
 
@@ -101,6 +102,19 @@ async def toggle_product_active(
     _user: User = Depends(get_current_user),
 ) -> ProductRead:
     return await product_service.toggle_product_active(db, product_id)  # type: ignore[return-value]
+
+
+@router.patch(
+    "/products/{product_id}/toggle-website",
+    response_model=ProductRead,
+    summary="Alternar visibilidade do produto no site",
+)
+async def toggle_product_website(
+    product_id: uuid.UUID,
+    db: AsyncSession = Depends(get_db),
+    _user: User = Depends(get_current_user),
+) -> ProductRead:
+    return await product_service.toggle_product_website(db, product_id)  # type: ignore[return-value]
 
 
 # ── Variants ───────────────────────────────────────────────────────────────
