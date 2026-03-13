@@ -1,21 +1,23 @@
 'use client';
 
-import Link from 'next/link';
-import { useState } from 'react';
+import Image from 'next/image';
 
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-primary/5 px-4 md:px-20 py-4">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-primary/5 px-4 md:px-20 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-12">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="p-2 bg-primary rounded-lg text-white group-hover:scale-110 transition-transform">
-              <span className="material-symbols-outlined text-2xl">bedtime</span>
-            </div>
-            <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-slate-100">Mark Face</h2>
+          <Link href="/" className="flex items-center group">
+            <Image 
+              src="/logo-blue.png" 
+              alt="Mark Face" 
+              width={160} 
+              height={40} 
+              className="h-10 w-auto group-hover:scale-105 transition-transform" 
+            />
           </Link>
 
           {/* Desktop Nav */}
@@ -29,7 +31,7 @@ const Header = () => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          <div className="hidden lg:flex items-center bg-primary/5 dark:bg-primary/10 rounded-full px-4 py-2 border border-primary/10 group focus-within:border-primary/30 transition-all">
+          <div className="hidden lg:flex items-center bg-primary/5 rounded-full px-4 py-2 border border-primary/10 group focus-within:border-primary/30 transition-all">
             <span className="material-symbols-outlined text-xl text-slate-400 group-focus-within:text-primary">search</span>
             <input 
               type="text"

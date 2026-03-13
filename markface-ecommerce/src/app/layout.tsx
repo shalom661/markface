@@ -25,7 +25,7 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
       </head>
-      <body className={`${manrope.variable} font-display antialiased selection:bg-primary/10 selection:text-primary bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100`}>
+      <body className={`${manrope.variable} font-display antialiased selection:bg-primary/10 selection:text-primary bg-background text-slate-900`}>
         <Header />
         <main className="min-h-[70vh]">
           {children}

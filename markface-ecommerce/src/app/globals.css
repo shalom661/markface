@@ -2,21 +2,19 @@
 
 :root {
   --primary: #1a2a47;
-  --background-light: #f8f6f6;
-  --background-dark: #0d1421;
+  --background: #ffffff;
 }
 
 @theme inline {
   --color-primary: var(--primary);
-  --color-background-light: var(--background-light);
-  --color-background-dark: var(--background-dark);
+  --color-background: var(--background);
   
   --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
   font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  @apply bg-background-light text-slate-900 dark:bg-background-dark dark:text-slate-100;
+  @apply bg-background text-slate-900;
 }
 
 @layer base {
