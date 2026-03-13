@@ -6,7 +6,6 @@
 
 @layer base {
   :root {
-  :root {
     --background: 40 33% 96%; /* Cream/Light Gray */
     --foreground: 209 100% 10%; /* High contrast Navy */
     --card: 0 0% 100%;
@@ -27,7 +26,6 @@
     --input: 209 100% 10% / 0.1;
     --ring: 209 100% 22%;
     --radius: 1.25rem;
-  }
   }
 
   .dark {
