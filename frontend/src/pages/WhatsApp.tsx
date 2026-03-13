@@ -134,7 +134,7 @@ export default function WhatsApp() {
             <div className="w-80 border-r border-white/5 flex flex-col bg-[#0f0f0f]">
                 <div className="p-4 border-b border-white/5 space-y-4">
                     <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-bold text-white">Conversas</h2>
+                        <h2 className="text-xl font-bold text-foreground">Conversas</h2>
                         <Button variant="ghost" size="icon" className="text-white/50 hover:text-white">
                             <MoreVertical className="w-5 h-5" />
                         </Button>
@@ -143,7 +143,7 @@ export default function WhatsApp() {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                         <Input
                             placeholder="Buscar contato..."
-                            className="bg-white/5 border-none pl-10 text-white placeholder:text-white/20 focus-visible:ring-1 focus-visible:ring-blue-500"
+                            className="bg-primary/5 border-none pl-10 text-foreground placeholder:text-muted-foreground/50 focus-visible:ring-1 focus-visible:ring-blue-500"
                         />
                     </div>
                 </div>
@@ -163,10 +163,10 @@ export default function WhatsApp() {
                             </Avatar>
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between">
-                                    <span className="font-semibold text-white truncate">{chat.name}</span>
-                                    <span className="text-[10px] text-white/40 uppercase">{chat.time}</span>
+                                    <span className="font-semibold text-foreground truncate">{chat.name}</span>
+                                    <span className="text-[10px] text-muted-foreground uppercase">{chat.time}</span>
                                 </div>
-                                <p className="text-sm text-white/40 truncate">{chat.lastMessage}</p>
+                                <p className="text-sm text-muted-foreground truncate">{chat.lastMessage}</p>
                             </div>
                         </div>
                     ))}
@@ -183,7 +183,7 @@ export default function WhatsApp() {
                                 <AvatarFallback className="bg-blue-600 text-white text-xs">{activeChat.avatar}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
-                                <span className="font-semibold text-white">{activeChat.name}</span>
+                                <span className="font-semibold text-foreground">{activeChat.name}</span>
                                 <div className="flex items-center gap-1.5">
                                     {connectionStatus === 'online' ? (
                                         <Badge variant="outline" className="h-4 px-1.5 text-[9px] border-green-500/30 bg-green-500/10 text-green-500 gap-1 flex">
@@ -211,20 +211,20 @@ export default function WhatsApp() {
                             {/* History Alert */}
                             <div className="flex justify-center mb-8">
                                 <div className="bg-white/5 border border-white/10 rounded-full px-4 py-1.5 flex items-center gap-2">
-                                    <Clock className="w-3 h-3 text-white/40" />
-                                    <span className="text-[10px] text-white/40 uppercase font-medium tracking-wider">Início do histórico seguro no Hub</span>
+                                    <Clock className="w-3 h-3 text-muted-foreground/40" />
+                                    <span className="text-[10px] text-muted-foreground/40 uppercase font-medium tracking-wider">Início do histórico seguro no Hub</span>
                                 </div>
                             </div>
 
                             {isLoading ? (
                                 <div className="flex flex-col items-center justify-center py-20 gap-4 opacity-50">
                                     <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
-                                    <p className="text-white/40 text-sm italic">Sincronizando com a Meta...</p>
+                                    <p className="text-muted-foreground text-sm italic">Sincronizando com a Meta...</p>
                                 </div>
                             ) : messages.length === 0 ? (
                                 <div className="text-center py-20 opacity-30">
                                     <Smile className="w-12 h-12 mx-auto mb-4" />
-                                    <p className="text-white">Nenhuma mensagem registrada ainda.</p>
+                                    <p className="text-foreground">Nenhuma mensagem registrada ainda.</p>
                                     <p className="text-xs">As conversas aparecem aqui conforme são sincronizadas.</p>
                                 </div>
                             ) : (
@@ -302,8 +302,8 @@ export default function WhatsApp() {
                         <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto">
                             <ShieldCheck className="w-8 h-8 text-white" />
                         </div>
-                        <h3 className="text-xl font-medium text-white">Mensagens Criptografadas</h3>
-                        <p className="text-sm max-w-xs text-white/60">
+                        <h3 className="text-xl font-medium text-foreground">Mensagens Criptografadas</h3>
+                        <p className="text-sm max-w-xs text-muted-foreground">
                             Selecione um contato para sincronizar sua conversa oficial através da Meta Cloud API.
                         </p>
                     </div>

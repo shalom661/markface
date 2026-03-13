@@ -130,9 +130,9 @@ export default function Costs() {
                         <BarChart3 className="h-7 w-7" />
                     </div>
                     <div>
-                        <h1 className="h1-brand text-4xl text-white mb-1">Cálculo de Custos</h1>
+                        <h1 className="h1-brand text-4xl text-foreground mb-1">Cálculo de Custos</h1>
                         <p className="label-brand text-muted-foreground opacity-70 text-xs">
-                            Hub de inteligência para <span className="text-primary not-italic font-black text-white/80">Margens & Rateio</span>.
+                            Hub de inteligência para <span className="text-primary not-italic font-black">Margens & Rateio</span>.
                         </p>
                     </div>
                 </div>
@@ -165,9 +165,9 @@ export default function Costs() {
                         </div>
                         <p className="body-brand text-sm text-muted-foreground/80 leading-relaxed">
                             Selecione uma modalidade de venda para gerar um relatório completo em Excel. O cálculo considera:
-                            <br /><span className="text-white">✓ Preço Médio das Matérias-Primas</span>
-                            <br /><span className="text-white">✓ Rateio de Gastos Fixos</span>
-                            <br /><span className="text-white">✓ Taxas e Custos da Modalidade</span>
+                            <br /><span className="text-primary font-semibold">✓ Preço Médio das Matérias-Primas</span>
+                            <br /><span className="text-primary font-semibold">✓ Rateio de Gastos Fixos</span>
+                            <br /><span className="text-primary font-semibold">✓ Taxas e Custos da Modalidade</span>
                         </p>
                     </div>
 
@@ -251,15 +251,15 @@ export default function Costs() {
                         <div className="space-y-4">
                             <div className="flex justify-between items-center py-2 border-b border-white/5">
                                 <span className="label-brand text-muted-foreground text-xs">Carga Tributária</span>
-                                <span className="stat-brand text-white">{modality.tax_percent}%</span>
+                                <span className="stat-brand text-foreground">{modality.tax_percent}%</span>
                             </div>
                             <div className="flex justify-between items-center py-2 border-b border-white/5">
                                 <span className="label-brand text-muted-foreground text-xs">Taxa Fixa</span>
-                                <span className="stat-brand text-white">R$ {Number(modality.fixed_fee).toFixed(2)}</span>
+                                <span className="stat-brand text-foreground">R$ {Number(modality.fixed_fee).toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between items-center py-2">
                                 <span className="label-brand text-muted-foreground text-xs">Custos Extras</span>
-                                <span className="stat-brand text-white">R$ {Number(modality.extra_cost).toFixed(2)}</span>
+                                <span className="stat-brand text-foreground">R$ {Number(modality.extra_cost).toFixed(2)}</span>
                             </div>
                         </div>
                     </Card>
@@ -267,7 +267,7 @@ export default function Costs() {
                     <div className="flex items-center gap-4 p-6 rounded-[2.5rem] smooth-glass border-none">
                         <Info className="h-5 w-5 text-primary animate-pulse" />
                         <p className="label-brand text-muted-foreground/40 text-[10px] leading-relaxed">
-                            A exportação gera um arquivo compatível com Excel e Google Sheets, contendo o <span className="text-white font-black">Preço de Venda Sugerido</span> para cada item do seu estoque.
+                            A exportação gera um arquivo compatível com Excel e Google Sheets, contendo o <span className="text-primary font-black">Preço de Venda Sugerido</span> para cada item do seu estoque.
                         </p>
                     </div>
                 </div>

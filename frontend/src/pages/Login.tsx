@@ -83,7 +83,7 @@ export default function Login() {
                     <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-30 group-hover/card:opacity-100 transition-opacity duration-1000" />
 
                     <CardHeader className="p-10 pb-4 text-center space-y-1">
-                        <CardTitle className="text-3xl font-[1000] text-white tracking-tighter uppercase italic">Portal de Acesso</CardTitle>
+                        <CardTitle className="text-3xl font-[1000] text-foreground tracking-tighter uppercase italic">Portal de Acesso</CardTitle>
                         <CardDescription className={cn(
                             "text-[10px] font-bold italic uppercase tracking-widest transition-colors duration-500",
                             systemInitializing ? "text-primary animate-pulse" : "text-muted-foreground/40"
@@ -166,7 +166,7 @@ export default function Login() {
                 </Card>
 
                 <div className="mt-8 flex flex-col items-center space-y-3 opacity-40">
-                    <p className="text-[8px] font-black tracking-[0.5em] text-white uppercase italic">
+                    <p className="text-[8px] font-black tracking-[0.5em] text-muted-foreground uppercase italic">
                         &copy; 2026 Mark Face Systems
                     </p>
                     <div className="flex gap-3">

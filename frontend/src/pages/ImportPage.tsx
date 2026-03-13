@@ -215,8 +215,8 @@ export default function ImportPage() {
                     <Card className="h-full rounded-[2.5rem] border-none smooth-glass shadow-xl overflow-hidden flex flex-col">
                         <CardHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
                             <div className="flex items-center gap-4">
-                                <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-indigo-500 text-white stat-brand text-lg shadow-lg shadow-indigo-500/20">3</div>
-                                <CardTitle className="h2-brand text-2xl italic underline decoration-indigo-500/40 underline-offset-8 text-indigo-100">Deploy de Dados</CardTitle>
+                                <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-indigo-600 text-white stat-brand text-lg shadow-lg shadow-indigo-600/20">3</div>
+                                <CardTitle className="h2-brand text-2xl italic underline decoration-indigo-600/40 underline-offset-8 text-indigo-900">Deploy de Dados</CardTitle>
                             </div>
                         </CardHeader>
                         <CardContent className="p-8 flex-1 flex flex-col gap-6">
@@ -287,8 +287,8 @@ export default function ImportPage() {
                                 <CheckCircle className="h-6 w-6" />
                             </div>
                             <div>
-                                <CardTitle className="h2-brand text-2xl text-emerald-100">Transação Finalizada</CardTitle>
-                                <p className="label-brand text-emerald-500/60 text-sm">{importMutation.data.message}</p>
+                                <CardTitle className="h2-brand text-2xl text-emerald-900">Transação Finalizada</CardTitle>
+                                <p className="label-brand text-emerald-800/60 text-sm">{importMutation.data.message}</p>
                             </div>
                         </div>
                     </CardHeader>
@@ -300,7 +300,7 @@ export default function ImportPage() {
                             </div>
                             <div className="bg-white/5 rounded-3xl p-6 border border-white/10 text-center">
                                 <p className="label-brand text-[10px] text-muted-foreground mb-1">Ignorados</p>
-                                <p className="stat-brand text-4xl text-white">{importMutation.data.skipped}</p>
+                                <p className="stat-brand text-4xl text-foreground">{importMutation.data.skipped}</p>
                             </div>
                             <div className={`rounded-3xl p-6 border text-center ${importMutation.data.errors.length > 0 ? 'bg-destructive/10 border-destructive/20 text-destructive' : 'bg-white/5 border-white/10 opacity-30'}`}>
                                 <p className="label-brand text-[10px] mb-1">Erros</p>

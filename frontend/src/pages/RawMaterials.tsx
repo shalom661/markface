@@ -267,7 +267,7 @@ export default function RawMaterials() {
                                 <stat.icon className="h-5 w-5" />
                             </div>
                             <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-white transition-colors">{stat.label}</p>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors">{stat.label}</p>
                                 <p className="stat-brand mt-0.5 leading-none text-xl">{stat.value}</p>
                             </div>
                         </CardContent>

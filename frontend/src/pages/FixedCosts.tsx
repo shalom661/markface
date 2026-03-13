@@ -120,7 +120,7 @@ export default function FixedCosts() {
                                 <Badge className="bg-primary/10 text-primary border-none label-brand px-3 py-1 rounded-full text-[10px]">Recorrente</Badge>
                             </div>
                             <p className="h3-brand text-muted-foreground text-sm">
-                                Gestão estratégica de <span className="text-primary text-white/80">Custos Fixos & Operação</span>.
+                                Gestão estratégica de <span className="text-primary">Custos Fixos & Operação</span>.
                             </p>
                         </div>
                     </div>
@@ -181,7 +181,7 @@ export default function FixedCosts() {
                     <Card className="rounded-[3rem] border-none smooth-glass overflow-hidden shadow-2xl p-1">
                         <div className="p-8 space-y-6">
                             <div className="space-y-1">
-                                <h3 className="h3-brand text-xl text-white/90">Novo Lançamento</h3>
+                                <h3 className="h3-brand text-xl text-foreground">Novo Lançamento</h3>
                                 <p className="label-brand text-[10px] text-muted-foreground opacity-60">Adicionar registro recorrente</p>
                             </div>
 
@@ -223,7 +223,7 @@ export default function FixedCosts() {
                                 <TrendingDown className="h-5 w-5" />
                             </div>
                             <div className="space-y-1">
-                                <p className="label-brand text-white/80 text-xs">Aviso de Calibração</p>
+                                <p className="label-brand text-foreground text-xs font-semibold">Aviso de Calibração</p>
                                 <p className="body-brand text-[10px] text-muted-foreground opacity-70">
                                     Estes custos são injetados automaticamente no cálculo de margem (Yield Analysis).
                                 </p>
@@ -240,7 +240,7 @@ export default function FixedCosts() {
                                 <div className="flex items-center gap-4">
                                     <CreditCard className="h-6 w-6 text-primary shadow-glow" />
                                     <div>
-                                        <h2 className="h3-brand text-2xl text-white/90">Pilha de Registros</h2>
+                                        <h2 className="h3-brand text-2xl text-foreground">Pilha de Registros</h2>
                                         <p className="label-brand text-[10px] text-muted-foreground opacity-80 mt-0.5">Custos fixos em vigor</p>
                                     </div>
                                 </div>
@@ -259,7 +259,7 @@ export default function FixedCosts() {
                                                 <Wallet className="h-5 w-5 opacity-40 group-hover:opacity-100" />
                                             </div>
                                             <div className="space-y-0.5 text-left">
-                                                <p className="h3-brand text-lg text-white/90 group-hover:translate-x-1 transition-transform">
+                                                <p className="h3-brand text-lg text-foreground group-hover:translate-x-1 transition-transform">
                                                     {cost.description}
                                                 </p>
                                                 <p className="label-brand text-[8px] text-primary/60 flex items-center gap-1">
@@ -297,7 +297,7 @@ export default function FixedCosts() {
                                             <Landmark className="h-20 w-20 opacity-5 -rotate-12" />
                                         </div>
                                         <div className="space-y-3 text-center">
-                                            <p className="h2-brand text-4xl text-white/20">Vazio de Dados</p>
+                                            <p className="h2-brand text-4xl text-muted-foreground/30">Vazio de Dados</p>
                                             <p className="body-brand text-sm opacity-50">Nenhum custo fixo registrado neste perímetro de operação.</p>
                                         </div>
                                     </div>
