@@ -46,25 +46,37 @@ export async function fetchProducts(
   if (filters.max_price) params.append('max_price', filters.max_price.toString());
   if (filters.sort) params.append('sort', filters.sort);
 
-  const res = await fetch(`${HUB_API_URL}/products?${params.toString()}`, {
-    next: { revalidate: 3600 }, // Revalidate every hour
-  });
+  try {
+    const res = await fetch(`${HUB_API_URL}/products?${params.toString()}`, {
+      next: { revalidate: 3600 }, // Revalidate every hour
+    });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch products from Hub');
+    if (!res.ok) {
+      console.error(`Fetch error ${res.status}: ${res.statusText} at ${HUB_API_URL}`);
+      return { items: [], total: 0, page: 1, page_size: pageSize };
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error('Failed to fetch products from Hub:', error);
+    return { items: [], total: 0, page: 1, page_size: pageSize };
   }
-
-  return res.json();
 }
 
 export async function fetchProductById(id: string): Promise<Product> {
-  const res = await fetch(`${HUB_API_URL}/products/${id}`, {
-    next: { revalidate: 600 }, // Revalidate every 10 mins
-  });
+  try {
+    const res = await fetch(`${HUB_API_URL}/products/${id}`, {
+      next: { revalidate: 600 }, // Revalidate every 10 mins
+    });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch product from Hub');
+    if (!res.ok) {
+      console.error(`Fetch error ${res.status}: ${res.statusText} for product ${id}`);
+      throw new Error(`Product ${id} not found`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error(`Failed to fetch product ${id} from Hub:`, error);
+    throw error;
   }
-
-  return res.json();
 }

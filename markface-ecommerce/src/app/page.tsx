@@ -2,6 +2,8 @@ import Hero from '@/components/Hero';
 import Link from 'next/link';
 import { fetchProducts } from '@/lib/api';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const { items: products } = await fetchProducts(1, 4);
 
