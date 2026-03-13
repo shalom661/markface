@@ -142,7 +142,7 @@ export default function Orders() {
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center gap-2 mb-0.5">
-                                                        <span className="h3-brand text-primary text-base">{order.origin}</span>
+                                                        <span className="h3-brand text-foreground text-base">{order.origin}</span>
                                                         <span className="h-1 w-1 rounded-full bg-muted-foreground" />
                                                         <span className="body-brand text-[10px] text-muted-foreground">ID: {order.external_id}</span>
                                                     </div>
@@ -174,7 +174,7 @@ export default function Orders() {
                                             </div>
                                         </TableCell>
                                         <TableCell className="py-3 px-8 text-right">
-                                            <button className="h-8 w-8 rounded-xl hover:bg-primary hover:text-white transition-all duration-300 flex items-center justify-center text-muted-foreground border border-transparent hover:border-primary/20 shadow-sm hover:shadow-xl hover:shadow-primary/20">
+                                            <button className="h-8 w-8 rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 flex items-center justify-center text-foreground border border-transparent hover:border-primary/20 shadow-sm hover:shadow-xl hover:shadow-primary/20">
                                                 <ChevronRight className="h-4 w-4" />
                                             </button>
                                         </TableCell>

@@ -228,7 +228,7 @@ export default function Customers() {
                         </div>
                         <div>
                             <p className="label-brand text-muted-foreground text-[10px]">Base Total</p>
-                            <p className="stat-brand mt-0.5 leading-none text-xl">{data?.total || 0}</p>
+                            <p className="stat-brand mt-0.5 leading-none text-xl text-foreground">{data?.total || 0}</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -239,7 +239,7 @@ export default function Customers() {
                         </div>
                         <div>
                             <p className="label-brand text-muted-foreground text-[10px]">Taxa Ativa</p>
-                            <p className="stat-brand mt-0.5 leading-none text-xl">94%</p>
+                            <p className="stat-brand mt-0.5 leading-none text-xl text-foreground">94%</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -250,7 +250,7 @@ export default function Customers() {
                         </div>
                         <div>
                             <p className="label-brand text-muted-foreground text-[10px]">Novos/Mês</p>
-                            <p className="stat-brand mt-0.5 leading-none text-xl">+18</p>
+                            <p className="stat-brand mt-0.5 leading-none text-xl text-foreground">+18</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -261,7 +261,7 @@ export default function Customers() {
                         </div>
                         <div>
                             <p className="label-brand text-muted-foreground text-[10px]">Pessoas Jurídicas</p>
-                            <p className="stat-brand mt-0.5 leading-none text-xl">24</p>
+                            <p className="stat-brand mt-0.5 leading-none text-xl text-foreground">24</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -290,7 +290,7 @@ export default function Customers() {
                                             </div>
                                             <div className="flex flex-col gap-0.5">
                                                 <div
-                                                    className="h3-brand text-white/90 truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer text-lg"
+                                                    className="h3-brand text-foreground truncate max-w-sm group-hover:text-primary transition-colors cursor-pointer text-lg"
                                                     onClick={() => handleEdit(item)}
                                                 >
                                                     {item.name}

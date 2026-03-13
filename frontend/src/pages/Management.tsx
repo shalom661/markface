@@ -333,7 +333,7 @@ export default function Management() {
                     <div className="h-24 w-24 rounded-[2rem] bg-white/[0.02] flex items-center justify-center mb-8 border border-white/5">
                         <Terminal className="h-10 w-10 opacity-20" />
                     </div>
-                    <p className="h2-brand text- white/20">Setor Vazio</p>
+                    <p className="h2-brand text-muted-foreground">Setor Vazio</p>
                     <p className="label-brand opacity-30 italic max-w-xs">Selecione uma categoria na infraestrutura ao lado para inspecionar parâmetros.</p>
                 </div>
             )
@@ -348,7 +348,7 @@ export default function Management() {
                 </div>
                 <CardHeader className="bg-primary/5 p-12">
                     <div className="flex items-center justify-between mb-4">
-                        <CardTitle className="h2-brand italic uppercase text-white flex items-center gap-4">
+                        <CardTitle className="h2-brand italic uppercase text-foreground flex items-center gap-4">
                             <div className="p-3 rounded-xl bg-primary/10 text-primary">
                                 <Layers className="h-6 w-6" />
                             </div>
@@ -376,7 +376,7 @@ export default function Management() {
                                                 <Cpu className="h-6 w-6 opacity-40 group-hover:opacity-100" />
                                             </div>
                                             <div className="flex flex-col gap-1.5">
-                                                <span className="h3-brand italic uppercase group-hover:text-primary transition-colors">{field.label}</span>
+                                                <span className="h3-brand italic uppercase group-hover:text-primary transition-colors text-foreground">{field.label}</span>
                                                 {unit && (
                                                     <div className="flex items-center gap-3">
                                                         <Badge variant="outline" className="text-[9px] uppercase font-black tracking-[0.15em] rounded-md h-5 px-2 bg-primary/10 text-primary border-none">Unidade</Badge>
@@ -396,7 +396,7 @@ export default function Management() {
                         <div className="flex flex-col items-center justify-center py-24 text-muted-foreground italic text-center gap-8 bg-white/[0.01] rounded-[3rem] border-4 border-dashed border-white/5">
                             <Info className="h-16 w-16 opacity-5" />
                             <div className="space-y-2">
-                                <p className="h2-brand text-white/10">Vácuo Detectado</p>
+                                <p className="h2-brand text-muted-foreground/40">Vácuo Detectado</p>
                                 <p className="label-brand opacity-20 max-w-[280px]">Esta categoria não possui parâmetros registrados no banco de dados.</p>
                             </div>
                         </div>
@@ -454,7 +454,7 @@ export default function Management() {
                                     <Layers className="h-5 w-5" />
                                 </div>
                                 <div className="space-y-0.5">
-                                    <CardTitle className="h3-brand uppercase text-white/90">Categorias</CardTitle>
+                                    <CardTitle className="h3-brand uppercase text-foreground">Categorias</CardTitle>
                                     <CardDescription className="label-brand text-[8px] opacity-40">Estruturação de modalidades operacionais.</CardDescription>
                                 </div>
                             </div>
@@ -479,7 +479,7 @@ export default function Management() {
                                                     <Layers className="h-7 w-7" />
                                                 </div>
                                                 <div>
-                                                    <DialogTitle className="h2-brand text-3xl italic uppercase text-white leading-none">
+                                                    <DialogTitle className="h2-brand text-3xl italic uppercase text-foreground leading-none">
                                                         {editingCategory ? "Alterar Categoria" : "Nova Categoria"}
                                                     </DialogTitle>
                                                     <DialogDescription className="label-brand opacity-40 mt-2">
@@ -605,7 +605,7 @@ export default function Management() {
                                                                 <div className="flex items-center gap-4">
                                                                     <div className={`h-2 w-2 rounded-full ${cat.active ? "bg-primary shadow-glow accent-primary" : "bg-muted"}`} />
                                                                     <div>
-                                                                        <p className="h3-brand text-sm text-white/90 italic tracking-tighter leading-none uppercase group-hover:translate-x-1 transition-transform">{cat.name}</p>
+                                                                        <p className="h3-brand text-sm text-foreground italic tracking-tighter leading-none uppercase group-hover:translate-x-1 transition-transform">{cat.name}</p>
                                                                         <p className="label-brand opacity-20 mt-1 uppercase text-[8px]">ID: {cat.id.substring(0, 8)}</p>
                                                                     </div>
                                                                 </div>
@@ -638,7 +638,7 @@ export default function Management() {
                                                                     </Button>
                                                                     <Button
                                                                         variant="secondary"
-                                                                        className="h-9 px-4 rounded-lg label-brand text-[10px] italic bg-white text-black hover:bg-primary transition-all shadow-2xl"
+                                                                        className="h-9 px-4 rounded-lg label-brand text-[10px] italic bg-primary text-primary-foreground hover:bg-primary/80 transition-all shadow-2xl"
                                                                         onClick={(e) => { e.stopPropagation(); setSelectedCategory(cat); }}
                                                                     >
                                                                         Inspecionar
@@ -667,7 +667,7 @@ export default function Management() {
                                     <Calculator className="h-5 w-5" />
                                 </div>
                                 <div className="space-y-0.5">
-                                    <CardTitle className="h3-brand uppercase text-white/90">Unidades de Medida</CardTitle>
+                                    <CardTitle className="h3-brand uppercase text-foreground">Unidades de Medida</CardTitle>
                                     <CardDescription className="label-brand text-[8px] opacity-40">Orquestração de metadados métricos.</CardDescription>
                                 </div>
                             </div>
@@ -744,7 +744,7 @@ export default function Management() {
                                                             className="group border-b border-white/5 transition-all hover:bg-white/[0.02] animate-in fade-in slide-in-from-right-4 duration-500"
                                                             style={{ animationDelay: `${i * 50}ms` }}
                                                         >
-                                                            <TableCell className="h3-brand text-sm text-white/90 py-4 px-6">{u.name}</TableCell>
+                                                            <TableCell className="h3-brand text-sm text-foreground py-4 px-6">{u.name}</TableCell>
                                                             <TableCell className="py-4 px-6">
                                                                 <Badge className="rounded-lg px-3 py-1 bg-primary/10 border-none text-primary text-[10px] font-black italic uppercase tracking-widest shadow-glow">{u.symbol}</Badge>
                                                             </TableCell>

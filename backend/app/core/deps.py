@@ -16,6 +16,7 @@ from app.db.session import get_session
 from app.models.user import User
 
 bearer_scheme = HTTPBearer()
+bearer_scheme_optional = HTTPBearer(auto_error=False)
 
 
 async def get_db() -> AsyncSession:  # type: ignore[return]
@@ -52,6 +53,33 @@ async def get_current_user(
     user = result.scalar_one_or_none()
     if user is None:
         raise credentials_exception
+    return user
+
+
+async def get_optional_user(
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme_optional),
+    db: AsyncSession = Depends(get_db),
+) -> User | None:
+    """
+    Validate the Bearer JWT and return the corresponding User.
+    If no token is provided, returns None instead of raising 401.
+    """
+    if credentials is None:
+        return None
+
+    try:
+        payload = decode_token(credentials.credentials)
+        user_id: str | None = payload.get("sub")
+        token_type: str | None = payload.get("type")
+        if user_id is None or token_type != "access":
+            return None
+    except JWTError:
+        return None
+
+    from sqlalchemy import select
+
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalar_one_or_none()
     return user
 
 

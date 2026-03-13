@@ -84,11 +84,11 @@ export default function Purchases() {
                         </div>
                         <div>
                             <div className="flex items-center gap-4 mb-1">
-                                <h1 className="h1-brand text-3xl text-white">Suprimentos</h1>
+                                <h1 className="h1-brand text-3xl text-foreground">Suprimentos</h1>
                                 <Badge className="bg-primary/10 text-primary border-none label-brand px-3 py-1 rounded-full text-[10px]">Chain</Badge>
                             </div>
                             <p className="body-brand text-muted-foreground opacity-40 text-sm">
-                                Orquestração de compras e <span className="text-primary text-white/80">Inteligência de Aquisição</span>.
+                                Orquestração de compras e <span className="text-primary font-bold">Inteligência de Aquisição</span>.
                             </p>
                         </div>
                     </div>
@@ -108,7 +108,7 @@ export default function Purchases() {
                     <div className="flex gap-4">
                         <button
                             onClick={() => openDialog('raw_material')}
-                            className="h-11 px-8 rounded-[2rem] border border-white/5 hover:bg-white/5 text-muted-foreground label-brand transition-all flex items-center gap-3 group text-[10px]"
+                            className="h-11 px-8 rounded-[2rem] border border-white/5 hover:bg-white/5 text-foreground label-brand transition-all flex items-center gap-3 group text-[10px]"
                         >
                             <Layers className="h-3.5 w-3.5 opacity-40 group-hover:rotate-12 transition-transform" />
                             Comprar Insumo
@@ -223,7 +223,7 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                                         <Calendar className="h-5 w-5 opacity-40 group-hover:opacity-100" />
                                     </div>
                                     <div className="space-y-0.5">
-                                        <div className="h3-brand text-lg text-white/90 group-hover:translate-x-1 transition-transform">
+                                        <div className="h3-brand text-lg text-foreground group-hover:translate-x-1 transition-transform">
                                             {purchase.purchase_date ? new Date(purchase.purchase_date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Protocolo N/A'}
                                         </div>
                                         <div className="label-brand text-[8px] text-muted-foreground/40 flex items-center gap-2">
@@ -239,7 +239,7 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                                         {purchase.supplier?.name?.charAt(0) || '?'}
                                     </div>
                                     <div className="space-y-0.5">
-                                        <span className="h3-brand text-base text-white/80 group-hover:text-primary transition-colors">
+                                        <span className="h3-brand text-base text-foreground group-hover:text-primary transition-colors">
                                             {purchase.supplier?.name || 'Entidade Desconhecida'}
                                         </span>
                                         <p className="label-brand text-[8px] text-muted-foreground/20 italic">Arquitetura de Parceiro Verificada</p>
@@ -248,7 +248,7 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                             </TableCell>
                             <TableCell className="text-right">
                                 <div className="flex flex-col items-end gap-0.5">
-                                    <span className="stat-brand text-white/60 text-lg">
+                                    <span className="stat-brand text-foreground text-lg">
                                         R$ {Number(purchase.total_value || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                                     </span>
                                     <div className="flex items-center gap-1.5 label-brand text-emerald-400/60 text-[9px]">
@@ -283,7 +283,7 @@ function PurchasesTable({ purchases, isLoading, openDialog }: { purchases: any[]
                                         <ShoppingCart className="h-20 w-20 opacity-5 rotate-12" />
                                     </div>
                                     <div className="space-y-3">
-                                        <p className="h2-brand text-white/20">Liquidez Zero</p>
+                                        <p className="h2-brand text-muted-foreground">Liquidez Zero</p>
                                         <p className="label-brand opacity-30">Nenhum registro de aquisição localizado no ledger atual.</p>
                                     </div>
                                     <button

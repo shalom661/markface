@@ -175,7 +175,7 @@ export default function Suppliers() {
                                 <Badge variant="secondary" className="bg-primary/10 text-primary border-none label-brand px-3 py-1 mt-1">Sourcing</Badge>
                             </div>
                             <p className="body-brand text-muted-foreground opacity-50 italic">
-                                Gestão centralizada de <span className="text-primary text-white/80">Trade Partners</span>.
+                                Gestão centralizada de <span className="text-primary font-bold">Trade Partners</span>.
                             </p>
                         </div>
                     </div>
@@ -209,7 +209,7 @@ export default function Suppliers() {
                                         <Building2 className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <DialogTitle className="h2-brand text-2xl">
+                                        <DialogTitle className="h2-brand text-2xl text-foreground">
                                             {editingSupplier ? 'Atualizar Assets' : 'Novo Credencial'}
                                         </DialogTitle>
                                         <DialogDescription className="label-brand text-muted-foreground/60 mt-1 text-[10px]">
@@ -274,7 +274,7 @@ export default function Suppliers() {
                                             </div>
                                             <div className="flex flex-col gap-1">
                                                 <div
-                                                    className="h3-brand text-white/90 text-base truncate max-w-md group-hover:text-primary transition-colors cursor-pointer"
+                                                    className="h3-brand text-foreground text-base truncate max-w-md group-hover:text-primary transition-colors cursor-pointer"
                                                     onClick={() => handleEdit(supplier)}
                                                 >
                                                     {supplier.name}
@@ -342,7 +342,7 @@ export default function Suppliers() {
                                                 <Building2 className="h-16 w-16 opacity-5 rotate-12" />
                                             </div>
                                             <div className="space-y-2">
-                                                <p className="h2-brand text-white/20">Rede Vazia</p>
+                                                <p className="h2-brand text-muted-foreground">Rede Vazia</p>
                                                 <p className="body-brand text-sm opacity-30 italic">Nenhum parceiro comercial localizado na região de busca.</p>
                                             </div>
                                             <button

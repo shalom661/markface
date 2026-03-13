@@ -8,7 +8,7 @@ import uuid
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.deps import get_current_user, get_db
+from app.core.deps import get_current_user, get_db, get_optional_user
 from app.models.user import User
 from app.schemas.common import PaginatedResponse
 from app.schemas.product import ProductCreate, ProductRead, ProductUpdate, VariantCreate, VariantRead, VariantUpdate
@@ -45,8 +45,13 @@ async def list_products(
     active_only: bool = Query(default=False),
     website_only: bool = Query(default=False),
     db: AsyncSession = Depends(get_db),
-    _user: User = Depends(get_current_user),
+    user: User | None = Depends(get_optional_user),
 ) -> PaginatedResponse[ProductRead]:
+    # if not authenticated, force search for active and on website products
+    if user is None:
+        active_only = True
+        website_only = True
+        
     total, items = await product_service.list_products(db, page, page_size, active_only, website_only)
     return PaginatedResponse(total=total, page=page, page_size=page_size, items=list(items))
 
@@ -59,9 +64,16 @@ async def list_products(
 async def get_product(
     product_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),
-    _user: User = Depends(get_current_user),
+    user: User | None = Depends(get_optional_user),
 ) -> ProductRead:
-    return await product_service.get_product_or_404(db, product_id)  # type: ignore[return-value]
+    product = await product_service.get_product_or_404(db, product_id)
+    # Check if the product is on the website if the user is not authenticated
+    if user is None and not product.is_on_website:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Não autorizado para visualizar produtos fora do site.",
+        )
+    return product  # type: ignore[return-value]
 
 
 @router.put(

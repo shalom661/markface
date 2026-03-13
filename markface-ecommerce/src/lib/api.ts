@@ -39,6 +39,7 @@ export async function fetchProducts(
     page: page.toString(),
     page_size: pageSize.toString(),
     active_only: 'true',
+    website_only: 'true',
   });
 
   if (filters.category) params.append('category', filters.category);

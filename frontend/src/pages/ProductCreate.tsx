@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-    ArrowLeft, Save, Plus, Trash2, Package, Scissors, Shirt, Copy, ChevronDown, Loader2
+    ArrowLeft, Save, Plus, Trash2, Package, Scissors, Shirt, Copy, ChevronDown, Loader2, Globe
 } from 'lucide-react';
 
 import api from '@/lib/api';
@@ -38,6 +38,7 @@ export default function ProductCreate() {
     const [description, setDescription] = useState('');
     const [internalCode, setInternalCode] = useState('');
     const [isActive] = useState(true);
+    const [isOnWebsite, setIsOnWebsite] = useState(false);
 
     // Advanced Type State
     const [type, setType] = useState<'manufactured' | 'resale'>('manufactured');
@@ -193,6 +194,7 @@ export default function ProductCreate() {
             name,
             description: description || null,
             active: isActive,
+            is_on_website: isOnWebsite,
             is_manufactured: isManufactured,
             internal_code: internalCode,
             variants: variants.map(v => ({
@@ -330,6 +332,26 @@ export default function ProductCreate() {
                                 </div>
                             </div>
                         )}
+
+                        <div className="pt-4 border-t border-primary/5 flex items-center justify-between">
+                            <div className="space-y-0.5">
+                                <Label className="text-sm font-bold flex items-center gap-2">
+                                    <Globe className="h-4 w-4 text-primary" />
+                                    Disponível no Site
+                                </Label>
+                                <p className="text-xs text-muted-foreground">Exibir este produto na loja virtual MarkFace ao criar.</p>
+                            </div>
+                            <button
+                                onClick={() => setIsOnWebsite(!isOnWebsite)}
+                                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${isOnWebsite ? 'bg-primary' : 'bg-muted'
+                                    }`}
+                            >
+                                <span
+                                    className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${isOnWebsite ? 'translate-x-6' : 'translate-x-1'
+                                        }`}
+                                />
+                            </button>
+                        </div>
                     </CardContent>
                 </Card>
 

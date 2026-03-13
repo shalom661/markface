@@ -200,7 +200,7 @@ export default function RawMaterials() {
                         <div>
                             <h2 className="h1-brand text-3xl">Suprimentos</h2>
                             <div className="flex items-center gap-2 mt-1">
-                                <Badge variant="secondary" className="bg-primary/5 text-primary-foreground/70 border-none label-brand px-2">v2.4.0</Badge>
+                                <Badge variant="secondary" className="bg-primary/5 text-primary border-none label-brand px-2">v2.4.0</Badge>
                                 <span className="body-brand text-muted-foreground text-sm opacity-60 italic">— Gestão Inteligente de Matérias-Primas</span>
                             </div>
                         </div>
@@ -314,18 +314,18 @@ export default function RawMaterials() {
                                     <TableRow key={item.id} className="group hover:bg-white/[0.04] transition-all border-b border-white/5 active:bg-white/10">
                                         <TableCell className="py-3 px-10">
                                             <div className="flex flex-col gap-1">
-                                                <div className="h3-brand text-lg text-white/90 truncate max-w-xs group-hover:text-primary transition-colors italic uppercase leading-none">{item.description}</div>
+                                                <div className="h3-brand text-lg text-foreground truncate max-w-xs group-hover:text-primary transition-colors italic uppercase leading-none">{item.description}</div>
                                                 <div className="flex items-center gap-2">
                                                     <span className="label-brand text-muted-foreground bg-white/5 px-1.5 py-0.5 rounded border border-white/5 font-mono text-[9px]">{item.internal_code || 'N/A'}</span>
                                                     <span className="label-brand tracking-tighter text-muted-foreground/40 italic text-[9px]">System ID: {item.id.slice(0, 8).toUpperCase()}</span>
                                                 </div>
-                                            </div>
+                                            </div >
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex flex-col gap-1">
                                                 <div className="flex items-center gap-2">
                                                     <SquareStack className="h-3 w-3 text-primary/50" />
-                                                    <span className="label-brand text-indigo-100">{item.category}</span>
+                                                    <span className="label-brand text-foreground">{item.category}</span>
                                                 </div>
                                                 <span className="label-brand text-muted-foreground/60 italic ml-5 truncate max-w-[150px]">{item.subcategory || 'Padrão'}</span>
                                             </div>
@@ -336,13 +336,13 @@ export default function RawMaterials() {
                                                     {(item.supplier?.name || 'S')[0]}
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <span className="h3-brand text-xs text-white/80">{item.supplier?.name || 'Venda Local'}</span>
+                                                    <span className="h3-brand text-xs text-foreground uppercase">{item.supplier?.name || 'Venda Local'}</span>
                                                     <span className="label-brand text-muted-foreground/40 italic text-[9px]">Fornecedor</span>
                                                 </div>
                                             </div>
                                         </TableCell>
                                         <TableCell className="text-center">
-                                            <div className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-white/5 border border-white/10 text-white label-brand shadow-xl">
+                                            <div className="inline-flex items-center justify-center h-10 w-10 rounded-xl bg-white/5 border border-white/10 text-foreground label-brand shadow-xl">
                                                 {item.unit}
                                             </div>
                                         </TableCell>
@@ -387,7 +387,7 @@ export default function RawMaterials() {
                                 </div>
                             </div>
                             <div className="text-center space-y-2">
-                                <p className="h2-brand text-2xl italic">Vazio Industrial</p>
+                                <p className="h2-brand text-2xl italic text-muted-foreground">Vazio Industrial</p>
                                 <p className="body-brand text-muted-foreground opacity-60 text-sm">Nenhum registro encontrado para "{searchQuery}"</p>
                             </div>
                             <Button

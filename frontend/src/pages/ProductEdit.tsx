@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-    ChevronLeft, Save, Package, Scissors, Truck, Trash2, Plus, Loader2, Copy, ChevronDown, Shirt
+    ChevronLeft, Save, Package, Scissors, Truck, Trash2, Plus, Loader2, Copy, ChevronDown, Shirt, Globe
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useToast } from "@/hooks/use-toast";
@@ -40,6 +40,7 @@ export default function ProductEdit() {
     const [description, setDescription] = useState('');
     const [internalCode, setInternalCode] = useState('');
     const [isActive, setIsActive] = useState(true);
+    const [isOnWebsite, setIsOnWebsite] = useState(false);
 
     // Advanced Type State
     const [type, setType] = useState<'manufactured' | 'resale'>('manufactured');
@@ -65,6 +66,7 @@ export default function ProductEdit() {
             setDescription(product.description || '');
             setInternalCode(product.internal_code);
             setIsActive(product.active);
+            setIsOnWebsite(product.is_on_website || false);
             setType(product.is_manufactured ? 'manufactured' : 'resale');
             setSupplierId(product.supplier_id || '');
             setSupplierCode(product.supplier_code || '');
@@ -233,6 +235,7 @@ export default function ProductEdit() {
             name,
             description: description || null,
             active: isActive,
+            is_on_website: isOnWebsite,
             is_manufactured: isManufactured,
             internal_code: internalCode,
             variants: variants.map(v => ({
@@ -385,6 +388,26 @@ export default function ProductEdit() {
                                 </div>
                             </div>
                         )}
+
+                        <div className="pt-4 border-t border-primary/5 flex items-center justify-between">
+                            <div className="space-y-0.5">
+                                <Label className="text-sm font-bold flex items-center gap-2">
+                                    <Globe className="h-4 w-4 text-primary" />
+                                    Disponível no Site
+                                </Label>
+                                <p className="text-xs text-muted-foreground">Exibir este produto na loja virtual MarkFace.</p>
+                            </div>
+                            <button
+                                onClick={() => setIsOnWebsite(!isOnWebsite)}
+                                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${isOnWebsite ? 'bg-primary' : 'bg-muted'
+                                    }`}
+                            >
+                                <span
+                                    className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${isOnWebsite ? 'translate-x-6' : 'translate-x-1'
+                                        }`}
+                                />
+                            </button>
+                        </div>
                     </CardContent>
                 </Card>
 
