@@ -34,11 +34,11 @@ const Header = () => {
         {/* Right Actions */}
         <div className="flex items-center gap-4">
           <div className="hidden lg:flex items-center bg-primary/5 rounded-full px-4 py-2 border border-primary/10 group focus-within:border-primary/30 transition-all">
-            <span className="material-symbols-outlined text-xl text-slate-400 group-focus-within:text-primary">search</span>
+            <span className="material-symbols-outlined text-xl text-slate-600 group-focus-within:text-primary">search</span>
             <input 
               type="text"
               placeholder="Search comfort..."
-              className="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder:text-slate-400"
+              className="bg-transparent border-none focus:ring-0 text-sm w-48 placeholder:text-slate-600"
             />
           </div>
 
@@ -61,3 +61,4 @@ const Header = () => {
 };
 
 export default Header;
+

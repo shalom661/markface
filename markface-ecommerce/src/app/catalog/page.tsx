@@ -30,16 +30,16 @@ const CatalogPage = async ({ searchParams }: PageProps) => {
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-8 md:px-10 lg:px-20">
       {/* Breadcrumbs */}
-      <nav className="mb-6 flex items-center gap-2 text-sm font-medium text-slate-500">
-        <Link href="/" className="hover:text-primary">Home</Link>
+      <nav className="mb-6 flex items-center gap-2 text-sm font-medium text-slate-700">
+        <Link href="/" className="hover:text-primary transition-colors">Home</Link>
         <span className="material-symbols-outlined text-xs">chevron_right</span>
-        <span className="text-slate-900 dark:text-slate-100 font-bold uppercase tracking-widest text-[10px]">Pijamas Premium</span>
+        <span className="text-primary font-black uppercase tracking-widest text-[10px]">Pijamas Premium</span>
       </nav>
 
       {/* Page Title */}
       <div className="mb-10">
-        <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-slate-100 md:text-5xl">Sleepwear</h1>
-        <p className="mt-3 max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+        <h1 className="text-4xl font-black tracking-tight text-primary md:text-5xl">Sleepwear</h1>
+        <p className="mt-3 max-w-2xl text-lg text-slate-700 leading-relaxed">
           Entregue-se ao luxo com nossa coleção curada de sedas premium, algodão orgânico e modal, projetados para o descanso noturno definitivo.
         </p>
       </div>
@@ -53,8 +53,8 @@ const CatalogPage = async ({ searchParams }: PageProps) => {
         {/* Product Grid Area */}
         <div className="flex-1">
           {/* Controls */}
-          <div className="mb-6 flex items-center justify-between border-b border-primary/10 pb-4">
-            <p className="text-sm font-medium text-slate-500">Exibindo {products.length} de {total} produtos</p>
+          <div className="mb-6 flex items-center justify-between border-b border-primary/20 pb-4">
+            <p className="text-sm font-bold text-slate-700">Exibindo {products.length} de {total} produtos</p>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">Ordenar por:</span>
               <select className="rounded-lg border-none bg-primary/5 py-1 pl-3 pr-8 text-sm font-bold focus:ring-primary">
@@ -85,7 +85,7 @@ const CatalogPage = async ({ searchParams }: PageProps) => {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-slate-900">Nenhum produto encontrado</h3>
-                  <p className="text-slate-500 max-w-xs">Tente ajustar seus filtros para encontrar o que procura.</p>
+                  <p className="text-slate-700 max-w-xs">Tente ajustar seus filtros para encontrar o que procura.</p>
                 </div>
             </div>
           )}
@@ -93,7 +93,7 @@ const CatalogPage = async ({ searchParams }: PageProps) => {
           {/* Pagination */}
           {total > 24 && (
             <div className="mt-16 flex items-center justify-center gap-4">
-              <button className="flex items-center gap-1 text-sm font-bold text-slate-400 hover:text-primary transition-colors">
+              <button className="flex items-center gap-1 text-sm font-bold text-slate-600 hover:text-primary transition-colors">
                 <span className="material-symbols-outlined">west</span>
                 Anterior
               </button>
@@ -101,10 +101,10 @@ const CatalogPage = async ({ searchParams }: PageProps) => {
                 <button className="h-8 w-8 rounded-lg bg-primary text-xs font-bold text-white">1</button>
                 <button className="h-8 w-8 rounded-lg border border-slate-200 text-xs font-bold hover:bg-primary/5 text-slate-600">2</button>
                 <button className="h-8 w-8 rounded-lg border border-slate-200 text-xs font-bold hover:bg-primary/5 text-slate-600">3</button>
-                <span className="flex h-8 items-center px-1 text-slate-400">...</span>
+                <span className="flex h-8 items-center px-1 text-slate-600">...</span>
                 <button className="h-8 w-8 rounded-lg border border-slate-200 text-xs font-bold hover:bg-primary/5 text-slate-600">12</button>
               </div>
-              <button className="flex items-center gap-1 text-sm font-bold text-slate-900 hover:text-primary dark:text-slate-100 transition-colors">
+              <button className="flex items-center gap-1 text-sm font-black text-primary hover:opacity-80 transition-opacity">
                 Próximo
                 <span className="material-symbols-outlined">east</span>
               </button>
@@ -119,3 +119,4 @@ const CatalogPage = async ({ searchParams }: PageProps) => {
 // Add Link to types if missing
 import Link from 'next/link';
 export default CatalogPage;
+

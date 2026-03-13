@@ -12,7 +12,7 @@ const Footer = () => {
               </div>
               <h2 className="text-xl font-black text-slate-900">Mark Face</h2>
             </div>
-            <p className="text-slate-500 max-w-xs mb-6 leading-relaxed text-sm">
+            <p className="text-slate-700 max-w-xs mb-6 leading-relaxed text-sm">
               Criando os pijamas mais confortáveis do mundo desde 2012. Materiais de qualidade, produção ética e design atemporal.
             </p>
             <div className="flex gap-4">
@@ -24,7 +24,7 @@ const Footer = () => {
 
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-wider">Loja</h4>
-            <ul className="space-y-4 text-slate-500 text-sm">
+            <ul className="space-y-4 text-slate-700 text-sm">
               <li><Link href="/catalog" className="hover:text-primary transition-colors">Todos os Produtos</Link></li>
               <li><Link href="/catalog?category=best-sellers" className="hover:text-primary transition-colors">Mais Vendidos</Link></li>
               <li><Link href="/catalog?category=new-arrivals" className="hover:text-primary transition-colors">Lançamentos</Link></li>
@@ -33,7 +33,7 @@ const Footer = () => {
 
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-wider">Ajuda</h4>
-            <ul className="space-y-4 text-slate-500 text-sm">
+            <ul className="space-y-4 text-slate-700 text-sm">
               <li><Link href="/shipping" className="hover:text-primary transition-colors">Entregas</Link></li>
               <li><Link href="/returns" className="hover:text-primary transition-colors">Devoluções</Link></li>
               <li><Link href="/size-guide" className="hover:text-primary transition-colors">Guia de Tamanhos</Link></li>
@@ -46,20 +46,20 @@ const Footer = () => {
               <span className="material-symbols-outlined text-3xl text-primary">local_shipping</span>
               <div>
                 <h5 className="font-bold text-sm">Frete Expresso Grátis</h5>
-                <p className="text-xs text-slate-500">Em todos os pedidos acima de R$ 500</p>
+                <p className="text-xs text-slate-700">Em todos os pedidos acima de R$ 500</p>
               </div>
             </div>
             <div className="flex items-start gap-4 p-4 bg-white rounded-xl border border-primary/10">
               <span className="material-symbols-outlined text-3xl text-primary">verified</span>
               <div>
                 <h5 className="font-bold text-sm">Garantia de Qualidade</h5>
-                <p className="text-xs text-slate-500">Conforto absoluto ou seu dinheiro de volta</p>
+                <p className="text-xs text-slate-700">Conforto absoluto ou seu dinheiro de volta</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 text-xs">
+        <div className="pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 text-xs">
           <p>© {new Date().getFullYear()} Mark Face Premium Sleepwear. Todos os direitos reservados.</p>
           <div className="flex gap-8">
             <Link href="/privacy" className="hover:text-primary transition-colors">Política de Privacidade</Link>
@@ -72,3 +72,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

@@ -49,3 +49,4 @@ const CatalogHeader = ({ totalItems, activeCategory }: { totalItems: number, act
 };
 
 export default CatalogHeader;
+

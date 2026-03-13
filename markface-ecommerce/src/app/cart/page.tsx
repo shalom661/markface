@@ -26,7 +26,7 @@ const CartPage = () => {
         <div className="flex-grow space-y-8">
           <div className="flex items-center justify-between border-b border-primary/10 pb-6">
             <h2 className="text-3xl font-black tracking-tight">Carrinho de Compras</h2>
-            <span className="text-slate-500 dark:text-slate-400 font-medium">
+            <span className="text-slate-700  font-medium">
               {totalItems()} {totalItems() === 1 ? 'Item' : 'Itens'}
             </span>
           </div>
@@ -42,16 +42,16 @@ const CartPage = () => {
                   <div className="flex-grow">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{item.name}</h3>
+                        <h3 className="text-lg font-bold text-slate-900 
                         <p className="text-sm text-primary font-bold">{item.color || 'Premium Silk'}</p>
-                        <p className="text-xs text-slate-500 mt-1">Tamanho: {item.size || 'N/A'} | SKU: {item.sku}</p>
+                        <p className="text-xs text-slate-700 mt-1">Tamanho: {item.size || 'N/A'} | SKU: {item.sku}</p>
                       </div>
-                      <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                      <p className="text-lg font-bold text-slate-900 
                         {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.price)}
                       </p>
                     </div>
                     <div className="flex items-center justify-between mt-6">
-                      <div className="flex items-center bg-background-light dark:bg-slate-800 rounded-full px-2 py-1 border border-primary/10">
+                      <div className="flex items-center bg-background-light  rounded-full px-2 py-1 border border-primary/10">
                         <button 
                           onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
                           className="w-8 h-8 flex items-center justify-center hover:text-primary transition-colors focus:outline-none"
@@ -68,7 +68,7 @@ const CartPage = () => {
                       </div>
                       <button 
                         onClick={() => removeItem(item.variantId)}
-                        className="text-slate-400 hover:text-primary transition-colors flex items-center gap-1 text-sm font-medium"
+                        className="text-slate-600 hover:text-primary transition-colors flex items-center gap-1 text-sm font-medium"
                       >
                         <span className="material-symbols-outlined text-lg">delete</span>
                         <span>Remover</span>
@@ -93,22 +93,22 @@ const CartPage = () => {
 
         {/* Order Summary Sidebar */}
         <aside className="w-full lg:w-96 shrink-0">
-          <div className="bg-white dark:bg-background-dark/40 border border-primary/10 p-8 rounded-2xl shadow-sm sticky top-28">
+          <div className="bg-white  border border-primary/10 p-8 rounded-2xl shadow-sm sticky top-28">
             <h3 className="text-xl font-bold mb-6">Resumo do Pedido</h3>
             <div className="space-y-4 mb-6 text-sm">
-              <div className="flex justify-between text-slate-600 dark:text-slate-400">
+              <div className="flex justify-between text-slate-600 
                 <span>Subtotal</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-100">
+                <span className="font-semibold text-slate-900 
                   {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalPrice())}
                 </span>
               </div>
-              <div className="flex justify-between text-slate-600 dark:text-slate-400">
+              <div className="flex justify-between text-slate-600 
                 <span>Frete</span>
                 <span className="text-green-600 font-bold uppercase text-[10px] tracking-widest">Grátis</span>
               </div>
-              <div className="flex justify-between text-slate-600 dark:text-slate-400">
+              <div className="flex justify-between text-slate-600 
                 <span>Taxas Estimadas (ISS/ICMS)</span>
-                <span className="font-semibold text-slate-900 dark:text-slate-100">Incluídas</span>
+                <span className="font-semibold text-slate-900 
               </div>
             </div>
             
@@ -123,12 +123,12 @@ const CartPage = () => {
 
             {/* Promo Code */}
             <div className="mb-8">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Cupom de Desconto</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Cupom de Desconto</label>
               <div className="flex gap-2">
                 <input 
                   type="text"
                   placeholder="Código"
-                  className="flex-grow bg-background-light dark:bg-slate-800 border-none rounded-lg text-sm px-4 focus:ring-2 focus:ring-primary/50 transition-all font-medium"
+                  className="flex-grow bg-background-light  border-none rounded-lg text-sm px-4 focus:ring-2 focus:ring-primary/50 transition-all font-medium"
                 />
                 <button className="bg-primary/10 text-primary font-bold px-4 py-2 rounded-lg text-sm hover:bg-primary hover:text-white transition-all whitespace-nowrap">
                   Aplicar
@@ -142,7 +142,7 @@ const CartPage = () => {
             </button>
 
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2 text-[10px] text-slate-500 justify-center uppercase tracking-widest font-semibold">
+              <div className="flex items-center gap-2 text-[10px] text-slate-700 justify-center uppercase tracking-widest font-semibold">
                 <span className="material-symbols-outlined text-sm">lock</span>
                 Pagamento seguro com SSL 256-bit
               </div>
@@ -158,7 +158,7 @@ const CartPage = () => {
             <span className="material-symbols-outlined text-primary font-bold">local_shipping</span>
             <div>
               <h4 className="text-sm font-bold">Benefício de Membro</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+              <p className="text-xs text-slate-600  mt-1">
                 Você recebeu frete expresso gratuito por ser um membro Mark Face Rewards.
               </p>
             </div>
@@ -180,3 +180,4 @@ const CartPage = () => {
 };
 
 export default CartPage;
+

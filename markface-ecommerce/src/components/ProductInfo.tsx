@@ -45,28 +45,28 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       {/* Header */}
       <div>
         <span className="text-primary font-bold text-sm uppercase tracking-widest">Nova Coleção</span>
-        <h1 className="text-4xl md:text-5xl font-black mt-2 mb-4 leading-tight text-slate-900 dark:text-slate-100">
+        <h1 className="text-4xl md:text-5xl font-black mt-2 mb-4 leading-tight text-primary">
           {product.name}
         </h1>
         <div className="flex items-center gap-4">
-          <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+          <p className="text-3xl font-black text-slate-900">
             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(lowestPrice)}
           </p>
           <div className="flex items-center gap-1 bg-primary/10 px-2 py-1 rounded text-primary">
             <span className="material-symbols-outlined text-sm">star</span>
-            <span className="text-sm font-bold">4.9</span>
-            <span className="text-slate-500 dark:text-slate-400 text-xs ml-1">(128 avaliações)</span>
+            <span className="text-sm font-black">4.9</span>
+            <span className="text-slate-700 text-xs ml-1 font-bold">(128 avaliações)</span>
           </div>
         </div>
       </div>
 
       {/* Details */}
       <div className="space-y-4">
-        <h3 className="font-bold text-lg">Detalhes do Produto</h3>
-        <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+        <h3 className="font-black text-lg text-primary">Detalhes do Produto</h3>
+        <p className="text-slate-700 leading-relaxed font-medium">
           {product.description || 'Experimente o luxo noturno definitivo com nosso conjunto de pijama premium. Feito à mão para o seu conforto máximo.'}
         </p>
-        <ul className="grid grid-cols-2 gap-y-2 text-sm text-slate-600 dark:text-slate-400">
+        <ul className="grid grid-cols-2 gap-y-2 text-sm text-slate-700 font-bold">
           <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-lg">check_circle</span> 100% Seda Mulberry</li>
           <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-lg">check_circle</span> Costuras Francesas</li>
           <li className="flex items-center gap-2"><span className="material-symbols-outlined text-primary text-lg">check_circle</span> Cintura Elástica</li>
@@ -79,7 +79,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         <div>
           <h4 className="font-bold mb-3 flex justify-between items-center text-sm">
             <span>Selecionar Cor</span>
-            <span className="text-slate-400 text-xs font-normal">{selectedColor}</span>
+            <span className="text-slate-600 text-xs font-normal">{selectedColor}</span>
           </h4>
           <div className="flex gap-3">
             {['#E5B5B5', '#2D3142', '#F5F5F5', '#1A1A1A'].map((c, i) => (
@@ -110,7 +110,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
                   className={`py-3 border rounded-lg font-bold transition-all ${
                     selectedSize === size 
                       ? 'bg-primary text-white border-primary' 
-                      : 'border-slate-200 dark:border-slate-700 hover:border-primary'
+                      : 'border-slate-200  hover:border-primary'
                   }`}
                 >
                   {size}
@@ -130,7 +130,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           <span className="material-symbols-outlined text-lg">shopping_bag</span>
           Adicionar ao Carrinho
         </button>
-        <button className="w-full sm:w-14 h-14 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-center text-slate-500 hover:text-primary hover:border-primary transition-all">
+        <button className="w-full sm:w-14 h-14 border border-slate-200  rounded-xl flex items-center justify-center text-slate-700 hover:text-primary hover:border-primary transition-all">
           <span className="material-symbols-outlined">favorite</span>
         </button>
       </div>
@@ -154,10 +154,10 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           ].map((bar) => (
             <div key={bar.label} className="grid grid-cols-[20px_1fr_40px] items-center gap-3 text-xs">
               <p className="font-bold">{bar.label}</p>
-              <div className="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+              <div className="h-1.5 overflow-hidden rounded-full bg-slate-200 
                 <div className="h-full bg-primary" style={{ width: bar.width }}></div>
               </div>
-              <p className="text-[10px] text-slate-500 text-right">{bar.width}</p>
+              <p className="text-[10px] text-slate-700 text-right">{bar.width}</p>
             </div>
           ))}
         </div>
@@ -167,3 +167,4 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 };
 
 export default ProductInfo;
+

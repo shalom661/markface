@@ -15,7 +15,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
   return (
     <div className="flex flex-col gap-4">
       {/* Main Image */}
-      <div className="aspect-[4/5] w-full bg-slate-200 dark:bg-slate-800 rounded-xl overflow-hidden shadow-sm">
+      <div className="aspect-[4/5] w-full bg-slate-200  rounded-xl overflow-hidden shadow-sm">
         <div 
           className="w-full h-full bg-cover bg-center transition-all duration-700" 
           style={{ backgroundImage: `url("${galleryImages[activeIndex]}")` }}
@@ -44,3 +44,4 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
 };
 
 export default ProductGallery;
+

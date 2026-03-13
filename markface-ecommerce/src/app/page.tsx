@@ -15,8 +15,8 @@ export default async function Home() {
       <section className="px-4 md:px-20 py-16">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-black mb-2">Lançamentos</h2>
-            <p className="text-slate-500">As peças mais recentes adicionadas à nossa coleção esta semana.</p>
+            <h2 className="text-3xl font-black mb-2 text-primary">Lançamentos</h2>
+            <p className="text-slate-700 font-medium">As peças mais recentes adicionadas à nossa coleção esta semana.</p>
           </div>
           <Link href="/catalog" className="font-bold flex items-center gap-2 hover:gap-3 transition-all text-primary">
             Ver Todos <span className="material-symbols-outlined">arrow_forward</span>
@@ -47,9 +47,9 @@ export default async function Home() {
       </section>
 
       {/* Shop by Category */}
-      <section className="px-4 md:px-20 py-16 bg-slate-50 dark:bg-slate-900/20">
+      <section className="px-4 md:px-20 py-16 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black mb-10 text-center text-slate-900 dark:text-slate-100">Compre por Categoria</h2>
+          <h2 className="text-3xl font-black mb-10 text-center text-primary">Compre por Categoria</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Pajamas */}
             <Link href="/catalog?category=pajamas" className="relative group h-80 overflow-hidden rounded-xl cursor-pointer">
@@ -127,3 +127,4 @@ export default async function Home() {
     </div>
   );
 }
+

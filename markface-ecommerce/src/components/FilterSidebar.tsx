@@ -44,9 +44,9 @@ const FilterSidebar = () => {
                   type="checkbox" 
                   checked={activeCategory === cat.id}
                   onChange={() => router.push(`/catalog?${createQueryString('category', activeCategory === cat.id ? '' : cat.id)}`)}
-                  className="h-5 w-5 rounded border-slate-300 text-primary focus:ring-primary"
+                  className="h-5 w-5 rounded border-slate-400 text-primary focus:ring-primary"
                 />
-                <span className="text-sm font-medium">{cat.label}</span>
+                <span className="text-sm font-bold text-slate-700">{cat.label}</span>
               </label>
             ))}
           </div>
@@ -56,12 +56,12 @@ const FilterSidebar = () => {
         <div>
           <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-primary">Paleta de Cores</h3>
           <div className="flex flex-wrap gap-3">
-            <button className="h-8 w-8 rounded-full border-2 border-primary ring-2 ring-primary/20 bg-[#f8f6f6]" title="Cream"></button>
-            <button className="h-8 w-8 rounded-full border border-slate-200 bg-[#2b2d42]" title="Navy"></button>
-            <button className="h-8 w-8 rounded-full border border-slate-200 bg-[#e8305e]" title="Rose"></button>
-            <button className="h-8 w-8 rounded-full border border-slate-200 bg-[#7a8d99]" title="Slate"></button>
-            <button className="h-8 w-8 rounded-full border border-slate-200 bg-[#111111]" title="Midnight"></button>
-            <button className="h-8 w-8 rounded-full border border-slate-200 bg-[#d9d9d9]" title="Pearl"></button>
+            <button className="h-8 w-8 rounded-full border-2 border-primary ring-2 ring-primary/20 bg-white" title="Cream"></button>
+            <button className="h-8 w-8 rounded-full border border-slate-400 bg-[#2b2d42]" title="Navy"></button>
+            <button className="h-8 w-8 rounded-full border border-slate-400 bg-[#e8305e]" title="Rose"></button>
+            <button className="h-8 w-8 rounded-full border border-slate-400 bg-[#7a8d99]" title="Slate"></button>
+            <button className="h-8 w-8 rounded-full border border-slate-400 bg-[#111111]" title="Midnight"></button>
+            <button className="h-8 w-8 rounded-full border border-slate-400 bg-[#d9d9d9]" title="Pearl"></button>
           </div>
         </div>
 
@@ -72,7 +72,7 @@ const FilterSidebar = () => {
             {SIZES.map((size) => (
               <button 
                 key={size}
-                className="flex h-10 items-center justify-center rounded-lg border border-slate-200 text-xs font-bold hover:border-primary/40 hover:bg-primary/5 transition-all text-slate-700"
+                className="flex h-10 items-center justify-center rounded-lg border border-slate-300 text-xs font-black hover:border-primary/40 hover:bg-primary/5 transition-all text-slate-800"
               >
                 {size}
               </button>
@@ -94,3 +94,4 @@ const FilterSidebar = () => {
 };
 
 export default FilterSidebar;
+

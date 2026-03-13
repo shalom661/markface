@@ -67,10 +67,10 @@ const ProductCard = ({ product, label }: ProductCardProps) => {
 
       <div className="mt-4 flex justify-between">
         <div>
-          <h3 className="text-sm font-bold text-slate-900 group-hover:text-primary transition-colors">
+          <h3 className="text-sm font-black text-slate-900 group-hover:text-primary transition-colors">
             {product.name}
           </h3>
-          <p className="text-xs font-medium text-slate-500">{categoryLabel}</p>
+          <p className="text-xs font-bold text-slate-600">{categoryLabel}</p>
         </div>
         <p className="text-sm font-black text-primary">
           {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(lowestPrice)}
@@ -87,3 +87,4 @@ const ProductCard = ({ product, label }: ProductCardProps) => {
 };
 
 export default ProductCard;
+
