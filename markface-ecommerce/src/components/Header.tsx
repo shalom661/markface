@@ -18,7 +18,8 @@ const Header = () => {
               alt="Mark Face" 
               width={160} 
               height={40} 
-              className="h-10 w-auto group-hover:scale-105 transition-transform" 
+              priority
+              className="h-10 w-auto group-hover:scale-105 transition-transform brightness-100" 
             />
           </Link>
 
