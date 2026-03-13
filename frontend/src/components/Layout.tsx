@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, Outlet, Link, useLocation } from 'react-router-dom';
-import { LogOut, Package, ShoppingCart, Truck, Scissors, LayoutDashboard, FileUp, Moon, Sun, User as UserIcon, Settings, Menu, DollarSign, ShoppingBag, Landmark, MessageSquare } from 'lucide-react';
+import { LogOut, Package, ShoppingCart, Truck, Scissors, LayoutDashboard, FileUp, Moon, Sun, User as UserIcon, Settings, Menu, DollarSign, ShoppingBag, Landmark, MessageSquare, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
 import { cn } from '@/lib/utils';
@@ -56,6 +56,7 @@ export default function Layout() {
                         { to: "/costs", icon: DollarSign, label: "Custos de Produção" },
                         { to: "/purchases", icon: ShoppingBag, label: "Compras" },
                         { to: "/fixed-costs", icon: Landmark, label: "Gastos Fixos" },
+                        { to: "/website", icon: Globe, label: "Website" },
                         { to: "/whatsapp", icon: MessageSquare, label: "WhatsApp" },
                     ].map((item) => (
                         <Button

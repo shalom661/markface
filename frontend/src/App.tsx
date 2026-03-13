@@ -17,6 +17,7 @@ import Costs from '@/pages/Costs';
 import Purchases from '@/pages/Purchases';
 import FixedCosts from '@/pages/FixedCosts';
 import WhatsApp from '@/pages/WhatsApp';
+import Website from '@/pages/Website';
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/purchases" element={<Purchases />} />
           <Route path="/fixed-costs" element={<FixedCosts />} />
           <Route path="/whatsapp" element={<WhatsApp />} />
+          <Route path="/website" element={<Website />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
