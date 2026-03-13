@@ -3,6 +3,8 @@ export const HUB_API_URL = process.env.NEXT_PUBLIC_HUB_API_URL || 'https://markf
 export interface ProductVariant {
   id: string;
   sku: string;
+  size?: string;
+  color?: string;
   attributes: Record<string, any>;
   price_default: number;
   image_url: string | null;

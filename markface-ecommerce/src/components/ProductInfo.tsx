@@ -11,7 +11,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
 
-  const sizes = Array.from(new Set(product.variants.map(v => v.size))).filter(Boolean);
+  const sizes = Array.from(new Set(product.variants.map(v => v.size || v.attributes?.size))).filter(Boolean) as string[];
   const lowestPrice = Math.min(...product.variants.map(v => v.price_default));
   
   const handleAddToCart = () => {
