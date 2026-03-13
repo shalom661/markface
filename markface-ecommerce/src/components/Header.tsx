@@ -14,12 +14,12 @@ const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <Image 
-              src="/logo-blue.png" 
+              src="/logo-premium.png" 
               alt="Mark Face" 
-              width={160} 
-              height={40} 
+              width={180} 
+              height={45} 
               priority
-              className="h-10 w-auto group-hover:scale-105 transition-transform brightness-100" 
+              className="h-12 w-auto group-hover:scale-105 transition-transform" 
             />
           </Link>
 
