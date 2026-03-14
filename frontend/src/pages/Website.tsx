@@ -12,6 +12,7 @@ import api from '@/lib/api';
 import { Card } from "@/components/ui/card";
 import { Input } from '@/components/ui/input';
 import { Badge } from "@/components/ui/badge";
+import { Button } from '@/components/ui/button';
 import {
     Table,
     TableBody,
@@ -72,7 +73,7 @@ export default function Website() {
         },
     });
 
-    const websiteModality = modalities?.find(m => m.name.toLowerCase().includes('website') || m.name.toLowerCase().includes('site'));
+    const websiteModality = modalities?.find((m: any) => m.name.toLowerCase().includes('website') || m.name.toLowerCase().includes('site'));
     const totalFixed = Array.isArray(fixedCosts) ? fixedCosts.reduce((acc: number, curr: any) => acc + Number(curr.value || 0), 0) : 0;
     const fixedShare = totalFixed / 1000; // Assuming 1000 units/month as in Costs.tsx
 
@@ -96,6 +97,25 @@ export default function Website() {
         <div className="h-[60vh] flex flex-col items-center justify-center gap-6 animate-pulse">
             <Globe className="h-16 w-16 text-primary/20" />
             <p className="label-brand text-muted-foreground italic text-xs">Sincronizando Vitrine Digital...</p>
+        </div>
+    );
+
+    if (productsData?.error || !productsData || !modalities) return (
+        <div className="max-w-2xl mx-auto p-12 text-center space-y-8 smooth-glass rounded-[3rem] border-destructive/20 mt-10">
+            <div className="w-20 h-20 bg-destructive/10 text-destructive rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-destructive/20">
+                <Globe className="h-10 w-10" />
+            </div>
+            <div className="space-y-2">
+                <h3 className="h3-brand text-3xl underline decoration-destructive/40 underline-offset-8">Falha na Vitrine</h3>
+                <p className="body-brand text-muted-foreground">Houve um problema ao sincronizar os dados da vitrine digital. Verifique sua conexão ou se as modalidades de venda estão configuradas.</p>
+            </div>
+            <Button
+                variant="outline"
+                onClick={() => window.location.reload()}
+                className="h-14 px-8 rounded-2xl border-white/10 hover:bg-white/10 label-brand"
+            >
+                Tentar Sincronizar
+            </Button>
         </div>
     );
 

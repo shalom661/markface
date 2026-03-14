@@ -185,11 +185,12 @@ export default function Products() {
                             className="bg-white/5 border-white/10 h-12 rounded-2xl pl-12 focus:ring-primary/20 transition-all body-brand"
                         />
                     </div>
-                    <Link to="/products/new">
-                        <Button className="h-12 px-6 rounded-2xl bg-primary text-primary-foreground hover:scale-[1.03] transition-all shadow-glow label-brand gap-2">
-                            <Plus className="h-4 w-4" /> Novo Lançamento
-                        </Button>
-                    </Link>
+                    <Button 
+                        onClick={() => navigate('/products/new')}
+                        className="h-12 px-6 rounded-2xl bg-primary text-primary-foreground hover:scale-[1.03] transition-all shadow-glow label-brand gap-2"
+                    >
+                        <Plus className="h-4 w-4" /> Novo Lançamento
+                    </Button>
                 </div>
             </div>
 
