@@ -119,7 +119,7 @@ export default function Products() {
     };
 
     const handleEdit = (id: string) => {
-        navigate(`/products/edit/${id}`);
+        navigate(`/products/${id}/edit`);
     };
 
     if (isLoading) return (
@@ -185,7 +185,7 @@ export default function Products() {
                             className="bg-white/5 border-white/10 h-12 rounded-2xl pl-12 focus:ring-primary/20 transition-all body-brand"
                         />
                     </div>
-                    <Link to="/products/create">
+                    <Link to="/products/new">
                         <Button className="h-12 px-6 rounded-2xl bg-primary text-primary-foreground hover:scale-[1.03] transition-all shadow-glow label-brand gap-2">
                             <Plus className="h-4 w-4" /> Novo Lançamento
                         </Button>
@@ -294,7 +294,7 @@ export default function Products() {
                             <p className="h3-brand text-xl">Nenhum Ativo Encontrado</p>
                             <p className="label-brand opacity-70">Refine sua busca ou inicie um novo cadastro.</p>
                         </div>
-                        <Button variant="outline" className="rounded-xl border-primary/20 text-primary hover:bg-primary/10 label-brand" onClick={() => navigate('/products/create')}>Cadastrar Primeiro</Button>
+                        <Button variant="outline" className="rounded-xl border-primary/20 text-primary hover:bg-primary/10 label-brand" onClick={() => navigate('/products/new')}>Cadastrar Primeiro</Button>
                     </div>
                 )}
             </Card>

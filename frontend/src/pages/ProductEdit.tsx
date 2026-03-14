@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-    ChevronLeft, Save, Package, Scissors, Truck, Trash2, Plus, Loader2, Copy, ChevronDown, Shirt, Globe
+    ChevronLeft, Save, Package, Scissors, Truck, Trash2, Plus, Loader2, Copy, ChevronDown, Shirt, Globe, AlertCircle
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useToast } from "@/hooks/use-toast";
@@ -51,6 +51,7 @@ export default function ProductEdit() {
 
     // Variations / BOM State
     const [variants, setVariants] = useState<VariantState[]>([]);
+    const [imageUrls, setImageUrls] = useState<string[]>(['', '', '', '', '', '']);
 
     // Data Fetching for the Product
     const { data: product, isLoading: isLoadingProduct } = useQuery({
@@ -70,6 +71,12 @@ export default function ProductEdit() {
             setType(product.is_manufactured ? 'manufactured' : 'resale');
             setSupplierId(product.supplier_id || '');
             setSupplierCode(product.supplier_code || '');
+
+            if (product.images && Array.isArray(product.images)) {
+                const loadedUrls = [...product.images];
+                while (loadedUrls.length < 6) loadedUrls.push('');
+                setImageUrls(loadedUrls.slice(0, 6));
+            }
 
             if (product.variants && product.variants.length > 0) {
                 setVariants(product.variants.map((v: any, idx: number) => ({
@@ -238,6 +245,7 @@ export default function ProductEdit() {
             is_on_website: isOnWebsite,
             is_manufactured: isManufactured,
             internal_code: internalCode,
+            images: imageUrls.filter(url => url.trim() !== ''),
             variants: variants.map(v => ({
                 id: v.id || null,
                 sku: v.sku,
@@ -408,6 +416,67 @@ export default function ProductEdit() {
                                 />
                             </button>
                         </div>
+                    </CardContent>
+                </Card>
+
+                {/* IMAGES SECTION */}
+                <Card className="rounded-3xl border-none smooth-glass overflow-hidden shadow-2xl">
+                    <CardHeader className="border-b border-primary/10 bg-primary/5 p-8">
+                        <CardTitle className="flex items-center gap-3 h2-brand text-2xl">
+                            <div className="p-2 rounded-xl bg-primary/10 text-primary">
+                                <Plus className="h-6 w-6" />
+                            </div>
+                            Fotos do Produto (Até 6)
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {imageUrls.map((url, idx) => (
+                                <div key={idx} className="space-y-2 group">
+                                    <div className="flex items-center justify-between mb-1">
+                                        <Label className="label-brand">Foto {idx + 1}</Label>
+                                        {url && (
+                                            <Button 
+                                                variant="ghost" 
+                                                size="sm" 
+                                                className="h-6 px-2 text-[10px] text-destructive hover:bg-destructive/10"
+                                                onClick={() => {
+                                                    const newUrls = [...imageUrls];
+                                                    newUrls[idx] = '';
+                                                    setImageUrls(newUrls);
+                                                }}
+                                            >
+                                                Remover
+                                            </Button>
+                                        )}
+                                    </div>
+                                    <div className="relative aspect-video rounded-xl bg-muted/50 border border-primary/10 overflow-hidden group-hover:border-primary/30 transition-all">
+                                        {url ? (
+                                            <img src={url} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <div className="flex flex-col items-center justify-center h-full text-muted-foreground/40">
+                                                <Plus className="h-8 w-8 mb-2" />
+                                                <span className="text-[10px] font-bold uppercase tracking-wider">Adicionar URL</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <Input
+                                        value={url}
+                                        onChange={e => {
+                                            const newUrls = [...imageUrls];
+                                            newUrls[idx] = e.target.value;
+                                            setImageUrls(newUrls);
+                                        }}
+                                        placeholder="URL da Imagem..."
+                                        className="h-10 rounded-xl border-primary/10 bg-white/5 body-brand text-xs"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <p className="mt-6 text-xs text-muted-foreground opacity-60 flex items-center gap-2">
+                            <AlertCircle className="h-3 w-3" />
+                            Cole o link de uma imagem pública (Dropbox, Drive, Cloudinary, etc.) para que ela apareça no site.
+                        </p>
                     </CardContent>
                 </Card>
 
