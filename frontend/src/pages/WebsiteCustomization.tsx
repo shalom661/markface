@@ -25,6 +25,8 @@ import { toast } from "sonner";
 interface Banner {
     id: string;
     image_url: string;
+    title?: string;
+    subtitle?: string;
     link_url?: string;
     duration: number;
     active: boolean;
