@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-    ChevronLeft, Save, Package, Scissors, Truck, Trash2, Plus, Loader2, Copy, ChevronDown, Shirt, Globe, AlertCircle
+    ChevronLeft, Save, Package, Scissors, Truck, Trash2, Plus, Loader2, Copy, ChevronDown, Shirt, Globe, AlertCircle, Star, Clock
 } from 'lucide-react';
 import api from '@/lib/api';
 import { useToast } from "@/hooks/use-toast";
@@ -41,6 +41,8 @@ export default function ProductEdit() {
     const [internalCode, setInternalCode] = useState('');
     const [isActive, setIsActive] = useState(true);
     const [isOnWebsite, setIsOnWebsite] = useState(false);
+    const [isFeatured, setIsFeatured] = useState(false);
+    const [isNewArrival, setIsNewArrival] = useState(false);
     const [categoryId, setCategoryId] = useState<string>('');
 
     // Advanced Type State
@@ -69,6 +71,8 @@ export default function ProductEdit() {
             setInternalCode(product.internal_code);
             setIsActive(product.active);
             setIsOnWebsite(product.is_on_website || false);
+            setIsFeatured(product.is_featured || false);
+            setIsNewArrival(product.is_new_arrival || false);
             setType(product.is_manufactured ? 'manufactured' : 'resale');
             setSupplierId(product.supplier_id || '');
             setSupplierCode(product.supplier_code || '');
@@ -250,6 +254,8 @@ export default function ProductEdit() {
             description: description || null,
             active: isActive,
             is_on_website: isOnWebsite,
+            is_featured: isFeatured,
+            is_new_arrival: isNewArrival,
             category_id: categoryId || null,
             is_manufactured: isManufactured,
             internal_code: internalCode,
@@ -436,6 +442,42 @@ export default function ProductEdit() {
                                 className={`h-12 w-24 rounded-2xl transition-all ${isOnWebsite ? 'bg-blue-600' : 'border-white/10'}`}
                             >
                                 {isOnWebsite ? 'Sim' : 'Não'}
+                            </Button>
+                        </div>
+
+                        <div className="flex items-center justify-between p-6 rounded-[2rem] bg-white/5 border border-white/5 hover:bg-white/10 transition-all group">
+                            <div className="space-y-1">
+                                <Label className="text-sm font-bold body-brand uppercase tracking-wider flex items-center gap-2">
+                                    <Star className={`h-4 w-4 ${isFeatured ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground'}`} />
+                                    Produto em Destaque
+                                </Label>
+                                <p className="text-xs text-muted-foreground">Exibir este produto na seção de destaques da página inicial.</p>
+                            </div>
+                            <Button 
+                                type="button"
+                                variant={isFeatured ? "default" : "outline"}
+                                onClick={() => setIsFeatured(!isFeatured)}
+                                className={`h-12 w-24 rounded-2xl transition-all ${isFeatured ? 'bg-amber-500 border-amber-500' : 'border-white/10'}`}
+                            >
+                                {isFeatured ? 'Sim' : 'Não'}
+                            </Button>
+                        </div>
+
+                        <div className="flex items-center justify-between p-6 rounded-[2rem] bg-white/5 border border-white/5 hover:bg-white/10 transition-all group">
+                            <div className="space-y-1">
+                                <Label className="text-sm font-bold body-brand uppercase tracking-wider flex items-center gap-2">
+                                    <Clock className={`h-4 w-4 ${isNewArrival ? 'text-emerald-400' : 'text-muted-foreground'}`} />
+                                    Novo Lançamento
+                                </Label>
+                                <p className="text-xs text-muted-foreground">Exibir este produto na seção de novidades.</p>
+                            </div>
+                            <Button 
+                                type="button"
+                                variant={isNewArrival ? "default" : "outline"}
+                                onClick={() => setIsNewArrival(!isNewArrival)}
+                                className={`h-12 w-24 rounded-2xl transition-all ${isNewArrival ? 'bg-emerald-600 border-emerald-600' : 'border-white/10'}`}
+                            >
+                                {isNewArrival ? 'Sim' : 'Não'}
                             </Button>
                         </div>
                     </CardContent>

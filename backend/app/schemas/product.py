@@ -95,6 +95,8 @@ class ProductCreate(BaseModel):
     images: list[str] | None = Field(default_factory=list)
     active: bool = True
     is_on_website: bool = False
+    is_featured: bool = False
+    is_new_arrival: bool = False
     
     # Manufacturing
     is_manufactured: bool = True
@@ -118,6 +120,8 @@ class ProductUpdate(BaseModel):
     images: list[str] | None = None
     active: bool | None = None
     is_on_website: bool | None = None
+    is_featured: bool | None = None
+    is_new_arrival: bool | None = None
 
     # Manufacturing
     is_manufactured: bool | None = None
@@ -135,6 +139,8 @@ class ProductRead(BaseModel):
     images: list[str] | None
     active: bool
     is_on_website: bool
+    is_featured: bool
+    is_new_arrival: bool
     
     # Manufacturing
     is_manufactured: bool

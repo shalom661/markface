@@ -10,7 +10,8 @@ try:
     print(f"Alembic config imported successfully. Backend dir: {backend_dir}")
     # Change to backend dir so it finds alembic.ini
     os.chdir(backend_dir)
-    main(argv=['revision', '--autogenerate', '-m', 'Add product categories and site config'])
+    message = sys.argv[1] if len(sys.argv) > 1 else 'Add product categories and site config'
+    main(argv=['revision', '--autogenerate', '-m', message])
     print("Migration generated successfully.")
 except Exception as e:
     print(f"Error: {e}")

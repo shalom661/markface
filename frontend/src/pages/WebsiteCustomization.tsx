@@ -193,37 +193,55 @@ export default function WebsiteCustomization() {
                                 </Button>
                             </div>
                         </div>
-                        <div className="space-y-3">
-                            <div className="space-y-1">
-                                <label className="text-[10px] uppercase tracking-wider text-muted-foreground ml-1 font-bold">URL da Imagem</label>
-                                <Input 
-                                    value={banner.image_url} 
-                                    onChange={(e) => updateBanner.mutate({ id: banner.id, data: { image_url: e.target.value }})}
-                                    placeholder="https://exemplo.com/imagem.jpg"
-                                    className="h-10 rounded-xl bg-white/5 border-white/5"
-                                />
-                            </div>
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="space-y-3">
                                 <div className="space-y-1">
-                                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground ml-1 font-bold">Duração (s)</label>
+                                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground ml-1 font-bold">Título do Banner</label>
                                     <Input 
-                                        type="number"
-                                        value={banner.duration} 
-                                        onChange={(e) => updateBanner.mutate({ id: banner.id, data: { duration: parseInt(e.target.value) }})}
+                                        value={banner.title || ''} 
+                                        onChange={(e) => updateBanner.mutate({ id: banner.id, data: { title: e.target.value }})}
+                                        placeholder="Ex: Verão 2024"
                                         className="h-10 rounded-xl bg-white/5 border-white/5"
                                     />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground ml-1 font-bold">Link (Opcional)</label>
+                                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground ml-1 font-bold">Subtítulo / Descrição</label>
                                     <Input 
-                                        value={banner.link_url || ''} 
-                                        onChange={(e) => updateBanner.mutate({ id: banner.id, data: { link_url: e.target.value }})}
-                                        placeholder="/categoria/novidades"
+                                        value={banner.subtitle || ''} 
+                                        onChange={(e) => updateBanner.mutate({ id: banner.id, data: { subtitle: e.target.value }})}
+                                        placeholder="Ex: Nova coleção disponível"
                                         className="h-10 rounded-xl bg-white/5 border-white/5"
                                     />
                                 </div>
+                                <div className="space-y-1">
+                                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground ml-1 font-bold">URL da Imagem</label>
+                                    <Input 
+                                        value={banner.image_url} 
+                                        onChange={(e) => updateBanner.mutate({ id: banner.id, data: { image_url: e.target.value }})}
+                                        placeholder="https://exemplo.com/imagem.jpg"
+                                        className="h-10 rounded-xl bg-white/5 border-white/5"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] uppercase tracking-wider text-muted-foreground ml-1 font-bold">Duração (s)</label>
+                                        <Input 
+                                            type="number"
+                                            value={banner.duration} 
+                                            onChange={(e) => updateBanner.mutate({ id: banner.id, data: { duration: parseInt(e.target.value) }})}
+                                            className="h-10 rounded-xl bg-white/5 border-white/5"
+                                        />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] uppercase tracking-wider text-muted-foreground ml-1 font-bold">Link (Opcional)</label>
+                                        <Input 
+                                            value={banner.link_url || ''} 
+                                            onChange={(e) => updateBanner.mutate({ id: banner.id, data: { link_url: e.target.value }})}
+                                            placeholder="/categoria/novidades"
+                                            className="h-10 rounded-xl bg-white/5 border-white/5"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
                     </Card>
                 ))}
             </div>
