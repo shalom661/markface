@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -41,6 +41,7 @@ export default function ProductEdit() {
     const [internalCode, setInternalCode] = useState('');
     const [isActive, setIsActive] = useState(true);
     const [isOnWebsite, setIsOnWebsite] = useState(false);
+    const [categoryId, setCategoryId] = useState<string>('');
 
     // Advanced Type State
     const [type, setType] = useState<'manufactured' | 'resale'>('manufactured');
@@ -71,6 +72,7 @@ export default function ProductEdit() {
             setType(product.is_manufactured ? 'manufactured' : 'resale');
             setSupplierId(product.supplier_id || '');
             setSupplierCode(product.supplier_code || '');
+            setCategoryId(product.category_id || '');
 
             if (product.images && Array.isArray(product.images)) {
                 const loadedUrls = [...product.images];
@@ -114,6 +116,11 @@ export default function ProductEdit() {
     const { data: rawMaterialsData } = useQuery({
         queryKey: ['raw-materials'],
         queryFn: async () => (await api.get('/raw-materials')).data
+    });
+
+    const { data: categoriesData } = useQuery({
+        queryKey: ['product-categories-dropdown'],
+        queryFn: async () => (await api.get('/product-categories')).data
     });
 
     const updateMutation = useMutation({
@@ -243,6 +250,7 @@ export default function ProductEdit() {
             description: description || null,
             active: isActive,
             is_on_website: isOnWebsite,
+            category_id: categoryId || null,
             is_manufactured: isManufactured,
             internal_code: internalCode,
             images: imageUrls.filter(url => url.trim() !== ''),
@@ -252,8 +260,8 @@ export default function ProductEdit() {
                 attributes: v.attributes,
                 active: true,
                 materials: isManufactured ? v.materials
-                    .filter(m => m.raw_material_id && parseFloat(m.quantity) > 0)
-                    .map(m => ({
+                    .filter((m: any) => m.raw_material_id && parseFloat(m.quantity) > 0)
+                    .map((m: any) => ({
                         raw_material_id: m.raw_material_id,
                         quantity: parseFloat(m.quantity),
                         unit_override: m.unit_override || null
@@ -378,7 +386,7 @@ export default function ProductEdit() {
                                     <select
                                         className="flex h-12 w-full rounded-xl border border-primary/10 bg-background px-4 py-2 text-sm font-medium transition-all focus:ring-2 focus:ring-primary/20 outline-none"
                                         value={supplierId}
-                                        onChange={e => setSupplierId(e.target.value)}
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSupplierId(e.target.value)}
                                     >
                                         <option value="">Selecione o fornecedor...</option>
                                         {suppliersData?.items?.map((sup: any) => (
@@ -397,6 +405,22 @@ export default function ProductEdit() {
                             </div>
                         )}
 
+                        <div className="space-y-2 pt-2">
+                            <Label className="text-sm font-semibold ml-1">Categoria <span className="text-primary-foreground/50 text-[10px] ml-2">(Opcional)</span></Label>
+                            <select
+                                className="flex h-12 w-full rounded-xl border border-primary/10 bg-background px-4 py-2 text-sm font-medium transition-all focus:ring-2 focus:ring-primary/20 outline-none body-brand"
+                                value={categoryId}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategoryId(e.target.value)}
+                            >
+                                <option value="">Sem categoria</option>
+                                {categoriesData?.map((cat: any) => (
+                                    <option key={cat.id} value={cat.id}>
+                                        {cat.parent_id ? '— ' : ''}{cat.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
                         <div className="pt-4 border-t border-primary/5 flex items-center justify-between">
                             <div className="space-y-0.5">
                                 <Label className="text-sm font-bold flex items-center gap-2">
@@ -405,16 +429,14 @@ export default function ProductEdit() {
                                 </Label>
                                 <p className="text-xs text-muted-foreground">Exibir este produto na loja virtual MarkFace.</p>
                             </div>
-                            <button
+                            <Button 
+                                type="button"
+                                variant={isOnWebsite ? "default" : "outline"}
                                 onClick={() => setIsOnWebsite(!isOnWebsite)}
-                                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${isOnWebsite ? 'bg-primary' : 'bg-muted'
-                                    }`}
+                                className={`h-12 w-24 rounded-2xl transition-all ${isOnWebsite ? 'bg-blue-600' : 'border-white/10'}`}
                             >
-                                <span
-                                    className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${isOnWebsite ? 'translate-x-6' : 'translate-x-1'
-                                        }`}
-                                />
-                            </button>
+                                {isOnWebsite ? 'Sim' : 'Não'}
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>

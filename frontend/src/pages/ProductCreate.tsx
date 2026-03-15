@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
@@ -39,6 +39,7 @@ export default function ProductCreate() {
     const [internalCode, setInternalCode] = useState('');
     const [isActive] = useState(true);
     const [isOnWebsite, setIsOnWebsite] = useState(false);
+    const [categoryId, setCategoryId] = useState<string>('');
 
     // Advanced Type State
     const [type, setType] = useState<'manufactured' | 'resale'>('manufactured');
@@ -68,6 +69,11 @@ export default function ProductCreate() {
     const { data: rawMaterialsData } = useQuery({
         queryKey: ['raw-materials'],
         queryFn: async () => (await api.get('/raw-materials')).data
+    });
+
+    const { data: categoriesData } = useQuery({
+        queryKey: ['product-categories-dropdown'],
+        queryFn: async () => (await api.get('/product-categories')).data
     });
 
     const createMutation = useMutation({
@@ -199,6 +205,7 @@ export default function ProductCreate() {
             is_on_website: isOnWebsite,
             is_manufactured: isManufactured,
             internal_code: internalCode,
+            category_id: categoryId || null,
             images: imageUrls.filter(url => url.trim() !== ''),
             variants: variants.map(v => ({
                 sku: v.sku,
@@ -344,16 +351,14 @@ export default function ProductCreate() {
                                 </Label>
                                 <p className="text-xs text-muted-foreground">Exibir este produto na loja virtual MarkFace ao criar.</p>
                             </div>
-                            <button
+                            <Button 
+                                type="button"
+                                variant={isOnWebsite ? "default" : "outline"}
                                 onClick={() => setIsOnWebsite(!isOnWebsite)}
-                                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${isOnWebsite ? 'bg-primary' : 'bg-muted'
-                                    }`}
+                                className={`h-12 w-24 rounded-2xl transition-all ${isOnWebsite ? 'bg-blue-600' : 'border-white/10'}`}
                             >
-                                <span
-                                    className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${isOnWebsite ? 'translate-x-6' : 'translate-x-1'
-                                        }`}
-                                />
-                            </button>
+                                {isOnWebsite ? 'Sim' : 'Não'}
+                            </Button>
                         </div>
                     </CardContent>
                 </Card>
@@ -412,6 +417,19 @@ export default function ProductCreate() {
                                 </div>
                             ))}
                         </div>
+                        <div>
+                                <Label className="text-sm font-bold mb-3 block body-brand">CATEGORIA NO SITE</Label>
+                                <select
+                                    className="flex h-12 w-full rounded-xl border border-primary/10 bg-background px-4 py-2 text-sm font-medium transition-all focus:ring-2 focus:ring-primary/20 outline-none body-brand"
+                                    value={categoryId}
+                                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategoryId(e.target.value)}
+                                >
+                                    <option value="">Sem categoria</option>
+                                    {categoriesData?.map((cat: any) => (
+                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                    ))}
+                                </select>
+                            </div>
                         <p className="mt-6 text-xs text-muted-foreground opacity-60 flex items-center gap-2">
                             <AlertCircle className="h-3 w-3" />
                             Cole o link de uma imagem pública (Dropbox, Drive, Cloudinary, etc.) para que ela apareça no site.

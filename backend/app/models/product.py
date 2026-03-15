@@ -6,6 +6,7 @@ Product and ProductVariant models.
 import uuid
 from decimal import Decimal
 
+import sqlalchemy as sa
 from sqlalchemy import Boolean, ForeignKey, Numeric, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -29,7 +30,12 @@ class Product(UUIDMixin, TimestampMixin, Base):
     supplier_code: Mapped[str | None] = mapped_column(String(120), nullable=True)
     supplier_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True),
-        ForeignKey("suppliers.id", ondelete="SET NULL"),
+        sa.ForeignKey("suppliers.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    category_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True),
+        sa.ForeignKey("product_categories.id", ondelete="SET NULL"),
         nullable=True,
     )
 
@@ -38,6 +44,7 @@ class Product(UUIDMixin, TimestampMixin, Base):
         "ProductVariant", back_populates="product", lazy="selectin"
     )
     supplier: Mapped["Supplier | None"] = relationship("Supplier")
+    category: Mapped["ProductCategory | None"] = relationship("ProductCategory", back_populates="products") # type: ignore[name-defined]
 
     def __repr__(self) -> str:
         return f"<Product id={self.id} name={self.name!r}>"

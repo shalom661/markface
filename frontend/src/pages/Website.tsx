@@ -136,6 +136,13 @@ export default function Website() {
                 </div>
 
                 <div className="flex items-center gap-4 w-full lg:w-auto">
+                    <Button 
+                        onClick={() => window.location.href = '/website/customize'}
+                        className="h-12 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white label-brand flex items-center gap-2"
+                    >
+                        <Zap className="h-4 w-4" />
+                        Personalizar Site
+                    </Button>
                     <div className="relative flex-1 lg:w-80 group">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-blue-400 transition-colors" />
                         <Input

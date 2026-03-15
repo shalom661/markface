@@ -7,6 +7,7 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 
+from typing import Optional
 from pydantic import BaseModel, Field, model_validator
 
 
@@ -99,7 +100,8 @@ class ProductCreate(BaseModel):
     is_manufactured: bool = True
     internal_code: str = Field(min_length=1, max_length=120)
     supplier_code: str | None = Field(default=None, max_length=120)
-    supplier_id: uuid.UUID | None = None
+    supplier_id: Optional[uuid.UUID] = None
+    category_id: Optional[uuid.UUID] = None
     
     # Variants (each with its own BOM)
     variants: list[VariantCreate]
@@ -137,13 +139,18 @@ class ProductRead(BaseModel):
     # Manufacturing
     is_manufactured: bool
     internal_code: str
-    supplier_code: str | None
-    supplier_id: uuid.UUID | None
+    supplier_code: Optional[str] = None
+    supplier_id: Optional[uuid.UUID] = None
+    category_id: Optional[uuid.UUID] = None
     
     created_at: datetime
     updated_at: datetime
     
     # Relationships
     variants: list[VariantRead] = []
+    category: Optional["ProductCategoryRead"] = None
 
     model_config = {"from_attributes": True}
+
+from app.schemas.product_category import ProductCategoryRead
+ProductRead.model_rebuild()

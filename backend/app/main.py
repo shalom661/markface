@@ -53,8 +53,12 @@ def create_app() -> FastAPI:
     )
 
     # ── Routers ────────────────────────────────────────────────────────────
-    from app.routers import auth, events, health, inventory, products, orders, stats, whatsapp
-    from app.routers import internal, suppliers, raw_materials, import_data, customers, categories, units
+    from app.routers import (
+    auth, categories, customers, events, health, import_data, inventory,
+    orders, products, raw_materials, stats, suppliers, units,
+    whatsapp, product_categories, site_config
+)
+    from app.routers import internal
     from app.api.endpoints import finance
     from app.routers.webhooks import woocommerce as woo_webhooks
 
